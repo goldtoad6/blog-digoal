@@ -93,6 +93,29 @@
 产品深度分析  
 - `product-multi-role-analysis`: 分别扮演“用户、投资人、产品经理、市场运营、品牌运营、友商、合作伙伴”这7个角色, 分析这个产品.  
   
+产品评测报告
+- `product-review-report`: 询问被评测的产品名、产品相关的资料或相关链接(可选项), 要评测的功能点、目标使用场景、要对比的竞品, 站在用户决策者以及使用者两个角度编写评测报告. 
+  例子:  
+  ```
+  /product-review-report 
+  1、被评测的产品名: 
+  powermem, seekdb, oceanbase
+  2、产品相关的资料或相关链接:
+  https://github.com/oceanbase/powermem
+  https://github.com/oceanbase/seekdb
+  https://github.com/oceanbase/oceanbase
+  https://www.powermem.ai/
+  https://www.seekdb.ai/
+  https://en.oceanbase.com/
+  3、要评测的功能点、目标使用场景:
+  面向 AI Agent 的整体解决方案, 围绕“1、AI Agent 在记忆的存储、整理、遗忘、召回, 2、RAG 知识库数据的存储、召回, 3、省LLM token, 4、提高召回精度, 5、提高LLM 回复精度”相关的场景, 这三个产品的综合功能表现.
+  powermem 负责记忆的整理、遗忘
+  seekdb 有嵌入式和单机版, 负责存储数据, 召回数据, 包括embedding、语义搜索、全文检索、混合搜索和reranking. (未来可能支持图)
+  oceanbase 分布式版本, 当 seekdb 嵌入式版本和单机版都无法满足诉求时, 处理更大规模数据量场景
+  先验证上述内容, 如有误或缺失重点请先修正和补齐.
+  4、要对比的竞品: 无
+  ```
+  
 ### 未来规划
 大国N年规划、结合个人特点给出顺势而为的分析报告  
 - `state-trend-advisor`: 输入询问者的特点: 擅长的领域、特长、爱好等. 如果没有给出询问者的特点, 就认为你是普通人. 首先抓取并分析国家最近的五年规划、政策文件或近期相关的重大新闻. 面向询问者以“投资、创业方向、商业思路、产品思路、就业择业、学习规划”为目的输出分析报告.   
