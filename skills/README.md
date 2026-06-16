@@ -335,6 +335,8 @@ PostgreSQL 问答助手
   
 - `red-blue-debate`: 扮演红蓝队互相辩论的通用解答问题专家(特别适合有争议的话题). 输入任何问题, 分析问题后扮演领域专家, 解答问题. 输出为 markdown 格式, 存储到当前项目 markdown 文件夹中.  
   
+- `db-ai-github-paper-weekly-news`: 抓取并分析如下网站(事关“数据库、AI、github、AI paper”相关的近期新闻)在近1周内发表的内容, 分类总结, 将结果以 markdown 格式图文并茂(内置 mermaid 图提高可读性)输出到当前项目的 markdown 目录中. 
+  
 -----
 
 # 依赖  
