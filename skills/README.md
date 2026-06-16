@@ -73,7 +73,7 @@
     - https://github.com/alchaincyf/huashu-design
   
 抓取咸鱼、boss直聘、或其他与招聘相关平台发布的内容, 与输入者的特征进行匹配, 给出接活的报告.  
-- `待补充`
+- `job-advisor`: 输入个人特征和需求(能力、诉求(例如工作地、时长、薪资、是否远程、求职方向等)), 根据个人特征匹配适合接的活(包括长期雇佣、临时工等), 按性价比排序返回结果. 
     
 ### 产业、行业、上市公司、产品深度分析
 产业/行业分析(面向"投行"视角)  
@@ -298,10 +298,13 @@ PostgreSQL 问答助手
 - `axiom-explainer`: 输入公理/定理/观点, 输出把“观点 / 公理 / 定理 / 理论系统”生成面向学生的中文 Markdown 文章. 参考 [《德说-第100期, 人生最重要的事3: 建立公理体系和逻辑能力》](../202206/20220610_01.md)
     
 - `personal-planner`: 基于提问者提供的背景、资源等信息. 编写符合提问者的未来规划与建议书. 以 markdown 格式保存到当前项目的 markdown 目录中.  
-  
+    
 - `state-trend-advisor`: 输入询问者的特点: 擅长的领域、特长、爱好等. 如果没有给出询问者的特点, 就认为你是普通人. 首先抓取并分析国家最近的五年规划、政策文件或近期相关的重大新闻. 面向询问者以“投资、创业方向、商业思路、产品思路、就业择业、学习规划”为目的输出分析报告.   
     - [软件工程师顺势而为例子](skills_for_claude_web/skill_used_example/example1/state_trend_report_20260611_engineer.md)  
     - [西邮计算机相关专业本科生顺势而为例子](skills_for_claude_web/skill_used_example/example2/state_trend_report_20260611_cs_xupt.md)  
+  
+- `job-advisor`: 输入个人特征和需求(能力、诉求(例如工作地、时长、薪资、是否远程、求职方向等)), 根据个人特征匹配适合接的活(包括长期雇佣、临时工等), 按性价比排序返回结果.   
+    - [例子](skills_for_claude_web/skill_used_example/example3/job-advice-guangzhou-20250616.md)  
   
 - `enterprise-planner`: 基于用户提供的企业名、企业简介、公司网站等信息, 给这家企业编写未来规划与建议书. 以 markdown 格式保存到当前项目的 markdown 目录中. 
   
