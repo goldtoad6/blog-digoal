@@ -43,6 +43,10 @@
 指定A股分析  
 - `a-stock-prediction`: 预测某只指定A股的次日走势, 结果输出到当前项目 markdown 目录中.   
   
+深度分析指定股票的开源项目
+- [《TradingAgents: 多 Agent 股票分析与交易决策系统试用》](../202603/20260327_03.md)  
+- [《AI论文解读 | TradingAgents: Multi-Agents LLM Financial Trading Framework》](../202603/20260325_01.md)  
+  
 抓取最近3天新闻, 推演对市场的影响  
 - `investor-news-impact`: 面向投资者, 抓取最近3天内发生的新闻. 总结并推演分析将对哪些行业、上市公司带来何种影响.  
   
@@ -121,7 +125,7 @@ digoal德哥(根据 blog 蒸馏, 更像 RAG 角色)
   
 巴菲特  
 - `buffett`: 巴菲特思想解读股票代码. 来自 https://github.com/agi-now/buffett-skills  
-   其他相关项目获文档  
+   其他相关项目  
    - [《把 MiniMax 接入 Claude, 给 TradingAgents 添加 MiniMax 模型供应商支持 玩转股票深度分析》](../202603/20260330_07.md)  
    - [《TradingAgents: 多 Agent 股票分析与交易决策系统试用》](../202603/20260327_03.md)  
    - [《AI论文解读 | TradingAgents: Multi-Agents LLM Financial Trading Framework》](../202603/20260325_01.md)  
@@ -145,6 +149,9 @@ digoal德哥(根据 blog 蒸馏, 更像 RAG 角色)
 数据库、AI、github、AI paper近一周新闻
 - `db-ai-github-paper-weekly-news`: 抓取并分析如下网站(事关“数据库、AI、github、AI paper”相关的近期新闻)在近1周内发表的内容, 分类总结, 将结果以 markdown 格式图文并茂(内置 mermaid 图提高可读性)输出到当前项目的 markdown 目录中. 
     - 注意: 有些网站可能要科学上网, 所以启动 claude cli/codex app 时, 建议是有 http proxy.  
+  
+开源项目: TrendRadar, 告别信息过载，AI 舆情监控助手与热点筛选工具！聚合多平台热点 + RSS 订阅，支持关键词精准筛选。  
+- https://github.com/sansan0/TrendRadar
   
 论文解读  
 - `paper-interpretation`: 输入论文 PDF 或论文 URL , 通俗易懂解读论文. 例如用于解读 AI 论文 https://arxiv.org/abs/2604.14141 https://arxiv.org/abs/2508.02739 

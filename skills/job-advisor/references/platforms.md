@@ -85,6 +85,29 @@ site:v2ex.com 酷工作 <技能>
 site:v2ex.com 远程 <技能>
 ```
 
+## AI 友好岗位(跨平台通用)
+
+这些岗位在传统视角下需要专业技能(翻译资质、设计功底、剪辑经验),但**借助 AI 工具链**(LLM 翻译/文案、SD/MJ 生图、Whisper 字幕、PPT 排版等)准入门槛大幅降低。本 skill 把这类岗位识别后单独列出为"AI 友好专区",不参与主排名加权。
+
+适用类别:基础翻译、文案润色、简单海报、字幕、PPT、数据录入、信息搜集、客服话术等。
+
+```
+site:goofish.com 翻译 接单
+site:goofish.com 文案 接单
+site:goofish.com 海报 接单
+site:goofish.com 字幕 接单
+site:eleduck.com 翻译 远程
+site:eleduck.com 文案 远程
+site:v2ex.com 酷工作 翻译
+site:douban.com 翻译 接活
+site:douban.com 文案 接活
+site:douban.com 海报 接活
+site:xiaomifeng.work translation
+site:xiaomifeng.work copywriting
+```
+
+配额说明:以上 query 与用户主技能 query 并发执行,共享 `web_search` ≤30 次总上限。建议选 4-6 条最高频的,不要全打。
+
 ## 反爬与法律边界
 
 - 不要用 `requests`/`selenium` 直接打平台,会被封且可能违反 ToS。

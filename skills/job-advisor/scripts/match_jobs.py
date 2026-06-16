@@ -10,6 +10,9 @@ Usage:
     --jobs jobs.json \
     --top 10 \
     --out scored.json
+
+AI 友好岗位: 通过 AI_ASSISTABLE_KEYWORDS 命中即标记 ai_friendly=true,
+             不参与主排名加权,由报告层独立渲染为"AI 友好专区"。
 """
 from __future__ import annotations
 
@@ -40,6 +43,48 @@ TYPE_ALIASES = {
     "contract": ["外包", "contract", "合约"],
     "project": ["项目", "project", "单次", "按单"],
 }
+
+
+# ---------- AI 友好岗位 ----------
+
+# 借助 AI 工具链(LLM 翻译/文案、SD/MJ 生图、Whisper 字幕、PPT 排版等)
+# 准入门槛被显著降低的岗位类别。命中关键词即标记 ai_friendly=true,
+# 不参与主排名加权,由报告层独立渲染。
+AI_ASSISTABLE_KEYWORDS = [
+    # 翻译
+    "翻译", "translator", "translation", "translate", "译员", "笔译", "口译",
+    # 文案撰稿
+    "文案", "撰稿", "copywriter", "copywriting", "软文", "种草", "脚本",
+    "公众号", "小红书文案", "短视频脚本", "营销文案", "广告文案", "slogan",
+    # 设计图像
+    "海报", "banner", "封面", "logo", "图标", "icon", "配图", "插画", "头像",
+    # 视频
+    "字幕", "subtitles", "视频剪辑", "剪辑", "短视频",
+    # 文档
+    "ppt", "排版", "校对", "润色", "proofreading", "演示文稿",
+    # 数据
+    "数据录入", "数据整理", "信息搜集", "调研", "research",
+    # 客服话术
+    "客服话术", "客服脚本", "faq", "回复模板",
+]
+
+
+def ai_assistable_flag(job: dict) -> bool:
+    """判断岗位是否属于"AI 友好"类别 — 用户即使没有直接技能,借助 AI 也能轻松拿下。
+
+    命中即返回 True,主排名不依赖此标志,仅用于报告分区展示。
+    """
+    haystack = " ".join([
+        job.get("title") or "",
+        job.get("description") or "",
+        job.get("type") or "",
+    ])
+    haystack_l = haystack.lower()
+    for kw in AI_ASSISTABLE_KEYWORDS:
+        # 同时做大小写不敏感(英文)与原文包含(中文)判断
+        if kw.lower() in haystack_l or kw in haystack:
+            return True
+    return False
 
 
 def _job_type_text(job_type: str) -> set[str]:
@@ -227,6 +272,7 @@ def score_job(profile: dict, job: dict) -> dict:
             "cost_effectiveness_score": cost_eff,
             "meets_salary_floor": meets_floor,
             "blocked_by_keyword": blocked,
+            "ai_friendly": ai_assistable_flag(job),
         },
     }
 
@@ -249,6 +295,24 @@ def rank_jobs(profile: dict, jobs: list[dict], top: int | None = None) -> list[d
     if top:
         scored = scored[:top]
     return scored
+
+
+def split_ai_friendly(scored_jobs: list[dict]) -> tuple[list[dict], list[dict]]:
+    """把打分结果拆成 (常规, AI友好)。
+
+    AI 友好专区排序规则:已知薪资按 hourly_rate_cny 降序,未知薪资靠后。
+    """
+    regular = [j for j in scored_jobs if not j["_score"]["ai_friendly"]]
+    friendly = [j for j in scored_jobs if j["_score"]["ai_friendly"]]
+
+    def friendly_key(item):
+        s = item["_score"]
+        if s["pay_unknown"]:
+            return (1, 0)
+        return (0, -(s["hourly_rate_cny"] or 0))
+
+    friendly.sort(key=friendly_key)
+    return regular, friendly
 
 
 # ---------- IO ----------
