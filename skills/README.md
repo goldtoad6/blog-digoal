@@ -142,8 +142,9 @@ digoal德哥(根据 blog 蒸馏, 更像 RAG 角色)
 指定开源项目深度分析  
 - `open-source-project-article`: 输入开源项目地址, 深度分析该开源项目, 输出到当前项目 markdown 目录中.  
   
-数据库行业新闻
-- `待补充`, 收集我个人经常看的网站的新闻. 根据我的需求挑出进行解读. 例如 https://postgresweekly.com/ planet. .... 
+数据库、AI、github、AI paper近一周新闻
+- `db-ai-github-paper-weekly-news`: 抓取并分析如下网站(事关“数据库、AI、github、AI paper”相关的近期新闻)在近1周内发表的内容, 分类总结, 将结果以 markdown 格式图文并茂(内置 mermaid 图提高可读性)输出到当前项目的 markdown 目录中. 
+    - 注意: 有些网站可能要科学上网, 所以启动 claude cli/codex app 时, 建议是有 http proxy.  
   
 论文解读  
 - `paper-interpretation`: 输入论文 PDF 或论文 URL , 通俗易懂解读论文. 例如用于解读 AI 论文 https://arxiv.org/abs/2604.14141 https://arxiv.org/abs/2508.02739 

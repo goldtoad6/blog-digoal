@@ -1,0 +1,4 @@
+interface:
+  display_name: "数据库与AI周报"
+  short_description: "抓取PG/DuckDB/AI/GitHub/HF近一周新闻并生成图文周报"
+  default_prompt: "用 $db-ai-github-paper-weekly-news 生成本周数据库与AI技术新闻周报"
