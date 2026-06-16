@@ -1,180 +1,133 @@
-# 周报输出模板
+# Markdown 周报模板
 
-按此模板生成最终 markdown。**占位符**用 `{{...}}` 包裹，生成时全部替换。
-**示例条目**仅供格式参考，写入真实文件时删除示例、用实际抓取数据填充。
+每周输出文件固定章节结构，便于跨周对比。所有章节必须存在；某源为空时显示占位说明，不要删除整章。
 
----
+## 文件元信息（开头）
 
-```markdown
-# 数据库 / AI / GitHub / 论文 周报 · {{YYYY-MM-DD}}
+```
+# 数据库 / AI / GitHub / 论文 周报 · YYYY-MM-DD
 
-> 📅 时间窗口：{{7天前 YYYY-MM-DD}} ~ {{今日 YYYY-MM-DD}}
-> 🔗 数据源：10 个（成功 {{N}} / 失败 {{M}}）
-> 📊 总条目：{{TOTAL}}
+> 📅 时间窗口：YYYY-MM-DD-7 ~ YYYY-MM-DD
+> 🔗 数据源：10 个（成功 X / 空响应 X / 失败 X / 人工验证 X）
+> 📊 总条目：N
+```
 
-## 一、本周速览
+## 章节大纲
 
-{{2-3 句话总结本周最值得关注的 3 件事，给读者 30 秒决策"是否往下看"}}
+| # | 标题 | 内容 |
+|---|---|---|
+| 一 | 本周速览 | 一段话总结 + pie 图 + timeline 图 |
+| 二 | 🐘 PostgreSQL 生态 | 内核提交表 + 社区博客 + mindmap |
+| 三 | 🦆 其他数据库（DuckDB 等） | DuckDB news 摘录 |
+| 四 | 🤖 AI 新闻 | 表格速读 + top 3 深度展开 + AI mindmap |
+| 五 | ⭐ GitHub 趋势项目（weekly） | 仓库列表（star 增量 / 语言 / 一句话） |
+| 六 | 📄 AI 论文（HuggingFace Trending） | 论文列表（标题 / 机构 / 摘要 / 链接） |
+| 七 | 数据源覆盖 | 10 源状态表 + 失败/空响应建议 |
 
-### 分类条目分布
+## 必备 mermaid 图（每个用代码块包裹）
 
-\`\`\`mermaid
+### 1. 分类 pie 图（章一）
+
+```mermaid
 pie showData
     title 本周条目分类占比
-    "🐘 PostgreSQL 生态" : {{N1}}
-    "🦆 其他数据库" : {{N2}}
-    "🤖 AI 新闻" : {{N3}}
-    "⭐ GitHub 趋势" : {{N4}}
-    "📄 AI 论文" : {{N5}}
-\`\`\`
+    "🐘 PostgreSQL 生态" : 23
+    "🤖 AI 新闻" : 35
+```
 
-### 每日热度时间线
+> 当分类计数为 0 时仍要列出（如 `"⭐ GitHub 趋势" : 0`），保证结构稳定。
 
-\`\`\`mermaid
+### 2. 每日时间线（章一）
+
+```mermaid
 timeline
     title 近 7 天发布密度
-    {{D1 YYYY-MM-DD}} : {{D1 关键词1}} : {{D1 关键词2}}
-    {{D2 YYYY-MM-DD}} : {{D2 关键词1}}
-    {{D3 YYYY-MM-DD}} : {{D3 关键词1}} : {{D3 关键词2}}
+    2026-06-09 : PG logical decoding 中断竞态修复 : AI 高德 ABot-Earth 0.5
+    2026-06-10 : PG MarkBufferDirtyHint 优化 : AI Anthropic Claude Fable 5 发布
     ...
-\`\`\`
+    2026-06-16 : PG STATISTICS 依赖匹配 / ltree 溢出 : AI MiniMax M3 / Seedance 2.0 mini
+```
 
----
+### 3. PG 内核 mindmap（章二）
 
-## 二、🐘 PostgreSQL 生态
-
-### 重点关注
-
-\`\`\`mermaid
+```mermaid
 mindmap
-  root((PG 本周))
-    {{话题1}}
-      {{要点1}}
-      {{要点2}}
-    {{话题2}}
-      {{要点1}}
-    {{话题3}}
-      {{要点1}}
-\`\`\`
+  root((PG 本周内核))
+    逻辑复制与解码
+      promote 时间线竞态修复
+      解码激活中断竞态修复
+      pgrepack 插件禁止直接使用
+    pg_restore 一致性
+      STATISTICS DATA 依赖匹配
+      ...
+```
 
-### 内核提交摘要（git.postgresql.org）
+### 4. AI 主题 mindmap（章四）
 
-| 时间 | Commit | 一句话 |
-|---|---|---|
-| {{YYYY-MM-DD}} | [`{{短 hash}}`]({{链接}}) | {{摘要}} |
+```mermaid
+mindmap
+  root((本周 AI 主题))
+    多模态旗舰
+      MiniMax M3 开源
+      Qwen-Robot 具身矩阵
+      Claude Fable 5
+    Coding Agent
+      ...
+```
 
-### 社区文章 / 博客
+## 内核提交表格（章二核心）
 
-#### {{文章标题}}
-- 📅 {{YYYY-MM-DD}}
-- 📍 来源：[{{来源名}}]({{链接}})  | 另见：[{{聚合源}}]({{链接}})
-- 📝 {{2-3 句话摘要}}
-- 🏷️ Tags: `{{标签1}}` `{{标签2}}`
+| 时间 | Commit | 作者 | 一句话 |
+|---|---|---|---|
+| 2026-06-16 | `ae39bd23` | Michael Paquier | pg_restore 改用依赖关系匹配 STATISTICS DATA |
 
-#### {{下一篇标题}}
-...
+要点：
+- commit hash 短链化（取前 8 位），整 hash 链接用 `https://git.postgresql.org/gitweb/?p=postgresql.git;a=commit;h=<full>`。
+- 剔除 typo fix、注释微调、pgindent、白名单格式调整等琐碎项。
+- 作者名沿用 gitweb 上的 `<i class="author">` 内容（含 `Michael Paquier` 这种英文写法）。
+- "一句话"用中文总结，长度 ≤ 50 字。
 
-### 官方公告（postgresql.org PWN）
-
-- {{YYYY-MM-DD}} · [{{公告标题}}]({{链接}}) —— {{一句话}}
-
----
-
-## 三、🦆 其他数据库（DuckDB 等）
-
-#### {{条目标题}}
-- 📅 {{YYYY-MM-DD}}
-- 📍 [{{链接}}]({{链接}})
-- 📝 {{摘要}}
-
----
-
-## 四、🤖 AI 新闻
-
-### 热点速读
+## AI 新闻速读表（章四）
 
 | 时间 | 标题 | 来源 |
 |---|---|---|
-| {{YYYY-MM-DD}} | [{{标题}}]({{链接}}) | aibase / ai-bot |
+| 2026-06-16 | MiniMax 开源原生多模态旗舰 MiniMax M3 | ai-bot |
 
-### 深度展开（top 3）
+要点：
+- 同主题双源覆盖时合并为一行，`来源`列写 `ai-bot + aibase`。
+- 标题保留原文（中文为主），如原文过长可截断。
+- 附 top 3 深度展开：每条含 📅 / 📍 链接 / 📝 一段话 / 🔍 影响面。
 
-#### 1. {{标题}}
-- 📅 {{YYYY-MM-DD}}
-- 📍 [{{原文链接}}]({{链接}})
-- 📝 {{3-5 句话摘要，含关键数字/模型/公司}}
-- 🔍 影响面：{{对开发者/对企业/对消费者的影响}}
+## 数据源覆盖表（章七）
 
----
+固定 10 行，按 source_id 升序：
 
-## 五、⭐ GitHub 趋势项目（weekly）
-
-\`\`\`mermaid
-xychart-beta
-    title "Top 10 项目本周新增 stars"
-    x-axis [{{repo1}}, {{repo2}}, {{repo3}}, {{repo4}}, {{repo5}}]
-    y-axis "Stars (本周新增)" 0 --> {{MAX}}
-    bar [{{s1}}, {{s2}}, {{s3}}, {{s4}}, {{s5}}]
-\`\`\`
-
-| # | 项目 | 语言 | ⭐ 本周新增 | 一句话 |
-|---|---|---|---|---|
-| 1 | [{{owner/repo}}](https://github.com/{{owner/repo}}) | {{Lang}} | +{{N}} | {{描述}} |
-
----
-
-## 六、📄 AI 论文（HuggingFace Trending）
-
-\`\`\`mermaid
-mindmap
-  root((本周论文主题))
-    {{主题1：如 Agent / Reasoning}}
-      {{论文1 标题简称}}
-      {{论文2 标题简称}}
-    {{主题2：如 Multimodal}}
-      {{论文1 标题简称}}
-    {{主题3：如 Efficient Inference}}
-      {{论文1 标题简称}}
-\`\`\`
-
-#### {{论文标题}}
-- 📄 [{{arxiv id 或 HF id}}]({{链接}})
-- 👥 作者机构：{{机构 1, 机构 2}}
-- 🎯 核心贡献：{{1-2 句话，重点是"它解决了什么 + 用了什么方法"}}
-- 🔥 HF 热度：{{upvotes}} 👍
-
----
-
-## 七、数据源覆盖
-
-| # | 类别 | 源 | 状态 | 抓到条目数 |
-|---|---|---|---|---|
-| 1 | PG | postgresweekly.com | ✅ | {{N}} |
-| 2 | PG | planet.postgresql.org | ✅ | {{N}} |
-| 3 | PG | planet.postgis.net | {{✅/⚠️}} | {{N}} |
-| 4 | PG | postgresql.org/about/newsarchive/pwn | ✅ | {{N}} |
-| 5 | PG | git.postgresql.org/.../shortlog | ✅ | {{N}} |
-| 6 | DB | duckdb.org/news | ✅ | {{N}} |
-| 7 | AI | aibase.com/zh | ✅ | {{N}} |
-| 8 | AI | ai-bot.cn/daily-ai-news | ✅ | {{N}} |
-| 9 | GH | github.com/trending?since=weekly | ✅ | {{N}} |
-| 10 | Paper | huggingface.co/papers/trending | ✅ | {{N}} |
-
-{{失败源若有，用斜体单独列：}}
-> ⚠️ 失败源：planet.postgis.net（超时）、ai-bot.cn（403）。建议人工核查或下次重跑。
-
----
-
-*本周报由 `db-ai-github-paper-weekly-news` skill 于 {{今日 YYYY-MM-DD HH:MM}} 自动生成。条目均附原始来源链接，请以原文为准。*
+```
+| # | 类别 | 源 | 状态 | 抓到条目数 | 备注 |
+|---|---|---|---|---|---|
+| 1 | PG | postgresweekly.com | ✅ ok | 0 | issue=652 resolved |
+| 2 | PG | planet.postgresql.org | ⚠️ empty | 0 | NO_RECENT_ITEMS |
+...
 ```
 
----
+状态枚举：
 
-## 模板使用注意
+- ✅ `ok`
+- ⚠️ `empty`
+- ❌ `error`
+- 🙋 `human_required`
 
-1. **空分类处理**：若某类（如"其他数据库"）本周无内容，章节标题保留，正文写 *"本周无新条目"*，**不要删除整个章节**（破坏目录一致性）
-2. **mermaid 块内不能有反引号嵌套**：模板中显示的 `\`\`\`mermaid` 写入最终文件时是普通的 \`\`\`mermaid 三反引号
-3. **link 必须可点击**：所有 `[xxx](url)` 的 url 必须是抓取阶段拿到的真实链接，禁止占位
-4. **日期用 ISO 8601**：`YYYY-MM-DD`，不要 `2026/6/16` 或 `Jun 16, 2026`
-5. **emoji 适度**：分类标题用就够了，正文每段不要超过 1 个 emoji
-6. **去掉本文件中的 `{{...}}` 占位符与示例 #1/#2 这种残留**：交付前 `grep "{{" 文件` 应返回 0 行
+## 文件尾
+
+```
+*本周报由 db-ai-github-paper-weekly-news skill 于 YYYY-MM-DD HH:MM 自动生成。条目均附原始来源链接，请以原文为准。*
+```
+
+## 反模式（不要做）
+
+- ❌ 跳过失败源章节（如某源失败就直接省略章节）—— 保留章节并标灰。
+- ❌ 编造抓不到的内容 —— 严格遵循 `feedback_verify_before_writing`。
+- ❌ 删去 mermaid 图让 markdown 更"干净" —— 图是核心交付物之一。
+- ❌ 用 `web_search` 内置工具 —— 遵循 `~/.claude/CLAUDE.md`，用 `mcp__MiniMax__web_search`。
+- ❌ 把英文源标题全部机翻成中文 —— 翻译会丢精度，原标题 + 简短中文标签即可。
+- ❌ 单文件超 600 行 —— 必要时拆 `db-ai-weekly-YYYY-MM-DD-AI.md` 等子文件。
