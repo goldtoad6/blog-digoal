@@ -1,0 +1,89 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 900 540" font-family="-apple-system, BlinkMacSystemFont, 'Segoe UI', 'PingFang SC', sans-serif">
+  <defs>
+    <linearGradient id="bg" x1="0" y1="0" x2="0" y2="1">
+      <stop offset="0" stop-color="#fafafa"/>
+      <stop offset="1" stop-color="#f0f0f0"/>
+    </linearGradient>
+    <linearGradient id="shipin" x1="0" y1="0" x2="0" y2="1">
+      <stop offset="0" stop-color="#fff0f0"/>
+      <stop offset="1" stop-color="#ffd6d6"/>
+    </linearGradient>
+    <linearGradient id="toutiao" x1="0" y1="0" x2="0" y2="1">
+      <stop offset="0" stop-color="#f0f5ff"/>
+      <stop offset="1" stop-color="#d6e4ff"/>
+    </linearGradient>
+    <marker id="arr" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="8" markerHeight="8" orient="auto">
+      <path d="M 0 0 L 10 5 L 0 10 z" fill="#555"/>
+    </marker>
+  </defs>
+
+  <!-- 背景 -->
+  <rect width="900" height="540" fill="url(#bg)"/>
+
+  <!-- 标题 -->
+  <text x="450" y="38" text-anchor="middle" font-size="22" font-weight="700" fill="#222">视频号 vs 头条: 一次反向的战略分叉</text>
+  <text x="450" y="62" text-anchor="middle" font-size="13" fill="#666">用户见顶后, 两个平台用完全相反的方式重新定义自己</text>
+
+  <!-- 起点 -->
+  <g transform="translate(450,110)">
+    <rect x="-110" y="-26" width="220" height="52" rx="26" fill="#fff" stroke="#333" stroke-width="2"/>
+    <text x="0" y="-4" text-anchor="middle" font-size="13" font-weight="600" fill="#222">中国互联网用户见顶</text>
+    <text x="0" y="14" text-anchor="middle" font-size="11" fill="#666">2025月活 ≈ 12.2亿 (QuestMobile)</text>
+  </g>
+
+  <!-- 中心向下箭头 -->
+  <line x1="450" y1="140" x2="450" y2="175" stroke="#555" stroke-width="1.5" marker-end="url(#arr)"/>
+
+  <!-- 分叉节点 -->
+  <g transform="translate(450,200)">
+    <rect x="-130" y="-18" width="260" height="36" rx="18" fill="#fff7e0" stroke="#cc9900" stroke-width="2"/>
+    <text x="0" y="6" text-anchor="middle" font-size="13" font-weight="600" fill="#664400">平台竞争白热化, 必须分叉</text>
+  </g>
+
+  <!-- 左右分叉线 -->
+  <path d="M 450 220 L 220 270" fill="none" stroke="#cc3333" stroke-width="2" marker-end="url(#arr)"/>
+  <path d="M 450 220 L 680 270" fill="none" stroke="#3366cc" stroke-width="2" marker-end="url(#arr)"/>
+
+  <!-- 视频号盒 -->
+  <g transform="translate(220,400)">
+    <rect x="-150" y="-130" width="300" height="220" rx="14" fill="url(#shipin)" stroke="#cc3333" stroke-width="2"/>
+    <text x="0" y="-104" text-anchor="middle" font-size="16" font-weight="700" fill="#990000">视频号 → 抖音化</text>
+    <line x1="-130" y1="-90" x2="130" y2="-90" stroke="#cc3333" stroke-width="0.8" opacity="0.4"/>
+
+    <text x="0" y="-70" text-anchor="middle" font-size="12" font-weight="600" fill="#660000">触发原因: KPI 压力</text>
+    <text x="0" y="-52" text-anchor="middle" font-size="11" fill="#660000">DAU 4.5亿→6亿 (2023.7-2024.12)</text>
+
+    <text x="0" y="-26" text-anchor="middle" font-size="12" font-weight="600" fill="#660000">动作: 矩阵号 + 短内容</text>
+    <text x="0" y="-8" text-anchor="middle" font-size="11" fill="#660000">算法推荐占比 60% → 65%+</text>
+
+    <text x="0" y="18" text-anchor="middle" font-size="12" font-weight="600" fill="#660000">短期: 停留时长↑ 广告↑</text>
+    <text x="0" y="36" text-anchor="middle" font-size="11" fill="#660000">2024广告 243亿, 2026估 520亿</text>
+
+    <text x="0" y="62" text-anchor="middle" font-size="12" font-weight="600" fill="#660000">长期代价: 护城河被稀释</text>
+    <text x="0" y="80" text-anchor="middle" font-size="11" fill="#660000">用户审美疲劳 + 社交属性弱化</text>
+  </g>
+
+  <!-- 头条盒 -->
+  <g transform="translate(680,400)">
+    <rect x="-150" y="-130" width="300" height="220" rx="14" fill="url(#toutiao)" stroke="#3366cc" stroke-width="2"/>
+    <text x="0" y="-104" text-anchor="middle" font-size="16" font-weight="700" fill="#003399">头条 → 公众号化</text>
+    <line x1="-130" y1="-90" x2="130" y2="-90" stroke="#3366cc" stroke-width="0.8" opacity="0.4"/>
+
+    <text x="0" y="-70" text-anchor="middle" font-size="12" font-weight="600" fill="#003399">触发原因: 长期AI押注</text>
+    <text x="0" y="-52" text-anchor="middle" font-size="11" fill="#003399">MCP/WebMCP 2024-2026 加速</text>
+
+    <text x="0" y="-26" text-anchor="middle" font-size="12" font-weight="600" fill="#003399">动作: 拉优质图文创作者</text>
+    <text x="0" y="-8" text-anchor="middle" font-size="11" fill="#003399">深一度 / 薪火 / 专项基金</text>
+
+    <text x="0" y="18" text-anchor="middle" font-size="12" font-weight="600" fill="#003399">短期: 图文阅读时长落后</text>
+    <text x="0" y="36" text-anchor="middle" font-size="11" fill="#003399">单价高 (5-15元/千次阅读)</text>
+
+    <text x="0" y="62" text-anchor="middle" font-size="12" font-weight="600" fill="#003399">长期卡位: Agent 时代</text>
+    <text x="0" y="80" text-anchor="middle" font-size="11" fill="#003399">"中文内容水电公司"</text>
+  </g>
+
+  <!-- 底部判断 -->
+  <g transform="translate(450,510)">
+    <text x="0" y="0" text-anchor="middle" font-size="12" font-style="italic" fill="#444">两个平台都"对"在自己赛道上 — 没有堕落 vs 进步, 只有两种不同的活法</text>
+  </g>
+</svg>
