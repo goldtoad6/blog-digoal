@@ -69,9 +69,13 @@
 用HTML做高保真**产品原型**、交互Demo、幻灯片、动画  
 - `huashu-design`: 花叔Design（Huashu-Design） —— 用HTML做高保真原型、交互Demo、幻灯片、动画、设计变体探索+设计方向顾问+专家评审的一体化设计能力。  
     - https://github.com/alchaincyf/huashu-design
-    
-产品实现
-- `待补充`: 从单agent到复杂agent协作到团队协作. 参考 claude,codex,ruflo(多agent上下文隔离协作: PD、架构师、coder、reviewer、tester),loop.   
+  
+以开发架构师的角色基于 PRD 文档编写功能设计文档   
+- `product_feature_tech_design`: 输入 PRD 文档, 以开发架构师的角色基于 PRD 文档编写功能设计文档. 下游是开发者、reviewer、测试者, 他们的工作都将基于这份功能设计文档展开, 且互相隔离, 测试不知道开发者写了什么代码, 所以这份文档必须要详细定义清晰. 功能设计文档以 markdown 格式保存到当前项目 markdown 目录中. 
+  
+代码实现  
+- `product_feature_tech_implement`: 基于功能设计文档实现代码、完成代码 review、测试用例的编写、并通过新增测试用例及已有的测试用例. 
+- `其他待补充`: 从单agent到复杂agent协作到团队协作. 参考 claude,codex,ruflo(多agent上下文隔离协作: PD、架构师、coder、reviewer、tester),loop(多agent任务编排管理).   
   
 市场营销策略
 - `待补充`  
