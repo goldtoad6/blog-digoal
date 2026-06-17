@@ -75,6 +75,7 @@
   
 代码实现  
 - `product_feature_tech_implement`: 基于功能设计文档实现代码、完成代码 review、测试用例的编写、并通过新增测试用例及已有的测试用例. 
+    - 这个任务非常长, 可能会不断因授权打断. 如果你不想被打断, 在启动 Claude CLI 时跳过权限确认，可以通过添加 `--dangerously-skip-permissions` 参数或 `--permission-mode bypassPermissions` 来实现。不过这个操作风险极高，建议把 claude 放在容器内跑.  
 - `其他待补充`: 从单agent到复杂agent协作到团队协作. 参考 claude,codex,ruflo(多agent上下文隔离协作: PD、架构师、coder、reviewer、tester),loop(多agent任务编排管理).   
   
 市场营销策略
