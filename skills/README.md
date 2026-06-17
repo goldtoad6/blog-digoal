@@ -66,15 +66,18 @@
 - `write-mrd`: 输入 idea, 将 MRD 以 markdown 格式保存到当前项目 markdown 目录中. 
 - `write-prd`: 输入 idea, 将 PRD 以 markdown 格式保存到当前项目 markdown 目录中. 
   
-产品实现
-- `待补充`: 从单agent到复杂agent协作到loop团队协作. 参考 claude,codex,ruflo,loop.   
-  
-市场营销
-- `待补充`  
-  
 用HTML做高保真**产品原型**、交互Demo、幻灯片、动画  
 - `huashu-design`: 花叔Design（Huashu-Design） —— 用HTML做高保真原型、交互Demo、幻灯片、动画、设计变体探索+设计方向顾问+专家评审的一体化设计能力。  
     - https://github.com/alchaincyf/huashu-design
+    
+产品实现
+- `待补充`: 从单agent到复杂agent协作到团队协作. 参考 claude,codex,ruflo(多agent上下文隔离协作: PD、架构师、coder、reviewer、tester),loop.   
+  
+市场营销策略
+- `待补充`  
+  
+给开源项目找bug,修复bug, 例如postgres
+- 待补充
   
 抓取咸鱼、boss直聘、或其他与招聘相关平台发布的内容, 与输入者的特征进行匹配, 给出接活的报告.  
 - `job-advisor`: 输入个人特征和需求(能力、诉求(例如工作地、时长、薪资、是否远程、求职方向等)), 根据个人特征匹配适合接的活(包括长期雇佣、临时工等), 按性价比排序返回结果. 
