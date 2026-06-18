@@ -1,0 +1,4 @@
+interface:
+  display_name: "Find Postgres Bug"
+  short_description: "本地编译部署 PG 实例找 bug 并生成社区级 bug report"
+  default_prompt: "Use $find-postgres-bug to spin up a local PG instance, reproduce the suspected bug, capture the log, and emit a Markdown bug report ready for pgsql-bugs."
