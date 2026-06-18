@@ -70,7 +70,7 @@ log_line_prefix = '%m [%p] %q%u@%d from %h '
 include_if_exists = '$PG_PREFIX/data.conf'
 EOF
 # Make sure postgresql.conf ends with our include
-if ! grep -q "include_if_exists = '$PG_PREFIX/data.conf'" "$PGCONF" 2>/dev/null; then
+if ! grep -q "include_if_exists = '$PG_PREFIX/data.conf'" "$PG_CONF" 2>/dev/null; then
   echo "" >> "$PG_CONF"
   echo "include_if_exists = '$PG_PREFIX/data.conf'" >> "$PG_CONF"
 fi
