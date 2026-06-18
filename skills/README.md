@@ -365,6 +365,10 @@ PostgreSQL 问答助手
 以开发架构师角色基于prd编写功能设计文档.
 - `product_feature_tech_design`: 输入 PRD 文档, 以开发架构师的角色基于 PRD 文档编写功能设计文档. 下游是开发者、reviewer、测试者, 他们的工作都将基于这份功能设计文档展开, 且互相隔离, 测试不知道开发者写了什么代码, 所以这份文档必须要详细定义清晰. 功能设计文档以 markdown 格式保存到当前项目 markdown 目录中. 
   
+代码实现  
+- `product_feature_tech_implement`: 基于功能设计文档实现代码、完成代码 review、测试用例的编写、并通过新增测试用例及已有的测试用例. 
+    - 这个任务非常长, 可能会不断因授权打断. 如果你不想被打断, 在启动 Claude CLI 时跳过权限确认，可以通过添加 `--dangerously-skip-permissions` 参数或 `--permission-mode bypassPermissions` 来实现。不过这个操作风险极高，建议把 claude 放在容器内跑.  
+   
 - `article-rewriter`: 消化内容后, 从更高维度重写. 输入URL或原始内容, 输出markdown到当前项目markdown目录中.  
   
 - `multi-expert-analyzer`: 通用解答问题专家. 输入任何问题, 分析问题后扮演领域专家, 解答问题. 输出为 markdown 格式, 存储到当前项目 markdown 文件夹中.   
