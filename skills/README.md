@@ -362,6 +362,9 @@ PostgreSQL 问答助手
 - `write-mrd`: 输入 idea, 将 MRD 以 markdown 格式保存到当前项目 markdown 目录中. 
 - `write-prd`: 输入 idea, 将 PRD 以 markdown 格式保存到当前项目 markdown 目录中. 
   
+以开发架构师角色基于prd编写功能设计文档.
+- `product_feature_tech_design`: 输入 PRD 文档, 以开发架构师的角色基于 PRD 文档编写功能设计文档. 下游是开发者、reviewer、测试者, 他们的工作都将基于这份功能设计文档展开, 且互相隔离, 测试不知道开发者写了什么代码, 所以这份文档必须要详细定义清晰. 功能设计文档以 markdown 格式保存到当前项目 markdown 目录中. 
+  
 - `article-rewriter`: 消化内容后, 从更高维度重写. 输入URL或原始内容, 输出markdown到当前项目markdown目录中.  
   
 - `multi-expert-analyzer`: 通用解答问题专家. 输入任何问题, 分析问题后扮演领域专家, 解答问题. 输出为 markdown 格式, 存储到当前项目 markdown 文件夹中.   
