@@ -67,7 +67,6 @@ log_min_messages = debug1
 log_min_error_statement = debug1
 log_statement = 'all'
 log_line_prefix = '%m [%p] %q%u@%d from %h '
-include_if_exists = '$PG_PREFIX/data.conf'
 EOF
 # Make sure postgresql.conf ends with our include
 if ! grep -q "include_if_exists = '$PG_PREFIX/data.conf'" "$PG_CONF" 2>/dev/null; then
