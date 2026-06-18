@@ -1,0 +1,79 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 940 460" font-family="system-ui, -apple-system, sans-serif">
+  <defs>
+    <marker id="arr2" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="6" markerHeight="6" orient="auto-start-reverse">
+      <path d="M 0 0 L 10 5 L 0 10 z" fill="#0969da"/>
+    </marker>
+    <marker id="arrToken" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="6" markerHeight="6" orient="auto-start-reverse">
+      <path d="M 0 0 L 10 5 L 0 10 z" fill="#cf222e"/>
+    </marker>
+  </defs>
+
+  <text x="470" y="32" text-anchor="middle" font-size="20" font-weight="700" fill="#1f2328">从用户提问到 LLM 回复 · 全链路 Token 节省与精度提升路径</text>
+
+  <!-- User -->
+  <rect x="30" y="60" width="120" height="60" rx="8" fill="#dbeafe" stroke="#1f6feb"/>
+  <text x="90" y="88" text-anchor="middle" font-size="13" font-weight="600" fill="#0969da">用户提问</text>
+  <text x="90" y="106" text-anchor="middle" font-size="11" fill="#57606a">"上次那个项目..."</text>
+
+  <!-- PowerMem Retrieve -->
+  <rect x="200" y="60" width="180" height="60" rx="8" fill="#fef3c7" stroke="#9a6700"/>
+  <text x="290" y="84" text-anchor="middle" font-size="13" font-weight="600" fill="#7d4e00">① PowerMem 召回</text>
+  <text x="290" y="102" text-anchor="middle" font-size="11" fill="#57606a">混合查询 + Profile</text>
+  <text x="290" y="115" text-anchor="middle" font-size="10" fill="#7d4e00">向量·全文·图·时效</text>
+
+  <!-- SeekDB Hybrid Search -->
+  <rect x="430" y="60" width="180" height="60" rx="8" fill="#dcfce7" stroke="#238636"/>
+  <text x="520" y="84" text-anchor="middle" font-size="13" font-weight="600" fill="#1a7f37">② SeekDB 混合搜索</text>
+  <text x="520" y="102" text-anchor="middle" font-size="11" fill="#57606a">粗排 → 精排 → Rerank</text>
+  <text x="520" y="115" text-anchor="middle" font-size="10" fill="#1a7f37">单 SQL 多模态</text>
+
+  <!-- LLM call -->
+  <rect x="660" y="60" width="180" height="60" rx="8" fill="#fce7f3" stroke="#bf3989"/>
+  <text x="750" y="84" text-anchor="middle" font-size="13" font-weight="600" fill="#8b2a5d">③ LLM 生成回复</text>
+  <text x="750" y="102" text-anchor="middle" font-size="11" fill="#57606a">压缩后的精准上下文</text>
+  <text x="750" y="115" text-anchor="middle" font-size="10" fill="#8b2a5d">&lt;1K token vs 26K</text>
+
+  <!-- Arrows top -->
+  <line x1="150" y1="90" x2="200" y2="90" stroke="#0969da" stroke-width="1.8" marker-end="url(#arr2)"/>
+  <line x1="380" y1="90" x2="430" y2="90" stroke="#0969da" stroke-width="1.8" marker-end="url(#arr2)"/>
+  <line x1="610" y1="90" x2="660" y2="90" stroke="#0969da" stroke-width="1.8" marker-end="url(#arr2)"/>
+
+  <!-- Memory lifecycle on the left -->
+  <rect x="30" y="180" width="350" height="120" rx="8" fill="#f6f8fa" stroke="#d0d7de"/>
+  <text x="205" y="205" text-anchor="middle" font-size="13" font-weight="700" fill="#1f2328">写入侧 · PowerMem 记忆整理</text>
+  <g font-size="11" fill="#1f2328">
+    <text x="50" y="230">• LLM 提炼对话事实（不保留原文）</text>
+    <text x="50" y="250">• 合并/去重/冲突解决（事件 vs 画像）</text>
+    <text x="50" y="270">• Ebbinghaus 衰减 · 访问时强化</text>
+    <text x="50" y="290">• 工作/短期/长期 三级阈值自动分层</text>
+  </g>
+
+  <!-- Retrieval mechanics on the right -->
+  <rect x="430" y="180" width="480" height="120" rx="8" fill="#f6f8fa" stroke="#d0d7de"/>
+  <text x="670" y="205" text-anchor="middle" font-size="13" font-weight="700" fill="#1f2328">读取侧 · SeekDB 混合搜索精度路径</text>
+  <g font-size="11" fill="#1f2328">
+    <text x="450" y="230">• 单条 SQL 同时跑 向量 + 全文(BM25) + 标量过滤</text>
+    <text x="450" y="250">• 异步索引流水线 Change Stream · 写入/查询解耦</text>
+    <text x="450" y="270">• 两级 HNSW(增量+快照) · P99 并发抖动仅 1.1×</text>
+    <text x="450" y="290">• Reranker 二次精排（如 Qwen Reranker、外部模型）</text>
+  </g>
+
+  <!-- Outcome box bottom -->
+  <rect x="30" y="330" width="880" height="110" rx="8" fill="#e6f4ff" stroke="#0969da"/>
+  <text x="470" y="357" text-anchor="middle" font-size="14" font-weight="700" fill="#0969da">业务效果（PowerMem 官方基准 + seekdb 1.3.0 公开数据）</text>
+  <g font-size="12" fill="#1f2328">
+    <text x="60" y="385">📉 Token 消耗</text>
+    <text x="60" y="403" fill="#cf222e" font-weight="600">26K → &lt;1K (-96%)</text>
+    <text x="245" y="385">🎯 召回准确率</text>
+    <text x="245" y="403" fill="#1a7f37" font-weight="600">52.9% → 78.7% (+48.8%)</text>
+    <text x="460" y="385">⚡ 写入吞吐</text>
+    <text x="460" y="403" fill="#1a7f37" font-weight="600">1.3.0 提升 22× · 1523 QPS</text>
+    <text x="680" y="385">📐 P99 延迟</text>
+    <text x="680" y="403" fill="#1a7f37" font-weight="600">21.7 ms · 抖动 ≤1.1×</text>
+  </g>
+  <text x="470" y="430" text-anchor="middle" font-size="10" fill="#57606a">数据来源：oceanbase/powermem README、cnblogs.com/OceanBase 2026-06-09 与 2026-05-15 发布稿</text>
+
+  <!-- token comparison arrow -->
+  <line x1="200" y1="120" x2="200" y2="180" stroke="#cf222e" stroke-width="1.6" marker-end="url(#arrToken)" stroke-dasharray="4 3"/>
+  <line x1="670" y1="120" x2="670" y2="180" stroke="#cf222e" stroke-width="1.6" marker-end="url(#arrToken)" stroke-dasharray="4 3"/>
+</svg>

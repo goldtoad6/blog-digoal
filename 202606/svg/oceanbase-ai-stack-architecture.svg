@@ -1,0 +1,84 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 920 560" font-family="system-ui, -apple-system, sans-serif">
+  <defs>
+    <linearGradient id="layerApp" x1="0" y1="0" x2="1" y2="0">
+      <stop offset="0%" stop-color="#1f6feb"/>
+      <stop offset="100%" stop-color="#388bfd"/>
+    </linearGradient>
+    <linearGradient id="layerMem" x1="0" y1="0" x2="1" y2="0">
+      <stop offset="0%" stop-color="#a371f7"/>
+      <stop offset="100%" stop-color="#bc8cff"/>
+    </linearGradient>
+    <linearGradient id="layerDb" x1="0" y1="0" x2="1" y2="0">
+      <stop offset="0%" stop-color="#238636"/>
+      <stop offset="100%" stop-color="#3fb950"/>
+    </linearGradient>
+    <linearGradient id="layerCluster" x1="0" y1="0" x2="1" y2="0">
+      <stop offset="0%" stop-color="#b54708"/>
+      <stop offset="100%" stop-color="#e8821c"/>
+    </linearGradient>
+    <marker id="arrow" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="6" markerHeight="6" orient="auto-start-reverse">
+      <path d="M 0 0 L 10 5 L 0 10 z" fill="#57606a"/>
+    </marker>
+  </defs>
+
+  <!-- Title -->
+  <text x="460" y="34" text-anchor="middle" font-size="22" font-weight="700" fill="#1f2328">OceanBase AI Agent 三层数据底座</text>
+  <text x="460" y="58" text-anchor="middle" font-size="13" fill="#57606a">PowerMem (记忆服务) → SeekDB (AI 原生数据库) → OceanBase (分布式集群)</text>
+
+  <!-- Layer 1: Application -->
+  <rect x="60" y="90" width="800" height="80" rx="10" fill="url(#layerApp)"/>
+  <text x="460" y="120" text-anchor="middle" font-size="16" font-weight="700" fill="white">应用层 · AI Agent / Copilot / RAG 应用</text>
+  <text x="460" y="146" text-anchor="middle" font-size="12" fill="white" opacity="0.9">Python SDK · HTTP API · MCP Server · CLI · LangChain / FastAPI 集成</text>
+
+  <!-- Layer 2: PowerMem (Memory Service) -->
+  <rect x="60" y="195" width="800" height="100" rx="10" fill="url(#layerMem)"/>
+  <text x="460" y="222" text-anchor="middle" font-size="16" font-weight="700" fill="white">记忆服务层 · PowerMem 1.0.0</text>
+  <g font-size="11.5" fill="white">
+    <text x="105" y="252">智能记忆生命周期</text>
+    <text x="105" y="270" opacity="0.85">抽取/合并/更新</text>
+    <text x="270" y="252">艾宾浩斯遗忘曲线</text>
+    <text x="270" y="270" opacity="0.85">工作/短期/长期</text>
+    <text x="440" y="252">User Profile 自动提取</text>
+    <text x="440" y="270" opacity="0.85">画像+事件双轨</text>
+    <text x="620" y="252">Experience+Skill 蒸馏</text>
+    <text x="620" y="270" opacity="0.85">自进化双层记忆</text>
+  </g>
+
+  <!-- Layer 3: SeekDB (Embedded / Standalone) -->
+  <rect x="60" y="320" width="380" height="100" rx="10" fill="url(#layerDb)"/>
+  <text x="250" y="347" text-anchor="middle" font-size="15" font-weight="700" fill="white">SeekDB · 嵌入式 / 单机</text>
+  <g font-size="11.5" fill="white">
+    <text x="80" y="372">1C2G 起步 · pip install</text>
+    <text x="80" y="390" opacity="0.9">向量+全文+标量+JSON+GIS</text>
+    <text x="80" y="408" opacity="0.9">MySQL 协议 · MCP 工具</text>
+  </g>
+  <text x="250" y="406" text-anchor="end" font-size="11" fill="white" opacity="0.8">1.3.0 P99 21.7ms</text>
+
+  <!-- Layer 3: OceanBase Distributed -->
+  <rect x="480" y="320" width="380" height="100" rx="10" fill="url(#layerCluster)"/>
+  <text x="670" y="347" text-anchor="middle" font-size="15" font-weight="700" fill="white">OceanBase · 分布式集群</text>
+  <g font-size="11.5" fill="white">
+    <text x="500" y="372">PB 级 · 1500+ 节点</text>
+    <text x="500" y="390" opacity="0.9">HTAP · 多租户 · ACID</text>
+    <text x="500" y="408" opacity="0.9">HNSW/IVF · GPU 加速</text>
+  </g>
+  <text x="850" y="406" text-anchor="end" font-size="11" fill="white" opacity="0.8">TPC-C 7.07亿 tmpC</text>
+
+  <!-- Bottom: LLM/Embedding providers -->
+  <rect x="60" y="445" width="800" height="70" rx="10" fill="#f6f8fa" stroke="#d0d7de"/>
+  <text x="460" y="470" text-anchor="middle" font-size="13" font-weight="600" fill="#1f2328">外部 AI 能力（PowerMem 可插拔）</text>
+  <text x="460" y="492" text-anchor="middle" font-size="11" fill="#57606a">LLM: Anthropic · OpenAI · Gemini · Qwen · DeepSeek · Ollama · vLLM · Z.AI</text>
+  <text x="460" y="508" text-anchor="middle" font-size="11" fill="#57606a">Embedding: OpenAI · Qwen(VL多模态/稀疏) · Bedrock · HuggingFace · OceanBase MASS · Reranker</text>
+
+  <!-- Arrows -->
+  <line x1="460" y1="170" x2="460" y2="194" stroke="#57606a" stroke-width="1.6" marker-end="url(#arrow)"/>
+  <line x1="250" y1="295" x2="250" y2="319" stroke="#57606a" stroke-width="1.6" marker-end="url(#arrow)"/>
+  <line x1="670" y1="295" x2="670" y2="319" stroke="#57606a" stroke-width="1.6" marker-end="url(#arrow)"/>
+  <line x1="440" y1="370" x2="480" y2="370" stroke="#57606a" stroke-width="1.6" stroke-dasharray="4 3" marker-end="url(#arrow)"/>
+  <text x="460" y="362" text-anchor="middle" font-size="10" fill="#57606a">规模升级</text>
+
+  <!-- Side annotations -->
+  <text x="50" y="135" text-anchor="end" font-size="10" fill="#57606a">业务</text>
+  <text x="50" y="245" text-anchor="end" font-size="10" fill="#57606a">智能</text>
+  <text x="50" y="370" text-anchor="end" font-size="10" fill="#57606a">存储</text>
+</svg>
