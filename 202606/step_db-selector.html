@@ -1,0 +1,794 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>选择开源数据库</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, "SF Pro Text", "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif;
+            background-color: #f5f5f7;
+            color: #1d1d1f;
+            line-height: 1.5;
+            -webkit-font-smoothing: antialiased;
+        }
+
+        /* Header */
+        .header {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 40px 20px 20px;
+            display: flex;
+            justify-content: space-between;
+            align-items: flex-start;
+        }
+
+        .title-section h1 {
+            font-size: 48px;
+            font-weight: 700;
+            letter-spacing: -0.02em;
+            margin-bottom: 8px;
+        }
+
+        .title-section p {
+            font-size: 21px;
+            color: #6e6e73;
+            font-weight: 400;
+        }
+
+        .header-links {
+            text-align: right;
+            padding-top: 8px;
+        }
+
+        .header-links a {
+            display: block;
+            color: #0066cc;
+            text-decoration: none;
+            font-size: 14px;
+            margin-bottom: 4px;
+            transition: color 0.2s;
+        }
+
+        .header-links a:hover {
+            color: #004499;
+            text-decoration: underline;
+        }
+
+        /* Navigation Tabs */
+        .nav-tabs {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 20px 20px 0;
+            display: flex;
+            gap: 32px;
+            border-bottom: 1px solid #d2d2d7;
+        }
+
+        .nav-tab {
+            padding: 12px 0;
+            font-size: 14px;
+            color: #6e6e73;
+            text-decoration: none;
+            border-bottom: 2px solid transparent;
+            margin-bottom: -1px;
+            transition: all 0.2s;
+            cursor: pointer;
+            background: none;
+            border-top: none;
+            border-left: none;
+            border-right: none;
+        }
+
+        .nav-tab:hover {
+            color: #1d1d1f;
+        }
+
+        .nav-tab.active {
+            color: #1d1d1f;
+            border-bottom-color: #1d1d1f;
+            font-weight: 500;
+        }
+
+        /* Section Subtitle */
+        .section-subtitle {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 40px 20px 24px;
+            font-size: 28px;
+            font-weight: 600;
+            letter-spacing: -0.01em;
+        }
+
+        /* Cards Grid */
+        .cards-container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 0 20px 80px;
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+            gap: 24px;
+        }
+
+        /* Individual Card */
+        .db-card {
+            background: #ffffff;
+            border-radius: 18px;
+            padding: 32px 28px 28px;
+            display: flex;
+            flex-direction: column;
+            transition: transform 0.3s ease, box-shadow 0.3s ease;
+            cursor: pointer;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .db-card:hover {
+            transform: translateY(-4px);
+            box-shadow: 0 12px 40px rgba(0, 0, 0, 0.08);
+        }
+
+        .db-card::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            height: 4px;
+            background: var(--card-accent);
+            opacity: 0;
+            transition: opacity 0.3s;
+        }
+
+        .db-card:hover::before {
+            opacity: 1;
+        }
+
+        /* Card Header */
+        .card-header {
+            margin-bottom: 20px;
+        }
+
+        .db-name {
+            font-size: 22px;
+            font-weight: 600;
+            margin-bottom: 4px;
+            letter-spacing: -0.01em;
+            line-height: 1.3;
+        }
+
+        .db-type {
+            font-size: 13px;
+            color: #6e6e73;
+            font-weight: 400;
+        }
+
+        /* Card Image/Icon Area */
+        .card-image {
+            flex: 1;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            min-height: 140px;
+            margin-bottom: 20px;
+            position: relative;
+        }
+
+        .db-icon {
+            width: 100px;
+            height: 100px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 48px;
+            font-weight: 700;
+            color: white;
+            border-radius: 20px;
+            position: relative;
+            box-shadow: 0 8px 24px rgba(0, 0, 0, 0.12);
+        }
+
+        .db-icon::after {
+            content: '';
+            position: absolute;
+            inset: -4px;
+            border-radius: 24px;
+            background: inherit;
+            opacity: 0.2;
+            filter: blur(12px);
+            z-index: -1;
+        }
+
+        /* Color Swatches */
+        .color-swatches {
+            display: flex;
+            gap: 8px;
+            margin-bottom: 20px;
+        }
+
+        .swatch {
+            width: 16px;
+            height: 16px;
+            border-radius: 50%;
+            border: 1px solid rgba(0, 0, 0, 0.1);
+            cursor: pointer;
+            transition: transform 0.2s;
+        }
+
+        .swatch:hover {
+            transform: scale(1.2);
+        }
+
+        .swatch.active {
+            box-shadow: 0 0 0 2px #fff, 0 0 0 4px #1d1d1f;
+        }
+
+        /* Card Footer */
+        .card-footer {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding-top: 16px;
+            border-top: 1px solid #f5f5f7;
+        }
+
+        .db-price {
+            font-size: 14px;
+            color: #1d1d1f;
+            line-height: 1.4;
+        }
+
+        .db-price .price-main {
+            font-weight: 500;
+        }
+
+        .db-price .price-sub {
+            font-size: 12px;
+            color: #6e6e73;
+            display: block;
+        }
+
+        .buy-button {
+            background: #0066cc;
+            color: white;
+            border: none;
+            padding: 8px 20px;
+            border-radius: 980px;
+            font-size: 14px;
+            font-weight: 500;
+            cursor: pointer;
+            transition: all 0.2s;
+            text-decoration: none;
+            display: inline-block;
+        }
+
+        .buy-button:hover {
+            background: #004499;
+            transform: scale(1.02);
+        }
+
+        /* Database-specific accent colors */
+        .db-postgresql { --card-accent: #336791; }
+        .db-mysql { --card-accent: #00758f; }
+        .db-redis { --card-accent: #dc382d; }
+        .db-duckdb { --card-accent: #ffc107; }
+        .db-clickhouse { --card-accent: #ffcc00; }
+        .db-cockroachdb { --card-accent: #6933ff; }
+        .db-mongodb { --card-accent: #13aa52; }
+
+        .icon-postgresql { background: linear-gradient(135deg, #336791 0%, #5c8aaf 100%); }
+        .icon-mysql { background: linear-gradient(135deg, #00758f 0%, #00a8b5 100%); }
+        .icon-redis { background: linear-gradient(135deg, #dc382d 0%, #ff5a4d 100%); }
+        .icon-duckdb { background: linear-gradient(135deg, #ffc107 0%, #ffca28 100%); color: #333; }
+        .icon-clickhouse { background: linear-gradient(135deg, #ffcc00 0%, #ffe033 100%); color: #333; }
+        .icon-cockroachdb { background: linear-gradient(135deg, #6933ff 0%, #8a5fff 100%); }
+        .icon-mongodb { background: linear-gradient(135deg, #13aa52 0%, #2ecc71 100%); }
+
+        /* Feature Tags */
+        .feature-tags {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 6px;
+            margin-bottom: 16px;
+        }
+
+        .feature-tag {
+            font-size: 11px;
+            padding: 3px 8px;
+            background: #f5f5f7;
+            color: #6e6e73;
+            border-radius: 4px;
+            font-weight: 500;
+        }
+
+        /* Responsive */
+        @media (max-width: 768px) {
+            .title-section h1 {
+                font-size: 36px;
+            }
+
+            .section-subtitle {
+                font-size: 22px;
+            }
+
+            .nav-tabs {
+                gap: 16px;
+                overflow-x: auto;
+            }
+
+            .cards-container {
+                grid-template-columns: 1fr;
+            }
+
+            .header {
+                flex-direction: column;
+                gap: 20px;
+            }
+
+            .header-links {
+                text-align: left;
+            }
+        }
+
+        /* Carousel Navigation */
+        .carousel-nav {
+            max-width: 1200px;
+            margin: 0 auto 20px;
+            padding: 0 20px;
+            display: flex;
+            justify-content: flex-end;
+        }
+
+        .carousel-btn {
+            width: 44px;
+            height: 44px;
+            border-radius: 50%;
+            border: 1px solid #d2d2d7;
+            background: rgba(255, 255, 255, 0.8);
+            backdrop-filter: blur(20px);
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 20px;
+            color: #1d1d1f;
+            transition: all 0.2s;
+        }
+
+        .carousel-btn:hover {
+            background: rgba(255, 255, 255, 0.95);
+            border-color: #86868b;
+        }
+
+        /* Comparison Badge */
+        .comparison-badge {
+            position: absolute;
+            top: 16px;
+            right: 16px;
+            background: rgba(0, 0, 0, 0.05);
+            padding: 4px 10px;
+            border-radius: 12px;
+            font-size: 11px;
+            color: #6e6e73;
+            font-weight: 500;
+            opacity: 0;
+            transition: opacity 0.2s;
+        }
+
+        .db-card:hover .comparison-badge {
+            opacity: 1;
+        }
+
+        /* Quick Stats */
+        .quick-stats {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 12px;
+            margin-bottom: 20px;
+            padding: 12px;
+            background: #fbfbfd;
+            border-radius: 12px;
+        }
+
+        .stat-item {
+            text-align: center;
+        }
+
+        .stat-value {
+            font-size: 16px;
+            font-weight: 600;
+            color: #1d1d1f;
+        }
+
+        .stat-label {
+            font-size: 10px;
+            color: #6e6e73;
+            text-transform: uppercase;
+            letter-spacing: 0.05em;
+            margin-top: 2px;
+        }
+    </style>
+</head>
+<body>
+    <!-- Header -->
+    <div class="header">
+        <div class="title-section">
+            <h1>选择数据库</h1>
+            <p>为你项目找到最合适的开源数据库。</p>
+        </div>
+        <div class="header-links">
+            <a href="#">联系架构专家 ↗</a>
+            <a href="#">查看部署方案 ↗</a>
+        </div>
+    </div>
+
+    <!-- Navigation Tabs -->
+    <div class="nav-tabs">
+        <button class="nav-tab active" data-filter="all">全部数据库</button>
+        <button class="nav-tab" data-filter="relational">关系型</button>
+        <button class="nav-tab" data-filter="keyvalue">键值型</button>
+        <button class="nav-tab" data-filter="columnar">列式</button>
+        <button class="nav-tab" data-filter="document">文档型</button>
+        <button class="nav-tab" data-filter="embedded">嵌入式</button>
+        <button class="nav-tab" data-filter="distributed">分布式</button>
+    </div>
+
+    <!-- Section Subtitle -->
+    <div class="section-subtitle">全部数据库，随你挑。</div>
+
+    <!-- Cards -->
+    <div class="cards-container">
+        <!-- PostgreSQL -->
+        <div class="db-card db-postgresql" data-category="relational">
+            <div class="comparison-badge">对比</div>
+            <div class="card-header">
+                <div class="db-name">PostgreSQL</div>
+                <div class="db-type">关系型数据库</div>
+            </div>
+            <div class="card-image">
+                <div class="db-icon icon-postgresql">PG</div>
+            </div>
+            <div class="feature-tags">
+                <span class="feature-tag">ACID</span>
+                <span class="feature-tag">JSON</span>
+                <span class="feature-tag">GIS</span>
+                <span class="feature-tag">扩展性</span>
+            </div>
+            <div class="quick-stats">
+                <div class="stat-item">
+                    <div class="stat-value">30+</div>
+                    <div class="stat-label">年历史</div>
+                </div>
+                <div class="stat-item">
+                    <div class="stat-value">17</div>
+                    <div class="stat-label">最新版本</div>
+                </div>
+                <div class="stat-item">
+                    <div class="stat-value">BSD</div>
+                    <div class="stat-label">许可证</div>
+                </div>
+            </div>
+            <div class="card-footer">
+                <div class="db-price">
+                    <span class="price-main">完全开源免费</span>
+                    <span class="price-sub">社区版永久免费</span>
+                </div>
+                <button class="buy-button">了解更多</button>
+            </div>
+        </div>
+
+        <!-- MySQL -->
+        <div class="db-card db-mysql" data-category="relational">
+            <div class="comparison-badge">对比</div>
+            <div class="card-header">
+                <div class="db-name">MySQL</div>
+                <div class="db-type">关系型数据库</div>
+            </div>
+            <div class="card-image">
+                <div class="db-icon icon-mysql">My</div>
+            </div>
+            <div class="feature-tags">
+                <span class="feature-tag">ACID</span>
+                <span class="feature-tag">复制</span>
+                <span class="feature-tag">集群</span>
+            </div>
+            <div class="quick-stats">
+                <div class="stat-item">
+                    <div class="stat-value">27+</div>
+                    <div class="stat-label">年历史</div>
+                </div>
+                <div class="stat-item">
+                    <div class="stat-value">9.0</div>
+                    <div class="stat-label">最新版本</div>
+                </div>
+                <div class="stat-item">
+                    <div class="stat-value">GPL</div>
+                    <div class="stat-label">许可证</div>
+                </div>
+            </div>
+            <div class="card-footer">
+                <div class="db-price">
+                    <span class="price-main">完全开源免费</span>
+                    <span class="price-sub">社区版永久免费</span>
+                </div>
+                <button class="buy-button">了解更多</button>
+            </div>
+        </div>
+
+        <!-- Redis -->
+        <div class="db-card db-redis" data-category="keyvalue">
+            <div class="comparison-badge">对比</div>
+            <div class="card-header">
+                <div class="db-name">Redis</div>
+                <div class="db-type">键值存储</div>
+            </div>
+            <div class="card-image">
+                <div class="db-icon icon-redis">Rd</div>
+            </div>
+            <div class="feature-tags">
+                <span class="feature-tag">内存</span>
+                <span class="feature-tag">缓存</span>
+                <span class="feature-tag">Pub/Sub</span>
+                <span class="feature-tag">Stream</span>
+            </div>
+            <div class="quick-stats">
+                <div class="stat-item">
+                    <div class="stat-value">15+</div>
+                    <div class="stat-label">年历史</div>
+                </div>
+                <div class="stat-item">
+                    <div class="stat-value">7.4</div>
+                    <div class="stat-label">最新版本</div>
+                </div>
+                <div class="stat-item">
+                    <div class="stat-value">BSD</div>
+                    <div class="stat-label">许可证</div>
+                </div>
+            </div>
+            <div class="card-footer">
+                <div class="db-price">
+                    <span class="price-main">完全开源免费</span>
+                    <span class="price-sub">社区版永久免费</span>
+                </div>
+                <button class="buy-button">了解更多</button>
+            </div>
+        </div>
+
+        <!-- DuckDB -->
+        <div class="db-card db-duckdb" data-category="embedded">
+            <div class="comparison-badge">对比</div>
+            <div class="card-header">
+                <div class="db-name">DuckDB</div>
+                <div class="db-type">嵌入式分析型</div>
+            </div>
+            <div class="card-image">
+                <div class="db-icon icon-duckdb">🦆</div>
+            </div>
+            <div class="feature-tags">
+                <span class="feature-tag">OLAP</span>
+                <span class="feature-tag">SQL</span>
+                <span class="feature-tag">列式</span>
+                <span class="feature-tag">零依赖</span>
+            </div>
+            <div class="quick-stats">
+                <div class="stat-item">
+                    <div class="stat-value">7+</div>
+                    <div class="stat-label">年历史</div>
+                </div>
+                <div class="stat-item">
+                    <div class="stat-value">1.1</div>
+                    <div class="stat-label">最新版本</div>
+                </div>
+                <div class="stat-item">
+                    <div class="stat-value">MIT</div>
+                    <div class="stat-label">许可证</div>
+                </div>
+            </div>
+            <div class="card-footer">
+                <div class="db-price">
+                    <span class="price-main">完全开源免费</span>
+                    <span class="price-sub">MIT 许可</span>
+                </div>
+                <button class="buy-button">了解更多</button>
+            </div>
+        </div>
+
+        <!-- ClickHouse -->
+        <div class="db-card db-clickhouse" data-category="columnar">
+            <div class="comparison-badge">对比</div>
+            <div class="card-header">
+                <div class="db-name">ClickHouse</div>
+                <div class="db-type">列式分析型</div>
+            </div>
+            <div class="card-image">
+                <div class="db-icon icon-clickhouse">CH</div>
+            </div>
+            <div class="feature-tags">
+                <span class="feature-tag">OLAP</span>
+                <span class="feature-tag">列式</span>
+                <span class="feature-tag">实时</span>
+                <span class="feature-tag">高性能</span>
+            </div>
+            <div class="quick-stats">
+                <div class="stat-item">
+                    <div class="stat-value">14+</div>
+                    <div class="stat-label">年历史</div>
+                </div>
+                <div class="stat-item">
+                    <div class="stat-value">24.8</div>
+                    <div class="stat-label">最新版本</div>
+                </div>
+                <div class="stat-item">
+                    <div class="stat-value">Apache</div>
+                    <div class="stat-label">许可证</div>
+                </div>
+            </div>
+            <div class="card-footer">
+                <div class="db-price">
+                    <span class="price-main">完全开源免费</span>
+                    <span class="price-sub">Apache 2.0</span>
+                </div>
+                <button class="buy-button">了解更多</button>
+            </div>
+        </div>
+
+        <!-- CockroachDB -->
+        <div class="db-card db-cockroachdb" data-category="distributed">
+            <div class="comparison-badge">对比</div>
+            <div class="card-header">
+                <div class="db-name">CockroachDB</div>
+                <div class="db-type">分布式 SQL</div>
+            </div>
+            <div class="card-image">
+                <div class="db-icon icon-cockroachdb">CR</div>
+            </div>
+            <div class="feature-tags">
+                <span class="feature-tag">分布式</span>
+                <span class="feature-tag">PostgreSQL</span>
+                <span class="feature-tag">容错</span>
+                <span class="feature-tag">线性扩展</span>
+            </div>
+            <div class="quick-stats">
+                <div class="stat-item">
+                    <div class="stat-value">9+</div>
+                    <div class="stat-label">年历史</div>
+                </div>
+                <div class="stat-item">
+                    <div class="stat-value">24.2</div>
+                    <div class="stat-label">最新版本</div>
+                </div>
+                <div class="stat-item">
+                    <div class="stat-value">BSL</div>
+                    <div class="stat-label">许可证</div>
+                </div>
+            </div>
+            <div class="card-footer">
+                <div class="db-price">
+                    <span class="price-main">开源核心版</span>
+                    <span class="price-sub">企业版需授权</span>
+                </div>
+                <button class="buy-button">了解更多</button>
+            </div>
+        </div>
+
+        <!-- MongoDB -->
+        <div class="db-card db-mongodb" data-category="document">
+            <div class="comparison-badge">对比</div>
+            <div class="card-header">
+                <div class="db-name">MongoDB</div>
+                <div class="db-type">文档数据库</div>
+            </div>
+            <div class="card-image">
+                <div class="db-icon icon-mongodb">Mg</div>
+            </div>
+            <div class="feature-tags">
+                <span class="feature-tag">文档型</span>
+                <span class="feature-tag">Schema</span>
+                <span class="feature-tag">聚合</span>
+                <span class="feature-tag">Atlas</span>
+            </div>
+            <div class="quick-stats">
+                <div class="stat-item">
+                    <div class="stat-value">16+</div>
+                    <div class="stat-label">年历史</div>
+                </div>
+                <div class="stat-item">
+                    <div class="stat-value">7.0</div>
+                    <div class="stat-label">最新版本</div>
+                </div>
+                <div class="stat-item">
+                    <div class="stat-value">SSPL</div>
+                    <div class="stat-label">许可证</div>
+                </div>
+            </div>
+            <div class="card-footer">
+                <div class="db-price">
+                    <span class="price-main">社区版免费</span>
+                    <span class="price-sub">企业版需授权</span>
+                </div>
+                <button class="buy-button">了解更多</button>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        // Tab filtering
+        const tabs = document.querySelectorAll('.nav-tab');
+        const cards = document.querySelectorAll('.db-card');
+
+        tabs.forEach(tab => {
+            tab.addEventListener('click', () => {
+                tabs.forEach(t => t.classList.remove('active'));
+                tab.classList.add('active');
+
+                const filter = tab.dataset.filter;
+
+                cards.forEach(card => {
+                    if (filter === 'all' || card.dataset.category === filter) {
+                        card.style.display = 'flex';
+                        setTimeout(() => {
+                            card.style.opacity = '1';
+                            card.style.transform = 'translateY(0)';
+                        }, 10);
+                    } else {
+                        card.style.opacity = '0';
+                        card.style.transform = 'translateY(10px)';
+                        setTimeout(() => {
+                            card.style.display = 'none';
+                        }, 300);
+                    }
+                });
+            });
+        });
+
+        // Color swatch interaction
+        const swatches = document.querySelectorAll('.swatch');
+        swatches.forEach(swatch => {
+            swatch.addEventListener('click', (e) => {
+                e.stopPropagation();
+                swatch.classList.toggle('active');
+            });
+        });
+
+        // Buy button interaction
+        const buyButtons = document.querySelectorAll('.buy-button');
+        buyButtons.forEach(btn => {
+            btn.addEventListener('click', (e) => {
+                e.stopPropagation();
+                const card = btn.closest('.db-card');
+                const dbName = card.querySelector('.db-name').textContent;
+                alert(`你选择了 ${dbName}，正在跳转到详情页...`);
+            });
+        });
+
+        // Card click interaction
+        cards.forEach(card => {
+            card.addEventListener('click', () => {
+                const dbName = card.querySelector('.db-name').textContent;
+                const buyBtn = card.querySelector('.buy-button');
+                buyBtn.click();
+            });
+        });
+
+        // Smooth entrance animation
+        window.addEventListener('load', () => {
+            const cardsArray = Array.from(cards);
+            cardsArray.forEach((card, index) => {
+                card.style.opacity = '0';
+                card.style.transform = 'translateY(20px)';
+                setTimeout(() => {
+                    card.style.transition = 'opacity 0.6s ease, transform 0.6s ease';
+                    card.style.opacity = '1';
+                    card.style.transform = 'translateY(0)';
+                }, index * 80);
+            });
+        });
+    </script>
+</body>
+</html>

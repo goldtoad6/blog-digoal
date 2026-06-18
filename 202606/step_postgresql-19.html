@@ -1,0 +1,399 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>PostgreSQL 19 — Product Capabilities</title>
+  <style>
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+    }
+
+    body {
+      font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif;
+      background: #f8f9fb;
+      color: #1a1a2e;
+      line-height: 1.6;
+    }
+
+    /* Navigation Bar */
+    .navbar {
+      background: #fff;
+      border-bottom: 1px solid #e8eaf0;
+      padding: 0 40px;
+      height: 60px;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      position: sticky;
+      top: 0;
+      z-index: 100;
+      box-shadow: 0 1px 3px rgba(0,0,0,0.04);
+    }
+
+    .nav-brand {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      text-decoration: none;
+    }
+
+    .nav-logo {
+      width: 36px;
+      height: 36px;
+      background: linear-gradient(135deg, #336791, #2c5f8a);
+      border-radius: 8px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      color: white;
+      font-weight: 800;
+      font-size: 16px;
+      position: relative;
+    }
+
+    .nav-logo::after {
+      content: "🐘";
+      font-size: 18px;
+    }
+
+    .nav-title {
+      font-size: 18px;
+      font-weight: 700;
+      color: #336791;
+      letter-spacing: -0.3px;
+    }
+
+    .nav-links {
+      display: flex;
+      gap: 32px;
+      list-style: none;
+    }
+
+    .nav-links a {
+      text-decoration: none;
+      color: #555;
+      font-size: 14px;
+      font-weight: 500;
+      transition: color 0.2s;
+    }
+
+    .nav-links a:hover {
+      color: #336791;
+    }
+
+    .nav-links a.active {
+      color: #336791;
+      font-weight: 600;
+    }
+
+    /* Breadcrumb */
+    .breadcrumb {
+      padding: 16px 40px;
+      font-size: 13px;
+      color: #888;
+    }
+
+    .breadcrumb a {
+      color: #336791;
+      text-decoration: none;
+    }
+
+    .breadcrumb a:hover {
+      text-decoration: underline;
+    }
+
+    .breadcrumb span {
+      margin: 0 6px;
+    }
+
+    .breadcrumb .current {
+      color: #666;
+    }
+
+    /* Tab Navigation */
+    .tab-nav {
+      padding: 0 40px;
+      display: flex;
+      gap: 0;
+      border-bottom: 2px solid #e8eaf0;
+    }
+
+    .tab-nav button {
+      padding: 14px 28px;
+      border: none;
+      background: none;
+      font-size: 15px;
+      font-weight: 500;
+      color: #666;
+      cursor: pointer;
+      position: relative;
+      transition: color 0.2s;
+    }
+
+    .tab-nav button:hover {
+      color: #336791;
+    }
+
+    .tab-nav button.active {
+      color: #336791;
+      font-weight: 600;
+    }
+
+    .tab-nav button.active::after {
+      content: "";
+      position: absolute;
+      bottom: -2px;
+      left: 0;
+      right: 0;
+      height: 2px;
+      background: #336791;
+    }
+
+    /* Main Content */
+    .container {
+      max-width: 1200px;
+      margin: 0 auto;
+      padding: 40px 40px 80px;
+    }
+
+    .section-title {
+      font-size: 36px;
+      font-weight: 700;
+      color: #1a1a2e;
+      margin-bottom: 16px;
+      letter-spacing: -0.5px;
+    }
+
+    .section-desc {
+      font-size: 15px;
+      color: #555;
+      max-width: 780px;
+      margin-bottom: 40px;
+      line-height: 1.8;
+    }
+
+    /* Feature Grid */
+    .feature-grid {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 24px;
+    }
+
+    .feature-card {
+      background: #fff;
+      border: 1px solid #e8eaf0;
+      border-radius: 12px;
+      padding: 32px 28px;
+      transition: box-shadow 0.25s, border-color 0.25s;
+    }
+
+    .feature-card:hover {
+      box-shadow: 0 8px 24px rgba(51, 103, 145, 0.1);
+      border-color: #d0d8e4;
+    }
+
+    .feature-icon {
+      width: 52px;
+      height: 52px;
+      margin-bottom: 20px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      background: #f0f4f8;
+      border-radius: 10px;
+      font-size: 24px;
+    }
+
+    .feature-card:nth-child(1) .feature-icon { background: #e8f4fd; }
+    .feature-card:nth-child(2) .feature-icon { background: #fef3e2; }
+    .feature-card:nth-child(3) .feature-icon { background: #f0fdf4; }
+    .feature-card:nth-child(4) .feature-icon { background: #fdf2f8; }
+    .feature-card:nth-child(5) .feature-icon { background: #f0f4ff; }
+    .feature-card:nth-child(6) .feature-icon { background: #fff7ed; }
+
+    .feature-title {
+      font-size: 17px;
+      font-weight: 700;
+      color: #1a1a2e;
+      margin-bottom: 10px;
+    }
+
+    .feature-desc {
+      font-size: 13.5px;
+      color: #666;
+      line-height: 1.75;
+    }
+
+    .feature-tag {
+      display: inline-block;
+      margin-top: 14px;
+      padding: 3px 10px;
+      font-size: 11px;
+      font-weight: 600;
+      border-radius: 4px;
+      background: #f0f4f8;
+      color: #336791;
+    }
+
+    .feature-card:nth-child(2) .feature-tag { background: #fef3e2; color: #c2740a; }
+    .feature-card:nth-child(3) .feature-tag { background: #f0fdf4; color: #15803d; }
+    .feature-card:nth-child(4) .feature-tag { background: #fdf2f8; color: #be185d; }
+    .feature-card:nth-child(5) .feature-tag { background: #f0f4ff; color: #4338ca; }
+    .feature-card:nth-child(6) .feature-tag { background: #fff7ed; color: #c2410c; }
+
+    /* Footer note */
+    .release-note {
+      margin-top: 48px;
+      padding: 20px 24px;
+      background: #fff;
+      border: 1px solid #e8eaf0;
+      border-radius: 10px;
+      font-size: 13px;
+      color: #888;
+      display: flex;
+      align-items: center;
+      gap: 12px;
+    }
+
+    .release-note strong {
+      color: #555;
+    }
+
+    @media (max-width: 900px) {
+      .feature-grid {
+        grid-template-columns: repeat(2, 1fr);
+      }
+    }
+
+    @media (max-width: 600px) {
+      .feature-grid {
+        grid-template-columns: 1fr;
+      }
+      .navbar { padding: 0 16px; }
+      .container { padding: 24px 16px 60px; }
+      .nav-links { display: none; }
+    }
+  </style>
+</head>
+<body>
+
+  <!-- Navigation -->
+  <nav class="navbar">
+    <a href="#" class="nav-brand">
+      <div class="nav-logo"></div>
+      <div class="nav-title">PostgreSQL</div>
+    </a>
+    <ul class="nav-links">
+      <li><a href="#">Home</a></li>
+      <li><a href="#" class="active">Product</a></li>
+      <li><a href="#">Customers</a></li>
+      <li><a href="#">Ecosystem</a></li>
+      <li><a href="#">Download</a></li>
+      <li><a href="#">About</a></li>
+    </ul>
+  </nav>
+
+  <!-- Breadcrumb -->
+  <div class="breadcrumb">
+    <a href="#">Home</a> <span>/</span>
+    <a href="#">Product &amp; Solutions</a> <span>/</span>
+    <a href="#">PostgreSQL 19</a> <span>/</span>
+    <span class="current">Product Capabilities</span>
+  </div>
+
+  <!-- Tab Navigation -->
+  <div class="tab-nav">
+    <button class="active">Product Capabilities</button>
+    <button>Core Technologies</button>
+    <button>User Benefits</button>
+  </div>
+
+  <!-- Main Content -->
+  <div class="container">
+    <h1 class="section-title">Product Capabilities</h1>
+    <p class="section-desc">
+      PostgreSQL 19 is a milestone release with <strong>212 updates</strong> spanning graph queries, DML improvements, query planning, maintenance operations, operational tooling, and upgrade compatibility. Here are the key capabilities that make it the most operationally mature release yet.
+    </p>
+
+    <!-- Feature Cards -->
+    <div class="feature-grid">
+
+      <!-- Card 1: Graph Queries -->
+      <div class="feature-card">
+        <div class="feature-icon">🔗</div>
+        <div class="feature-title">Native Graph Queries</div>
+        <div class="feature-desc">
+          Implements the SQL/PGQ standard (ISO SQL:2023 Part 16), enabling property graph queries on existing relational tables. Use Cypher-style pattern matching for traversals—no separate graph database needed. Internally rewritten as relational operations using your existing indexes.
+        </div>
+        <span class="feature-tag">SQL:2023</span>
+      </div>
+
+      <!-- Card 2: ON CONFLICT DO SELECT -->
+      <div class="feature-card">
+        <div class="feature-icon">⚡</div>
+        <div class="feature-title">Atomic Get-Or-Create</div>
+        <div class="feature-desc">
+          Adds <code>INSERT ... ON CONFLICT DO SELECT ... RETURNING</code>, completing the upsert trilogy. Return conflicting rows atomically, optionally locking them with <code>FOR UPDATE</code>/<code>FOR SHARE</code>—eliminating the need for read-then-insert race conditions.
+        </div>
+        <span class="feature-tag">DML</span>
+      </div>
+
+      <!-- Card 3: REPACK CONCURRENTLY -->
+      <div class="feature-card">
+        <div class="feature-icon">♻️</div>
+        <div class="feature-title">Online Table Repack</div>
+        <div class="feature-desc">
+          A new <code>REPACK</code> command replaces <code>VACUUM FULL</code> and <code>CLUSTER</code>. With <code>CONCURRENTLY</code>, rebuild tables without access-exclusive locking—eliminating hours of downtime for bloated tables in production environments.
+        </div>
+        <span class="feature-tag">Maintenance</span>
+      </div>
+
+      <!-- Card 4: Parallel Autovacuum -->
+      <div class="feature-card">
+        <div class="feature-icon">🔄</div>
+        <div class="feature-title">Parallel Autovacuum</div>
+        <div class="feature-desc">
+          Autovacuum can now use parallel workers via <code>autovacuum_max_parallel_workers</code> and per-table <code>autovacuum_parallel_workers</code>. Large tables are cleaned up significantly faster by parallelizing index and heap vacuuming.
+        </div>
+        <span class="feature-tag">Performance</span>
+      </div>
+
+      <!-- Card 5: Worker-Managed Async I/O -->
+      <div class="feature-card">
+        <div class="feature-icon">📊</div>
+        <div class="feature-title">Adaptive Async I/O</div>
+        <div class="feature-desc">
+          Async I/O moves from static <code>io_workers</code> to a dynamic Worker Pool. New parameters (<code>io_min_workers</code>, <code>io_max_workers</code>, <code>io_worker_idle_timeout</code>) auto-scale based on load—making async I/O production-ready with default settings.
+        </div>
+        <span class="feature-tag">I/O Subsystem</span>
+      </div>
+
+      <!-- Card 6: Query Plan Hints -->
+      <div class="feature-card">
+        <div class="feature-icon">🎯</div>
+        <div class="feature-title">Query Plan Hints</div>
+        <div class="feature-desc">
+          The new <code>pg_plan_advice</code> module lets you stabilize and influence optimizer decisions. Combined with <code>pg_stash_advice</code> for per-query-id advice, you can fine-tune execution plans without modifying SQL—a long-awaited DBA tool.
+        </div>
+        <span class="feature-tag">Planner</span>
+      </div>
+
+    </div>
+
+    <!-- Additional Info -->
+    <div class="release-note">
+      <span>📋</span>
+      <span>
+        <strong>Release date:</strong> 2026-09 (expected) &nbsp;·&nbsp;
+        <strong>Total changes:</strong> 212 &nbsp;·&nbsp;
+        <strong>Beta 1 available:</strong> June 2026 &nbsp;·&nbsp;
+        <strong>Source:</strong> <a href="https://www.postgresql.org/docs/current/release-19.html" style="color:#336791">postgresql.org/docs/current/release-19.html</a>
+      </span>
+    </div>
+  </div>
+
+</body>
+</html>

@@ -1,0 +1,1129 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>选型你的开源数据库 · Database Picker</title>
+<style>
+  /* ==================== 基础重置 ==================== */
+  * {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
+  }
+
+  :root {
+    --bg: #f5f5f7;
+    --bg-card: #ffffff;
+    --bg-elevated: #fbfbfd;
+    --text-primary: #1d1d1f;
+    --text-secondary: #6e6e73;
+    --text-tertiary: #86868b;
+    --accent: #0071e3;
+    --accent-hover: #0077ed;
+    --border: #d2d2d7;
+    --divider: #e5e5ea;
+    --success: #30d158;
+    --warning: #ff9f0a;
+    --danger: #ff3b30;
+    --shadow-sm: 0 1px 2px rgba(0,0,0,0.04);
+    --shadow-md: 0 4px 16px rgba(0,0,0,0.06);
+    --shadow-lg: 0 12px 40px rgba(0,0,0,0.08);
+    --radius-sm: 12px;
+    --radius-md: 18px;
+    --radius-lg: 24px;
+    --radius-xl: 32px;
+  }
+
+  html {
+    scroll-behavior: smooth;
+  }
+
+  body {
+    font-family: -apple-system, BlinkMacSystemFont, "SF Pro Display", "SF Pro Text",
+                 "PingFang SC", "Helvetica Neue", Helvetica, Arial, sans-serif;
+    background: var(--bg);
+    color: var(--text-primary);
+    line-height: 1.5;
+    min-height: 100vh;
+  }
+
+  /* ==================== 顶部导航 ==================== */
+  .nav {
+    position: sticky;
+    top: 0;
+    z-index: 100;
+    background: rgba(245, 245, 247, 0.72);
+    backdrop-filter: saturate(180%) blur(20px);
+    -webkit-backdrop-filter: saturate(180%) blur(20px);
+    border-bottom: 1px solid var(--divider);
+  }
+
+  .nav-inner {
+    max-width: 1200px;
+    margin: 0 auto;
+    padding: 0 24px;
+    height: 48px;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+  }
+
+  .nav-brand {
+    font-size: 17px;
+    font-weight: 600;
+    color: var(--text-primary);
+    display: flex;
+    align-items: center;
+    gap: 8px;
+  }
+
+  .nav-brand svg {
+    width: 22px;
+    height: 22px;
+  }
+
+  .nav-links {
+    display: flex;
+    gap: 28px;
+    list-style: none;
+  }
+
+  .nav-links a {
+    color: var(--text-primary);
+    text-decoration: none;
+    font-size: 13px;
+    opacity: 0.85;
+    transition: opacity 0.2s;
+  }
+
+  .nav-links a:hover {
+    opacity: 1;
+  }
+
+  /* ==================== Hero 区域 ==================== */
+  .hero {
+    text-align: center;
+    padding: 96px 24px 56px;
+    max-width: 900px;
+    margin: 0 auto;
+  }
+
+  .hero-eyebrow {
+    display: inline-block;
+    font-size: 13px;
+    font-weight: 500;
+    color: var(--accent);
+    letter-spacing: 0.5px;
+    margin-bottom: 16px;
+    padding: 6px 14px;
+    background: rgba(0, 113, 227, 0.08);
+    border-radius: 20px;
+  }
+
+  .hero-title {
+    font-size: clamp(40px, 6vw, 64px);
+    font-weight: 700;
+    letter-spacing: -0.025em;
+    line-height: 1.05;
+    margin-bottom: 20px;
+    background: linear-gradient(135deg, #1d1d1f 0%, #4a4a4f 100%);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    background-clip: text;
+  }
+
+  .hero-subtitle {
+    font-size: 21px;
+    color: var(--text-secondary);
+    max-width: 640px;
+    margin: 0 auto;
+    font-weight: 400;
+  }
+
+  /* ==================== 场景选择器 ==================== */
+  .scenario-section {
+    max-width: 1200px;
+    margin: 0 auto;
+    padding: 24px 24px 48px;
+  }
+
+  .section-label {
+    font-size: 13px;
+    font-weight: 600;
+    color: var(--text-tertiary);
+    text-transform: uppercase;
+    letter-spacing: 1px;
+    margin-bottom: 16px;
+    text-align: center;
+  }
+
+  .scenario-tabs {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: center;
+    gap: 8px;
+    padding: 6px;
+    background: var(--bg-elevated);
+    border-radius: 999px;
+    max-width: fit-content;
+    margin: 0 auto 24px;
+    box-shadow: var(--shadow-sm);
+  }
+
+  .scenario-tab {
+    padding: 10px 20px;
+    border: none;
+    background: transparent;
+    color: var(--text-secondary);
+    font-size: 14px;
+    font-weight: 500;
+    border-radius: 999px;
+    cursor: pointer;
+    transition: all 0.25s cubic-bezier(0.4, 0, 0.2, 1);
+    font-family: inherit;
+  }
+
+  .scenario-tab:hover {
+    color: var(--text-primary);
+  }
+
+  .scenario-tab.active {
+    background: var(--text-primary);
+    color: white;
+    box-shadow: 0 2px 8px rgba(0,0,0,0.15);
+  }
+
+  .scenario-desc {
+    text-align: center;
+    color: var(--text-secondary);
+    font-size: 15px;
+    max-width: 600px;
+    margin: 0 auto;
+    min-height: 24px;
+  }
+
+  /* ==================== 数据库卡片矩阵 ==================== */
+  .cards-section {
+    max-width: 1200px;
+    margin: 0 auto;
+    padding: 24px;
+  }
+
+  .cards-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: baseline;
+    margin-bottom: 28px;
+    flex-wrap: wrap;
+    gap: 16px;
+  }
+
+  .cards-title {
+    font-size: 32px;
+    font-weight: 700;
+    letter-spacing: -0.02em;
+  }
+
+  .cards-meta {
+    font-size: 14px;
+    color: var(--text-secondary);
+  }
+
+  .cards-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+    gap: 20px;
+  }
+
+  .db-card {
+    background: var(--bg-card);
+    border-radius: var(--radius-lg);
+    padding: 32px 28px;
+    transition: all 0.35s cubic-bezier(0.4, 0, 0.2, 1);
+    cursor: pointer;
+    position: relative;
+    overflow: hidden;
+    box-shadow: var(--shadow-sm);
+    border: 1px solid transparent;
+  }
+
+  .db-card::before {
+    content: "";
+    position: absolute;
+    inset: 0;
+    border-radius: var(--radius-lg);
+    padding: 1px;
+    background: linear-gradient(135deg, transparent 40%, rgba(0,0,0,0.06) 100%);
+    -webkit-mask: linear-gradient(#fff 0 0) content-box, linear-gradient(#fff 0 0);
+    -webkit-mask-composite: xor;
+    mask-composite: exclude;
+    opacity: 0;
+    transition: opacity 0.3s;
+  }
+
+  .db-card:hover {
+    transform: translateY(-4px);
+    box-shadow: var(--shadow-lg);
+  }
+
+  .db-card:hover::before {
+    opacity: 1;
+  }
+
+  .db-card.recommended {
+    border-color: rgba(0, 113, 227, 0.3);
+  }
+
+  .db-card.recommended::after {
+    content: "推荐";
+    position: absolute;
+    top: 20px;
+    right: 20px;
+    background: var(--accent);
+    color: white;
+    font-size: 11px;
+    font-weight: 600;
+    padding: 4px 10px;
+    border-radius: 999px;
+    letter-spacing: 0.3px;
+  }
+
+  .db-logo {
+    width: 64px;
+    height: 64px;
+    border-radius: 16px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    margin-bottom: 20px;
+    font-size: 28px;
+    font-weight: 700;
+    color: white;
+    position: relative;
+    overflow: hidden;
+  }
+
+  .db-logo.postgres { background: linear-gradient(135deg, #336791 0%, #4a8db8 100%); }
+  .db-logo.mysql { background: linear-gradient(135deg, #00758f 0%, #f29111 100%); }
+  .db-logo.redis { background: linear-gradient(135deg, #dc382d 0%, #ff6b6b 100%); }
+  .db-logo.duckdb { background: linear-gradient(135deg, #fff000 0%, #ffd000 100%); color: #1d1d1f; }
+  .db-logo.clickhouse { background: linear-gradient(135deg, #ffcc00 0%, #ff9933 100%); color: #1d1d1f; }
+  .db-logo.cockroach { background: linear-gradient(135deg, #6933ff 0%, #a855f7 100%); }
+  .db-logo.mongo { background: linear-gradient(135deg, #13aa52 0%, #00684a 100%); }
+
+  .db-name {
+    font-size: 22px;
+    font-weight: 600;
+    margin-bottom: 4px;
+    letter-spacing: -0.01em;
+  }
+
+  .db-version {
+    font-size: 13px;
+    color: var(--text-tertiary);
+    margin-bottom: 16px;
+  }
+
+  .db-tagline {
+    font-size: 14px;
+    color: var(--text-secondary);
+    line-height: 1.5;
+    margin-bottom: 20px;
+    min-height: 42px;
+  }
+
+  .db-features {
+    list-style: none;
+    margin-bottom: 24px;
+  }
+
+  .db-features li {
+    font-size: 13px;
+    color: var(--text-secondary);
+    padding: 4px 0;
+    display: flex;
+    align-items: center;
+    gap: 8px;
+  }
+
+  .db-features li::before {
+    content: "✓";
+    color: var(--success);
+    font-weight: 700;
+    font-size: 11px;
+  }
+
+  .db-metrics {
+    display: flex;
+    gap: 16px;
+    padding: 16px 0;
+    border-top: 1px solid var(--divider);
+    margin-bottom: 16px;
+  }
+
+  .metric {
+    flex: 1;
+  }
+
+  .metric-label {
+    font-size: 11px;
+    color: var(--text-tertiary);
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+    margin-bottom: 4px;
+  }
+
+  .metric-value {
+    font-size: 15px;
+    font-weight: 600;
+    color: var(--text-primary);
+  }
+
+  .db-card-cta {
+    display: inline-flex;
+    align-items: center;
+    gap: 4px;
+    color: var(--accent);
+    font-size: 14px;
+    font-weight: 500;
+    text-decoration: none;
+    transition: gap 0.2s;
+  }
+
+  .db-card:hover .db-card-cta {
+    gap: 8px;
+  }
+
+  /* ==================== 详细对比区 ==================== */
+  .compare-section {
+    max-width: 1200px;
+    margin: 80px auto 0;
+    padding: 0 24px;
+  }
+
+  .compare-card {
+    background: var(--bg-card);
+    border-radius: var(--radius-xl);
+    overflow: hidden;
+    box-shadow: var(--shadow-md);
+  }
+
+  .compare-header {
+    padding: 48px 48px 32px;
+    text-align: center;
+    border-bottom: 1px solid var(--divider);
+  }
+
+  .compare-title {
+    font-size: 36px;
+    font-weight: 700;
+    letter-spacing: -0.02em;
+    margin-bottom: 8px;
+  }
+
+  .compare-subtitle {
+    font-size: 17px;
+    color: var(--text-secondary);
+  }
+
+  .compare-table-wrap {
+    overflow-x: auto;
+  }
+
+  .compare-table {
+    width: 100%;
+    border-collapse: collapse;
+    font-size: 14px;
+  }
+
+  .compare-table thead th {
+    background: var(--bg-elevated);
+    padding: 18px 16px;
+    text-align: left;
+    font-weight: 600;
+    color: var(--text-secondary);
+    font-size: 12px;
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+    border-bottom: 1px solid var(--divider);
+    position: sticky;
+    top: 0;
+  }
+
+  .compare-table thead th:first-child {
+    min-width: 180px;
+    text-align: left;
+  }
+
+  .compare-table tbody td {
+    padding: 16px;
+    border-bottom: 1px solid var(--divider);
+    color: var(--text-primary);
+    vertical-align: middle;
+  }
+
+  .compare-table tbody tr:last-child td {
+    border-bottom: none;
+  }
+
+  .compare-table tbody tr:hover {
+    background: var(--bg-elevated);
+  }
+
+  .compare-table .row-label {
+    font-weight: 500;
+    color: var(--text-secondary);
+    font-size: 13px;
+  }
+
+  .cell-yes {
+    color: var(--success);
+    font-weight: 600;
+  }
+
+  .cell-no {
+    color: var(--text-tertiary);
+  }
+
+  .cell-partial {
+    color: var(--warning);
+    font-size: 13px;
+  }
+
+  .db-tag {
+    display: inline-block;
+    padding: 3px 10px;
+    border-radius: 6px;
+    font-size: 11px;
+    font-weight: 600;
+    letter-spacing: 0.3px;
+  }
+
+  .db-tag.relational { background: #e3f2fd; color: #1976d2; }
+  .db-tag.kv { background: #ffebee; color: #c62828; }
+  .db-tag.analytical { background: #fff8e1; color: #f57c00; }
+  .db-tag.document { background: #e8f5e9; color: #2e7d32; }
+  .db-tag.distributed { background: #f3e5f5; color: #7b1fa2; }
+
+  /* ==================== CTA 区 ==================== */
+  .cta-section {
+    text-align: center;
+    padding: 96px 24px;
+    max-width: 800px;
+    margin: 0 auto;
+  }
+
+  .cta-title {
+    font-size: 40px;
+    font-weight: 700;
+    letter-spacing: -0.02em;
+    margin-bottom: 16px;
+  }
+
+  .cta-subtitle {
+    font-size: 19px;
+    color: var(--text-secondary);
+    margin-bottom: 32px;
+  }
+
+  .cta-buttons {
+    display: flex;
+    gap: 12px;
+    justify-content: center;
+    flex-wrap: wrap;
+  }
+
+  .btn {
+    padding: 14px 28px;
+    border-radius: 999px;
+    font-size: 15px;
+    font-weight: 500;
+    text-decoration: none;
+    cursor: pointer;
+    border: none;
+    font-family: inherit;
+    transition: all 0.25s cubic-bezier(0.4, 0, 0.2, 1);
+    display: inline-flex;
+    align-items: center;
+    gap: 6px;
+  }
+
+  .btn-primary {
+    background: var(--accent);
+    color: white;
+  }
+
+  .btn-primary:hover {
+    background: var(--accent-hover);
+    transform: scale(1.03);
+  }
+
+  .btn-secondary {
+    background: transparent;
+    color: var(--accent);
+    border: 1px solid var(--accent);
+  }
+
+  .btn-secondary:hover {
+    background: var(--accent);
+    color: white;
+  }
+
+  /* ==================== Footer ==================== */
+  .footer {
+    background: var(--bg-elevated);
+    padding: 48px 24px 24px;
+    border-top: 1px solid var(--divider);
+    margin-top: 48px;
+  }
+
+  .footer-inner {
+    max-width: 1200px;
+    margin: 0 auto;
+    display: grid;
+    grid-template-columns: 2fr repeat(3, 1fr);
+    gap: 48px;
+  }
+
+  .footer-brand {
+    font-size: 15px;
+    color: var(--text-secondary);
+    line-height: 1.6;
+  }
+
+  .footer-col h4 {
+    font-size: 13px;
+    font-weight: 600;
+    margin-bottom: 12px;
+    color: var(--text-primary);
+  }
+
+  .footer-col ul {
+    list-style: none;
+  }
+
+  .footer-col li {
+    margin-bottom: 8px;
+  }
+
+  .footer-col a {
+    color: var(--text-secondary);
+    text-decoration: none;
+    font-size: 13px;
+    transition: color 0.2s;
+  }
+
+  .footer-col a:hover {
+    color: var(--accent);
+  }
+
+  .footer-bottom {
+    max-width: 1200px;
+    margin: 32px auto 0;
+    padding-top: 24px;
+    border-top: 1px solid var(--divider);
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    font-size: 12px;
+    color: var(--text-tertiary);
+    flex-wrap: wrap;
+    gap: 12px;
+  }
+
+  /* ==================== 响应式 ==================== */
+  @media (max-width: 768px) {
+    .hero {
+      padding: 64px 24px 32px;
+    }
+    .hero-title {
+      font-size: 36px;
+    }
+    .hero-subtitle {
+      font-size: 17px;
+    }
+    .cards-grid {
+      grid-template-columns: 1fr;
+    }
+    .compare-header {
+      padding: 32px 24px 24px;
+    }
+    .compare-title {
+      font-size: 28px;
+    }
+    .footer-inner {
+      grid-template-columns: 1fr;
+      gap: 24px;
+    }
+    .nav-links {
+      display: none;
+    }
+  }
+
+  /* ==================== 动画 ==================== */
+  @keyframes fadeInUp {
+    from {
+      opacity: 0;
+      transform: translateY(20px);
+    }
+    to {
+      opacity: 1;
+      transform: translateY(0);
+    }
+  }
+
+  .animate-in {
+    animation: fadeInUp 0.6s cubic-bezier(0.4, 0, 0.2, 1) backwards;
+  }
+
+  .db-card:nth-child(1) { animation-delay: 0.05s; }
+  .db-card:nth-child(2) { animation-delay: 0.1s; }
+  .db-card:nth-child(3) { animation-delay: 0.15s; }
+  .db-card:nth-child(4) { animation-delay: 0.2s; }
+  .db-card:nth-child(5) { animation-delay: 0.25s; }
+  .db-card:nth-child(6) { animation-delay: 0.3s; }
+  .db-card:nth-child(7) { animation-delay: 0.35s; }
+
+  @keyframes pulse {
+    0%, 100% { opacity: 1; }
+    50% { opacity: 0.5; }
+  }
+
+  .live-dot {
+    display: inline-block;
+    width: 6px;
+    height: 6px;
+    border-radius: 50%;
+    background: var(--success);
+    margin-right: 6px;
+    animation: pulse 2s infinite;
+  }
+</style>
+</head>
+<body>
+
+<!-- ========== 顶部导航 ========== -->
+<nav class="nav">
+  <div class="nav-inner">
+    <div class="nav-brand">
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5">
+        <ellipse cx="12" cy="5" rx="9" ry="3"/>
+        <path d="M3 5v14c0 1.66 4.03 3 9 3s9-1.34 9-3V5"/>
+        <path d="M3 12c0 1.66 4.03 3 9 3s9-1.34 9-3"/>
+      </svg>
+      DB Picker
+    </div>
+    <ul class="nav-links">
+      <li><a href="#cards">数据库</a></li>
+      <li><a href="#compare">对比</a></li>
+      <li><a href="#scenarios">场景</a></li>
+      <li><a href="#docs">文档</a></li>
+    </ul>
+  </div>
+</nav>
+
+<!-- ========== Hero ========== -->
+<section class="hero animate-in">
+  <span class="hero-eyebrow">2026 开源数据库选型指南</span>
+  <h1 class="hero-title">选对数据库,<br>从这一页开始。</h1>
+  <p class="hero-subtitle">
+    7 款主流开源数据库横向对比 · 按业务场景智能匹配 · 一键直达部署文档
+  </p>
+</section>
+
+<!-- ========== 场景选择器 ========== -->
+<section class="scenario-section" id="scenarios">
+  <div class="section-label">先告诉我,你的场景</div>
+  <div class="scenario-tabs" id="scenarioTabs">
+    <button class="scenario-tab active" data-scenario="all">全部</button>
+    <button class="scenario-tab" data-scenario="oltp">OLTP 事务</button>
+    <button class="scenario-tab" data-scenario="olap">OLAP 分析</button>
+    <button class="scenario-tab" data-scenario="cache">缓存</button>
+    <button class="scenario-tab" data-scenario="document">文档存储</button>
+    <button class="scenario-tab" data-scenario="distributed">分布式</button>
+    <button class="scenario-tab" data-scenario="embedded">嵌入式</button>
+  </div>
+  <p class="scenario-desc" id="scenarioDesc">查看所有数据库 · 通用场景参考</p>
+</section>
+
+<!-- ========== 数据库卡片矩阵 ========== -->
+<section class="cards-section" id="cards">
+  <div class="cards-header">
+    <h2 class="cards-title">数据库一览</h2>
+    <div class="cards-meta">
+      <span class="live-dot"></span>实时更新 · 7 款产品
+    </div>
+  </div>
+  <div class="cards-grid" id="cardsGrid">
+    <!-- 卡片由 JS 注入 -->
+  </div>
+</section>
+
+<!-- ========== 详细对比 ========== -->
+<section class="compare-section" id="compare">
+  <div class="compare-card">
+    <div class="compare-header">
+      <h2 class="compare-title">规格对比</h2>
+      <p class="compare-subtitle">逐项核对,做出最稳妥的选型决定</p>
+    </div>
+    <div class="compare-table-wrap">
+      <table class="compare-table">
+        <thead>
+          <tr>
+            <th>特性</th>
+            <th>PostgreSQL</th>
+            <th>MySQL</th>
+            <th>Redis</th>
+            <th>DuckDB</th>
+            <th>ClickHouse</th>
+            <th>CockroachDB</th>
+            <th>MongoDB</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr>
+            <td class="row-label">类型</td>
+            <td><span class="db-tag relational">关系型</span></td>
+            <td><span class="db-tag relational">关系型</span></td>
+            <td><span class="db-tag kv">键值</span></td>
+            <td><span class="db-tag analytical">分析型</span></td>
+            <td><span class="db-tag analytical">列式</span></td>
+            <td><span class="db-tag distributed">分布式 SQL</span></td>
+            <td><span class="db-tag document">文档</span></td>
+          </tr>
+          <tr>
+            <td class="row-label">协议</td>
+            <td>PostgreSQL</td>
+            <td>MySQL</td>
+            <td>RESP</td>
+            <td>SQL (in-process)</td>
+            <td>HTTP / Native</td>
+            <td>PostgreSQL</td>
+            <td>BSON / Wire</td>
+          </tr>
+          <tr>
+            <td class="row-label">ACID 事务</td>
+            <td class="cell-yes">完全支持</td>
+            <td class="cell-yes">InnoDB 支持</td>
+            <td class="cell-partial">单实例</td>
+            <td class="cell-yes">支持</td>
+            <td class="cell-no">弱</td>
+            <td class="cell-yes">分布式支持</td>
+            <td class="cell-yes">4.0+ 支持</td>
+          </tr>
+          <tr>
+            <td class="row-label">水平扩展</td>
+            <td class="cell-partial">需插件</td>
+            <td class="cell-partial">需中间件</td>
+            <td class="cell-yes">Cluster</td>
+            <td class="cell-no">单机</td>
+            <td class="cell-yes">原生 Shard</td>
+            <td class="cell-yes">原生</td>
+            <td class="cell-yes">原生 Shard</td>
+          </tr>
+          <tr>
+            <td class="row-label">查询语言</td>
+            <td>SQL + JSON</td>
+            <td>SQL</td>
+            <td>命令 + Lua</td>
+            <td>SQL</td>
+            <td>SQL (方言)</td>
+            <td>SQL</td>
+            <td>MQL + Aggregation</td>
+          </tr>
+          <tr>
+            <td class="row-label">适用数据规模</td>
+            <td>TB 级</td>
+            <td>TB 级</td>
+            <td>GB 级</td>
+            <td>百 GB 级</td>
+            <td>PB 级</td>
+            <td>PB 级</td>
+            <td>PB 级</td>
+          </tr>
+          <tr>
+            <td class="row-label">典型延迟</td>
+            <td>~5 ms</td>
+            <td>~5 ms</td>
+            <td>~0.1 ms</td>
+            <td>~50 ms (复杂查询)</td>
+            <td>~10 ms</td>
+            <td>~10 ms</td>
+            <td>~3 ms</td>
+          </tr>
+          <tr>
+            <td class="row-label">许可证</td>
+            <td>PostgreSQL</td>
+            <td>GPL v2</td>
+            <td>RSALv2 / SSPLv1</td>
+            <td>MIT</td>
+            <td>Apache 2.0</td>
+            <td>BSL → Apache</td>
+            <td>SSPL</td>
+          </tr>
+          <tr>
+            <td class="row-label">学习曲线</td>
+            <td>中等</td>
+            <td>低</td>
+            <td>低</td>
+            <td>低</td>
+            <td>中高</td>
+            <td>中</td>
+            <td>中</td>
+          </tr>
+          <tr>
+            <td class="row-label">云原生</td>
+            <td class="cell-partial">需配置</td>
+            <td class="cell-partial">需配置</td>
+            <td class="cell-yes">成熟</td>
+            <td class="cell-partial">嵌入式</td>
+            <td class="cell-yes">成熟</td>
+            <td class="cell-yes">原生</td>
+            <td class="cell-yes">成熟</td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+  </div>
+</section>
+
+<!-- ========== CTA ========== -->
+<section class="cta-section">
+  <h2 class="cta-title">准备动手了?</h2>
+  <p class="cta-subtitle">所有数据库均支持本地一键启动,无需复杂配置</p>
+  <div class="cta-buttons">
+    <a href="#" class="btn btn-primary">
+      开始选型 →
+    </a>
+    <a href="#" class="btn btn-secondary">
+      查看部署文档
+    </a>
+  </div>
+</section>
+
+<!-- ========== Footer ========== -->
+<footer class="footer">
+  <div class="footer-inner">
+    <div class="footer-brand">
+      <strong style="color: var(--text-primary);">DB Picker</strong><br>
+      面向开发者的开源数据库选型工具。<br>
+      数据截至 2026 年 6 月,以官方文档为准。
+    </div>
+    <div class="footer-col">
+      <h4>资源</h4>
+      <ul>
+        <li><a href="#">官方文档</a></li>
+        <li><a href="#">基准测试</a></li>
+        <li><a href="#">迁移指南</a></li>
+      </ul>
+    </div>
+    <div class="footer-col">
+      <h4>对比</h4>
+      <ul>
+        <li><a href="#">Postgres vs MySQL</a></li>
+        <li><a href="#">ClickHouse vs DuckDB</a></li>
+        <li><a href="#">MongoDB vs Postgres</a></li>
+      </ul>
+    </div>
+    <div class="footer-col">
+      <h4>关于</h4>
+      <ul>
+        <li><a href="#">GitHub</a></li>
+        <li><a href="#">贡献指南</a></li>
+        <li><a href="#">反馈</a></li>
+      </ul>
+    </div>
+  </div>
+  <div class="footer-bottom">
+    <div>© 2026 DB Picker · Made with care</div>
+    <div>开源协议 · MIT</div>
+  </div>
+</footer>
+
+<script>
+  // ==================== 数据库数据 ====================
+  const databases = [
+    {
+      id: "postgres",
+      name: "PostgreSQL",
+      version: "17 · 关系型",
+      logo: "PG",
+      logoClass: "postgres",
+      tag: "relational",
+      tagline: "世界上最先进的开源关系数据库,功能完备且生态成熟。",
+      features: ["ACID 强一致性", "丰富数据类型 (JSON/数组/地理)", "扩展性极强", "MVCC 并发控制"],
+      metrics: { license: "PostgreSQL", bestFor: "复杂业务", query: "SQL" },
+      scenarios: ["oltp", "document"]
+    },
+    {
+      id: "mysql",
+      name: "MySQL",
+      version: "8.4 LTS · 关系型",
+      logo: "MY",
+      logoClass: "mysql",
+      tag: "relational",
+      tagline: "全球最流行的开源数据库,Web 应用的事实标准。",
+      features: ["InnoDB 事务引擎", "主从复制成熟", "运维生态完善", "入门门槛低"],
+      metrics: { license: "GPL v2", bestFor: "Web 应用", query: "SQL" },
+      scenarios: ["oltp"]
+    },
+    {
+      id: "redis",
+      name: "Redis",
+      version: "7.4 · 内存型",
+      logo: "RD",
+      logoClass: "redis",
+      tag: "kv",
+      tagline: "高性能内存数据结构存储,亚毫秒级响应。",
+      features: ["丰富数据结构", "持久化 (RDB/AOF)", "Lua 脚本", "Pub/Sub"],
+      metrics: { license: "RSALv2", bestFor: "缓存/队列", query: "Command" },
+      scenarios: ["cache"]
+    },
+    {
+      id: "duckdb",
+      name: "DuckDB",
+      version: "1.2 · 进程内分析",
+      logo: "DK",
+      logoClass: "duckdb",
+      tag: "analytical",
+      tagline: "进程内 OLAP 数据库,SQLite 之于分析查询。",
+      features: ["列式存储", "向量化执行", "零运维", "直接查询 Parquet/CSV"],
+      metrics: { license: "MIT", bestFor: "本地分析", query: "SQL" },
+      scenarios: ["olap", "embedded"]
+    },
+    {
+      id: "clickhouse",
+      name: "ClickHouse",
+      version: "24.x · 列式 OLAP",
+      logo: "CH",
+      logoClass: "clickhouse",
+      tag: "analytical",
+      tagline: "面向 OLAP 的列式数据库,亚秒级响应 PB 级查询。",
+      features: ["列式压缩存储", "向量化查询引擎", "实时插入", "分布式集群"],
+      metrics: { license: "Apache 2.0", bestFor: "日志/指标", query: "SQL" },
+      scenarios: ["olap"]
+    },
+    {
+      id: "cockroach",
+      name: "CockroachDB",
+      version: "24.x · 分布式 SQL",
+      logo: "CR",
+      logoClass: "cockroach",
+      tag: "distributed",
+      tagline: "分布式 SQL 数据库,PostgreSQL 协议 + 全球级弹性。",
+      features: ["自动分片 + 副本", "强一致性 (串行)", "Postgres 兼容", "多区域部署"],
+      metrics: { license: "BSL → Apache", bestFor: "全球 SaaS", query: "SQL" },
+      scenarios: ["distributed", "oltp"]
+    },
+    {
+      id: "mongo",
+      name: "MongoDB",
+      version: "8.0 · 文档数据库",
+      logo: "MG",
+      logoClass: "mongo",
+      tag: "document",
+      tagline: "灵活的文档型数据库,JSON 原生存储与查询。",
+      features: ["Schema-less", "水平扩展原生", "聚合管道", "多文档事务"],
+      metrics: { license: "SSPL", bestFor: "内容/IoT", query: "MQL" },
+      scenarios: ["document", "oltp"]
+    }
+  ];
+
+  // ==================== 场景描述 ====================
+  const scenarioDescriptions = {
+    all: "查看所有数据库 · 通用场景参考",
+    oltp: "高并发事务 · 金融、电商、订单系统等",
+    olap: "复杂分析查询 · 报表、数据科学、日志分析",
+    cache: "高速读写 · 会话、排行榜、消息队列",
+    document: "灵活模型 · 内容管理、IoT、产品目录",
+    distributed: "全球部署 · 多区域、强一致、弹性扩展",
+    embedded: "嵌入式运行 · 本地分析、CLI 工具、单机应用"
+  };
+
+  // ==================== 推荐映射 ====================
+  const recommendations = {
+    oltp: ["postgres", "mysql"],
+    olap: ["clickhouse", "duckdb"],
+    cache: ["redis"],
+    document: ["mongo", "postgres"],
+    distributed: ["cockroach", "postgres"],
+    embedded: ["duckdb"]
+  };
+
+  // ==================== 渲染卡片 ====================
+  const cardsGrid = document.getElementById("cardsGrid");
+  const scenarioDesc = document.getElementById("scenarioDesc");
+  const scenarioTabs = document.querySelectorAll(".scenario-tab");
+
+  function renderCards(scenario) {
+    const recommendedSet = new Set(recommendations[scenario] || []);
+    const list = scenario === "all"
+      ? databases
+      : databases.filter(db => db.scenarios.includes(scenario));
+
+    cardsGrid.innerHTML = list.map(db => `
+      <article class="db-card animate-in ${recommendedSet.has(db.id) ? 'recommended' : ''}" data-db="${db.id}">
+        <div class="db-logo ${db.logoClass}">${db.logo}</div>
+        <h3 class="db-name">${db.name}</h3>
+        <div class="db-version">${db.version}</div>
+        <p class="db-tagline">${db.tagline}</p>
+        <ul class="db-features">
+          ${db.features.slice(0, 4).map(f => `<li>${f}</li>`).join("")}
+        </ul>
+        <div class="db-metrics">
+          <div class="metric">
+            <div class="metric-label">许可证</div>
+            <div class="metric-value">${db.metrics.license}</div>
+          </div>
+          <div class="metric">
+            <div class="metric-label">适用</div>
+            <div class="metric-value">${db.metrics.bestFor}</div>
+          </div>
+        </div>
+        <a href="#compare" class="db-card-cta">查看详情 →</a>
+      </article>
+    `).join("");
+
+    // 重新触发动画
+    requestAnimationFrame(() => {
+      document.querySelectorAll(".db-card").forEach(el => {
+        el.style.animation = "none";
+        el.offsetHeight;
+        el.style.animation = "";
+      });
+    });
+  }
+
+  // ==================== 场景切换 ====================
+  scenarioTabs.forEach(tab => {
+    tab.addEventListener("click", () => {
+      scenarioTabs.forEach(t => t.classList.remove("active"));
+      tab.classList.add("active");
+      const scenario = tab.dataset.scenario;
+      scenarioDesc.textContent = scenarioDescriptions[scenario];
+      renderCards(scenario);
+    });
+  });
+
+  // 初始渲染
+  renderCards("all");
+
+  // ==================== 卡片点击 ====================
+  cardsGrid.addEventListener("click", e => {
+    const card = e.target.closest(".db-card");
+    if (!card) return;
+    const dbId = card.dataset.db;
+    const db = databases.find(d => d.id === dbId);
+    if (db) {
+      console.log(`查看 ${db.name} 详情`);
+      // 平滑滚动到对比区
+      document.getElementById("compare").scrollIntoView({ behavior: "smooth" });
+    }
+  });
+</script>
+
+</body>
+</html>

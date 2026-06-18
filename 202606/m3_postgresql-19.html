@@ -1,0 +1,816 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<title>PostgreSQL 19 发布说明 · The World's Most Advanced Open Source Database</title>
+<meta name="description" content="PostgreSQL 19 全新发布：SQL/PGQ 图形查询、REPACK 命令、并行 autovacuum、SIMD 加速、LZ4 默认压缩，带来突破性性能与开发者体验。" />
+<style>
+  /* ============== 基础变量 ============== */
+  :root{
+    --primary:#F08200;          /* 科技橙 */
+    --primary-50:#FFF4E5;
+    --primary-100:#FFE4BF;
+    --bg:#FFFFFF;
+    --bg-soft:#F9FAFB;
+    --bg-card:#FFFFFF;
+    --text-1:#1F2328;
+    --text-2:#333333;
+    --text-3:#666666;
+    --text-4:#999999;
+    --border:#E5E7EB;
+    --border-soft:#F0F2F5;
+    --success:#16A34A;
+    --warn:#F59E0B;
+    --danger:#DC2626;
+    --code-bg:#F6F8FA;
+    --shadow-card:0 1px 2px rgba(16,24,40,.04), 0 1px 3px rgba(16,24,40,.06);
+    --shadow-hover:0 4px 12px rgba(16,24,40,.06), 0 2px 6px rgba(16,24,40,.04);
+    --radius:10px;
+    --radius-sm:6px;
+    --radius-lg:14px;
+  }
+
+  *{box-sizing:border-box;margin:0;padding:0}
+  html{scroll-behavior:smooth}
+  body{
+    font-family:-apple-system,BlinkMacSystemFont,"PingFang SC","Microsoft YaHei","Helvetica Neue",Arial,"Segoe UI",sans-serif;
+    color:var(--text-2);
+    background:var(--bg);
+    line-height:1.65;
+    font-size:15px;
+    -webkit-font-smoothing:antialiased;
+    -moz-osx-font-smoothing:grayscale;
+  }
+  a{color:inherit;text-decoration:none}
+  img{max-width:100%;display:block}
+  code{
+    font-family:"SF Mono","Menlo","Consolas",monospace;
+    background:var(--code-bg);
+    color:#C7254E;
+    padding:1px 6px;
+    border-radius:4px;
+    font-size:0.9em;
+  }
+  pre{
+    background:var(--code-bg);
+    padding:14px 18px;
+    border-radius:var(--radius);
+    overflow-x:auto;
+    border:1px solid var(--border-soft);
+    font-size:13px;
+    line-height:1.6;
+  }
+  pre code{background:none;color:var(--text-2);padding:0}
+
+  /* ============== 容器 ============== */
+  .container{max-width:1200px;margin:0 auto;padding:0 32px}
+
+  /* ============== 导航 ============== */
+  .nav{
+    position:sticky;top:0;z-index:50;
+    background:rgba(255,255,255,.92);
+    backdrop-filter:saturate(180%) blur(8px);
+    border-bottom:1px solid var(--border-soft);
+  }
+  .nav-inner{
+    height:64px;display:flex;align-items:center;justify-content:space-between;
+  }
+  .logo{display:flex;align-items:center;gap:10px;font-weight:700;color:var(--text-1);font-size:17px}
+  .logo-mark{
+    width:30px;height:30px;border-radius:8px;
+    background:var(--primary);
+    display:grid;place-items:center;color:#fff;font-weight:800;font-size:15px;
+    box-shadow:0 2px 8px rgba(240,130,0,.28);
+  }
+  .logo small{color:var(--text-3);font-weight:500;margin-left:6px}
+  .nav-links{display:flex;gap:8px;align-items:center}
+  .nav-links a{
+    padding:8px 14px;border-radius:var(--radius-sm);color:var(--text-2);
+    font-size:14px;transition:all .15s ease;
+  }
+  .nav-links a:hover{background:var(--bg-soft);color:var(--primary)}
+  .btn{
+    display:inline-flex;align-items:center;gap:6px;
+    padding:9px 16px;border-radius:var(--radius-sm);font-size:14px;font-weight:600;
+    transition:all .15s ease;cursor:pointer;border:1px solid transparent;
+  }
+  .btn-primary{background:var(--primary);color:#fff}
+  .btn-primary:hover{background:#D87400;box-shadow:0 4px 12px rgba(240,130,0,.28)}
+  .btn-ghost{border-color:var(--border);color:var(--text-2);background:#fff}
+  .btn-ghost:hover{border-color:var(--primary);color:var(--primary)}
+
+  /* ============== Hero ============== */
+  .hero{
+    padding:96px 0 80px;
+    background:
+      radial-gradient(1200px 400px at 80% -100px, rgba(240,130,0,.08), transparent 60%),
+      linear-gradient(180deg, var(--bg) 0%, var(--bg-soft) 100%);
+    border-bottom:1px solid var(--border-soft);
+    position:relative;overflow:hidden;
+  }
+  .hero::before{
+    content:"";position:absolute;inset:0;
+    background-image:
+      linear-gradient(rgba(31,35,40,.025) 1px, transparent 1px),
+      linear-gradient(90deg, rgba(31,35,40,.025) 1px, transparent 1px);
+    background-size:32px 32px;
+    mask-image:radial-gradient(800px 400px at 50% 0%, #000 0%, transparent 70%);
+    pointer-events:none;
+  }
+  .hero-inner{position:relative;text-align:center;max-width:880px;margin:0 auto}
+  .tag{
+    display:inline-flex;align-items:center;gap:6px;
+    padding:6px 14px;border-radius:999px;
+    background:#fff;border:1px solid var(--border);
+    color:var(--text-3);font-size:13px;font-weight:500;
+    box-shadow:var(--shadow-card);
+  }
+  .tag-dot{width:6px;height:6px;border-radius:50%;background:var(--primary);box-shadow:0 0 0 4px rgba(240,130,0,.18)}
+  h1.hero-title{
+    font-size:64px;font-weight:800;letter-spacing:-1.5px;
+    color:var(--text-1);line-height:1.1;margin:24px 0 18px;
+  }
+  h1.hero-title .accent{
+    background:linear-gradient(120deg,var(--primary) 0%,#FFB266 100%);
+    -webkit-background-clip:text;background-clip:text;color:transparent;
+  }
+  .hero-sub{
+    font-size:19px;color:var(--text-3);line-height:1.6;max-width:680px;margin:0 auto 36px;
+  }
+  .hero-cta{display:flex;gap:12px;justify-content:center;flex-wrap:wrap}
+  .hero-meta{
+    margin-top:48px;display:flex;gap:48px;justify-content:center;flex-wrap:wrap;
+    color:var(--text-3);font-size:13px;
+  }
+  .hero-meta div{display:flex;flex-direction:column;align-items:center;gap:2px}
+  .hero-meta strong{font-size:22px;color:var(--text-1);font-weight:700;letter-spacing:-0.5px}
+
+  /* ============== Section ============== */
+  section{padding:88px 0}
+  .section-head{text-align:center;max-width:720px;margin:0 auto 56px}
+  .eyebrow{
+    color:var(--primary);font-weight:600;font-size:13px;letter-spacing:1.2px;
+    text-transform:uppercase;margin-bottom:10px;display:inline-block;
+  }
+  .section-head h2{
+    font-size:36px;font-weight:700;color:var(--text-1);
+    letter-spacing:-0.8px;line-height:1.25;margin-bottom:14px;
+  }
+  .section-head p{color:var(--text-3);font-size:16px}
+
+  /* ============== 卡片网格 ============== */
+  .grid{display:grid;gap:20px}
+  .grid-3{grid-template-columns:repeat(3,1fr)}
+  .grid-2{grid-template-columns:repeat(2,1fr)}
+  .grid-4{grid-template-columns:repeat(4,1fr)}
+
+  /* ============== 特性卡片 ============== */
+  .feature{
+    background:var(--bg-card);
+    border:1px solid var(--border);
+    border-radius:var(--radius);
+    padding:28px 26px;
+    transition:all .2s ease;
+    position:relative;
+  }
+  .feature:hover{
+    border-color:var(--primary-100);
+    box-shadow:var(--shadow-hover);
+    transform:translateY(-3px);
+  }
+  .feature-icon{
+    width:48px;height:48px;border-radius:10px;
+    background:var(--primary-50);color:var(--primary);
+    display:grid;place-items:center;margin-bottom:18px;
+  }
+  .feature h3{
+    font-size:18px;font-weight:700;color:var(--text-1);
+    margin-bottom:8px;letter-spacing:-0.2px;
+  }
+  .feature p{font-size:14px;color:var(--text-3);line-height:1.7}
+  .feature .new-badge{
+    position:absolute;top:18px;right:18px;
+    font-size:11px;font-weight:600;padding:3px 8px;border-radius:4px;
+    background:var(--primary-50);color:var(--primary);letter-spacing:0.5px;
+  }
+
+  /* ============== 强调块 ============== */
+  .band{
+    background:linear-gradient(180deg,var(--bg-soft) 0%,#fff 100%);
+    border-top:1px solid var(--border-soft);
+    border-bottom:1px solid var(--border-soft);
+  }
+
+  /* ============== 性能指标 ============== */
+  .perf-grid{display:grid;grid-template-columns:repeat(4,1fr);gap:16px}
+  .perf{
+    background:#fff;border:1px solid var(--border);border-radius:var(--radius);
+    padding:24px;text-align:center;transition:all .2s;
+  }
+  .perf:hover{border-color:var(--primary-100);box-shadow:var(--shadow-hover)}
+  .perf-value{
+    font-size:38px;font-weight:800;color:var(--primary);
+    letter-spacing:-1px;line-height:1;
+  }
+  .perf-value small{font-size:18px;font-weight:700;color:var(--primary-100);margin-left:2px}
+  .perf-label{margin-top:10px;font-size:14px;color:var(--text-2);font-weight:600}
+  .perf-sub{margin-top:4px;font-size:12px;color:var(--text-4)}
+
+  /* ============== 代码示例 ============== */
+  .showcase{
+    display:grid;grid-template-columns:1fr 1.4fr;gap:32px;align-items:start;
+  }
+  .showcase-text h3{
+    font-size:24px;font-weight:700;color:var(--text-1);margin-bottom:14px;letter-spacing:-0.4px;
+  }
+  .showcase-text p{color:var(--text-3);margin-bottom:18px;font-size:15px}
+  .showcase-list{list-style:none;padding:0}
+  .showcase-list li{
+    padding:10px 0;color:var(--text-2);font-size:14px;
+    display:flex;align-items:flex-start;gap:10px;
+  }
+  .showcase-list li::before{
+    content:"";flex:0 0 auto;width:18px;height:18px;margin-top:3px;
+    border-radius:50%;background:var(--primary-50);position:relative;
+  }
+  .showcase-list li::after{
+    content:"";position:absolute;
+    width:6px;height:3px;border-left:1.5px solid var(--primary);
+    border-bottom:1.5px solid var(--primary);
+    transform:rotate(-45deg);margin:7px 0 0 6px;
+  }
+  .showcase-list li span{display:block}
+  .showcase-list li b{font-weight:600;color:var(--text-1);display:block;margin-bottom:2px}
+
+  /* ============== 迁移 / 兼容性 ============== */
+  .compat{
+    background:#fff;border:1px solid var(--border);border-radius:var(--radius);
+    overflow:hidden;
+  }
+  .compat-row{
+    display:grid;grid-template-columns:120px 1fr 100px;align-items:center;
+    padding:18px 24px;border-bottom:1px solid var(--border-soft);
+    transition:background .15s;
+  }
+  .compat-row:last-child{border-bottom:none}
+  .compat-row:hover{background:var(--bg-soft)}
+  .compat-tag{
+    display:inline-flex;align-items:center;justify-content:center;
+    padding:4px 10px;border-radius:4px;font-size:12px;font-weight:600;
+    letter-spacing:0.4px;
+  }
+  .tag-new{background:#DCFCE7;color:#166534}
+  .tag-change{background:#FEF3C7;color:#92400E}
+  .tag-removed{background:#FEE2E2;color:#991B1B}
+  .compat-title{font-weight:600;color:var(--text-1);font-size:15px}
+  .compat-desc{color:var(--text-3);font-size:13px;margin-top:2px}
+  .compat-impact{font-size:12px;color:var(--text-3);text-align:right}
+
+  /* ============== 时间线 ============== */
+  .timeline{display:grid;grid-template-columns:repeat(3,1fr);gap:24px;position:relative}
+  .step{
+    background:#fff;border:1px solid var(--border);border-radius:var(--radius);
+    padding:28px;position:relative;
+  }
+  .step-num{
+    position:absolute;top:-14px;left:28px;
+    width:32px;height:32px;border-radius:50%;
+    background:var(--primary);color:#fff;display:grid;place-items:center;
+    font-weight:700;font-size:14px;
+    box-shadow:0 2px 8px rgba(240,130,0,.3);
+  }
+  .step h4{font-size:17px;font-weight:700;color:var(--text-1);margin:8px 0 8px}
+  .step p{font-size:13.5px;color:var(--text-3)}
+
+  /* ============== CTA ============== */
+  .cta{
+    background:linear-gradient(135deg,#FFF8EF 0%,#FFEFD9 100%);
+    border:1px solid var(--primary-100);
+    border-radius:var(--radius-lg);
+    padding:56px;text-align:center;position:relative;overflow:hidden;
+  }
+  .cta::before{
+    content:"";position:absolute;inset:0;
+    background-image:
+      radial-gradient(circle at 1px 1px, rgba(240,130,0,.18) 1px, transparent 0);
+    background-size:20px 20px;
+    opacity:.5;
+  }
+  .cta-inner{position:relative}
+  .cta h3{font-size:30px;font-weight:700;color:var(--text-1);margin-bottom:12px;letter-spacing:-0.6px}
+  .cta p{color:var(--text-3);font-size:15px;margin-bottom:28px;max-width:580px;margin-left:auto;margin-right:auto}
+  .cta .btn-group{display:flex;gap:12px;justify-content:center;flex-wrap:wrap}
+
+  /* ============== Footer ============== */
+  footer{
+    border-top:1px solid var(--border-soft);
+    padding:40px 0;color:var(--text-3);font-size:13px;
+  }
+  .footer-inner{display:flex;justify-content:space-between;align-items:center;flex-wrap:wrap;gap:16px}
+  .footer-links{display:flex;gap:20px}
+  .footer-links a:hover{color:var(--primary)}
+
+  /* ============== 响应式 ============== */
+  @media (max-width:960px){
+    .grid-3,.grid-4,.perf-grid{grid-template-columns:repeat(2,1fr)}
+    .showcase{grid-template-columns:1fr}
+    .timeline{grid-template-columns:1fr}
+    .nav-links a:not(.btn){display:none}
+    h1.hero-title{font-size:42px}
+    .section-head h2{font-size:28px}
+  }
+  @media (max-width:600px){
+    .container{padding:0 20px}
+    .grid-3,.grid-2,.grid-4,.perf-grid{grid-template-columns:1fr}
+    .compat-row{grid-template-columns:1fr;gap:6px}
+    .compat-impact{text-align:left}
+    section{padding:60px 0}
+    .hero{padding:64px 0 48px}
+    h1.hero-title{font-size:34px}
+    .hero-sub{font-size:16px}
+    .hero-meta{gap:24px}
+  }
+</style>
+</head>
+<body>
+
+<!-- ============== 导航 ============== -->
+<nav class="nav">
+  <div class="container nav-inner">
+    <a href="#" class="logo">
+      <span class="logo-mark">PG</span>
+      <span>PostgreSQL <small>v19</small></span>
+    </a>
+    <div class="nav-links">
+      <a href="#highlights">亮点</a>
+      <a href="#sql">新语法</a>
+      <a href="#performance">性能</a>
+      <a href="#monitoring">监控</a>
+      <a href="#migration">迁移</a>
+      <a href="https://www.postgresql.org/download/" class="btn btn-primary" target="_blank" rel="noopener">立即下载</a>
+    </div>
+  </div>
+</nav>
+
+<!-- ============== Hero ============== -->
+<header class="hero">
+  <div class="container hero-inner">
+    <span class="tag"><span class="tag-dot"></span>2026 · Major Release</span>
+    <h1 class="hero-title">
+      PostgreSQL <span class="accent">19</span><br/>
+      更智能 · 更快速 · 更开放
+    </h1>
+    <p class="hero-sub">
+      全球最先进的开源关系数据库再次进化：内置 SQL/PGQ 图形查询、原生时间窗操作、
+      REPACK 取代老旧命令，并默认 LZ4 压缩与 SIMD 加速。
+    </p>
+    <div class="hero-cta">
+      <a href="https://www.postgresql.org/download/" target="_blank" rel="noopener" class="btn btn-primary">下载 PostgreSQL 19 →</a>
+      <a href="#highlights" class="btn btn-ghost">查看更新亮点</a>
+    </div>
+    <div class="hero-meta">
+      <div><strong>200+</strong><span>项功能增强</span></div>
+      <div><strong>30+</strong><span>位核心贡献者</span></div>
+      <div><strong>LZ4</strong><span>默认 TOAST 压缩</span></div>
+      <div><strong>SQL/PGQ</strong><span>图形查询标准</span></div>
+    </div>
+  </div>
+</header>
+
+<!-- ============== 六大核心亮点 ============== -->
+<section id="highlights">
+  <div class="container">
+    <div class="section-head">
+      <span class="eyebrow">Core Highlights</span>
+      <h2>六大值得立即关注的特性</h2>
+      <p>从图查询到自动调优，PostgreSQL 19 在性能、开发者体验与可观测性上同时跃迁。</p>
+    </div>
+    <div class="grid grid-3">
+
+      <div class="feature">
+        <span class="new-badge">NEW</span>
+        <div class="feature-icon">
+          <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="6" cy="6" r="3"/><circle cx="18" cy="6" r="3"/><circle cx="12" cy="18" r="3"/><path d="M9 7l3 9M15 7l-3 9M7 8l9 0"/></svg>
+        </div>
+        <h3>SQL/PGQ 图形查询</h3>
+        <p>原生支持 SQL Property Graph Queries 标准，像写视图一样编写关系型图查询，无需安装额外扩展。</p>
+      </div>
+
+      <div class="feature">
+        <span class="new-badge">NEW</span>
+        <div class="feature-icon">
+          <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="4" width="18" height="18" rx="2"/><path d="M3 10h18M8 4v4M16 4v4"/></svg>
+        </div>
+        <h3>UPDATE/DELETE FOR PORTION OF</h3>
+        <p>时态数据操作原生支持，针对时间范围执行行级变更。无需触发器，时序场景开发效率倍增。</p>
+      </div>
+
+      <div class="feature">
+        <span class="new-badge">NEW</span>
+        <div class="feature-icon">
+          <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 12a9 9 0 1 1-9-9"/><path d="M21 3v6h-6"/></svg>
+        </div>
+        <h3>REPACK 取代 VACUUM FULL</h3>
+        <p>统一替代 <code>VACUUM FULL</code> 与 <code>CLUSTER</code>，支持 <code>CONCURRENTLY</code> 无锁重建，业务不中断。</p>
+      </div>
+
+      <div class="feature">
+        <span class="new-badge">PERF</span>
+        <div class="feature-icon">
+          <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M13 2L3 14h7l-1 8 10-12h-7l1-8z"/></svg>
+        </div>
+        <h3>SIMD 全方位加速</h3>
+        <p>COPY、CRC32C、页面校验和、hex 编解码全面启用 AVX2 / ARM Crypto 指令，吞吐显著提升。</p>
+      </div>
+
+      <div class="feature">
+        <span class="new-badge">PERF</span>
+        <div class="feature-icon">
+          <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M3 12h4l3-9 4 18 3-9h4"/></svg>
+        </div>
+        <h3>LZ4 默认压缩</h3>
+        <p>TOAST 压缩默认从 pglz 切换到 LZ4，压缩/解压更快更省 CPU，大字段存储普遍受益。</p>
+      </div>
+
+      <div class="feature">
+        <span class="new-badge">OPS</span>
+        <div class="feature-icon">
+          <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="11" cy="11" r="7"/><path d="M21 21l-4.3-4.3"/></svg>
+        </div>
+        <h3>并行 Autovacuum</h3>
+        <p>autovacuum 支持并行 worker，引入评分系统决定表清理顺序，运维更智能、回收更及时。</p>
+      </div>
+
+    </div>
+  </div>
+</section>
+
+<!-- ============== 新语法 / SQL 能力 ============== -->
+<section id="sql" class="band">
+  <div class="container">
+    <div class="section-head">
+      <span class="eyebrow">SQL Capabilities</span>
+      <h2>全新 SQL 语法与开发者体验</h2>
+      <p>更少的样板代码、更直接的表达力，让日常开发与运维脚本更加简洁。</p>
+    </div>
+
+    <div class="showcase" style="margin-bottom:48px">
+      <div class="showcase-text">
+        <h3>INSERT … ON CONFLICT DO SELECT</h3>
+        <p>冲突时可返回目标行并加锁，配合 <code>RETURNING</code> 一气呵成处理 upsert 中的复杂业务。</p>
+        <ul class="showcase-list">
+          <li><span><b>原生时态操作</b>UPDATE/DELETE FOR PORTION OF 直接在 SQL 中表达时间窗逻辑</span></li>
+          <li><span><b>更少的胶水代码</b>无需触发器或 CTE 模拟，标准 SQL 一行搞定</span></li>
+          <li><span><b>更强一致性</b>RETURNING 与 FOR UPDATE/SHARE 协同，避免竞态读取</span></li>
+        </ul>
+      </div>
+<pre><code>-- 时态表：仅更新 2026 年 6 月的数据
+UPDATE orders
+   SET status = 'archived'
+ WHERE id BETWEEN 1000 AND 5000
+   FOR PORTION OF valid_during
+       FROM '2026-06-01' TO '2026-07-01';
+
+-- 冲突时返回已存在行并锁定
+INSERT INTO accounts(name, balance)
+VALUES ('alice', 100)
+ON CONFLICT (name) DO SELECT
+   RETURNING * FOR UPDATE;</code></pre>
+    </div>
+
+    <div class="showcase">
+      <div class="showcase-text">
+        <h3>更友好的 GROUP BY · 窗口函数 · COPY</h3>
+        <p><code>GROUP BY ALL</code> 自动按非聚合列分组，窗口函数支持 <code>IGNORE NULLS</code>，COPY 支持 JSON 输出。</p>
+        <ul class="showcase-list">
+          <li><span><b>GROUP BY ALL</b>告别重复列名列表，写 SQL 像写自然语言</span></li>
+          <li><span><b>lead/lag/nth_value</b>支持 IGNORE/RESPECT NULLS，分析函数更强大</span></li>
+          <li><span><b>COPY TO JSON</b>直接输出 JSON 数组，配合 FORCE_ARRAY 一行即 API</span></li>
+        </ul>
+      </div>
+<pre><code>-- 自动按所有非聚合列分组
+SELECT region, product, SUM(amount) AS total
+FROM sales
+GROUP BY ALL;
+
+-- 窗口函数跳过 NULL
+SELECT
+  lag(amount) IGNORE NULLS OVER (ORDER BY ts) AS prev_amt,
+  amount - lag(amount) IGNORE NULLS OVER (ORDER BY ts) AS delta
+FROM cashflow;
+
+-- COPY 直接输出 JSON 数组
+COPY (SELECT * FROM products) TO '/tmp/p.json'
+  (FORMAT JSON, FORCE_ARRAY);</code></pre>
+    </div>
+
+  </div>
+</section>
+
+<!-- ============== 性能指标 ============== -->
+<section id="performance">
+  <div class="container">
+    <div class="section-head">
+      <span class="eyebrow">Performance</span>
+      <h2>不只是一点点的更快</h2>
+      <p>从压缩算法到 I/O 调度，PostgreSQL 19 在每个关键路径上都进行了重新设计。</p>
+    </div>
+
+    <div class="perf-grid" style="margin-bottom:56px">
+      <div class="perf">
+        <div class="perf-value">LZ4<small>+</small></div>
+        <div class="perf-label">默认 TOAST 压缩</div>
+        <div class="perf-sub">解压速度相比 pglz 大幅提升</div>
+      </div>
+      <div class="perf">
+        <div class="perf-value">AVX2<small>+</small></div>
+        <div class="perf-label">SIMD 加速</div>
+        <div class="perf-sub">COPY / CRC32C / hex 编解码</div>
+      </div>
+      <div class="perf">
+        <div class="perf-value">2×<small></small></div>
+        <div class="perf-label">外键约束检查</div>
+        <div class="perf-sub">写入吞吐显著提升</div>
+      </div>
+      <div class="perf">
+        <div class="perf-value">并行<small></small></div>
+        <div class="perf-label">Autovacuum Worker</div>
+        <div class="perf-sub">单表并行清理上线</div>
+      </div>
+    </div>
+
+    <div class="grid grid-3">
+      <div class="feature">
+        <div class="feature-icon">
+          <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/><path d="M7 10l5 5 5-5"/><path d="M12 15V3"/></svg>
+        </div>
+        <h3>异步 I/O 改进</h3>
+        <p>大请求预读调度优化，<code>io_method=worker</code> 自动调整后台 worker 数量，磁盘 I/O 更高效。</p>
+      </div>
+      <div class="feature">
+        <div class="feature-icon">
+          <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M3 6h18M3 12h18M3 18h18"/></svg>
+        </div>
+        <h3>TID 范围扫描并行化</h3>
+        <p>按 TID 范围访问堆表时自动启用并行执行，单表全表扫描更快速。</p>
+      </div>
+      <div class="feature">
+        <div class="feature-icon">
+          <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="3" width="18" height="18" rx="2"/><path d="M9 3v18M15 3v18"/></svg>
+        </div>
+        <h3>基数排序</h3>
+        <p>排序算法升级到 Radix Sort，大数据量 ORDER BY 性能显著提升。</p>
+      </div>
+      <div class="feature">
+        <div class="feature-icon">
+          <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"/><path d="M12 6v6l4 2"/></svg>
+        </div>
+        <h3>纳秒级计时</h3>
+        <p><code>EXPLAIN ANALYZE</code> 与 <code>pg_test_timing</code> 默认纳秒精度，更精确的性能分析。</p>
+      </div>
+      <div class="feature">
+        <div class="feature-icon">
+          <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M4 6h16M4 12h16M4 18h10"/></svg>
+        </div>
+        <h3>哈希索引批量删除</h3>
+        <p>使用流式读取改进哈希索引 bulk delete 与 GIN 索引 clean 性能。</p>
+      </div>
+      <div class="feature">
+        <div class="feature-icon">
+          <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 2l9 4-9 4-9-4 9-4z"/><path d="M3 10l9 4 9-4M3 14l9 4 9-4"/></svg>
+        </div>
+        <h3>优化器多项增强</h3>
+        <p>NOT IN 转反连接、更多 LEFT JOIN 转 ANTI JOIN、连接选择性计算加速。</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ============== 监控 & 可观测性 ============== -->
+<section id="monitoring" class="band">
+  <div class="container">
+    <div class="section-head">
+      <span class="eyebrow">Observability</span>
+      <h2>看得更清楚、调得更精准</h2>
+      <p>PostgreSQL 19 引入大量新视图、列与等待事件，DBA 终于能"看见"以前看不见的状态。</p>
+    </div>
+    <div class="grid grid-3">
+      <div class="feature">
+        <div class="feature-icon">
+          <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M3 3v18h18"/><path d="M7 14l4-4 4 4 5-5"/></svg>
+        </div>
+        <h3>pg_stat_lock</h3>
+        <p>按锁类型分组的统计视图，快速定位热点锁竞争与阻塞链路。</p>
+      </div>
+      <div class="feature">
+        <div class="feature-icon">
+          <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M22 12h-4l-3 9L9 3l-3 9H2"/></svg>
+        </div>
+        <h3>pg_stat_recovery</h3>
+        <p>恢复状态实时可视化，备机追赶进度一目了然。</p>
+      </div>
+      <div class="feature">
+        <div class="feature-icon">
+          <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"/><path d="M12 8v4l3 3"/></svg>
+        </div>
+        <h3>pg_stat_autovacuum_scores</h3>
+        <p>每表 autovacuum 评分详情，结合新权重系统让调度更可解释。</p>
+      </div>
+      <div class="feature">
+        <div class="feature-icon">
+          <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="11" cy="11" r="8"/><path d="m21 21-4.3-4.3"/></svg>
+        </div>
+        <h3>EXPLAIN (ANALYZE, IO)</h3>
+        <p>新增 IO 报告选项，异步 I/O 活动首次在执行计划中可见。</p>
+      </div>
+      <div class="feature">
+        <div class="feature-icon">
+          <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/><path d="M14 2v6h6M16 13H8M16 17H8M10 9H8"/></svg>
+        </div>
+        <h3>pg_get_*_ddl()</h3>
+        <p>新增角色、表空间、数据库的 DDL 输出函数，备份/迁移脚本更易编写。</p>
+      </div>
+      <div class="feature">
+        <div class="feature-icon">
+          <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 1v22M17 5H9.5a3.5 3.5 0 0 0 0 7h5a3.5 3.5 0 0 1 0 7H6"/></svg>
+        </div>
+        <h3>process-type 日志粒度</h3>
+        <p><code>log_min_messages</code> 支持按进程类型独立设置，审计/调试更精细。</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ============== 兼容性变更 / 迁移 ============== -->
+<section id="migration">
+  <div class="container">
+    <div class="section-head">
+      <span class="eyebrow">Compatibility & Migration</span>
+      <h2>升级前需要知道的事</h2>
+      <p>PostgreSQL 19 包含少量破坏性变更，请提前评估影响范围并使用 <code>pg_upgrade</code> 或逻辑复制平滑迁移。</p>
+    </div>
+
+    <div class="compat" style="margin-bottom:48px">
+      <div class="compat-row">
+        <span class="compat-tag tag-removed">REMOVED</span>
+        <div>
+          <div class="compat-title">移除 RADIUS 认证</div>
+          <div class="compat-desc">基于 UDP 的 RADIUS 存在不可修复的安全问题，请改用其它认证方式。</div>
+        </div>
+        <div class="compat-impact">高影响</div>
+      </div>
+      <div class="compat-row">
+        <span class="compat-tag tag-change">CHANGED</span>
+        <div>
+          <div class="compat-title">inet/cidr 默认索引 opclass</div>
+          <div class="compat-desc">由 <code>btree_gist</code> 切换到 GiST，<code>pg_upgrade</code> 检测到旧索引将拒绝升级。</div>
+        </div>
+        <div class="compat-impact">高影响</div>
+      </div>
+      <div class="compat-row">
+        <span class="compat-tag tag-change">CHANGED</span>
+        <div>
+          <div class="compat-title">max_locks_per_transaction 默认 64 → 128</div>
+          <div class="compat-desc">锁大小分配已变更，要匹配之前容量需将默认值翻倍。</div>
+        </div>
+        <div class="compat-impact">中影响</div>
+      </div>
+      <div class="compat-row">
+        <span class="compat-tag tag-change">CHANGED</span>
+        <div>
+          <div class="compat-title">standard_conforming_strings 强制为 on</div>
+          <div class="compat-desc">escape_string_warning 服务器变量被移除；旧客户端仍可关闭该选项以兼容。</div>
+        </div>
+        <div class="compat-impact">中影响</div>
+      </div>
+      <div class="compat-row">
+        <span class="compat-tag tag-change">CHANGED</span>
+        <div>
+          <div class="compat-title">JIT 默认禁用</div>
+          <div class="compat-desc">优化器成本计算不再可靠地启用 JIT，可手动开启或基于 workload 调优。</div>
+        </div>
+        <div class="compat-impact">中影响</div>
+      </div>
+      <div class="compat-row">
+        <span class="compat-tag tag-new">NEW</span>
+        <div>
+          <div class="compat-title">密码过期警告 & MD5 警告</div>
+          <div class="compat-desc"><code>password_expiration_warning_threshold</code> 与 <code>md5_password_warnings</code> 默认开启，建议尽快迁移到 SCRAM。</div>
+        </div>
+        <div class="compat-impact">低影响</div>
+      </div>
+    </div>
+
+    <!-- 升级路径 -->
+    <div class="timeline">
+      <div class="step">
+        <div class="step-num">1</div>
+        <h4>评估 & 备份</h4>
+        <p>通读 release notes，使用 <code>pg_dumpall</code> 或物理备份完整保留数据，识别扩展兼容性。</p>
+      </div>
+      <div class="step">
+        <div class="step-num">2</div>
+        <h4>在测试环境升级</h4>
+        <p>使用 <code>pg_upgrade --check</code> 先做兼容性检查；测试所有 ETL、报表与备份恢复流程。</p>
+      </div>
+      <div class="step">
+        <div class="step-num">3</div>
+        <h4>灰度切换 & 监控</h4>
+        <p>使用逻辑复制建立并行流，按表灰度切换，关注新视图 <code>pg_stat_lock</code>、<code>pg_stat_recovery</code>。</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ============== 其他亮点 ============== -->
+<section class="band">
+  <div class="container">
+    <div class="section-head">
+      <span class="eyebrow">Also New</span>
+      <h2>同样值得关注的能力</h2>
+      <p>扩展性、数据类型、安全性上的多项增强。</p>
+    </div>
+    <div class="grid grid-4">
+      <div class="feature">
+        <div class="feature-icon" style="background:#EFF6FF;color:#2563EB">
+          <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 2L2 7l10 5 10-5-10-5z"/><path d="M2 17l10 5 10-5M2 12l10 5 10-5"/></svg>
+        </div>
+        <h3>pg_plan_advice</h3>
+        <p>通过补丁/钩子稳定规划器决策，可让关键 SQL 长期保持稳定执行计划。</p>
+      </div>
+      <div class="feature">
+        <div class="feature-icon" style="background:#F0FDF4;color:#16A34A">
+          <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="3" width="18" height="18" rx="2"/><path d="M9 9h6v6H9z"/></svg>
+        </div>
+        <h3>oid8 数据类型</h3>
+        <p>新增 64 位无符号整数类型，标识符场景不再受 32 位限制。</p>
+      </div>
+      <div class="feature">
+        <div class="feature-icon" style="background:#FAF5FF;color:#9333EA">
+          <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"/><path d="M2 12h20M12 2a15 15 0 0 1 0 20M12 2a15 15 0 0 0 0 20"/></svg>
+        </div>
+        <h3>MERGE / SPLIT 分区</h3>
+        <p><code>ALTER TABLE ... MERGE/SPLIT PARTITIONS</code> 在线调整分区结构。</p>
+      </div>
+      <div class="feature">
+        <div class="feature-icon" style="background:#FEF2F2;color:#DC2626">
+          <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/></svg>
+        </div>
+        <h3>安全与认证增强</h3>
+        <p>SCRAM 推荐、OAUTH v2、SNI 服务端报告、证书加载更灵活。</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ============== CTA ============== -->
+<section>
+  <div class="container">
+    <div class="cta">
+      <div class="cta-inner">
+        <h3>准备好体验 PostgreSQL 19 了吗？</h3>
+        <p>支持主流 Linux 发行版、macOS、Windows 与 AIX。立即获取官方安装包，或在容器中一键启动。</p>
+        <div class="btn-group">
+          <a href="https://www.postgresql.org/download/" class="btn btn-primary" target="_blank" rel="noopener">下载安装包</a>
+          <a href="https://www.postgresql.org/docs/release/19.0/" class="btn btn-ghost" target="_blank" rel="noopener">阅读完整 Release Notes</a>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ============== Footer ============== -->
+<footer>
+  <div class="container footer-inner">
+    <div>© 2026 PostgreSQL Global Development Group · 内容基于官方 release notes 整理</div>
+    <div class="footer-links">
+      <a href="https://www.postgresql.org/" target="_blank" rel="noopener">官网</a>
+      <a href="https://www.postgresql.org/docs/" target="_blank" rel="noopener">文档</a>
+      <a href="https://www.postgresql.org/community/" target="_blank" rel="noopener">社区</a>
+      <a href="https://github.com/postgres/postgres" target="_blank" rel="noopener">GitHub</a>
+    </div>
+  </div>
+</footer>
+
+<script>
+  // 平滑滚动当前导航高亮（轻量实现）
+  const sections = document.querySelectorAll('section[id]');
+  const navLinks = document.querySelectorAll('.nav-links a[href^="#"]');
+  const setActive = () => {
+    const scrollY = window.scrollY + 120;
+    let current = '';
+    sections.forEach(s => {
+      if (s.offsetTop <= scrollY) current = s.id;
+    });
+    navLinks.forEach(a => {
+      a.style.color = a.getAttribute('href') === '#' + current ? 'var(--primary)' : '';
+      a.style.background = a.getAttribute('href') === '#' + current ? 'var(--bg-soft)' : '';
+    });
+  };
+  window.addEventListener('scroll', setActive, { passive: true });
+  setActive();
+</script>
+
+</body>
+</html>
