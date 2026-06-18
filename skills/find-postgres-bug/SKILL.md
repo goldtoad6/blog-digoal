@@ -1,153 +1,292 @@
 ---
 name: find-postgres-bug
-description: 在本地编译并部署 PostgreSQL REL_xx_STABLE 分支实例，通过代码审计、回归测试、模糊测试和异常日志分析等手段快速发现 Bug，并以标准 Markdown 格式输出可投递到 pgsql-bugs 社区的 Bug 报告。适用场景：(1) 用户提供 PG 源码路径与分支名要求找 bug；(2) 用户希望复现某个疑似 PG 缺陷；(3) 跑完一个测试场景，需要结构化记录 ERROR/FATAL/PANIC 日志并生成社区级 bug report；(4) 需要确定 PG commit id、OS 信息、复现步骤以便向社区上报。
+description: >
+  Find latent bugs in a local PostgreSQL source tree (REL_xx_STABLE branch
+  or HEAD). Builds and starts a local PG instance (debug + cassert, never
+  auto-shuts-down), scans recent commits for high-risk code paths, lets
+  the user pick a commit, writes and runs a .sql repro, captures the
+  server log, and renders a community-style markdown bug report
+  (Environment, Repro, Actual/Expected, Log, Why-bug, Fix). Use when the
+  user says "find a bug in postgres", "test a recent commit", "check
+  this commit for bugs", "write a repro", "I want to look for bugs in
+  REL_xx_STABLE", "把 PG 源码跑起来找一个 bug", "看看这个 commit 会不会
+  出问题", etc. Triggers whenever the user gives a PG source directory
+  and asks to hunt bugs.
 ---
 
 # Find Postgres Bug
 
-在本地源码编译的 PostgreSQL 实例上快速发现 Bug 并生成符合 pgsql-bugs 社区规范的 Markdown Bug 报告。
+## Overview
 
-## 适用场景
+End-to-end pipeline for finding a latent bug in a local PostgreSQL
+source tree and producing a community-style markdown report. The
+instance stays up between steps so the user can iterate on the repro
+without re-building.
 
-满足以下任一条件即可使用本 skill：
+**Source layout assumed:** the standard PG tree
+(`src/backend/`, `src/include/`, `contrib/`, `src/test/`, …) at
+`$PG_SRC_DIR`.
 
-- 用户给出 PG 源码路径（`REL_xx_STABLE` 分支）和编译好的二进制路径，要求找 bug
-- 用户描述了一个疑似 PG 缺陷，需要拉起实例复现
-- 跑完一个测试/压测/模糊测试场景，需要整理 ERROR/FATAL/PANIC 日志生成可投递到社区的 bug report
-- 需要把本地现象转化为完整复现脚本、commit hash、修复建议的 Markdown 文档
+**Important:** the skill **never** auto-stops the PG instance. Run
+`scripts/stop_pg.sh` explicitly when you are done.
 
-## 工作流决策树
+---
 
-```
-用户提供的信息
-├── 仅提供源码路径和分支
-│   └── 走"通用扫描"路径：编译检查 + 跑回归 + 触发常见陷阱 → 见 references/pg_testing_strategies.md
-├── 提供具体 SQL/操作复现一个已知可疑现象
-│   └── 走"复现"路径：拉起实例 → 执行复现 → 抓日志 → 填模板
-├── 提供 crash dump 或异常日志
-│   └── 走"日志分析"路径：读日志 → 定位函数/文件 → 查 git blame → 写报告
-└── 提供 commit id 或 patch，要求回归验证
-    └── 走"回归验证"路径：打 patch → 重编 → 复现 → 对比日志
-```
+## Quick start
 
-## 步骤 1：环境探测
+```bash
+# 1. point at the source tree (the rest has sane defaults)
+export PG_SRC_DIR=/path/to/postgres
 
-依次执行：
+# 2. one-shot: configure + build + initdb + start
+./scripts/build_and_start_pg.sh
 
-1. **读源码路径元信息**
-   - `git -C <src> log -1 --format='%H %ci %s'` 拿到 commit id
-   - `git -C <src> rev-parse --abbrev-ref HEAD` 拿到分支名
-   - `git -C <src> describe --tags --abbrev=0` 拿到最近 tag
-   - 用 `scripts/extract_commit_info.sh <src>` 一次拿全
+# 3. see what's risky in the last 30 commits
+./scripts/find_suspicious_commits.sh 30 HEAD
 
-2. **读 OS 与工具链**
-   - `uname -a`、`cat /etc/os-release`、`gcc --version`、`bison --version`、`flex --version`
-   - 编译器、bison、flex、readline、zlib、openssl、icu、python3 任一缺失都可能导致 build/行为差异
-   - 用 `scripts/pg_env_check.sh` 一键体检
+# 4. pick one, e.g. abc1234, and look at the diff
+./scripts/analyze_commit.sh abc1234
 
-3. **确认编译产物**
-   - 期望路径：`<src>/src/backend/postgres`、`<src>/src/bin/pg_ctl/pg_ctl`、`<src>/src/bin/psql/psql`
-   - 没有就 `cd <src> && ./configure --prefix=<install> && make -j$(nproc) && make install`
+# 5. write a repro, then run it
+$EDITOR /tmp/repro.sql
+./scripts/run_repro.sh /tmp/repro.sql my-repro
 
-## 步骤 2：拉起实例
+# 6. inspect what the server said
+./scripts/capture_log.sh errors
 
-用 `scripts/pg_instance.sh` 完成 initdb / start / stop / status。默认端口 55432、数据目录 `/tmp/pgbug_data`，避免与系统 PG 冲突。
-
-```
-scripts/pg_instance.sh init <src_install>   # 初始化一次
-scripts/pg_instance.sh start                # 启动
-scripts/pg_instance.sh psql "SELECT version();"   # 验证
-scripts/pg_instance.sh stop                 # 收尾
+# 7. render a bug report
+$EDITOR /tmp/bug.yaml       # fill the fields from references/bug_report_template.md
+./scripts/gen_bug_report.sh /tmp/bug.yaml
 ```
 
-启动前确保 `postgresql.conf` 关键参数便于观察 bug：
+If a real bug surfaces, the markdown is ready to copy into a
+[pgsql-bugs] post. If not, you've at least confirmed the commit is
+clean for that input — pick the next suspicious commit and iterate.
 
-- `logging_collector = on`
-- `log_directory = 'pg_log'`
-- `log_filename = 'postgresql-%Y-%m-%d_%H%M%S.log'`
-- `log_min_messages = debug1`（深度排查时再开，平时 warning 即可）
-- `log_statement = 'all'` 或 `'mod'`（视场景）
-- `log_error_verbosity = verbose`
-- `log_line_prefix = '%m [%p] %q%u@%d/%a from %h '`
-- `client_min_messages = notice`（让 NOTICE/WARNING 走客户端）
+---
 
-## 步骤 3：发现 Bug
+## Workflow
 
-按现象从大到小分四类策略（详见 `references/pg_bug_categories.md` 与 `references/pg_testing_strategies.md`）：
+Each step has a **success criterion** the agent should verify before
+moving on.
 
-1. **CRASH 类**（PANIC / FATAL / SIGSEGV）
-   - 触发：`pg_instance.sh start` 启动后跑可疑 SQL
-   - 抓取：`pg_log/postgresql-*.log` 里 `PANIC:` / `FATAL:` / `LOG: server process ... was terminated` 段
-   - 同时记录 core dump 路径（`/cores/core.<pid>` 或 `pg_instance.sh status` 显示的 core_path）
+### Step 1 — Declare the source tree
 
-2. **逻辑错误类**（结果错误、未定义行为、计划器缺陷、约束违规）
-   - 跑对应的 `SELECT`/`EXPLAIN`，对正常实例 vs 源码实例做 diff
-   - 看 `WARNING:`、`ERROR:` 后面跟的 hint、code（SQLSTATE）
+```bash
+export PG_SRC_DIR=/path/to/postgres
+source ./scripts/pg_env.sh
+```
 
-3. **回归类**（已修过又复发）
-   - `git -C <src> log --oneline -- <file>` 看可疑文件最近改动
-   - `git -C <src> blame <file>` 锁定行
-   - 用 `git -C <src> log -S <symbol>` 搜索字符串/标识符引入/删除记录
+The `source` line is optional; the scripts source `pg_env.sh`
+internally, but sourcing it in your shell gives you `$PGPORT`,
+`$PGDATA`, `$PG_LOG`, `psql` on `$PATH`, etc.
 
-4. **资源/并发类**（死锁、内存泄漏、锁等待）
-   - `pg_locks`、`pg_stat_activity`、`pg_stat_statements`
-   - 长时间跑再 `pg_log` 里搜 `deadlock detected`、`out of memory`、`canceling statement due to lock timeout`
+**Success:** `ls $PG_SRC_DIR/src/backend/parser/parse_expr.c` exists,
+and `git -C $PG_SRC_DIR rev-parse HEAD` prints a SHA.
 
-## 步骤 4：最小化复现
+### Step 2 — Build & start the instance
 
-社区不会接受"我执行了一堆 SQL 才出问题"。复现必须：
+```bash
+./scripts/build_and_start_pg.sh
+```
 
-- 一段独立的 SQL（或 psql 命令序列）
-- 触发条件可枚举：版本、配置、并发数、数据规模、字符集、locale、ICU 库版本
-- 不依赖外部数据（除非 bug 本质就是数据相关）
+This runs `./configure --enable-debug --enable-cassert
+--enable-debug-symbols`, `make -jN`, `make install`, `initdb`, and
+`pg_ctl start` on port `${PG_PORT:-55432}`. It is **idempotent** —
+re-run after editing C code; it skips steps that are already done.
 
-辅助脚本：`scripts/minimize_repro.sh` 接受原始大脚本，逐步删除语句直到 bug 仍可触发，输出最小集。
+**Success:** `pg_isready -h /tmp -p $PG_PORT` returns 0 and
+`psql -h /tmp -p $PG_PORT -U $PG_USER -d postgres -c "SELECT 1"`
+prints `1`.
 
-## 步骤 5：生成 Bug 报告
+### Step 3 — Discover risky commits
 
-**必填字段**（pgs 社区标配，缺一会被打回）：
+```bash
+./scripts/find_suspicious_commits.sh 30 HEAD
+```
 
-- Title：`<子模块>: <一句话现象>`，例如 `COPY FROM PROGRAM: FATAL on empty command string`
-- Environment：OS、OS version、kernel、locale (`locale`)、compiler (`gcc --version`)
-- PostgreSQL version：主版本号 + commit id
-- Configuration：`./configure` 完整参数、`postgresql.conf` 关键 `非默认` 参数
-- Reproducible: Yes / Sometimes / No
-- Reproduction steps：编号命令清单，每步注释
-- Bug log：原始 ERROR/FATAL/PANIC 日志原文 + `\`\`\`` 围栏
-- Why is this a bug?：引用 PG 文档/manual 对应章节，说明违反预期
-- Fix suggestion：函数/文件定位 + 伪代码 / 引用 commit 链接
+Outputs tab-separated rows: `HASH  DATE  AUTHOR  FILES  INSERTIONS
+DELETIONS  SUBJECT`. Read [references/commit_risk_indicators.md](references/commit_risk_indicators.md)
+to bias the pick toward parser/planner/executor/storage/replication
+paths and away from docs / pure refactors.
 
-**可选增强**：
+**Success:** you have 3–5 candidate commit hashes to choose from.
 
-- 修复可行性 patch（`\*.patch` 文本或 git diff）
-- 触发概率（跑 N 次复现 M 次）
-- 影响范围（哪些版本也受影响，搜索 `git tag --contains <bad_commit>`）
+### Step 4 — Analyze the chosen commit
 
-模板见 `assets/bug_report_template.md`，由 `scripts/gen_bug_report.sh` 渲染到 stdout 或文件。
+```bash
+./scripts/analyze_commit.sh <hash> 600
+```
 
-## 关键提示
+Shows the commit message + file list + first 600 lines of the diff.
+Read the diff against the risk indicators; the goal is to answer
+"what input would hit the new code path, and at what boundary?".
 
-- 报告里**不要**包含用户真实数据，敏感字段要脱敏
-- 涉及 crash 时，把**完整** stack trace 贴全，不要截断
-- pgsql-bugs 邮件列表订阅后发邮件正文即可，不要附件（附件会被剥离）
-- 提交前先 `git pull --rebase` 确认 commit id 是最新，避免重复报
-- 用 `git format-patch -1 <commit>` 把可疑修复思路转成 patch 附在报告里
+**Success:** you can name the function / branch / GUC that the
+commit touches, and you have a one-sentence description of the
+expected invariant it should preserve.
 
-## 资源
+### Step 5 — Write a repro
 
-### scripts/
-- `extract_commit_info.sh`：从源码目录一次性导出 commit/branch/tag/dirty 状态
-- `pg_env_check.sh`：OS、locale、工具链、共享库、PG 可执行文件体检
-- `pg_instance.sh`：initdb / start / stop / status / psql / pglog 六个子命令
-- `minimize_repro.sh`：二分/逐步删除法把复现脚本缩到最小
-- `gen_bug_report.sh`：把环境/commit/log/repro 喂给模板生成 Markdown
+Create `repro/<name>.sql` (or `/tmp/<name>.sql`). Use
+[references/repro_patterns.md](references/repro_patterns.md) for
+patterns by area. Common shape:
 
-### references/
-- `pg_bug_categories.md`：4 大类 bug 及其典型信号
-- `pg_log_interpretation.md`：PG 日志级别、SQLSTATE、stack trace 阅读
-- `pg_testing_strategies.md`：代码审计、回归、模糊、fuzz、isolation test 入口
-- `pg_community_channels.md`：pgsql-bugs 邮件列表、IRC、github issues 入口
-- `pg_common_pitfalls.md`：容易踩坑的子模块清单（COPY、partition、replication、PL/pgSQL、订阅、逻辑复制、扩展）
+```sql
+SET client_min_messages = debug1;
+-- minimal setup that hits the new code path
+-- boundary cases: empty, single, NULL, max, very many, concurrent
+```
 
-### assets/
-- `bug_report_template.md`：可直接渲染的标准报告模板
+**Success:** you can point at one specific clause / call site the
+repro exercises.
+
+### Step 6 — Run the repro
+
+```bash
+./scripts/run_repro.sh repro/<name>.sql <name>
+```
+
+This executes the SQL, tees output to `$PGDATA/repro-<name>-<ts>.log`,
+and prints the most recent `ERROR/FATAL/PANIC/WARNING/STATEMENT`
+lines from the server log scoped to that run. See
+[references/log_indicators.md](references/log_indicators.md) for
+multi-line patterns (backtraces, error context).
+
+**Success:** either
+
+- (a) the repro completes without any `ERROR/FATAL/PANIC` in the log
+  → pick the next commit, or
+- (b) the repro triggers a real symptom → proceed to Step 7.
+
+### Step 7 — Render the bug report
+
+Fill [references/bug_report_template.md](references/bug_report_template.md)
+into a YAML file, then:
+
+```bash
+./scripts/gen_bug_report.sh /tmp/<name>.yaml
+```
+
+The script writes to
+`./markdown/find_postgres_bug-<title-slug>-<date>.md` and embeds
+OS, kernel, compiler, PG version, source commit, the repro SQL,
+the actual output, a log tail, and the `why-bug` / `fix` fields.
+
+**Success:** the rendered markdown has all six required blocks
+(Environment / Summary / Repro / Actual / Why / Fix) and a server
+log snippet that contains the `ERROR:`/`FATAL:` line.
+
+### Step 8 — Tear down (only when done)
+
+```bash
+./scripts/stop_pg.sh
+```
+
+This is the **only** script that stops the instance. Run it
+explicitly; nothing else will.
+
+---
+
+## Output format
+
+A successful run produces one markdown file per bug, named
+`markdown/find_postgres_bug-<slug>-<YYYY-MM-DD>.md`. The full
+template is in [assets/bug_report.md.template](assets/bug_report.md.template);
+the field reference is in
+[references/bug_report_template.md](references/bug_report_template.md).
+
+Required sections (mapped to community pgsql-bugs expectations):
+
+1. **Environment** — OS / OS version / kernel / compiler / PG
+   version (`pg_config --version`) / branch / commit hash / build
+   flags.
+2. **Summary** — 1–3 sentences, factual, no judgement.
+3. **Reproduction** — file path + inline `.sql` block.
+4. **Actual vs expected** — verbatim `ERROR:`/output text vs the
+   expected text, plus a server-log tail.
+5. **Why is this a bug** — point at the spec, docs, or invariant
+   it violates.
+6. **Suggested fix** — even a rough direction is fine; community
+   reports often accept "I'm not sure how to fix it but here's a
+   reproducer".
+
+---
+
+## Script reference
+
+| Script | Purpose |
+| --- | --- |
+| `scripts/pg_env.sh` | Sourceable env (`PG_SRC_DIR`, `PGBIN`, `PGDATA`, `PGPORT`, `PG_LOG`, `PG_CONF`) |
+| `scripts/build_and_start_pg.sh` | configure + make + install + initdb + pg_ctl start, **idempotent, never auto-stops** |
+| `scripts/stop_pg.sh` | Explicit teardown |
+| `scripts/find_suspicious_commits.sh` | List recent commits, biased to code paths |
+| `scripts/analyze_commit.sh` | Show stat + diff slice for one commit |
+| `scripts/run_repro.sh` | Run a `.sql` repro, capture output + log slice |
+| `scripts/capture_log.sh` | Grep `$PG_LOG` (tail / errors / full) |
+| `scripts/gen_bug_report.sh` | Render markdown from a YAML inputs file |
+
+Override any default by exporting the variable before running:
+
+```bash
+PG_PORT=55433 PG_USER=postgres ./scripts/build_and_start_pg.sh
+```
+
+---
+
+## Reference index
+
+Load only the file you need; each is self-contained.
+
+- [references/pg_build_options.md](references/pg_build_options.md) —
+  `./configure` flags, common pitfalls, build lifecycle.
+- [references/commit_risk_indicators.md](references/commit_risk_indicators.md) —
+  where to look, what to look for, anti-patterns to skip.
+- [references/repro_patterns.md](references/repro_patterns.md) —
+  minimal repro patterns by subsystem (parser, planner, executor,
+  storage, replication, DDL, partitioning, GUC, extensions, indexes,
+  FDW).
+- [references/log_indicators.md](references/log_indicators.md) —
+  severity levels, useful greps, multi-line patterns (assertions,
+  backtraces, error context), how to read the log_line_prefix.
+- [references/bug_report_template.md](references/bug_report_template.md) —
+  YAML field reference + skeleton, plus how to post to
+  pgsql-bugs@lists.postgresql.org.
+- [references/pg_version_helpers.md](references/pg_version_helpers.md) —
+  one-liners for version / commit / compiler / OS in the report.
+
+---
+
+## What this skill does *not* do
+
+- It does not submit a patch or a post to pgsql-bugs — it produces
+  a markdown draft for the human to review and post.
+- It does not auto-build with every flag combination — one build
+  per source tree, with the recommended debug + cassert flags.
+- It does not shut the instance down for you. **Explicit teardown
+  only** (`stop_pg.sh`).
+- It does not pick the commit for you — Step 3 lists candidates,
+  Step 4 lets you analyse, you pick. The agent can recommend but
+  the human chooses the commit to test.
+
+---
+
+## Decision tree (TL;DR)
+
+```
+user has PG source dir?
+  ├─ NO  → ask for it; suggest $HOME/postgres as a starting point
+  └─ YES → source pg_env.sh → build_and_start_pg.sh
+            ├─ build fails?  → read configure error, surface to user
+            └─ build ok      → find_suspicious_commits 30
+                                ├─ pick 1 commit (human or agent picks)
+                                │   ├─ analyze_commit
+                                │   ├─ write repro .sql
+                                │   └─ run_repro
+                                │       ├─ no bug → pick next commit
+                                │       └─ bug found → fill bug.yaml
+                                │                     → gen_bug_report
+                                └─ after N rounds with no bug → suggest
+                                    broadening N, switching branch, or
+                                    focusing on a known hot area
+```
