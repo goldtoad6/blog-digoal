@@ -1,0 +1,44 @@
+<svg viewBox="0 0 700 760" xmlns="http://www.w3.org/2000/svg" font-family="Helvetica, Arial, sans-serif">
+  <!-- legend -->
+  <circle cx="220" cy="24" r="6" fill="#2c5f8a"/>
+  <text x="234" y="29" font-size="13" fill="#333">成书脉络</text>
+  <circle cx="360" cy="24" r="6" fill="#b5542c"/>
+  <text x="374" y="29" font-size="13" fill="#333">后世回响与批判</text>
+  <line x1="350" y1="50" x2="350" y2="720" stroke="#cccccc" stroke-width="2"/>
+  <!-- 1619 -->
+  <circle cx="350" cy="80" r="8" fill="#2c5f8a"/>
+  <text x="320" y="72" text-anchor="end" font-size="15" font-weight="700" fill="#222">1619 · 多瑙河畔的梦</text>
+  <text x="320" y="92" text-anchor="end" font-size="12.5" fill="#666">决意以怀疑独自重建知识大厦</text>
+  <!-- 1637 -->
+  <circle cx="350" cy="160" r="8" fill="#2c5f8a"/>
+  <text x="380" y="152" text-anchor="start" font-size="15" font-weight="700" fill="#222">1637 · 《谈谈方法》</text>
+  <text x="380" y="172" text-anchor="start" font-size="12.5" fill="#666">普遍怀疑方法首次公开亮相</text>
+  <!-- 1641 -->
+  <circle cx="350" cy="240" r="8" fill="#2c5f8a"/>
+  <text x="320" y="232" text-anchor="end" font-size="15" font-weight="700" fill="#222">1641 · 《沉思集》出版</text>
+  <text x="320" y="252" text-anchor="end" font-size="12.5" fill="#666">拉丁文版于巴黎，附数组反驳与答辩</text>
+  <!-- 1647 -->
+  <circle cx="350" cy="320" r="8" fill="#2c5f8a"/>
+  <text x="380" y="312" text-anchor="start" font-size="15" font-weight="700" fill="#222">1647 · 法译本面世</text>
+  <text x="380" y="332" text-anchor="start" font-size="12.5" fill="#666">《形而上学的沉思》，传播范围扩大</text>
+  <!-- 1677 -->
+  <circle cx="350" cy="400" r="8" fill="#b5542c"/>
+  <text x="320" y="392" text-anchor="end" font-size="15" font-weight="700" fill="#222">1677 · 斯宾诺莎《伦理学》</text>
+  <text x="320" y="412" text-anchor="end" font-size="12.5" fill="#666">把笛卡尔式形而上学推向一元论</text>
+  <!-- 1781 -->
+  <circle cx="350" cy="480" r="8" fill="#b5542c"/>
+  <text x="380" y="472" text-anchor="start" font-size="15" font-weight="700" fill="#222">1781 · 康德《纯粹理性批判》</text>
+  <text x="380" y="492" text-anchor="start" font-size="12.5" fill="#666">尝试调和理性论与经验论的对立</text>
+  <!-- 1931 -->
+  <circle cx="350" cy="560" r="8" fill="#b5542c"/>
+  <text x="320" y="552" text-anchor="end" font-size="15" font-weight="700" fill="#222">1931 · 胡塞尔《笛卡尔式的沉思》</text>
+  <text x="320" y="572" text-anchor="end" font-size="12.5" fill="#666">现象学与笛卡尔正面对话与清算</text>
+  <!-- 1949 -->
+  <circle cx="350" cy="640" r="8" fill="#b5542c"/>
+  <text x="380" y="632" text-anchor="start" font-size="15" font-weight="700" fill="#222">1949 · 赖尔《心的概念》</text>
+  <text x="380" y="652" text-anchor="start" font-size="12.5" fill="#666">"机器中的幽灵"批判身心二元论</text>
+  <!-- 1994 -->
+  <circle cx="350" cy="700" r="8" fill="#b5542c"/>
+  <text x="320" y="692" text-anchor="end" font-size="15" font-weight="700" fill="#222">1994 · 达马西奥《笛卡尔的错误》</text>
+  <text x="320" y="712" text-anchor="end" font-size="12.5" fill="#666">神经科学正面挑战身心二元论</text>
+</svg>

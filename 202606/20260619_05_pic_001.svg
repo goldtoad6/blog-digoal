@@ -1,0 +1,60 @@
+<svg viewBox="0 0 700 430" xmlns="http://www.w3.org/2000/svg" font-family="sans-serif">
+  <defs>
+    <marker id="arrow" markerWidth="8" markerHeight="8" refX="4" refY="4" orient="auto">
+      <path d="M0,0 L8,4 L0,8 Z" fill="#2b2b2b"/>
+    </marker>
+  </defs>
+  <text x="350" y="16" text-anchor="middle" font-size="13" fill="#2b2b2b" font-weight="bold">思想谱系：《形而上学》在西方哲学史上的位置（示意图，非严格比例时间轴）</text>
+  <!-- 上游：前人 -->
+  <g>
+    <rect x="30" y="35" width="150" height="80" rx="4" fill="#f5f1e8" stroke="#2b2b2b"/>
+    <text x="105" y="58" text-anchor="middle" font-size="12" fill="#2b2b2b" font-weight="bold">泰勒斯</text>
+    <text x="105" y="76" text-anchor="middle" font-size="10" fill="#555">约前6世纪</text>
+    <text x="105" y="93" text-anchor="middle" font-size="10" fill="#555">水是万物本原</text>
+    <rect x="190" y="35" width="150" height="80" rx="4" fill="#f5f1e8" stroke="#2b2b2b"/>
+    <text x="265" y="58" text-anchor="middle" font-size="12" fill="#2b2b2b" font-weight="bold">巴门尼德</text>
+    <text x="265" y="76" text-anchor="middle" font-size="10" fill="#555">约前5世纪</text>
+    <text x="265" y="93" text-anchor="middle" font-size="10" fill="#555">存在是一,不生不灭</text>
+    <rect x="350" y="35" width="150" height="80" rx="4" fill="#f5f1e8" stroke="#2b2b2b"/>
+    <text x="425" y="58" text-anchor="middle" font-size="12" fill="#2b2b2b" font-weight="bold">苏格拉底</text>
+    <text x="425" y="76" text-anchor="middle" font-size="10" fill="#555">前470—前399</text>
+    <text x="425" y="93" text-anchor="middle" font-size="10" fill="#555">未经省察的生活</text>
+    <rect x="510" y="35" width="150" height="80" rx="4" fill="#f5f1e8" stroke="#2b2b2b"/>
+    <text x="585" y="58" text-anchor="middle" font-size="12" fill="#2b2b2b" font-weight="bold">柏拉图</text>
+    <text x="585" y="76" text-anchor="middle" font-size="10" fill="#555">前428—前348</text>
+    <text x="585" y="93" text-anchor="middle" font-size="10" fill="#555">亚氏之师·理念论</text>
+    <line x1="180" y1="75" x2="190" y2="75" stroke="#2b2b2b" marker-end="url(#arrow)"/>
+    <line x1="340" y1="75" x2="350" y2="75" stroke="#2b2b2b" marker-end="url(#arrow)"/>
+    <line x1="500" y1="75" x2="510" y2="75" stroke="#2b2b2b" marker-end="url(#arrow)"/>
+  </g>
+  <!-- 连接线：柏拉图 -> 亚里士多德 -->
+  <line x1="585" y1="115" x2="585" y2="140" stroke="#2b2b2b"/>
+  <line x1="585" y1="140" x2="350" y2="140" stroke="#2b2b2b"/>
+  <line x1="350" y1="140" x2="350" y2="163" stroke="#2b2b2b" marker-end="url(#arrow)"/>
+  <text x="470" y="133" text-anchor="middle" font-size="10" fill="#8a5a2b">继承与批判</text>
+  <!-- 核心：亚里士多德 -->
+  <rect x="200" y="165" width="300" height="80" rx="4" fill="#d9a05b" stroke="#2b2b2b" stroke-width="1.5"/>
+  <text x="350" y="190" text-anchor="middle" font-size="13" fill="#1a1a1a" font-weight="bold">亚里士多德《形而上学》</text>
+  <text x="350" y="208" text-anchor="middle" font-size="10" fill="#1a1a1a">前335年后·雅典吕克昂学园</text>
+  <text x="350" y="225" text-anchor="middle" font-size="10" fill="#1a1a1a">核心追问："作为存在的存在"</text>
+  <!-- 下游：影响 -->
+  <line x1="280" y1="245" x2="130" y2="300" stroke="#2b2b2b" marker-end="url(#arrow)"/>
+  <line x1="350" y1="245" x2="350" y2="300" stroke="#2b2b2b" marker-end="url(#arrow)"/>
+  <line x1="420" y1="245" x2="580" y2="300" stroke="#2b2b2b" marker-end="url(#arrow)"/>
+  <rect x="30" y="300" width="200" height="85" rx="4" fill="#eef3f0" stroke="#2b2b2b"/>
+  <text x="130" y="323" text-anchor="middle" font-size="12" fill="#2b2b2b" font-weight="bold">阿奎那</text>
+  <text x="130" y="341" text-anchor="middle" font-size="10" fill="#555">13世纪经院哲学</text>
+  <text x="130" y="358" text-anchor="middle" font-size="10" fill="#555">用"不动的推动者"</text>
+  <text x="130" y="373" text-anchor="middle" font-size="10" fill="#555">论证上帝存在</text>
+  <rect x="250" y="300" width="200" height="85" rx="4" fill="#eef3f0" stroke="#2b2b2b"/>
+  <text x="350" y="323" text-anchor="middle" font-size="12" fill="#2b2b2b" font-weight="bold">伽利略·牛顿</text>
+  <text x="350" y="341" text-anchor="middle" font-size="10" fill="#555">17世纪科学革命</text>
+  <text x="350" y="358" text-anchor="middle" font-size="10" fill="#555">机械因果取代目的因</text>
+  <text x="350" y="373" text-anchor="middle" font-size="10" fill="#555">推翻具体物理结论</text>
+  <rect x="470" y="300" width="200" height="85" rx="4" fill="#eef3f0" stroke="#2b2b2b"/>
+  <text x="570" y="323" text-anchor="middle" font-size="12" fill="#2b2b2b" font-weight="bold">海德格尔</text>
+  <text x="570" y="341" text-anchor="middle" font-size="10" fill="#555">20世纪</text>
+  <text x="570" y="358" text-anchor="middle" font-size="10" fill="#555">批判"存在—神学"式</text>
+  <text x="570" y="373" text-anchor="middle" font-size="10" fill="#555">形而上学传统</text>
+  <text x="350" y="412" text-anchor="middle" font-size="10" fill="#888">（横向间距不代表真实历史跨度,仅示意思想传承关系）</text>
+</svg>
