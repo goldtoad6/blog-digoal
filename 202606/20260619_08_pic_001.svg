@@ -1,0 +1,30 @@
+<svg viewBox="0 0 700 230" xmlns="http://www.w3.org/2000/svg" font-family="sans-serif">
+  <line x1="40" y1="120" x2="660" y2="120" stroke="#333" stroke-width="2"/>
+  <g font-size="12" fill="#333">
+    <circle cx="60" cy="120" r="5" fill="#c0392b"/>
+    <text x="60" y="100" text-anchor="middle">前399</text>
+    <text x="60" y="145" text-anchor="middle">苏格拉底</text>
+    <text x="60" y="158" text-anchor="middle">受审而死</text>
+    <circle cx="190" cy="120" r="5" fill="#333"/>
+    <text x="190" y="100" text-anchor="middle">前380前后</text>
+    <text x="190" y="145" text-anchor="middle">《理想国》</text>
+    <text x="190" y="158" text-anchor="middle">成书</text>
+    <circle cx="320" cy="120" r="5" fill="#333"/>
+    <text x="320" y="100" text-anchor="middle">前367</text>
+    <text x="320" y="145" text-anchor="middle">亚里士多德</text>
+    <text x="320" y="158" text-anchor="middle">入学园</text>
+    <circle cx="430" cy="120" r="5" fill="#333"/>
+    <text x="430" y="100" text-anchor="middle">前335前后</text>
+    <text x="430" y="145" text-anchor="middle">《政治学》</text>
+    <text x="430" y="158" text-anchor="middle">回应/批评</text>
+    <circle cx="540" cy="120" r="5" fill="#c0392b"/>
+    <text x="540" y="100" text-anchor="middle">1945</text>
+    <text x="540" y="145" text-anchor="middle">波普尔</text>
+    <text x="540" y="158" text-anchor="middle">《开放社会》批判</text>
+    <circle cx="640" cy="120" r="5" fill="#333"/>
+    <text x="640" y="100" text-anchor="middle">1986</text>
+    <text x="640" y="145" text-anchor="middle">商务印书馆</text>
+    <text x="640" y="158" text-anchor="middle">中译本</text>
+  </g>
+  <text x="350" y="20" text-anchor="middle" font-size="14" fill="#333">《理想国》的思想脉络：从苏格拉底之死到现代极权主义批判</text>
+</svg>
