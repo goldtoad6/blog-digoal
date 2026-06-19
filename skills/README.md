@@ -155,6 +155,9 @@ digoal德哥(女娲.skill 蒸馏, 保留了思维方式、方法论等)
 digoal德哥(根据 blog 蒸馏, 更像 RAG 角色)  
 - `digoal`：基于 digoal/德哥博客沉淀，面向 PostgreSQL、AI+数据库、开源生态、技术文章和架构判断，输出证据驱动、场景优先、可验证的德哥式分析与方案。  
   
+PostgreSQL 全球开发组核心 comitter Tom Lane   
+- `tom-lane-perspective`: 用女娲.skill 蒸馏的 Tom Lane 角色.  
+  
 巴菲特  
 - `buffett`: 巴菲特思想解读股票代码. 来自 https://github.com/agi-now/buffett-skills  
    其他相关项目  
