@@ -1,0 +1,48 @@
+<svg viewBox="0 0 700 660" xmlns="http://www.w3.org/2000/svg" font-family="-apple-system, sans-serif">
+  <line x1="60" y1="40" x2="60" y2="620" stroke="#888888" stroke-width="2"/>
+  <g>
+    <circle cx="60" cy="50" r="7" fill="#2f6f4f"/>
+    <text x="85" y="46" font-size="14" font-weight="600" fill="#1a1a1a">1809</text>
+    <text x="85" y="66" font-size="13" fill="#333333">达尔文出生于英国医生世家</text>
+  </g>
+  <g>
+    <circle cx="60" cy="120" r="7" fill="#2f6f4f"/>
+    <text x="85" y="116" font-size="14" font-weight="600" fill="#1a1a1a">1831–1836</text>
+    <text x="85" y="136" font-size="13" fill="#333333">随贝格尔号环球考察，加拉帕戈斯</text>
+    <text x="85" y="154" font-size="13" fill="#333333">群岛的物种分布令他困惑</text>
+  </g>
+  <g>
+    <circle cx="60" cy="200" r="7" fill="#2f6f4f"/>
+    <text x="85" y="196" font-size="14" font-weight="600" fill="#1a1a1a">1838</text>
+    <text x="85" y="216" font-size="13" fill="#333333">读马尔萨斯《人口论》，"生存斗争</text>
+    <text x="85" y="234" font-size="13" fill="#333333">+ 自然选择"的思路成形</text>
+  </g>
+  <g>
+    <circle cx="60" cy="280" r="7" fill="#2f6f4f"/>
+    <text x="85" y="276" font-size="14" font-weight="600" fill="#1a1a1a">1842</text>
+    <text x="85" y="296" font-size="13" fill="#333333">写下完整理论提纲，选择不公开</text>
+  </g>
+  <g>
+    <circle cx="60" cy="350" r="7" fill="#b5562f"/>
+    <text x="85" y="346" font-size="14" font-weight="600" fill="#1a1a1a">1858</text>
+    <text x="85" y="366" font-size="13" fill="#333333">收到华莱士来信，两人于林奈学会</text>
+    <text x="85" y="384" font-size="13" fill="#333333">联合发表论文</text>
+  </g>
+  <g>
+    <circle cx="60" cy="430" r="7" fill="#b5562f"/>
+    <text x="85" y="426" font-size="14" font-weight="600" fill="#1a1a1a">1859.11</text>
+    <text x="85" y="446" font-size="13" fill="#333333">《物种起源》出版，首版当天售罄</text>
+  </g>
+  <g>
+    <circle cx="60" cy="500" r="7" fill="#2f6f4f"/>
+    <text x="85" y="496" font-size="14" font-weight="600" fill="#1a1a1a">1860</text>
+    <text x="85" y="516" font-size="13" fill="#333333">牛津论战：赫胥黎为进化论与威尔</text>
+    <text x="85" y="534" font-size="13" fill="#333333">伯福斯主教激辩，自称"达尔文的斗犬"</text>
+  </g>
+  <g>
+    <circle cx="60" cy="580" r="7" fill="#2f6f4f"/>
+    <text x="85" y="576" font-size="14" font-weight="600" fill="#1a1a1a">1900s–1940s</text>
+    <text x="85" y="596" font-size="13" fill="#333333">孟德尔定律被重新发现，与自然选</text>
+    <text x="85" y="614" font-size="13" fill="#333333">择结合，形成"现代综合进化论"</text>
+  </g>
+</svg>
