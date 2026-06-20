@@ -1,0 +1,28 @@
+<svg viewBox="0 0 700 230" xmlns="http://www.w3.org/2000/svg" style="max-width:700px;width:100%;font-family:sans-serif">
+  <style>
+    .lbl{font-size:13px;fill:#1a1a1a}
+    .sub{font-size:11px;fill:#555}
+    .tag{font-size:11px;fill:#8b3a3a;font-weight:bold}
+  </style>
+  <line x1="60" y1="120" x2="640" y2="120" stroke="#1a1a1a" stroke-width="2"/>
+  <circle cx="100" cy="120" r="6" fill="#1a1a1a"/>
+  <text x="100" y="90" text-anchor="middle" class="lbl">受审当日</text>
+  <text x="100" y="105" text-anchor="middle" class="sub">庭外偶遇</text>
+  <text x="100" y="142" text-anchor="middle" class="tag">《游叙弗伦》</text>
+  <text x="100" y="158" text-anchor="middle" class="sub">论"虔敬"为何</text>
+  <circle cx="280" cy="120" r="6" fill="#1a1a1a"/>
+  <text x="280" y="90" text-anchor="middle" class="lbl">同一天庭审</text>
+  <text x="280" y="105" text-anchor="middle" class="sub">501人陪审团</text>
+  <text x="280" y="142" text-anchor="middle" class="tag">《苏格拉底的申辩》</text>
+  <text x="280" y="158" text-anchor="middle" class="sub">判处死刑</text>
+  <circle cx="460" cy="120" r="6" fill="#8b3a3a"/>
+  <text x="460" y="90" text-anchor="middle" class="lbl">候刑约一个月</text>
+  <text x="460" y="105" text-anchor="middle" class="sub">（等提洛岛祭典结束）</text>
+  <text x="460" y="142" text-anchor="middle" class="tag">《克力同》</text>
+  <text x="460" y="158" text-anchor="middle" class="sub">狱中拒绝越狱</text>
+  <circle cx="620" cy="120" r="6" fill="#8b3a3a"/>
+  <text x="620" y="90" text-anchor="middle" class="lbl">行刑日</text>
+  <text x="620" y="142" text-anchor="middle" class="tag">服毒而死</text>
+  <text x="620" y="158" text-anchor="middle" class="sub">详见《斐多》</text>
+  <text x="350" y="200" text-anchor="middle" class="sub">柏拉图执笔记述：约公元前390年代 ——师生死生之事，凝成文字</text>
+</svg>
