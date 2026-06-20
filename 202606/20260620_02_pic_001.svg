@@ -1,0 +1,23 @@
+<svg viewBox="0 0 700 200" xmlns="http://www.w3.org/2000/svg" font-family="sans-serif">
+  <text x="350" y="22" font-size="14" text-anchor="middle" fill="#1a1a1a" font-weight="bold">西塞罗人生最后两年（前45—前43年）</text>
+  <line x1="40" y1="110" x2="660" y2="110" stroke="#999" stroke-width="2"/>
+  <circle cx="100" cy="110" r="7" fill="#b03a2e"/>
+  <text x="100" y="88" font-size="12" text-anchor="middle" fill="#1a1a1a">前45年2月</text>
+  <text x="100" y="70" font-size="12" text-anchor="middle" fill="#444">爱女图利娅病逝</text>
+  <text x="100" y="135" font-size="12" text-anchor="middle" fill="#444">悲痛中转向</text>
+  <text x="100" y="152" font-size="12" text-anchor="middle" fill="#444">哲学写作</text>
+  <circle cx="300" cy="110" r="7" fill="#b03a2e"/>
+  <text x="300" y="88" font-size="12" text-anchor="middle" fill="#1a1a1a">前44年3月15日</text>
+  <text x="300" y="70" font-size="12" text-anchor="middle" fill="#444">凯撒遇刺</text>
+  <text x="300" y="135" font-size="12" text-anchor="middle" fill="#444">共和理想</text>
+  <text x="300" y="152" font-size="12" text-anchor="middle" fill="#444">彻底破灭</text>
+  <circle cx="480" cy="110" r="7" fill="#b03a2e"/>
+  <text x="480" y="88" font-size="12" text-anchor="middle" fill="#1a1a1a">前44年</text>
+  <text x="480" y="70" font-size="12" text-anchor="middle" fill="#444">隐居塔斯库路姆</text>
+  <text x="480" y="135" font-size="12" text-anchor="middle" fill="#444">写成《论老年》</text>
+  <text x="480" y="152" font-size="12" text-anchor="middle" fill="#444">《论友谊》《论责任》</text>
+  <circle cx="620" cy="110" r="7" fill="#1a1a1a"/>
+  <text x="620" y="88" font-size="12" text-anchor="middle" fill="#1a1a1a">前43年12月7日</text>
+  <text x="620" y="70" font-size="12" text-anchor="middle" fill="#444">被安东尼党羽刺杀</text>
+  <text x="620" y="135" font-size="12" text-anchor="middle" fill="#444">享年63岁</text>
+</svg>
