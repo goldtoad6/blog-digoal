@@ -157,6 +157,9 @@ digoal德哥(根据 blog 蒸馏, 更像 RAG 角色)
   
 PostgreSQL 全球开发组核心 comitter Tom Lane   
 - `tom-lane-perspective`: 用女娲.skill 蒸馏的 Tom Lane 角色.  
+    - 用法举例: `/tom-lane-perspective 现在就在 postgres 最新分支目录中, 请你用 /find-postgres-bug 的思路来找bug, 当然了, 你是大神, 你肯定有更好的方法, 更快的找到pg bug, 找到后, 按 /find-postgres-bug 的输出格式产出`    
+- `andres-freund-perspective`: 用女娲.skill 蒸馏的 Andres Freund 角色.  
+    - 强项：AIO / Meson / JIT / UUIDv7 / incremental backup / 性能优化决策 / 现代工程实践  
   
 巴菲特  
 - `buffett`: 巴菲特思想解读股票代码. 来自 https://github.com/agi-now/buffett-skills  
@@ -259,6 +262,9 @@ PostgreSQL 问答助手
   
 将文章改写成公众号爆款文章  
 - `marketing-wechat-operator`: `微信公众号运营`, 编写爆款文章.  
+  
+以digoal的人设基于已有内容进行重塑, 适合爆款、口播.  
+- `digoal-read-think-writer`: 输出URL或文字内容, 输出 markdown/file.md , markdown/svg/file.svg , 基于已有内容进行重塑, 适合爆款、口播.   
   
 ### skill 蒸馏造人 与 skill 进化
 女娲 skill, 造人(蒸馏角色)   
