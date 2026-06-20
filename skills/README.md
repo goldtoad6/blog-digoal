@@ -264,7 +264,7 @@ PostgreSQL 问答助手
 - `marketing-wechat-operator`: `微信公众号运营`, 编写爆款文章.  
   
 以digoal的人设基于已有内容进行重塑, 适合爆款、口播.  
-- `digoal-read-think-writer`: 输出URL或文字内容, 输出 markdown/file.md , markdown/svg/file.svg , 基于已有内容进行重塑, 适合爆款、口播.   
+- `digoal-read-think-writer`: 首先要克隆 digoal/blog 到 `~` 目录, 因为会挑选已有文章进行模式匹配. 输出URL或文字内容, 输出 markdown/file.md , markdown/svg/file.svg , 基于已有内容进行重塑, 适合爆款、口播.   
   
 ### skill 蒸馏造人 与 skill 进化
 女娲 skill, 造人(蒸馏角色)   
