@@ -177,6 +177,9 @@ PostgreSQL 全球开发组核心 comitter Tom Lane
 倪海厦  
 - `ni-haixia-perspective`: 用女娲.skill 蒸馏的倪海厦  
   
+紫微斗数作者罗洪先  
+- `luo-hongxian-perspective`: 用女娲.skill 蒸馏紫微斗数作者罗洪先
+  
 ### [日常] 前沿跟进
 开源项目排行榜解读  
 - `github-weekly-trending`: 输入从 `https://github.com/trending?since=weekly&spoken_language_code=` 拷贝的内容, 编写本周热门开源项目文章, 输出到当前项目 markdown 目录中.   
