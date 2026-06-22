@@ -3,6 +3,27 @@
 Heuristics for picking which commits are most likely to harbour a
 latent bug. Apply when reading `find_suspicious_commits.sh` output.
 
+**Where this fits:** commit-reading is the *secondary*, targeted probe —
+use it to aim the fuzzer (see `fuzzing.md` → "Targeted fuzzing") or to
+write a focused repro for a specific new code path. The poisoned build +
+fuzzer (Steps 1–2 of the skill) is the primary discovery engine. Don't
+read commits hoping to spot a bug by eye; read them to decide *what to
+make the fuzzer exercise*.
+
+## Use the commit log as a regression signal, not reading material
+
+- **A repeatedly-touched area is an unstable foundation.** If the last
+  few months show several commits to the same file/function — especially
+  `Fix ...`, `Harden ...`, `Avoid ...`, `Undo thinko in commit <hash>`,
+  or `back-patch` — that area very likely still has sibling bugs the last
+  fix didn't cover. The same mistake is rarely made exactly once.
+- **Diff two refs with the test suite, don't eyeball.** Run
+  `make check-world` (or `installcheck`) at `HEAD~N` and at `HEAD`; a new
+  assertion failure or newly-flaky test between them is a free lead.
+- **Back-patches on `REL_xx_STABLE` are prime suspects** — a fix written
+  against `master` and cherry-picked back can be mis-merged or mis-scoped
+  for the older branch.
+
 ## Where to look first (high-yield paths)
 
 | Path | Why it hides bugs |

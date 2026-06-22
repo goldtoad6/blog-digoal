@@ -26,10 +26,23 @@
 
 # --- Build options (passed to ./configure) -------------------------------------
 # These defaults favour bug-hunting: assertions, debug symbols, no optimisation.
-: "${PG_CONFIGURE_OPTS:=--enable-debug --enable-cassert --enable-debug-symbols --prefix=$PG_PREFIX}"
+# -O0 -ggdb3 makes gdb backtraces of a core dump actually readable. This is the
+# single highest-yield change — a plain -O2 build catches almost nothing.
+: "${PG_CONFIGURE_OPTS:=--enable-debug --enable-cassert --enable-debug-symbols --enable-tap-tests --prefix=$PG_PREFIX}"
+: "${PG_CFLAGS:=-O0 -ggdb3 -fno-omit-frame-pointer}"
+
+# --- Cache poisoning ----------------------------------------------------------
+# Force catcache/relcache invalidation on every lookup so cache-invalidation
+# bugs crash immediately instead of lurking. Pre-PG14 this is the build-time
+# macro -DCLOBBER_CACHE_ALWAYS; PG14+ replaces it with a runtime GUC
+# (debug_discard_caches = 1). build_and_start_pg.sh auto-detects which the tree
+# supports by grepping the source. Set PG_POISON_CACHE=0 to skip (much faster
+# build/run, but far fewer bugs found).
+: "${PG_POISON_CACHE:=1}"
 
 # --- Export everything --------------------------------------------------------
 export PG_SRC_DIR PG_PREFIX PGBIN PGDATA PG_LOG PG_CONF PG_SOCK_DIR
+export PG_CFLAGS PG_POISON_CACHE
 export PGPORT=$PG_PORT PGUSER=$PG_USER
 export PATH="$PGBIN:$PATH"
 

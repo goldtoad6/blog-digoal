@@ -47,6 +47,22 @@ awk -v start="$LOG_MARK" -v end="$END_MARK" \
   "$PG_LOG" 2>/dev/null | grep -E '^(ERROR|FATAL|PANIC|WARNING|STATEMENT|LOG:)' | tail -80 \
   || true
 
+# Did the backend crash? For crash-class bugs this is the real signal —
+# the server going away matters more than any single ERROR line.
+if ! pg_isready -h "$PG_SOCK_DIR" -p "$PG_PORT" -q; then
+  echo
+  echo "!!! SERVER IS DOWN after this repro — likely a crash. Look for a core:"
+  echo "    find $PGDATA -maxdepth 1 -name 'core*'"
+  echo "    then: $HERE/triage_core.sh <core>"
+  exit 1
+fi
+if awk -v s="$LOG_MARK" 'index($0,s){p=1} p' "$PG_LOG" 2>/dev/null \
+     | grep -qE 'PANIC|TRAP:|was terminated by signal'; then
+  echo
+  echo "!!! PANIC/TRAP/signal in log for this run — crash-class bug. Triage the core."
+  exit 1
+fi
+
 if [ "$PSQL_RC" -ne 0 ]; then
   echo
   echo "psql returned $PSQL_RC"
