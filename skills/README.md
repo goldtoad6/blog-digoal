@@ -269,6 +269,10 @@ PostgreSQL 问答助手
 以digoal的人设基于已有内容进行重塑, 适合爆款、口播.  
 - `digoal-read-think-writer`: 首先要克隆 digoal/blog 到 `~` 目录, 因为会挑选已有文章进行模式匹配. 输出URL或文字内容, 输出 markdown/file.md , markdown/svg/file.svg , 基于已有内容进行重塑, 适合爆款、口播.   
   
+### [日常] 带娃
+解答作业、举一反三、给出同类试题和答案
+- `student-tutor`: 输入年级, 题目(可能是文字或图片), 以该年级的同学听得懂的方式通俗易懂的解答, 如果有多种解题方式, 请按更能启发学生思维的优先级顺序讲解;  以 markdown 格式的文件输出到当前项目 markdown 目录中; 还要让学生能够举一反三, 根据相关知识点再出几道题目, 答案和详细解题过程输出到另一个 markdown 文件中; 少量非常关键的内容可使用 mermaid 或 svg 图(如果采用 svg 图, 请将其保存到 markdown/svg 目录中, 在文中使用 ![图片描述](svg/英文图片名.svg) 来引用)来提高解释性;
+  
 ### skill 蒸馏造人 与 skill 进化
 女娲 skill, 造人(蒸馏角色)   
 - `huashu-nuwa`: 女娲 skill, 造人(蒸馏) 
