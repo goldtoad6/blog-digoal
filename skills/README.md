@@ -307,6 +307,8 @@ PostgreSQL 问答助手
 `.skill` 是 claude web skill 的压缩包.  
 
 ### skills
+- `skill-creator`: claude 内置的创建 skill 的技能.  
+  
 - `market-opening-analyst`: 市场开局分析, 分析下一次开市可能会引爆上涨、下跌的行业或标的. 以 markdown 格式图文并茂(采用mermaid、ascii text等图)的输出到当前项目 markdown 目录中.  
   
 - `us-stock-predictor`: 预测某只指定美股的次日走势, 结果输出到当前项目 markdown 目录中.
