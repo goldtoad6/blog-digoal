@@ -396,6 +396,8 @@ PostgreSQL 问答助手
   
 - `db-ai-github-paper-weekly-news`: 抓取并分析如下网站(事关“数据库、AI、github、AI paper”相关的近期新闻)在近1周内发表的内容, 分类总结, 将结果以 markdown 格式图文并茂(内置 mermaid 图提高可读性)输出到当前项目的 markdown 目录中. 
   
+- `content-humanizer`: 输入内容或文件路径, 分析该内容的人味, 如果低于80%, 则在不改变意思的情况下直接进行改写, 确保改写后的内容人味80%以上, 以 markdown 格式输出到当前项目 markdown 目录中.   
+  
 -----
 
 # 依赖  
