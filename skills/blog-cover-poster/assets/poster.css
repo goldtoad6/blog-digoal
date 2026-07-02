@@ -28,8 +28,13 @@
 html, body { width: 1080px; height: 1920px; }
 
 body {
-  font-family: -apple-system, "PingFang SC", "Hiragino Sans GB",
-               "Noto Sans CJK SC", "Microsoft YaHei", sans-serif;
+  /* OFL-only font stack — safe to ship as part of a public template.
+     - Inter: Latin/numerals (SIL OFL 1.1)
+     - Noto Sans CJK SC / Source Han Sans SC: Simplified Chinese
+       (noto = Google's name; Source Han Sans = Adobe's; both SIL OFL 1.1)
+     - system-ui / sans-serif: generic fallback, not a redistributable font name. */
+  font-family: "Inter", "Noto Sans CJK SC", "Noto Sans SC",
+               "Source Han Sans SC", system-ui, sans-serif;
   -webkit-font-smoothing: antialiased;
   overflow: hidden;
 }
