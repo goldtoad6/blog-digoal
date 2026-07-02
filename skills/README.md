@@ -60,6 +60,9 @@
 ### [日常] 发现世界 bug(商机在哪)、商业模式、产品设计与实现、怎么卖出去  
 抓取行业新闻, 分析并发现BUG和**商机**, 设计解决方案、产品与商业模式
 - `world-bug-opportunity-finder`: 根据我给出的行业名称抓对应行业的热点新闻, 如果我没有给出, 则默认抓热点社会新闻, 找“bug”, 并给解决思路. 将结果整理成图文并茂(包含svg/mermaid/ascii text等图形)的markdown文件保存到当前项目markdown目录中.
+    
+给出行业, 结合热点或者老问题, 提出若干真实、深刻、有讨论张力的好问题
+- `good_ask`: 给你一个行业, 提出与这个行业相关的若干个好问题, 不需要给出解答, 但是要给出好的理由. 
   
 产品经理, 根据上面发现的BUG和商机, 编写 **BRD, MRD, PRD**.  
 - `write-brd`: 输入 idea, 将 BRD 以 markdown 格式保存到当前项目 markdown 目录中. 
@@ -378,6 +381,8 @@ PostgreSQL 问答助手
 - `podcast-script`: 将文章转换成播客脚本. 输入为文章的 markdown 文件 以及 播客人数(1到4人).  
   
 - `bug-hunter`: 根据我给出的行业名称抓对应行业的热点新闻, 如果我没有给出, 则默认抓热点社会新闻, 找“bug”, 并给解决思路. 将结果整理成图文并茂(包含svg/mermaid/ascii text等图形)的markdown文件保存到当前项目markdown目录中.
+  
+- `good_ask`: 给你一个行业, 提出与这个行业相关的若干个好问题, 不需要给出解答, 但是要给出好的理由.   
     
 产品经理, 根据上面发现的BUG和商机, 编写 BRD, MRD, PRD.  
 - `write-brd`: 输入 idea, 将 BRD 以 markdown 格式保存到当前项目 markdown 目录中. 
