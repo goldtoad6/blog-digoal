@@ -146,6 +146,9 @@
 扮演红蓝队互相辩论的通用问题解答专家. 适合有争议的话题.   
 - `rational-red-blue-debate`: 扮演红蓝队互相辩论的通用解答问题专家. 输入任何问题, 分析问题后扮演领域专家, 解答问题. 输出为 markdown 格式, 存储到当前项目 markdown 文件夹中.  
   
+鉴别文章真伪, 给出打分和相应内容位置.
+- `article-fact-checker`: 鉴别一篇文章的内容真伪, 细化到每个段落, 每句话, 总体结论.
+  
 马克思  
 - `karl-marx-perspective`: 用女娲.skill 蒸馏的马克思角色.  
   
@@ -401,6 +404,8 @@ PostgreSQL 问答助手
 - `multi-expert-analyzer`: 通用解答问题专家. 输入任何问题, 分析问题后扮演领域专家, 解答问题. 输出为 markdown 格式, 存储到当前项目 markdown 文件夹中.   
   
 - `red-blue-debate`: 扮演红蓝队互相辩论的通用解答问题专家(特别适合有争议的话题). 输入任何问题, 分析问题后扮演领域专家, 解答问题. 输出为 markdown 格式, 存储到当前项目 markdown 文件夹中.  
+  
+- `article-fact-checker`: 鉴别一篇文章的内容真伪, 细化到每个段落, 每句话, 总体结论.
   
 - `db-ai-github-paper-weekly-news`: 抓取并分析如下网站(事关“数据库、AI、github、AI paper”相关的近期新闻)在近1周内发表的内容, 分类总结, 将结果以 markdown 格式图文并茂(内置 mermaid 图提高可读性)输出到当前项目的 markdown 目录中. 
   
