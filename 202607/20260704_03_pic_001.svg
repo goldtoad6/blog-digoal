@@ -1,0 +1,46 @@
+<svg viewBox="0 0 800 480" xmlns="http://www.w3.org/2000/svg" font-family="'PingFang SC','Microsoft YaHei',sans-serif">
+  <rect width="800" height="480" fill="#ffffff"/>
+  <text x="400" y="32" text-anchor="middle" font-size="20" font-weight="bold" fill="#1a1a2e">市值对比：智谱 vs 中国主要软件上市公司（2026年6月，单位：亿元人民币）</text>
+
+  <!-- axis -->
+  <line x1="70" y1="410" x2="760" y2="410" stroke="#333" stroke-width="2"/>
+
+  <!-- bars -->
+  <!-- scale: max ~9200亿(智谱) -> use height factor -->
+  <!-- 智谱 -->
+  <rect x="90" y="60" width="70" height="350" fill="#e94560"/>
+  <text x="125" y="55" text-anchor="middle" font-size="14" fill="#e94560" font-weight="bold">~9200亿</text>
+  <text x="125" y="430" text-anchor="middle" font-size="13" fill="#333">智谱(峰值)</text>
+
+  <!-- 金山办公 -->
+  <rect x="190" y="336" width="60" height="74" fill="#0f3460"/>
+  <text x="220" y="330" text-anchor="middle" font-size="12" fill="#0f3460">~1800亿</text>
+  <text x="220" y="430" text-anchor="middle" font-size="12" fill="#333">金山办公</text>
+
+  <!-- 三六零 -->
+  <rect x="280" y="378" width="60" height="32" fill="#0f3460"/>
+  <text x="310" y="372" text-anchor="middle" font-size="12" fill="#0f3460">~800亿</text>
+  <text x="310" y="430" text-anchor="middle" font-size="12" fill="#333">三六零</text>
+
+  <!-- 宝信软件 -->
+  <rect x="370" y="384" width="60" height="26" fill="#0f3460"/>
+  <text x="400" y="378" text-anchor="middle" font-size="12" fill="#0f3460">~660亿</text>
+  <text x="400" y="430" text-anchor="middle" font-size="12" fill="#333">宝信软件</text>
+
+  <!-- 用友网络 -->
+  <rect x="460" y="391" width="60" height="19" fill="#0f3460"/>
+  <text x="490" y="385" text-anchor="middle" font-size="12" fill="#0f3460">~500亿</text>
+  <text x="490" y="430" text-anchor="middle" font-size="12" fill="#333">用友网络</text>
+
+  <!-- 金蝶国际 -->
+  <rect x="550" y="392" width="60" height="18" fill="#0f3460"/>
+  <text x="580" y="386" text-anchor="middle" font-size="12" fill="#0f3460">~460亿</text>
+  <text x="580" y="430" text-anchor="middle" font-size="12" fill="#333">金蝶国际</text>
+
+  <!-- 中国软件 -->
+  <rect x="640" y="396" width="60" height="14" fill="#0f3460"/>
+  <text x="670" y="390" text-anchor="middle" font-size="12" fill="#0f3460">~350亿</text>
+  <text x="670" y="430" text-anchor="middle" font-size="12" fill="#333">中国软件</text>
+
+  <text x="400" y="460" text-anchor="middle" font-size="12" fill="#888">数据来源：公开市场行情整理，仅示意量级对比，非精确实时数据</text>
+</svg>
