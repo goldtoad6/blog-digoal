@@ -1,0 +1,60 @@
+<svg viewBox="0 0 800 520" xmlns="http://www.w3.org/2000/svg" font-family="'PingFang SC','Microsoft YaHei',sans-serif">
+  <defs>
+    <linearGradient id="l1" x1="0" y1="0" x2="1" y2="0">
+      <stop offset="0%" stop-color="#FDE8E8"/>
+      <stop offset="100%" stop-color="#FBD0D0"/>
+    </linearGradient>
+    <linearGradient id="l2" x1="0" y1="0" x2="1" y2="0">
+      <stop offset="0%" stop-color="#FDF0E0"/>
+      <stop offset="100%" stop-color="#FADFB8"/>
+    </linearGradient>
+    <linearGradient id="l3" x1="0" y1="0" x2="1" y2="0">
+      <stop offset="0%" stop-color="#FFF6D8"/>
+      <stop offset="100%" stop-color="#FCE9A6"/>
+    </linearGradient>
+    <linearGradient id="l4" x1="0" y1="0" x2="1" y2="0">
+      <stop offset="0%" stop-color="#E5F0FB"/>
+      <stop offset="100%" stop-color="#C6E0F5"/>
+    </linearGradient>
+  </defs>
+
+  <text x="400" y="34" text-anchor="middle" font-size="22" font-weight="700" fill="#333">一款协同软件如何一层层"接管"你的工作生活</text>
+  <text x="400" y="56" text-anchor="middle" font-size="13" fill="#777">从行为记录到认知内化的四层控制机制</text>
+
+  <!-- Layer 1 -->
+  <rect x="60" y="80" width="680" height="88" rx="10" fill="url(#l1)" stroke="#E08A8A" stroke-width="1"/>
+  <text x="90" y="108" font-size="16" font-weight="700" fill="#8B2F2F">第一层 · 行为记录层</text>
+  <text x="90" y="132" font-size="13" fill="#5a3a3a">WiFi/GPS 定位打卡 · 工作日志 · 周报月报</text>
+  <text x="90" y="152" font-size="13" fill="#5a3a3a">把"你在哪、做了什么"变成可被系统抓取的数据点</text>
+
+  <!-- Layer 2 -->
+  <rect x="60" y="180" width="680" height="88" rx="10" fill="url(#l2)" stroke="#D9A15C" stroke-width="1"/>
+  <text x="90" y="208" font-size="16" font-weight="700" fill="#8A5A18">第二层 · 沟通规训层</text>
+  <text x="90" y="232" font-size="13" fill="#5a4a30">已读回执 · DING 电话轰炸 · 消息紧急度标记</text>
+  <text x="90" y="252" font-size="13" fill="#5a4a30">把"回不回、多快回"变成一种被围观、被计时的表演</text>
+
+  <!-- Layer 3 -->
+  <rect x="60" y="280" width="680" height="88" rx="10" fill="url(#l3)" stroke="#D9C24E" stroke-width="1"/>
+  <text x="90" y="308" font-size="16" font-weight="700" fill="#7A6A16">第三层 · 排名比较层</text>
+  <text x="90" y="332" font-size="13" fill="#5a5230">早到榜 · 活跃榜 · 运动排行 · 团队竞赛积分</text>
+  <text x="90" y="352" font-size="13" fill="#5a5230">把个体的努力程度转化为公开的、可比较的相对位置</text>
+
+  <!-- Layer 4 -->
+  <rect x="60" y="380" width="680" height="88" rx="10" fill="url(#l4)" stroke="#7FA8CC" stroke-width="1"/>
+  <text x="90" y="408" font-size="16" font-weight="700" fill="#1F4E79">第四层 · 认知内化层</text>
+  <text x="90" y="432" font-size="13" fill="#2b4a63">员工开始自我监督、提前汇报、主动"随时在线"</text>
+  <text x="90" y="452" font-size="13" fill="#2b4a63">外部监控内化为自我审查，控制不再需要外力维持</text>
+
+  <!-- arrows -->
+  <line x1="400" y1="168" x2="400" y2="180" stroke="#999" stroke-width="2" marker-end="url(#arrow)"/>
+  <line x1="400" y1="268" x2="400" y2="280" stroke="#999" stroke-width="2" marker-end="url(#arrow)"/>
+  <line x1="400" y1="368" x2="400" y2="380" stroke="#999" stroke-width="2" marker-end="url(#arrow)"/>
+
+  <defs>
+    <marker id="arrow" markerWidth="10" markerHeight="10" refX="5" refY="5" orient="auto">
+      <path d="M0,0 L10,5 L0,10 Z" fill="#999"/>
+    </marker>
+  </defs>
+
+  <text x="400" y="500" text-anchor="middle" font-size="12" fill="#999">这正是福柯"全景监狱"理论在数字办公场景里的重现：当监控足够彻底，员工会替系统完成监控自己的最后一步</text>
+</svg>
