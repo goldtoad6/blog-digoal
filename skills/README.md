@@ -422,6 +422,8 @@ PostgreSQL 问答助手
 -----
 
 # 依赖  
+PS: anthropic 内置 SKILL. https://github.com/anthropics/skills  
+  
 在 claude code cli 或 codex cli 中使用这些 skill 时, 可能依赖的一些包或软件.  
   
 1、  
