@@ -1,0 +1,1478 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>PostgreSQL 从入门到高级 · 4 小时演讲版</title>
+<!--
+  演讲版 HTML / 4 小时 / 印刷友好 / 键盘翻页 / 演讲者备注
+  - 依赖:Mermaid (CDN) + highlight.js (CDN)
+  - 键盘:← → 翻页 / F 全屏 / P 演讲者模式 / S 速记卡 / N 备注 / T 目录
+  - 打印:Ctrl/Cmd+P 走 A4 排版,自带分页
+-->
+<style>
+  :root {
+    --bg: #fbfbfc;
+    --bg-card: #ffffff;
+    --bg-soft: #f3f5f9;
+    --bg-dark: #0e1726;
+    --fg: #1d2433;
+    --fg-soft: #4a5366;
+    --fg-mute: #8089a0;
+    --accent: #0064a5;
+    --accent-2: #00838f;
+    --warn: #c2410c;
+    --good: #15803d;
+    --rule: #e3e7ee;
+    --code-bg: #0f172a;
+    --code-fg: #e2e8f0;
+    --note-bg: #fff7ed;
+    --note-border: #f59e0b;
+    --timer: #b91c1c;
+    --shadow: 0 1px 2px rgba(15,23,42,.04), 0 8px 24px rgba(15,23,42,.06);
+  }
+  * { box-sizing: border-box; }
+  html, body { margin: 0; padding: 0; }
+  html { scroll-behavior: smooth; scroll-padding-top: 64px; }
+  body {
+    font-family: -apple-system, BlinkMacSystemFont, "PingFang SC", "Hiragino Sans GB",
+                 "Microsoft YaHei", "Source Han Sans CN", "Noto Sans CJK SC",
+                 "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif;
+    background: var(--bg);
+    color: var(--fg);
+    line-height: 1.75;
+    font-size: 17px;
+    -webkit-font-smoothing: antialiased;
+  }
+
+  /* 顶栏 */
+  .topbar {
+    position: fixed; top: 0; left: 0; right: 0; height: 56px;
+    background: var(--bg-dark); color: #e2e8f0;
+    display: flex; align-items: center; padding: 0 20px;
+    z-index: 100; box-shadow: 0 2px 8px rgba(0,0,0,.15);
+  }
+  .topbar .brand { font-weight: 700; font-size: 15px; letter-spacing: .5px; }
+  .topbar .brand .pg { color: #4dd0e1; }
+  .topbar .nav { display: flex; gap: 6px; margin-left: 28px; }
+  .topbar .nav button {
+    background: transparent; color: #cbd5e1; border: 1px solid #334155;
+    padding: 6px 12px; font-size: 13px; border-radius: 6px; cursor: pointer;
+    font-family: inherit;
+  }
+  .topbar .nav button:hover { background: #1e293b; color: #fff; }
+  .topbar .right { margin-left: auto; display: flex; align-items: center; gap: 16px; }
+  .topbar .progress {
+    width: 200px; height: 6px; background: #1e293b; border-radius: 3px; overflow: hidden;
+  }
+  .topbar .progress > div { height: 100%; background: linear-gradient(90deg, #38bdf8, #4dd0e1); width: 0%; transition: width .25s; }
+  .topbar .timer { font-variant-numeric: tabular-nums; font-size: 14px; color: #fcd34d; min-width: 60px; }
+  .topbar .mode { font-size: 12px; padding: 3px 8px; border-radius: 4px; background: #1e293b; color: #94a3b8; }
+
+  /* 主容器 */
+  .container { max-width: 980px; margin: 76px auto 60px; padding: 0 28px; transition: margin-left .25s; }
+  body.toc-open .container { margin-left: 290px; max-width: 980px; }
+  body:not(.toc-open) .container { margin-left: auto; margin-right: auto; }
+
+  /* 章节卡片 */
+  .chapter {
+    background: var(--bg-card);
+    border-radius: 14px;
+    padding: 40px 48px;
+    margin-bottom: 28px;
+    box-shadow: var(--shadow);
+    border: 1px solid var(--rule);
+    scroll-margin-top: 76px;
+  }
+  .chapter h1 {
+    font-size: 30px; margin: 0 0 6px; color: var(--fg);
+    border-bottom: 3px solid var(--accent); padding-bottom: 14px; display: inline-block;
+  }
+  .chapter > .meta { color: var(--fg-mute); font-size: 14px; margin-bottom: 24px; }
+  .chapter h2 {
+    font-size: 22px; margin: 36px 0 14px; color: var(--fg);
+    padding-left: 14px; border-left: 5px solid var(--accent);
+  }
+  .chapter h3 { font-size: 18px; margin: 28px 0 10px; color: var(--fg); }
+  .chapter h4 { font-size: 16px; margin: 18px 0 8px; color: var(--fg-soft); font-weight: 600; }
+  .chapter p { margin: 10px 0; }
+  .chapter a { color: var(--accent); text-decoration: none; border-bottom: 1px solid transparent; }
+  .chapter a:hover { border-bottom-color: var(--accent); }
+  .chapter ul, .chapter ol { padding-left: 26px; }
+  .chapter li { margin: 6px 0; }
+
+  /* 钩子块 */
+  .hook {
+    background: linear-gradient(135deg, #0e1726 0%, #1e3a5f 100%);
+    color: #f1f5f9;
+    border-radius: 12px;
+    padding: 28px 32px;
+    margin: 20px 0 32px;
+    font-size: 16.5px;
+    line-height: 1.85;
+  }
+  .hook .lead { color: #4dd0e1; font-size: 14px; letter-spacing: 2px; text-transform: uppercase; margin-bottom: 8px; }
+
+  /* 强调块 */
+  .callout {
+    background: var(--note-bg);
+    border-left: 5px solid var(--note-border);
+    border-radius: 6px;
+    padding: 14px 18px;
+    margin: 18px 0;
+    font-size: 15.5px;
+  }
+  .callout.good { background: #f0fdf4; border-color: var(--good); }
+  .callout.warn { background: var(--note-bg); border-color: var(--note-border); }
+  .callout.info { background: #eff6ff; border-color: var(--accent); }
+  .callout strong { color: #92400e; }
+  .callout.good strong { color: var(--good); }
+  .callout.info strong { color: var(--accent); }
+  .callout .lbl { font-weight: 700; margin-right: 4px; }
+
+  /* 表格 */
+  table {
+    width: 100%; border-collapse: collapse; margin: 16px 0;
+    font-size: 14.5px;
+  }
+  th, td { padding: 10px 14px; text-align: left; border-bottom: 1px solid var(--rule); vertical-align: top; }
+  th { background: var(--bg-soft); font-weight: 600; color: var(--fg); }
+  tr:hover td { background: #f8fafc; }
+  td:first-child { font-weight: 600; color: var(--accent); }
+
+  /* 代码块 */
+  pre {
+    background: var(--code-bg); color: var(--code-fg);
+    border-radius: 8px; padding: 16px 18px; overflow-x: auto;
+    font-family: "SF Mono", "Monaco", "Cascadia Code", "Roboto Mono", "Source Code Pro",
+                 "Menlo", "Consolas", monospace;
+    font-size: 13.5px; line-height: 1.65; margin: 14px 0;
+  }
+  code { font-family: inherit; }
+  :not(pre) > code {
+    background: #eef2f7; color: #be185d; padding: 2px 6px; border-radius: 3px;
+    font-size: 0.92em;
+  }
+  pre code { background: transparent; color: inherit; padding: 0; }
+  pre .pln { color: #e2e8f0; }
+  pre .com { color: #94a3b8; font-style: italic; }
+  pre .str { color: #86efac; }
+  pre .kw  { color: #f0abfc; font-weight: 600; }
+  pre .num { color: #fbbf24; }
+  pre .fn  { color: #7dd3fc; }
+  pre .typ { color: #67e8f9; }
+
+  /* mermaid */
+  .mermaid { background: #f8fafc; border-radius: 8px; padding: 20px; margin: 16px 0; text-align: center; }
+
+  /* 速记卡 */
+  .speedcard {
+    background: #fef3c7;
+    border: 2px dashed #f59e0b;
+    border-radius: 12px;
+    padding: 20px 28px;
+    margin: 16px 0;
+    font-family: "SF Mono", "Monaco", "Consolas", monospace;
+    font-size: 14px;
+    line-height: 1.9;
+    color: #78350f;
+  }
+  .speedcard h3 { color: #92400e; font-family: inherit; margin: 0 0 12px; font-size: 16px; }
+  .speedcard .sec { color: #b45309; font-weight: 700; margin-top: 8px; }
+
+  /* 演讲者备注 */
+  .notes {
+    background: #f1f5f9; border-left: 4px solid #64748b; border-radius: 6px;
+    padding: 12px 16px; margin: 18px 0 4px; font-size: 14px; color: #334155;
+  }
+  .notes::before { content: "🎙 演讲者备注"; font-weight: 700; color: #475569; display: block; margin-bottom: 4px; font-size: 13px; }
+  body.show-notes .notes { display: block; }
+  .notes { display: none; }
+
+  /* 时间戳 */
+  .ts {
+    display: inline-block;
+    background: #1e293b; color: #fbbf24;
+    font-family: "SF Mono", "Monaco", "Consolas", monospace;
+    font-size: 12px; padding: 2px 8px; border-radius: 4px;
+    margin-left: 8px; vertical-align: middle;
+  }
+
+  /* 侧边 TOC */
+  #toc {
+    position: fixed; left: 0; top: 56px; bottom: 0; width: 260px;
+    background: #f8fafc; border-right: 1px solid var(--rule);
+    overflow-y: auto; padding: 16px 0; z-index: 50;
+    transform: translateX(-100%); transition: transform .25s;
+  }
+  body.toc-open #toc { transform: translateX(0); }
+  #toc h4 { margin: 0 18px 10px; font-size: 12px; color: var(--fg-mute); text-transform: uppercase; letter-spacing: 1px; }
+  #toc a {
+    display: block; padding: 8px 18px; color: var(--fg-soft); text-decoration: none;
+    font-size: 14px; border-left: 3px solid transparent;
+  }
+  #toc a:hover { background: #e2e8f0; color: var(--accent); }
+  #toc a.active { background: #dbeafe; color: var(--accent); border-left-color: var(--accent); font-weight: 600; }
+  #toc .grp { font-size: 11px; color: var(--fg-mute); padding: 12px 18px 4px; text-transform: uppercase; letter-spacing: 1px; }
+
+  /* 全屏模式 */
+  body.present .topbar { display: none; }
+  body.present #toc { display: none; }
+  body.present .container { margin-top: 24px; }
+  body.present .chapter { box-shadow: none; border: none; }
+
+  /* 演讲模式(放大字号) */
+  body.present .chapter { font-size: 19px; }
+  body.present .chapter h1 { font-size: 34px; }
+  body.present .chapter h2 { font-size: 25px; }
+  body.present pre { font-size: 15px; padding: 20px 24px; }
+  body.present table { font-size: 16px; }
+
+  /* 打印 */
+  @media print {
+    .topbar, #toc, .notes, .ts { display: none !important; }
+    body { font-size: 11pt; background: #fff; }
+    .container { max-width: 100%; margin: 0; padding: 0; }
+    .chapter {
+      page-break-inside: avoid; box-shadow: none; border: 1px solid #ddd;
+      margin: 0 0 8mm; padding: 20px 24px; border-radius: 0;
+    }
+    .chapter h1 { font-size: 22pt; }
+    .chapter h2 { font-size: 16pt; }
+    pre { font-size: 9pt; page-break-inside: avoid; }
+    table { font-size: 9.5pt; page-break-inside: avoid; }
+    .hook { background: #f1f5f9 !important; color: #000 !important; }
+  }
+
+  /* 移动端 */
+  @media (max-width: 768px) {
+    .topbar { padding: 0 12px; }
+    .topbar .progress { width: 80px; }
+    .topbar .nav { display: none; }
+    .container { padding: 0 14px; }
+    .chapter { padding: 24px 20px; }
+  }
+</style>
+</head>
+<body class="toc-open">
+
+<!-- 顶栏 -->
+<div class="topbar">
+  <div class="brand"><span class="pg">PostgreSQL</span> · 4 小时演讲版</div>
+  <div class="nav">
+    <button onclick="toggleTOC()" title="目录 (T)">☰ 目录</button>
+    <button onclick="toggleNotes()" title="备注 (N)">🎙 备注</button>
+    <button onclick="togglePresent()" title="演讲模式 (P)">⛶ 演讲</button>
+    <button onclick="toggleFullscreen()" title="全屏 (F)">▢ 全屏</button>
+    <button onclick="window.print()" title="打印">🖨 打印</button>
+  </div>
+  <div class="right">
+    <div class="progress"><div id="progressBar"></div></div>
+    <div class="timer" id="timer">00:00</div>
+    <div class="mode" id="modeBadge">就绪</div>
+  </div>
+</div>
+
+<!-- 侧边 TOC -->
+<nav id="toc">
+  <h4>演讲大纲</h4>
+  <div class="grp">开场</div>
+  <a href="#sec-cover">封面 & 钩子</a>
+  <a href="#sec-agenda">4 小时路线图</a>
+  <div class="grp">一、SQL 性能优化 · 60 min</div>
+  <a href="#sec-1-1">1.1 EXPLAIN 是听诊器</a>
+  <a href="#sec-1-2">1.2 慢 SQL 工作流</a>
+  <a href="#sec-1-3">1.3 进阶优化场景</a>
+  <a href="#sec-1-4">1.4 规划器失准 / HINT</a>
+  <div class="grp">二、监控指标获取 · 50 min</div>
+  <a href="#sec-2-1">2.1 分层原则</a>
+  <a href="#sec-2-2">2.2 必开 5 开关</a>
+  <a href="#sec-2-3">2.3 视图速查卡</a>
+  <a href="#sec-2-4">2.4 监控 SQL 实战</a>
+  <a href="#sec-2-5">2.5 auto_explain</a>
+  <a href="#sec-2-6">2.6 Wait Event 体系</a>
+  <a href="#sec-2-7">2.7 外部监控体系</a>
+  <div class="grp">三、解读监控指标 · 50 min</div>
+  <a href="#sec-3-1">3.1 健康区间</a>
+  <a href="#sec-3-2">3.2 阻塞链</a>
+  <a href="#sec-3-3">3.3 vacuum/analyze</a>
+  <a href="#sec-3-4">3.4 索引使用率</a>
+  <a href="#sec-3-5">3.5 wait_event 瓶颈</a>
+  <a href="#sec-3-6">3.6 主备延迟</a>
+  <div class="grp">四、故障诊断 · 50 min</div>
+  <a href="#sec-4-1">4.1 报警 → 漏斗</a>
+  <a href="#sec-4-2">4.2 三个核心查询</a>
+  <a href="#sec-4-3">4.3 慢 SQL 七步法</a>
+  <a href="#sec-4-4">4.4 长事务 / 死锁</a>
+  <a href="#sec-4-5">4.5 WAL / 复制延迟</a>
+  <a href="#sec-4-6">4.6 突发 IO/CPU</a>
+  <a href="#sec-4-7">4.7 索引膨胀</a>
+  <div class="grp">五、问题分析 · 15 min</div>
+  <a href="#sec-5-1">5.1-5.9 9 个为什么</a>
+  <div class="grp">六、收尾</div>
+  <a href="#sec-speedcard">30 秒速记卡</a>
+  <a href="#sec-summary">核心结论 & 验证清单</a>
+</nav>
+
+<main class="container with-toc">
+
+<!-- ============ 封面 & 钩子 ============ -->
+<section class="chapter" id="sec-cover">
+  <h1>PostgreSQL 从入门到高级</h1>
+  <div class="meta">SQL 优化 · 监控 · 故障诊断 · 问题分析 &nbsp;·&nbsp; 4 小时演讲版 &nbsp;·&nbsp; 2026-07</div>
+
+  <div class="hook">
+    <div class="lead">开场钩子 · 5 min</div>
+    有一天同事拉了个群,说"<b>数据库又卡了,帮忙看看</b>"——你打开终端,面对的是十几张 <code style="background:rgba(255,255,255,.15);color:#fbbf24;padding:2px 6px;border-radius:3px">pg_stat_*</code> 视图、一堆没开过的开关、几份看不懂的 EXPLAIN 输出。<br><br>
+    这就是大多数 PG 使用者真实的工作状态:<b>会用 SQL,但卡在"为什么慢 / 出了事怎么定位"</b>。<br><br>
+    这 4 小时,我们一起把这套基本功过一遍——目标不是背命令,是建立一套"出问题时知道该看哪、用什么 SQL 验证"的诊断思维。
+  </div>
+
+  <div class="notes">
+    自我介绍(2 min)→ 问听众:"平时最常被哪种 PG 问题困扰?"(慢 SQL?告警?磁盘?主备延迟?) → 快速统计 → 调整后续重心。
+    强调:这 4 小时以 PG 13+ 为基线,会标注版本差异。讲义是"实战派",不是文档复读机。
+  </div>
+</section>
+
+<!-- ============ 4 小时路线图 ============ -->
+<section class="chapter" id="sec-agenda">
+  <h1>4 小时路线图</h1>
+  <div class="meta">总时长 240 分钟 · 含 2 次中场休息 · Q&amp;A 5 min</div>
+
+  <table>
+    <tr><th style="width:30%">段落</th><th style="width:15%">时长</th><th>核心目标</th></tr>
+    <tr><td>开场 + 钩子</td><td>5 min</td><td>为什么这 4 小时值得听</td></tr>
+    <tr><td>一、SQL 性能优化</td><td>60 min</td><td>读懂 EXPLAIN + 慢 SQL 工作流 + 13 个常见场景</td></tr>
+    <tr><td>二、监控指标 &amp; 获取</td><td>50 min</td><td>5 开关 + 6 视图 + 6 SQL + auto_explain + Wait Event</td></tr>
+    <tr><td>☕ 中场休息</td><td>10 min</td><td></td></tr>
+    <tr><td>三、解读监控指标</td><td>50 min</td><td>从"看到数字"到"做出决策"</td></tr>
+    <tr><td>四、故障诊断</td><td>50 min</td><td>报警 → 漏斗 → 慢 SQL 七步法 → WAL/复制</td></tr>
+    <tr><td>五、问题分析(9 个为什么)</td><td>15 min</td><td>反推机制:OFFSET、MVCC、FREEZE、雪崩、GIN/BRIN</td></tr>
+    <tr><td>六、30 秒速记卡 + 收尾</td><td>5 min</td><td>贴工位版 / Q&amp;A</td></tr>
+  </table>
+
+  <div class="callout info">
+    <span class="lbl">听法建议:</span>
+    不要试图记住每条 SQL。这 4 小时的目标是"<b>脑子里装下一张地图</b>"——遇到问题知道往哪儿走,具体命令现场查就好。
+  </div>
+
+  <div class="notes">
+    提前打开 PDF 讲义(1.pdf-4.pdf)和测试库,演示时直接跑。讲到具体 SQL 时让听众在自己环境里同步跑一遍。
+  </div>
+</section>
+
+<!-- ============================================================ -->
+<!--  一、SQL 性能优化 · 60 min                                  -->
+<!-- ============================================================ -->
+<section class="chapter" id="sec-1-0">
+  <h1>一、SQL 性能优化</h1>
+  <div class="meta">从读懂 EXPLAIN 到治理规划器 · 60 min</div>
+
+  <p>SQL 优化是被问到最多的问题。德哥在讲义 1.pdf 里把整套方法拆成四步,我们按这个顺序走一遍:</p>
+  <ol>
+    <li>读懂 EXPLAIN 输出(听诊器)</li>
+    <li>接到慢 SQL 的工作流(定位 → 验证 → 修)</li>
+    <li>常见 13 个优化场景(高频套路)</li>
+    <li>规划器失准 / HINT / AD Lock(高级)</li>
+  </ol>
+
+  <div class="callout info">
+    <span class="lbl">核心观点:</span>
+    优化不是从加索引开始,而是从定位开始。"擒贼先擒王"——先看 <code>pg_stat_statements</code> 的 TOP 5,再下钻单条 SQL。
+  </div>
+</section>
+
+<!-- 1.1 EXPLAIN -->
+<section class="chapter" id="sec-1-1">
+  <h1>1.1 EXPLAIN 是 DBA 的听诊器 <span class="ts">12 min</span></h1>
+  <div class="meta">从零读懂 EXPLAIN 输出</div>
+
+  <p>拿到慢 SQL,第一动作不是加索引,是看它的执行计划。PG 17 官方文档的 <a href="https://www.postgresql.org/docs/17/using-explain.html">Using EXPLAIN</a> 章节是权威参考。</p>
+
+<pre><code class="language-sql">EXPLAIN (ANALYZE, VERBOSE, BUFFERS, TIMING, COSTS, FORMAT TEXT)
+SELECT * FROM t WHERE id = 1;</code></pre>
+
+  <p>典型输出长这样:</p>
+
+<pre><code>Seq Scan on t  (cost=0.00..25.00 rows=500 width=120)
+              (actual time=0.015..0.318 rows=498 loops=1)
+  Buffers: shared hit=4
+Planning Time: 0.080 ms
+Execution Time: 0.345 ms</code></pre>
+
+  <h3>关键字段按"新手最常踩的坑"顺序讲</h3>
+  <ul>
+    <li><b>cost</b>:Planner 的<b>估算成本</b>,单位是"1 次顺序页读"。<u>它是估算,不是真实耗时,看个大概就行,别拿来当性能指标</u>。</li>
+    <li><b>actual time</b>:真实耗时(毫秒)。两个数字 = "首行返回" 和 "全部返回"。<b>真耗时 = actual.end × loops</b>。</li>
+    <li><b>rows vs actual rows</b>:估算输出行数 vs 实际输出行数。偏差超过 10 倍几乎一定是统计信息失真。</li>
+    <li><b>Buffers: shared hit/read</b>:共享缓存命中 / 落盘次数。<code>read</code> 占比高说明 hot 数据没装进 <code>shared_buffers</code>。</li>
+    <li><b>loops</b>:节点被重复执行的次数。<code>loops &gt; 1</code> 多半是嵌套循环或索引被多次扫,这时 cost 数字完全骗人。</li>
+  </ul>
+
+  <h3>5 个最容易踩的坑</h3>
+  <h4>坑 1:cost 数字小 ≠ 真的快</h4>
+  <p>子节点 cost 低,父节点可能跑了几万次。某 NestLoop 节点 <code>cost=0.43</code>,<code>loops=30000</code>、<code>actual time=0.12ms</code>——真实成本 = 3.6 秒。光看 cost 数字完全发现不了。</p>
+
+  <h4>坑 2:rows 估算偏差</h4>
+  <p>Planner 用 <code>pg_class.reltuples</code> 和 <code>pg_statistic</code> 估算,数据倾斜或多列相关时必然偏。<b>证伪手段</b>:<code>ANALYZE</code> 后重跑 EXPLAIN,看估算是否贴近 actual;还偏就建扩展统计 <code>CREATE STATISTICS ON a, b FROM t;</code>。</p>
+
+  <h4>坑 3:把 EXPLAIN ANALYZE 当"试运行"</h4>
+  <p>ANALYZE 选项<b>真的执行</b>语句,不是估算。对 INSERT/UPDATE/DELETE 必须用事务包起来:</p>
+<pre><code>BEGIN;
+EXPLAIN ANALYZE UPDATE t SET x = x + 1 WHERE id = 1;
+ROLLBACK;</code></pre>
+
+  <h4>坑 4:Hash 节点 Batches &gt; 1</h4>
+  <p>Hash Join 哈希表超出 <code>work_mem</code> 时落盘,出现 <code>Batches: 4</code> 之类,速度立刻降一个数量级。<b>证伪</b>:<code>SET work_mem='256MB';</code> 再跑,看 Batches 是否回 1。</p>
+
+  <h4>坑 5:以为 Bitmap Heap Scan 就是好的</h4>
+  <p>Bitmap Scan 用于"低选择性过滤 + 索引组合"。看到 <code>Rows Removed by Filter</code> 巨大(&gt; 实际输出 10×)就说明索引效果有限,需要补加更精准的索引。</p>
+
+  <div class="callout warn">
+    <span class="lbl">顺带提醒一下:</span>cost 是估算、actual 才是真相——这是读 EXPLAIN 唯一不变的法则。忘掉一切,记住这一句。
+  </div>
+
+  <div class="notes">
+    现场演示:准备一张 100 万行的测试表,跑 3 个 EXPLAIN 实例(估算偏差 / Bitmap Filter / Hash Batches),让听众直观感受。<br>
+    互动提问:"你平时看 EXPLAIN 主要看哪几个字段?" —— 引出"5 个坑"。
+  </div>
+</section>
+
+<!-- 1.2 慢 SQL 工作流 -->
+<section class="chapter" id="sec-1-2">
+  <h1>1.2 接到慢 SQL 的工作流 <span class="ts">8 min</span></h1>
+  <div class="meta">定位 → 验证 → 修,不从加索引开始</div>
+
+  <div class="mermaid">
+flowchart TD
+    A[接到慢SQL告警] --> B[看 pg_stat_statements TOP SQL<br/>确认是不是它真慢]
+    B --> C[pg_stat_activity 看是否仍在跑]
+    C -->|仍在跑| D[看 wait_event_type<br/>Lock? IO? CPU?]
+    D -->|Lock| E[pg_blocking_pids 找阻塞链]
+    D -->|IO| F[看 buffers 命中<br/>shared hit/read 比例]
+    D -->|CPU| G[perf / oprofile 看热点函数]
+    C -->|历史慢SQL| H[auto_explain 落盘的 plan]
+    H --> I[EXPLAIN ANALYZE VERBOSE BUFFERS]
+    I --> J{行数估算 vs 实际差距?}
+    J -->|差距大| K[ANALYZE / 扩展统计]
+    J -->|差距小| L{是否走错 plan?}
+    L -->|是| M[pg_hint_plan 或 改写]
+    L -->|否| N[看 cost 分布,找最贵节点]
+    N --> O[加索引 / 部分索引 / 改 SQL]
+  </div>
+
+  <h3>核心原则</h3>
+  <ul>
+    <li><b>擒贼先擒王</b>:<code>pg_stat_statements</code> 按 <code>total_time</code> 排序取 TOP 5,优化收益最大的永远是占比最大的 SQL。优化一条次要 SQL 是浪费时间。</li>
+    <li><b>观测先行</b>:<code>log_lock_waits=on</code>、<code>track_io_timing=on</code>、<code>log_min_duration_statement</code>、<code>auto_explain.log_min_duration</code> 四个参数必开,否则事后无据可查。</li>
+    <li><b>不要相信 cost,要看 actual</b>:cost 是估算,actual time 是真实耗时,两者偏差超过 10 倍就一定有 Estimator 失准。</li>
+  </ul>
+
+  <div class="callout info">
+    <span class="lbl">前置条件:</span>能访问 <code>superuser</code> 或 <code>pg_read_all_stats</code> 权限的账号,能 reload <code>postgresql.conf</code>。<br>
+    <span class="lbl">证伪手段:</span>如果你优化后 <code>total_time</code> 反而上升,或 <code>pg_stat_statements.calls</code> 显示该 SQL 调用频率显著下降(应用层做了限流)——这就是"伪优化",回到第一步重新核对。
+  </div>
+
+  <div class="notes">
+    这张流程图请截图给听众。重点强调"擒贼擒王"——很多人上来就盯着单条 SQL 看,实际上优化 TOP 1 就能解决 80% 的问题。
+  </div>
+</section>
+
+<!-- 1.3 进阶优化场景 -->
+<section class="chapter" id="sec-1-3">
+  <h1>1.3 进阶:13 个常见优化场景 <span class="ts">18 min</span></h1>
+  <div class="meta">德哥讲义 1.pdf 精华,每个场景按"识别 → 优化 → 验证"三步走</div>
+
+  <h3>场景 1:分组 TOP(每组取前 N 条)</h3>
+  <p>反模式是子查询 + 窗口函数,大表且 uid 分布广时 Planner 不得不全表扫 + 排序。<b>正解</b>是 LATERAL + 复合索引:</p>
+<pre><code>SELECT u.uid, e.*
+FROM users u, LATERAL (
+  SELECT * FROM events WHERE events.uid = u.uid ORDER BY ts DESC LIMIT 10
+) e;</code></pre>
+  <p>配合 <code>events(uid, ts DESC)</code> 复合索引,验证 EXPLAIN 是否走 Index Scan。</p>
+
+  <h3>场景 2:=ANY vs IN</h3>
+  <p><code>WHERE x IN (1,2,3)</code> Planner 转成 <code>x=1 OR x=2 OR x=3</code>,能命中索引;<code>WHERE x = ANY(array)</code> 数组元素多时反而可能走 Hash Join。<b>适用边界</b>:参数化查询用 ANY,子查询用 IN (SELECT) 或 EXISTS。<b>证伪</b>:ANY 数组很大(&gt; 1 万)且没走索引,把数组拆成临时表 + JOIN。</p>
+
+  <h3>场景 3:模糊查询</h3>
+  <table>
+    <tr><th>模式</th><th>索引方案</th></tr>
+    <tr><td>前缀 <code>LIKE 'abc%'</code></td><td>直接走 BTree</td></tr>
+    <tr><td>后缀 <code>LIKE '%abc'</code></td><td>反向 BTree + <code>reverse(col)</code> 表达式索引</td></tr>
+    <tr><td>包含 <code>LIKE '%abc%'</code></td><td><code>pg_trgm</code> GIN/GiST</td></tr>
+  </table>
+  <p><b>证伪手段</b>:看到 <code>Seq Scan on big_table + Filter: (col LIKE '%xxx%')</code> 必须立刻停手——这是没索引的典型症状,单条 SQL 能扫到天荒地老。</p>
+
+  <h3>场景 4:count(distinct) 优化</h3>
+  <p><code>count(distinct x)</code> 通常要全表扫或全索引扫,数据 &gt; 1 亿基本无法秒回。<b>五把刀</b>:</p>
+  <ol>
+    <li>部分索引(<code>CREATE INDEX ON t(id) WHERE status='active'</code>),count 走 Index Only Scan</li>
+    <li>Index Only Scan(列是索引首列即可)</li>
+    <li>物化视图 + <code>REFRESH MATERIALIZED VIEW CONCURRENTLY</code></li>
+    <li>流计算把 distinct 推到写入侧(注意:PipelineDB 已停止维护,属历史方案)</li>
+    <li>T-digest 或 HLL 采样估算,允许 ±5% 误差时可用</li>
+  </ol>
+
+  <h3>场景 5:OFFSET 分页</h3>
+  <p><code>LIMIT 20 OFFSET 1000000</code> 仍要扫 100 万 + 20 行。<b>正解</b>是 Keyset 分页:</p>
+<pre><code>SELECT * FROM t
+WHERE id > $last_seen_id AND ...
+ORDER BY id LIMIT 20;</code></pre>
+  <p><b>前置条件</b>:固定排序键。<b>证伪</b>:翻第 1000 页时,Keyset 耗时应稳定 &lt; 5ms,OFFSET 方案会随 offset 线性增长。</p>
+
+  <h3>场景 6:任意字段组合查询</h3>
+  <p>10 个字段 1024 种组合,索引根本管不过来。<b>正解</b>是 GIN 多列复合索引 + BitmapAnd,或 Bloom 索引,或在应用层加"必选条件"把组合数砍一个数量级。</p>
+
+  <h3>场景 7:批量写入</h3>
+  <p>一次提交 1000 行 vs 1000 次提交 1 行——后者多 1000 次 WAL flush、fsync。德哥讲义(4.pdf, P.1501-1507)的 2018 年测试:PG 10 1000 行/事务可达 145 万行/s,无日志表(unlogged)可达 813 万行/s。<u>注:这是 56 核 ECS + NVMe 上的数据,具体数字与硬件强相关,生产环境需自测</u>。</p>
+
+  <h3>场景 8:JSON / 标签筛选</h3>
+  <p><code>WHERE doc @&gt; '{"tags":["hot"]}'</code> 用 GIN(<code>jsonb_path_ops</code>),德哥讲义实测 1 亿 JSON 14.4 万 TPS。RUM 索引是 GIN 超集,额外支持 <code>tsvector &lt;-&gt; tsquery</code> 相似排序、多列 INCLUDE。<u>注:varbitx 等扩展在 PG 17 的兼容性需自测</u>。</p>
+
+  <h3>场景 9:索引合并(多个单列索引)</h3>
+  <p>PG 12+ 支持多个 BTree 索引的 BitmapAnd(<code>enable_indexscan=off</code> 时仍能用)。<b>适用</b>:高基数列 + 中频组合查询。<b>不适用</b>:低基数列(走全表扫更优)。</p>
+
+  <h3>场景 10:函数索引</h3>
+  <p><code>WHERE date_trunc('day', created_at) = ...</code> 走不上索引。建 <code>CREATE INDEX ON t(date_trunc('day', created_at));</code> 即可。表达式必须完全一致(包括隐式类型转换)。</p>
+
+  <h3>场景 11:Covering Index(INCLUDE)</h3>
+  <p>PG 11+ 支持 <code>CREATE INDEX ON t(id) INCLUDE (name, status);</code> 让 Index Only Scan 不用回表。<b>适用</b>:宽表 + 高频点查。<b>代价</b>:索引变大、写放大。</p>
+
+  <h3>场景 12:BRIN 索引(时序数据)</h3>
+  <p>10 亿行 BTree 索引几十 GB,BRIN 几 MB(见 5.7 节)。<b>关键前提</b>:数据按索引列物理有序,时序写入天然适合。</p>
+
+  <h3>场景 13:Advisory Lock 秒杀</h3>
+  <p>单行并发更新场景下,普通 <code>SELECT ... FOR UPDATE</code> 走行锁串行化,德哥讲义(1.pdf P.167-170)TPS 对比:<b>未优化 2855 / nowait 优化 66630 / advisory lock 优化 231376(80×)</b>:</p>
+<pre><code>UPDATE t SET x = x + 1
+WHERE id = ? AND pg_try_advisory_xact_lock(id)
+RETURNING *;</code></pre>
+  <p><b>前置条件</b>:必须配合"先查再写"的两阶段模式,锁粒度 = 单条记录 id。<b>证伪</b>:<code>pg_stat_activity</code> 里看到大量 <code>LockWait</code>,说明冲突已超出 AD Lock 缓解能力,必须分片/排队/异步化。</p>
+
+  <div class="notes">
+    13 个场景不用全讲完,挑 1/3/5/7/13 重点演示,其余做成清单发给听众当 checklist。
+  </div>
+</section>
+
+<!-- 1.4 规划器失准 / HINT / 部分索引 -->
+<section class="chapter" id="sec-1-4">
+  <h1>1.4 高级:规划器失准、HINT、统计信息 <span class="ts">15 min</span></h1>
+
+  <h3>random_page_cost 默认值的真相</h3>
+  <p>PG 优化器默认 <code>seq_page_cost=1.0</code>、<code>random_page_cost=4.0</code>(从 PG 8.x 延续到 PG 17,出处:PG 官方文档 / postgresql.conf)。这个 4.0 是<b>机械盘时代定的</b>——优化器认为 random_page 比 seq_page 慢 4 倍(机械头摆动)。</p>
+  <p>SSD 没机械头,实际差异 &lt; 10%,<b>SSD 场景推荐把 <code>random_page_cost</code> 调到 1.0~1.1</b>(出处:德哥 1.pdf, P.133-138)。</p>
+
+  <div class="callout info">
+    <span class="lbl">第一性原理:</span>不校准 → 优化器"高估"索引扫描成本 → 选错 Seq Scan。<br>
+    <span class="lbl">前置条件:</span>磁盘真是 SSD/云盘(机械盘不要改)。<br>
+    <span class="lbl">验证:</span><code>EXPLAIN</code> 看是否多了 Index Scan;压测对比。<br>
+    <span class="lbl">证伪:</span>改了之后某些大表 Seq Scan 反而快,这不是失准,而是优化器"看穿"了索引的真正价值。
+  </div>
+
+  <h3>5 大 Planner 失准场景</h3>
+  <table>
+    <tr><th style="width:25%">场景</th><th style="width:35%">表现</th><th>对策</th></tr>
+    <tr><td>数据倾斜严重</td><td>rows 估算严重偏高</td><td>扩展统计 <code>CREATE STATISTICS</code></td></tr>
+    <tr><td>bulk load 后没 ANALYZE</td><td>全 Seq Scan</td><td>立即 <code>ANALYZE</code>;装数据用 <code>COPY ... WITH (FREEZE)</code></td></tr>
+    <tr><td>长时间小批量写入</td><td>统计陈旧</td><td>调 <code>autovacuum_analyze_scale_factor</code>(默认 0.1,大表降到 0.02)</td></tr>
+    <tr><td>关联列无统计</td><td>rows 估算为乘积</td><td><code>CREATE STATISTICS ON a,b FROM t</code></td></tr>
+    <tr><td>数据分布随时间漂移</td><td>老统计不反映新常态</td><td>周期性 ANALYZE</td></tr>
+  </table>
+
+  <h3>pg_hint_plan 怎么用</h3>
+  <p>PG 原生不支持 Oracle 风格的 Hint 注释,必须用 <code>pg_hint_plan</code> 扩展(社区主流,支持 PG 16/17,出处:<a href="https://github.com/ossc-db/pg_hint_plan">GitHub</a>):</p>
+<pre><code>/*+ HashJoin(a b) NestLoop(b c) Leading((a b c)) IndexScan(a) */
+SELECT ...</code></pre>
+  <p>六类 Hint:扫描方式、JOIN 方式、JOIN 顺序、行数修正、并行、GUC 覆盖。<b>适用边界</b>:应用层 SQL 模板固定才适合加 Hint;Hint 写在 <code>/*+</code> 开头且前面不能有任何字符。<b>不要滥用</b>——Hint 是给"已知优化器判断错了"的场景兜底,不是默认选项。<b>证伪</b>:<code>pg_hint_plan.debug_print = on</code> 看日志确认。</p>
+
+  <h3>部分索引(Partial Index)——投入产出比最高的优化</h3>
+  <p>如果 1% 的"激活"用户占了 99% 的查询:</p>
+<pre><code>CREATE INDEX idx_active_users ON users(id) WHERE status = 'active';</code></pre>
+  <p>同样的 SELECT 在 active 上 Index Only Scan vs 全表 Seq Scan,差距 1000×。<b>前置条件</b>:过滤条件稳定(不会变成 5%、10%、20%)。<b>证伪</b>:如果业务方加了个"非激活"查询,但部分索引不命中,要么改 SQL 加 <code>WHERE status='active'</code>,要么别用部分索引。</p>
+
+  <div class="callout good">
+    <span class="lbl">第一段小结:</span>SQL 优化的灵魂是"<b>读懂 EXPLAIN + 找对场景 + 不滥用 HINT</b>"。4 小时的 SQL 部分,听完应该能独立诊断 80% 的慢 SQL。
+  </div>
+
+  <div class="notes">
+    这一节是 SQL 部分的高潮。重点演示:同一张表,random_page_cost 4.0 vs 1.1 的 EXPLAIN 差异;部分索引加 vs 不加的性能差异。
+  </div>
+</section>
+
+<!-- ============================================================ -->
+<!--  二、监控指标 & 获取 · 50 min                               -->
+<!-- ============================================================ -->
+<section class="chapter" id="sec-2-0">
+  <h1>二、监控指标 &amp; 如何获取</h1>
+  <div class="meta">5 开关 + 6 视图 + 6 SQL + auto_explain + Wait Event · 50 min</div>
+
+  <p>PG 自带统计视图超过 100 个(全是 <code>pg_stat_*</code>、<code>pg_statio_*</code>),但生产中真正能稳定报警的不超过 20 个。一个新手和老司机的差别不在于"懂多少视图",而在于"出问题时第一刀砍哪儿"。</p>
+</section>
+
+<!-- 2.1 分层原则 -->
+<section class="chapter" id="sec-2-1">
+  <h1>2.1 先分层,再下钻 <span class="ts">8 min</span></h1>
+  <div class="meta">L1 OS 层 → L2 PG 实例层 → L3 对象层 → L4 SQL 层</div>
+
+  <div class="mermaid">
+flowchart TB
+    subgraph L1["L1 · 操作系统层"]
+        O1[CPU / Load]
+        O2[IO util / await / iops]
+        O3[内存 / swap / dirty]
+        O4[网络带宽 / 丢包]
+    end
+    subgraph L2["L2 · PostgreSQL 实例层"]
+        D1[连接数 / max_connections]
+        D2[锁等待 / LWLock]
+        D3[WAL / checkpoint / 流复制延迟]
+        D4[autovacuum 进度]
+    end
+    subgraph L3["L3 · 对象层"]
+        T1[膨胀 / dead_tuple]
+        T2[索引使用率 idx_scan]
+        T3[长事务 / 2PC]
+    end
+    subgraph L4["L4 · SQL 层"]
+        S1[TOP SQL 总耗时]
+        S2[慢 SQL]
+        S3[响应时间抖动]
+    end
+    L1 --> L2 --> L3 --> L4
+  </div>
+
+  <div class="callout info">
+    <span class="lbl">核心观点:</span><b>SQL 层优先 + 漏斗排查补充</b>。<a href="https://wiki.postgresql.org/wiki/Performance_Optimization">PG 官方 wiki Performance Optimization</a> 第一句就是"First, find the slow queries using pg_stat_statements"——这是 PG 社区的共识。
+  </div>
+
+  <p>这话也得有个边界:很多人爱说"数据库慢,90% 不在 SQL 层",这话听起来很爽,但 ORM N+1 / OFFSET 分页 / 全表扫等纯 SQL 问题一上来就在 SQL 层。所以正确的顺序是:<b>先用 <code>pg_stat_statements</code> 擒贼擒王(命中大多数场景),再按 OS / 长事务 / 2PC 漏斗排查(命中突发场景)</b>。</p>
+
+  <div class="callout">
+    <span class="lbl">前置条件:</span>必须能登录到 DB 主机或 RDS 跳板机,至少有 <code>pg_stat_activity</code>、<code>iostat</code>、<code>vmstat</code>、<code>dmesg</code>、<code>netstat</code> 的访问权。托管 RDS 上 L1 数据由云厂暴露,DB 内部 <code>pg_stat_*</code> 仍可用,要换思路选指标。<br>
+    <span class="lbl">证伪手段:</span>L1~L3 都查了没毛病,业务还在报慢——大概率是 APP 层(连接池打满 / ORM N+1 / JVM Full GC / 上游阻塞),先把锅分清再继续挖。
+  </div>
+</section>
+
+<!-- 2.2 必开 5 开关 -->
+<section class="chapter" id="sec-2-2">
+  <h1>2.2 必开的 5 个统计开关 <span class="ts">3 min</span></h1>
+  <div class="meta">任何一个没开,后续视图就是空的</div>
+
+<pre><code class="language-ini">track_activities = on        # pg_stat_activity 才能拿到会话
+track_counts     = on        # pg_stat_*_tables、pg_stat_database 累计计数器
+track_io_timing  = on        # blk_read_time、pg_stat_statements 的 IO 时间
+track_functions  = 'all'     # pg_stat_user_functions
+compute_query_id = on        # pg_stat_activity.query_id、关联 pg_stat_statements 的桥梁</code></pre>
+
+  <p><code>compute_query_id</code> 在 PG 13+ 默认 <code>on</code>,但老版本必须显式开启,否则 <code>pg_stat_activity.query_id</code> 全是 NULL。改完 <code>SELECT pg_reload_conf();</code> 生效。</p>
+</section>
+
+<!-- 2.3 视图速查卡 -->
+<section class="chapter" id="sec-2-3">
+  <h1>2.3 视图速查卡(6 张最常用) <span class="ts">5 min</span></h1>
+
+  <table>
+    <tr><th style="width:22%">视图</th><th style="width:38%">一句话作用</th><th>关键字段</th></tr>
+    <tr><td><code>pg_stat_activity</code></td><td>当前所有会话</td><td><code>state</code>、<code>wait_event_type</code>、<code>wait_event</code>、<code>query_start</code>、<code>xact_start</code>、<code>pid</code></td></tr>
+    <tr><td><code>pg_stat_database</code></td><td>数据库级累计统计</td><td><code>numbackends</code>、<code>xact_commit</code>、<code>xact_rollback</code>、<code>blks_hit</code>、<code>blks_read</code>、<code>deadlocks</code>、<code>temp_bytes</code></td></tr>
+    <tr><td><code>pg_stat_user_tables</code></td><td>用户表 DML / 扫描统计</td><td><code>seq_scan</code>、<code>idx_scan</code>、<code>n_live_tup</code>、<code>n_dead_tup</code>、<code>n_mod_since_analyze</code></td></tr>
+    <tr><td><code>pg_stat_user_indexes</code></td><td>索引使用次数</td><td><code>idx_scan</code>、<code>idx_tup_read</code>、<code>idx_tup_fetch</code></td></tr>
+    <tr><td><code>pg_statio_user_tables</code></td><td>表/索引/toast 磁盘 IO</td><td><code>heap_blks_hit/read</code>、<code>idx_blks_hit/read</code>、<code>toast_blks_hit/read</code></td></tr>
+    <tr><td><code>pg_stat_replication</code></td><td>主备流复制状态</td><td><code>state</code>、<code>sent_lsn</code>、<code>replay_lsn</code>、<code>write_lag</code>、<code>flush_lag</code>、<code>replay_lag</code></td></tr>
+  </table>
+</section>
+
+<!-- 2.4 监控 SQL 实战 -->
+<section class="chapter" id="sec-2-4">
+  <h1>2.4 监控 SQL 实战(瑞士军刀) <span class="ts">12 min</span></h1>
+  <div class="meta">6 条 SQL 覆盖 90% 排错场景,先收藏后排错时第一刀砍这里</div>
+
+  <h3>① 运行中慢 SQL</h3>
+<pre><code class="language-sql">SELECT pid, usename, now() - query_start AS duration,
+       state, wait_event_type, wait_event, query
+FROM pg_stat_activity
+WHERE state = 'active'
+  AND now() - query_start &gt; interval '5s';</code></pre>
+
+  <h3>② 长事务</h3>
+<pre><code class="language-sql">SELECT pid, usename, now() - xact_start AS xact_age, query
+FROM pg_stat_activity
+WHERE state IN ('active','idle in transaction')
+  AND now() - xact_start &gt; interval '30min';</code></pre>
+
+  <h3>③ 长空闲事务(阻 autovacuum 的真凶)</h3>
+<pre><code class="language-sql">SELECT pid, usename, now() - state_change AS idle_age, query
+FROM pg_stat_activity
+WHERE state IN ('idle in transaction','idle in transaction (aborted)')
+  AND now() - state_change &gt; interval '10min';</code></pre>
+
+  <h3>④ 长 2PC</h3>
+<pre><code class="language-sql">SELECT gid, prepared, owner, database
+FROM pg_prepared_xacts
+WHERE now() - prepared &gt; interval '1h';</code></pre>
+
+  <h3>⑤ 谁在堵谁(<code>pg_blocking_pids</code> 是 PG 9.6+ 引入的)</h3>
+<pre><code class="language-sql">SELECT pid, pg_blocking_pids(pid) AS blocked_by,
+       wait_event_type, wait_event, query
+FROM pg_stat_activity
+WHERE wait_event_type = 'Lock';</code></pre>
+
+  <h3>⑥ 等待事件分布</h3>
+<pre><code class="language-sql">SELECT wait_event_type, wait_event, count(*)
+FROM pg_stat_activity
+WHERE wait_event IS NOT NULL
+GROUP BY 1, 2 ORDER BY count(*) DESC;</code></pre>
+
+  <div class="callout info">
+    <span class="lbl">阈值建议:</span>OLTP 慢 SQL 1~5s 算慢,OLAP 30s~5min;长事务默认 30min 报警;长空闲 5~10min 就该响。
+  </div>
+
+  <div class="notes">
+    这 6 条 SQL 请所有人在自己的测试环境跑一遍,确保能复现。提问:"你公司里第 ⑤ 条有没有自己写过?(有人会写 join 错版本)"
+  </div>
+</section>
+
+<!-- 2.5 auto_explain -->
+<section class="chapter" id="sec-2-5">
+  <h1>2.5 auto_explain 自动捕获慢 SQL <span class="ts">8 min</span></h1>
+  <div class="meta">PG 自带模块,慢 SQL 的执行计划自动落盘</div>
+
+  <div class="callout warn">
+    <span class="lbl">关键提醒:</span>必须加载到 <code>shared_preload_libraries</code> 才能跨 session 全局生效,postmaster 启动时即加载;<code>session_preload_libraries</code> 只对新连接生效,<b>不适合生产</b>。
+  </div>
+
+<pre><code class="language-ini">shared_preload_libraries = 'auto_explain,pg_stat_statements'
+
+auto_explain.log_min_duration = '3s'
+auto_explain.log_analyze      = on
+auto_explain.log_buffers      = on
+auto_explain.log_format       = 'json'   # PG 10+ 支持 JSON,便于 ELK 解析
+auto_explain.log_timing       = on
+auto_explain.log_verbose      = on
+auto_explain.sample_rate      = 1</code></pre>
+
+  <div class="callout">
+    <span class="lbl">前置条件:</span><code>auto_explain</code> 模块随 PG 安装自带,但 <code>LOAD 'auto_explain'</code> 需要 superuser。<br>
+    <span class="lbl">适用边界:</span>大流量库(&gt; 5000 QPS)务必开 <code>sample_rate=0.01~0.1</code>,0.1% 抽样就够定位了,全量做 EXPLAIN ANALYZE 会让 CPU 翻倍。<br>
+    <span class="lbl">证伪:</span>日志里抓到某条 SQL 的 plan 包含 <code>Seq Scan on 大表</code>,且 <code>actual rows</code> 远大于 <code>rows</code> 估算,90% 是统计信息过期——跑 <code>ANALYZE</code> 后 plan 应自动变好。若仍走 Seq Scan,就是索引选错,需 <code>SET enable_indexscan = off</code> 验证或改写 SQL。
+  </div>
+</section>
+
+<!-- 2.6 Wait Event 体系 -->
+<section class="chapter" id="sec-2-6">
+  <h1>2.6 Wait Event 体系——2026 时代最强诊断武器 <span class="ts">10 min</span></h1>
+  <div class="meta">PG 9.6 起出现,PG 10 完善,PG 14+ IO 类型细分更精准</div>
+
+  <div class="mermaid">
+flowchart LR
+    W[wait_event_type] --> A[Activity<br/>空闲主循环]
+    W --> B[BufferPin<br/>等 buffer 排他锁]
+    W --> C[Client<br/>等客户端发包/收包]
+    W --> D[IO<br/>等数据文件/WAL/control file]
+    W --> E[IPC<br/>等子进程/并行 worker]
+    W --> F[Lock<br/>等 heavy-weight lock]
+    W --> G[LWLock<br/>等轻量锁 shared memory]
+    W --> H[Timeout<br/>故意 sleep]
+    W --> I[Extension<br/>扩展自定义]
+  </div>
+
+  <div class="callout info">
+    <span class="lbl">第一性原理:</span><code>wait_event</code> 告诉你"这一刻这个 backend 为什么不在跑"。判断瓶颈在哪儿,只需要看分布:
+  </div>
+
+  <table>
+    <tr><th style="width:35%">wait_event 主导</th><th>诊断方向</th></tr>
+    <tr><td><code>IO:DataFileRead</code> 占大头</td><td>物理 IO 瓶颈,看 <code>iostat</code>、<code>shared_buffers</code>、磁盘 IOPS</td></tr>
+    <tr><td><code>LWLock:buffer_mapping</code> 占大头</td><td><code>shared_buffers</code> 太大导致 hash 冲突,调小或升级 PG 16+</td></tr>
+    <tr><td><code>LWLock:lock_manager</code> 占大头</td><td>锁太多/连接太多,降连接 + 上 pgbouncer</td></tr>
+    <tr><td><code>Lock:tuple</code> 占大头</td><td>行锁竞争,大概率是热点行,要重写 SQL(用 <code>SKIP LOCKED</code> 或拆批)</td></tr>
+  </table>
+
+  <div class="callout">
+    <span class="lbl">适用边界:</span>若 <code>state=active</code> 且 <code>wait_event IS NULL</code>,在 PG 14+ 说明它在 CPU 上跑(大排序/哈希聚合),用 <code>perf top -p &lt;pid&gt;</code> 看是不是 CPU bound。
+  </div>
+</section>
+
+<!-- 2.7 外部监控 -->
+<section class="chapter" id="sec-2-7">
+  <h1>2.7 外部监控体系 <span class="ts">2 min</span></h1>
+
+  <table>
+    <tr><th style="width:25%">工具</th><th style="width:35%">定位</th><th>适用场景</th></tr>
+    <tr><td>Prometheus + pg_exporter</td><td>pull 式、PromQL、告警灵活</td><td>云原生主流方案,适配 Grafana</td></tr>
+    <tr><td>pgwatch2</td><td>自动化指标采集 + Grafana dashboards</td><td>开箱即用,适合小团队</td></tr>
+    <tr><td>PoWA</td><td>PostgreSQL Workload Analyzer</td><td>历史回溯、TOP SQL 分析最强</td></tr>
+    <tr><td>pgmetrics</td><td>单文件可执行,产出健康报告</td><td>轻量级体检、邮件报告(项目仍在维护)</td></tr>
+    <tr><td>pgBadger</td><td>解析 <code>pg_log</code>,产出 HTML 报告</td><td>偏日志分析,适合 DBA 周期性巡检</td></tr>
+  </table>
+
+  <div class="callout warn">
+    <span class="lbl">注:</span>PipelineDB、plprofiler 等部分 PDF 提及的工具,使用前需确认维护状态(部分已停更)。
+  </div>
+</section>
+
+<!-- ============================================================ -->
+<!--  三、解读监控指标 · 50 min                                  -->
+<!-- ============================================================ -->
+<section class="chapter" id="sec-3-0">
+  <h1>三、解读监控指标</h1>
+  <div class="meta">从"看到数字"到"做出决策" · 50 min</div>
+  <p>上一节讲"怎么取",这一节讲"取到了怎么读"。同样一组数字,新手看到的是"有数据",老司机看到的是"下一步该做什么"。</p>
+</section>
+
+<!-- 3.1 健康区间 -->
+<section class="chapter" id="sec-3-1">
+  <h1>3.1 一句话健康总览 <span class="ts">12 min</span></h1>
+
+  <h3>总览 SQL</h3>
+<pre><code class="language-sql">SELECT
+    datname,
+    numbackends AS conns,
+    xact_commit AS commit_cnt,
+    xact_rollback AS rollback_cnt,
+    round(100.0 * xact_rollback / NULLIF(xact_commit+xact_rollback,0), 2) AS rollback_pct,
+    round(100.0 * blks_hit / NULLIF(blks_hit+blks_read,0), 2) AS cache_hit_pct,
+    deadlocks, temp_bytes, blk_read_time, blk_write_time
+FROM pg_stat_database
+WHERE datname NOT IN ('template0','template1','postgres');</code></pre>
+
+  <h3>各指标健康区间与触发动作</h3>
+  <table>
+    <tr><th style="width:18%">指标</th><th style="width:22%">健康趋势</th><th style="width:25%">异常信号</th><th>触发动作</th></tr>
+    <tr><td>TPS(commit 速率)</td><td>业务基线 ±20%</td><td>突降 50% 或突增 3 倍</td><td>突降→看 <code>wait_event</code>;突增→看 <code>temp_bytes</code></td></tr>
+    <tr><td>回滚率</td><td>&lt; 1%</td><td>&gt; 5% 持续</td><td>应用层 BUG,长事务回滚代价也大</td></tr>
+    <tr><td>连接使用率</td><td>&lt; 70%</td><td>&gt; 80%</td><td>拒连风险,加 pgbouncer</td></tr>
+    <tr><td>死锁次数</td><td>0</td><td>&gt; 0/min</td><td>看 <code>log_lock_waits</code>,通常伴随锁争用</td></tr>
+    <tr><td>临时文件字节数</td><td>短期 0</td><td>单查询 &gt; 1GB</td><td><code>work_mem</code> 不够,该 SQL 性能差</td></tr>
+    <tr><td>块 IO 时间</td><td>&lt; 100ms/query</td><td>&gt; 1000ms/query</td><td>物理 IO 瓶颈,看 <code>iostat</code></td></tr>
+  </table>
+
+  <h3>关于缓存命中率</h3>
+  <p><a href="https://wiki.postgresql.org/wiki/Tuning_Your_PostgreSQL_Server">PG 官方 wiki Server Tuning</a> 原话:"<b>Do not rely on the cache hit ratio as a measure of database performance. ... A simple query with a high hit ratio can perform worse than a complex query with a lower hit ratio.</b>"</p>
+
+  <div class="callout warn">
+    <span class="lbl">顺带提醒一下:</span>PG 官方 wiki 明确说过不要把缓存命中率当作性能的唯一指标——所以缓存命中率<b>看趋势就好,别定硬阈值</b>。
+  </div>
+
+  <p>具体到怎么看:</p>
+  <ul>
+    <li><b>作为趋势指标</b>:稳定 99% + 突然掉到 80% = 热点数据被踢出 buffer = 大并发扫描 = 业务出错。这是它最有价值的用法。</li>
+    <li><b>作为分类讨论</b>:OLTP 短查询命中率长期 95~98% 是常态(因为 cold read 必然走盘),并行查询下每个 worker 各有 buffer pin 统计,口径会变。</li>
+    <li><b>避免硬阈值</b>:"≥ 99% 才正常"这种说法,会让你在并行查询或冷启动场景里徒增焦虑。</li>
+  </ul>
+
+  <div class="callout">
+    <span class="lbl">证伪手段:</span>命中率低 → 同时 <code>pg_statio_user_tables ORDER BY heap_blks_read DESC LIMIT 10</code> 看是不是某几张表正在被大量 seq scan。
+  </div>
+</section>
+
+<!-- 3.2 阻塞链 -->
+<section class="chapter" id="sec-3-2">
+  <h1>3.2 从 pg_stat_activity 看阻塞链 <span class="ts">8 min</span></h1>
+
+  <p><code>pg_blocking_pids()</code> 是 PG 9.6 引入的救命函数,一行就能看到"谁在堵谁":</p>
+
+<pre><code class="language-sql">SELECT
+    activity.pid,
+    activity.usename,
+    activity.wait_event_type || ':' || activity.wait_event AS wait,
+    activity.query AS blocked_query,
+    pg_blocking_pids(activity.pid) AS blocking_pids
+FROM pg_stat_activity activity
+WHERE activity.wait_event IS NOT NULL
+  AND activity.wait_event_type = 'Lock';</code></pre>
+
+  <h3>state 字段精读</h3>
+  <table>
+    <tr><th style="width:38%">state</th><th>解读</th></tr>
+    <tr><td><code>active</code></td><td>正在执行 SQL。active + <code>wait_event</code> 不为空 = 在<b>等</b>某资源</td></tr>
+    <tr><td><code>idle</code></td><td>上一条 SQL 已完成,等下一条,正常空闲连接</td></tr>
+    <tr><td><code>idle in transaction</code></td><td>开了事务但没提交,<b>危险信号</b>——事务持有锁、阻止 vacuum</td></tr>
+    <tr><td><code>idle in transaction (aborted)</code></td><td>同上但事务已回滚,更危险——连接泄漏</td></tr>
+  </table>
+
+  <div class="callout warn">
+    <span class="lbl">第一性原理:</span><code>state='idle in transaction'</code> 持续 &gt; 5min,就要当作 P1 报警——这个会话每多活一秒,数据库内的 dead tuple 就多积压一秒,autovacuum 也无法绕过它回收垃圾。
+  </div>
+
+  <div class="callout">
+    <span class="lbl">适用边界:</span>BI/报表工具(Superset、Metabase)内部会"开事务 → 大量计算 → 提交",可能持续 5~10min 不算异常,需与应用层协商阈值。<br>
+    <span class="lbl">证伪手段:</span>看 <code>query</code> 字段——如果是 <code>BEGIN</code>,说明 APP 端真的发起了事务但卡住了;如果是 <code>SELECT ...</code>,说明 APP 在事务内发呆。
+  </div>
+</section>
+
+<!-- 3.3 vacuum/analyze -->
+<section class="chapter" id="sec-3-3">
+  <h1>3.3 vacuum/analyze 是否跟上 <span class="ts">8 min</span></h1>
+
+<pre><code class="language-sql">SELECT schemaname||'.'||relname AS tbl,
+       n_live_tup, n_dead_tup,
+       round(100.0 * n_dead_tup / NULLIF(n_live_tup,0), 2) AS dead_pct,
+       n_mod_since_analyze, n_ins_since_vacuum,
+       last_autovacuum, last_autoanalyze,
+       age(relfrozenxid) AS xid_age
+FROM pg_stat_user_tables
+ORDER BY n_dead_tup DESC LIMIT 20;</code></pre>
+
+  <table>
+    <tr><th style="width:25%">指标</th><th style="width:20%">健康区间</th><th style="width:20%">异常阈值</th><th>实战解读</th></tr>
+    <tr><td><code>n_dead_tup / n_live_tup</code></td><td>&lt; 10%</td><td>&gt; 20% 持续</td><td>膨胀中,调 <code>autovacuum_vacuum_scale_factor</code>(默认 0.2 太大)</td></tr>
+    <tr><td><code>n_mod_since_analyze</code></td><td>&lt; n_live_tup × 0.1</td><td>&gt; n_live_tup × 0.2</td><td>统计信息过期,planner 选错 plan</td></tr>
+    <tr><td><code>age(relfrozenxid)</code></td><td>&lt; 2 亿</td><td>&gt; 1.5 亿必须报警</td><td>事务号回卷风险,会强停库</td></tr>
+  </table>
+
+  <div class="callout warn">
+    <span class="lbl">第一性原理:</span><code>relfrozenxid</code> 是 PG 给每张表打的"事务号快照"。一旦 <code>xid_age</code> 接近 <code>autovacuum_freeze_max_age</code>(默认 2 亿),PG 进入 <b>emergency vacuum</b>,所有 IO 让路,业务会卡。
+  </div>
+</section>
+
+<!-- 3.4 索引使用率 -->
+<section class="chapter" id="sec-3-4">
+  <h1>3.4 索引是否被使用 <span class="ts">6 min</span></h1>
+
+<pre><code class="language-sql">SELECT schemaname||'.'||relname AS tbl,
+       indexrelname AS idx,
+       pg_size_pretty(pg_relation_size(indexrelid)) AS size,
+       idx_scan
+FROM pg_stat_user_indexes
+WHERE idx_scan = 0
+ORDER BY pg_relation_size(indexrelid) DESC;</code></pre>
+
+  <p><code>idx_scan = 0</code> 持续运行的索引,基本就是死索引,可考虑 <code>DROP INDEX CONCURRENTLY</code>。</p>
+
+  <div class="callout">
+    <span class="lbl">前置条件:</span>外键约束上的索引(只用于 <code>ON DELETE CASCADE</code>)、极少触发的归档表索引、报表专用索引——这些是"应该 <code>idx_scan=0</code>"的合法场景。<br>
+    <span class="lbl">证伪手段:</span>对可疑死索引,先 <code>SET enable_indexscan = off; SET enable_bitmapscan = off</code> 跑 SQL,若性能无变化 = 真死;若性能变差 = 还有用。
+  </div>
+</section>
+
+<!-- 3.5 wait_event 瓶颈 -->
+<section class="chapter" id="sec-3-5">
+  <h1>3.5 wait_event 瓶颈定位 <span class="ts">8 min</span></h1>
+
+  <p>按 <code>wait_event_type</code> 频次排序后的标准动作表:</p>
+
+  <table>
+    <tr><th style="width:35%">Wait Event 主导</th><th style="width:32%">第一动作</th><th>第二动作</th></tr>
+    <tr><td><code>IO:DataFileRead</code></td><td><code>iostat -x 1</code>,看 <code>r_await</code> 是否 &gt; 10ms</td><td>热点数据 <code>pg_prewarm</code> 或换 SSD</td></tr>
+    <tr><td><code>IO:WALWrite</code></td><td><code>iostat -x</code>,看 <code>w_await</code></td><td>主备复制延迟?同步复制降级异步</td></tr>
+    <tr><td><code>IO:ControlFileSync</code></td><td>checkpoint 风暴?</td><td><code>checkpoint_completion_target</code> 提到 0.9</td></tr>
+    <tr><td><code>LWLock:buffer_mapping</code></td><td><code>shared_buffers</code> 是否设太大(&gt; RAM 25%)</td><td>调小 / 升级 PG 16+</td></tr>
+    <tr><td><code>LWLock:lock_manager</code></td><td>单实例连接数是否超 500</td><td>上 pgbouncer / 升级 PG 16+(有锁池优化)</td></tr>
+    <tr><td><code>Lock:transactionid</code></td><td>看 <code>blocking_pids</code></td><td>应用层事务顺序不一致,要治理</td></tr>
+    <tr><td><code>Lock:tuple</code></td><td>看具体 SQL + <code>pg_blocking_pids</code></td><td>用 <code>SKIP LOCKED</code> 改写</td></tr>
+  </table>
+</section>
+
+<!-- 3.6 主备延迟 -->
+<section class="chapter" id="sec-3-6">
+  <h1>3.6 主备延迟诊断 <span class="ts">8 min</span></h1>
+
+  <p>PG 10 起 <code>pg_stat_replication</code> 加了 <code>write_lag</code> / <code>flush_lag</code> / <code>replay_lag</code> 三段式:</p>
+
+<pre><code class="language-sql">SELECT pid, state, sync_state,
+       (sent_lsn - replay_lsn) AS replay_lag_bytes,
+       write_lag, flush_lag, replay_lag
+FROM pg_stat_replication;</code></pre>
+
+  <table>
+    <tr><th style="width:35%">观察</th><th style="width:35%">诊断</th><th>动作</th></tr>
+    <tr><td><code>write_lag</code> &gt; 1s 持续</td><td>主→备写入延迟</td><td>网络带宽或主库写入突增</td></tr>
+    <tr><td><code>flush_lag</code> &gt; 1s</td><td>备盘 IO 跟不上</td><td>提升备机 IO 能力</td></tr>
+    <tr><td><code>replay_lag</code> &gt; 30s</td><td>长事务回放累积</td><td>或 <code>hot_standby_feedback</code> 把 horizon 推前</td></tr>
+    <tr><td><b>三段全 NULL</b></td><td><b>最危险</b></td><td>网络断 / replication slot 被删,主库 WAL 无限堆积,可能撑爆磁盘</td></tr>
+  </table>
+
+  <div class="notes">
+    现场演示:故意把 <code>hot_standby_feedback</code> 打开,在 standby 上跑长事务,看主库 WAL 堆积。
+  </div>
+</section>
+
+<!-- ============================================================ -->
+<!--  四、故障诊断 · 50 min                                       -->
+<!-- ============================================================ -->
+<section class="chapter" id="sec-4-0">
+  <h1>四、故障诊断</h1>
+  <div class="meta">从报警到止血 · 50 min</div>
+  <p>这一节把前 3 节的内容串成一个完整的排错剧本。原则是"分层定位、按序下钻",不要一上来就 SELECT * 猜。</p>
+</section>
+
+<!-- 4.1 漏斗 -->
+<section class="chapter" id="sec-4-1">
+  <h1>4.1 报警 → 分层定位漏斗 <span class="ts">8 min</span></h1>
+  <div class="meta">任何报警过来,先分层,再下钻</div>
+
+  <div class="mermaid">
+flowchart TB
+    A[报警:DB 卡/慢/Hang] --> B{OS 层健康?}
+    B -- 异常 --> B1[CPU/IO/内存/磁盘/网卡]
+    B -- 正常 --> C{网络层?}
+    C -- 异常 --> C1[带宽/RTT/丢包/防火墙]
+    C -- 正常 --> D{PG 实例存活?}
+    D -- 异常 --> D1[连接打满/postmaster 死/crash]
+    D -- 正常 --> E{数据库级?}
+    E -- 异常 --> E1[锁等待/长事务/autovacuum 风暴]
+    E -- 正常 --> F{表/索引级?}
+    F -- 异常 --> F1[膨胀/统计信息失准]
+    F -- 正常 --> G[最后才是单条 SQL]
+  </div>
+
+  <div class="callout">
+    <span class="lbl">适用边界:</span>本地单实例 PG 适用;托管 RDS 上 OS/网络层由云厂负责,只能拿到 PG 层指标,换思路。<br>
+    <span class="lbl">证伪:</span>OS、PG 实例、锁、autovacuum 都没事,但业务还在慢——不是 DB 层的锅,去查 APP 层(连接池、ORM、GC、上下游)。
+  </div>
+
+  <div class="notes">
+    这张漏斗图请截图给听众。强调"先分层再下钻"——很多人栽在"上来就 EXPLAIN",其实 OS 已经 swap 爆了。
+  </div>
+</section>
+
+<!-- 4.2 三个核心查询 -->
+<section class="chapter" id="sec-4-2">
+  <h1>4.2 三个核心查询 <span class="ts">5 min</span></h1>
+  <div class="meta">查谁在跑、谁在等、谁锁了谁——排错时第一刀砍这里</div>
+
+<pre><code class="language-sql">-- (1) 谁在跑
+SELECT pid, now() - query_start AS duration, state, wait_event_type, wait_event, query
+  FROM pg_stat_activity
+ WHERE now() - query_start &gt; interval '5s' AND state = 'active';
+
+-- (2) 谁在等(长事务 / 空闲事务 / 2PC)
+SELECT pid, state, now() - xact_start AS xact_age, query
+  FROM pg_stat_activity
+ WHERE state IN ('idle in transaction', 'idle in transaction (aborted)')
+   AND now() - xact_start &gt; interval '30min';
+SELECT * FROM pg_prepared_xacts WHERE now() - prepared &gt; interval '1h';
+
+-- (3) 谁锁了谁
+SELECT pid, pg_blocking_pids(pid) AS blocked_by, wait_event_type, wait_event, query
+  FROM pg_stat_activity
+ WHERE wait_event_type = 'Lock';</code></pre>
+
+  <div class="callout good">
+    <span class="lbl">先收藏,</span>这三条 SQL 是你 4 小时后回去能立刻用的"瑞士军刀"。
+  </div>
+</section>
+
+<!-- 4.3 慢 SQL 七步法 -->
+<section class="chapter" id="sec-4-3">
+  <h1>4.3 慢 SQL 排查七步法 <span class="ts">12 min</span></h1>
+  <div class="meta">从现象到根因,严格按顺序</div>
+
+  <ol>
+    <li><b>抓样本</b>:<code>pg_stat_statements order by total_time desc limit 10</code>——擒贼先擒王。</li>
+    <li><b>看类型</b>:Seq Scan? NestLoop? Hash Join? Sort? 每种有不同怀疑方向。</li>
+    <li><b>看估算 vs 实际</b>:<code>rows=</code> 偏差几个数量级 → 统计信息过期,要 <code>ANALYZE</code>。</li>
+    <li><b>看 buffer</b>:<code>shared hit</code> 高 = 内存友好;<code>read</code> 高 = 物理 IO 大,可能要建索引或调 <code>random_page_cost</code>。</li>
+    <li><b>看 actual time</b>:数字的两个时间分别表示"首行返回"和"全部返回",后者才是真因。</li>
+    <li><b>看 SETTINGS</b>:<code>EXPLAIN (..., SETTINGS, ...)</code> 会打印该 SQL 实际生效的优化器参数,例如 SSD 库上常显示 <code>random_page_cost = 1.1</code>(默认 4.0)。</li>
+    <li><b>看 filter / recheck</b>:<code>Removed by Filter</code> 多 = 索引选错列;<code>Recheck Cond</code> 多 = bitmap scan 失误。</li>
+  </ol>
+
+  <div class="callout">
+    <span class="lbl">证伪手段:</span>七步都查完,plan 也对,buffer 也合理,但还是慢 → 那就是 PG 之外的瓶颈(网络、应用、连接池),不要继续钻 SQL。
+  </div>
+</section>
+
+<!-- 4.4 长事务 / 死锁 -->
+<section class="chapter" id="sec-4-4">
+  <h1>4.4 长事务 / 死锁 / 锁等待诊断 <span class="ts">10 min</span></h1>
+
+  <h3>止血三件套</h3>
+<pre><code class="language-sql">-- 杀会话
+SELECT pg_terminate_backend(pid) FROM pg_stat_activity
+ WHERE now() - query_start &gt;= interval '10 s' AND pid &lt;&gt; pg_backend_pid();
+
+-- 只杀当前 query(更安全)
+SELECT pg_cancel_backend(pid) FROM pg_stat_activity WHERE ...;</code></pre>
+
+  <h3>预防参数</h3>
+<pre><code class="language-ini">statement_timeout = '30s'
+lock_timeout = '5s'
+deadlock_timeout = '1s'
+idle_in_transaction_session_timeout = '10min'</code></pre>
+
+  <h3>DDL 加超时(防雪崩)</h3>
+<pre><code class="language-sql">BEGIN; SET LOCAL lock_timeout='100ms'; ALTER TABLE ...; COMMIT;</code></pre>
+
+  <div class="callout warn">
+    <span class="lbl">凡事要辩证的看:</span>长事务确实是 PG 高频灾难源之一,但 replication slot 误删、磁盘满、连接打满等灾难跟长事务无关,不要把所有生产事故都往长事务上套。
+  </div>
+
+  <div class="notes">
+    现场演示:开两个 psql,A 启事务不提交,B 试图改同一行,看 B 怎么 block,然后在 A 上执行 DDL 看全库 hang,最后用 lock_timeout 解套。
+  </div>
+</section>
+
+<!-- 4.5 WAL / replication lag -->
+<section class="chapter" id="sec-4-5">
+  <h1>4.5 WAL / replication lag 排错 <span class="ts">8 min</span></h1>
+  <div class="meta">先分清是 send 慢还是 replay 慢</div>
+
+<pre><code class="language-sql">-- 主库看 send 队列
+SELECT client_addr, state, sent_lsn, replay_lsn,
+       (sent_lsn - replay_lsn) AS byte_lag
+  FROM pg_stat_replication;
+
+-- 备库看 replay 进度
+SELECT pg_last_wal_replay_lsn(), pg_last_wal_receive_lsn();</code></pre>
+
+  <h3>根因清单</h3>
+  <table>
+    <tr><th style="width:25%">根因</th><th>表现</th></tr>
+    <tr><td><b>网络</b></td><td>primary ↔ standby 带宽 &lt; WAL 产生速率</td></tr>
+    <tr><td><b>备机 IO</b></td><td><code>synchronous_commit=on</code> 强制每次 commit 都要 fsync,备机盘 IOPS 跟不上</td></tr>
+    <tr><td><b>回放慢</b></td><td>备库长查询/长 2PC,<code>hot_standby_feedback</code> 把 horizon 推前,主库 WAL 不能回收</td></tr>
+    <tr><td><b>逻辑复制 slot 卡死</b></td><td><code>pg_replication_slots.xmin</code> 不前进 → 主库 WAL 堆积</td></tr>
+  </table>
+
+  <div class="callout info">
+    <span class="lbl">第一性原理:</span><code>send</code> 是"网络问题",<code>replay</code> 是"备机执行能力问题",<code>xmin</code> 不前进是"全局被事务卡住"问题——<b>这三件事要分开看</b>。<br>
+    <span class="lbl">证伪手段:</span>把 <code>hot_standby_feedback</code> 暂时关掉,延迟立刻消失 → 锁定是 feedback 导致的卡死。
+  </div>
+</section>
+
+<!-- 4.6 突发 IO/CPU -->
+<section class="chapter" id="sec-4-6">
+  <h1>4.6 突发 IO/CPU 但与业务无关 <span class="ts">6 min</span></h1>
+  <div class="meta">报警响了,但 TOP SQL 没什么变化,CPU/IO 就是高</div>
+
+  <p>答案几乎都在 PostgreSQL 后台进程三件套:<b>autovacuum + checkpoint + bgwriter</b>。</p>
+
+  <h3>1. autovacuum worker 在不在</h3>
+<pre><code class="language-sql">SELECT pid, datname, relid::regclass, phase,
+       heap_blks_total, heap_blks_scanned, heap_blks_vacuumed
+  FROM pg_stat_progress_vacuum;</code></pre>
+
+  <h3>2. freeze 风暴:看最老 xid 距 wraparound 还有多远</h3>
+<pre><code class="language-sql">SELECT datname, age(datfrozenxid) FROM pg_database ORDER BY 2 DESC;
+-- 任一 &gt; 200,000,000(autovacuum_freeze_max_age)会触发 anti-wraparound vacuum</code></pre>
+
+  <h3>3. checkpoint 频率</h3>
+<pre><code class="language-sql">SELECT * FROM pg_stat_bgwriter;
+-- checkpoints_req 远多于 checkpoints_timed → 雪崩式 checkpoint,调整 max_wal_size</code></pre>
+
+  <div class="callout warn">
+    <span class="lbl">第一性原理:</span><code>autovacuum_freeze_max_age = 200,000,000</code> 是 PG 硬编码的"事务回卷防线"——一旦某库最老 xid 跨过这个值,系统强制对该库所有表做 anti-wraparound vacuum。这是"为什么突然很卡"的最大单一原因。<br>
+    <span class="lbl">证伪:</span>把 autovacuum 临时关掉,IO 立刻降 → 锁定是 autovacuum;否则转向 checkpoint 或业务 SQL。
+  </div>
+</section>
+
+<!-- 4.7 索引膨胀 -->
+<section class="chapter" id="sec-4-7">
+  <h1>4.7 索引膨胀的机制 <span class="ts">3 min</span></h1>
+
+  <p>B-Tree 索引的"硬伤":<b>不释放空间,只 REUSE</b>。DELETE 后索引项变 dead tuple,VACUUM 标 dead 加入 FSM,新 INSERT 复用 dead slot;<b>如果长期没有 INSERT,永远不释放物理空间</b>——只有 <code>REINDEX</code> / <code>REINDEX CONCURRENTLY</code> 才能回收。</p>
+
+  <p><code>nbtree</code> 内部用双向链表连接 leaf page,即使一个 page 只剩 1 个有效 item,这个 page 也不能释放。<b>HEAP 的水位可以降,但索引的水位几乎只能 REINDEX</b>。</p>
+
+  <div class="callout">
+    <span class="lbl">证伪手段:</span><code>pgstattuple</code> 看 <code>dead_tuple_percent</code>,&gt; 30% 就值得 REINDEX;索引大小超过表大小 2 倍就是膨胀典型特征。
+  </div>
+</section>
+
+<!-- ============================================================ -->
+<!--  五、问题分析(9 个为什么)· 15 min                          -->
+<!-- ============================================================ -->
+<section class="chapter" id="sec-5-0">
+  <h1>五、问题分析:9 个"为什么"</h1>
+  <div class="meta">从"为什么"反推机制 · 15 min</div>
+  <p>这一节是"反推":遇到现象 → 问"为什么是这样" → 看清机制。每条都标了"正解"。这部分快速过,选 3-4 个最痛的重点讲。</p>
+</section>
+
+<section class="chapter" id="sec-5-1">
+  <h1>5.1-5.9 9 个为什么 <span class="ts">15 min</span></h1>
+
+  <h3>5.1 为什么 OFFSET 大就慢</h3>
+  <p><code>SELECT ... ORDER BY c LIMIT 10 OFFSET 80000</code>——PG 优化器无选择时只能<b>先把前 80010 条按 c 排好</b>,再扔掉前 80000 条。OFFSET 不等于"跳过",等于"先排序再扔"。</p>
+  <p><b>正确解法</b>:基于有序键的条件分页。</p>
+<pre><code class="language-sql">WHERE c1=1 AND c2 BETWEEN 1 AND 10
+  AND crt_time &gt;= ?  -- 上次返回的最大 crt_time
+  AND pk &gt; ?         -- 上次返回的最大 pk(防同 crt_time)
+ORDER BY crt_time, pk LIMIT 10;
+-- 索引 (c1, c2, crt_time, pk) 直接走 Index Scan,不再 OFFSET</code></pre>
+
+  <h3>5.2 为什么表和索引会膨胀</h3>
+  <p>MVCC 让 UPDATE 产生新版本,DELETE 产生 dead tuple——<b>这些 dead tuple 必须等 vacuum 才能回收</b>。vacuum 跟不上节奏的原因(7 条):</p>
+  <ol>
+    <li><code>autovacuum = off</code></li>
+    <li><code>autovacuum_vacuum_scale_factor = 0.2</code> 太大,大表等到 20% 才触发</li>
+    <li><code>autovacuum_naptime</code> 太大</li>
+    <li><code>autovacuum_vacuum_cost_delay</code> 太大(vacuum 跑得太斯文)</li>
+    <li><code>autovacuum_max_workers</code> 太少(默认 3,大库不够)</li>
+    <li><code>maintenance_work_mem</code> 太小,装不下所有 dead ctid,导致多次扫索引</li>
+    <li>长事务 / 长 2PC / 慢 slot / <code>hot_standby_feedback</code> 挡 vacuum</li>
+  </ol>
+  <p><b>结论</b>:膨胀是 vacuum 跟不上的结果,不是 UPDATE/DELETE 本身。把 vacuum 配好,膨胀就消失。</p>
+
+  <h3>5.3 为什么 STANDBY 有延迟</h3>
+  <p>延迟 = <code>send_lag</code> + <code>replay_lag</code>。</p>
+  <ul>
+    <li><code>send_lag</code>:网络 + primary 端 <code>wal_sender</code> 写网卡速度;通常 &lt; 1ms,1Gbps 内网可忽略。</li>
+    <li><code>replay_lag</code>:备机 <code>startup</code> 进程把 WAL 应用到数据文件的速度;受备机 IO 能力和 apply worker 并发限制。</li>
+  </ul>
+  <p><b>特例</b>:<code>hot_standby_feedback = on</code> 时,备机的最长事务会反馈给主库,主库不清理比该 xmin 还老的数据,导致 WAL 不能回收、延迟反向放大。</p>
+
+  <h3>5.4 为什么会雪崩</h3>
+  <p>雪崩三件套:</p>
+  <ul>
+    <li><b>lock</b>:大事务持锁,小事务都等;一个慢查询卡 100 个 worker。</li>
+    <li><b>大锁被已有长事务的小锁堵塞</b>:典型场景——DDL(ACCESS EXCLUSIVE)被 SELECT 阻,所有后续 DDL/DML 都排队。</li>
+    <li><b>高并发小锁等大锁</b>:典型场景——秒杀场景,几百个事务抢同一行的 <code>SELECT FOR UPDATE</code>。</li>
+  </ul>
+  <div class="callout warn">
+    <span class="lbl">第一性原理:</span><b>没有超时 = 没有雪崩保护</b>。德哥反复强调"DDL 必须包在事务里设 <code>lock_timeout</code>,否则一次 ADD COLUMN 就能把整库卡住"。
+  </div>
+
+  <h3>5.5 为什么需要 FREEZE</h3>
+  <p>32-bit 事务 ID 最多 2<sup>32</sup> ≈ 43 亿,PG 设计为循环使用。当某个表的 <code>relfrozenxid</code> 距离回卷点 &lt; 200,000,000(<code>autovacuum_freeze_max_age</code>)时,autovacuum 会强制 freeze。</p>
+  <p>xid 回卷后,原本"过去"的事务会变成"未来"的事务,数据突然消失(著名的"PG 库变只读"事故)。数据库进入保护模式:拒绝写入,只允许 VACUUM。<b>自检</b>:</p>
+<pre><code class="language-sql">SELECT datname, age(datfrozenxid) FROM pg_database ORDER BY 2 DESC;
+-- 任一库 age &gt; 200,000,000 → 该库已处于 anti-wraparound 模式
+-- 任一库 age &gt; 1,500,000,000 → 紧急!</code></pre>
+
+  <h3>5.6 为什么 GIN 有时不快</h3>
+  <p>GIN 索引更新走"快路径"(放 pending list),vacuum 时才合并到主索引。pending list 越大,查询时遍历 pending list 的开销越大,RT 升高。</p>
+  <p><b>诊断</b>:<code>CREATE EXTENSION pageinspect; SELECT * FROM gin_metapage_info(get_raw_page('idx_xxx', 0));</code>——看 <code>n_pending_pages</code>,越大越慢。<b>修复</b>:<code>VACUUM tbl;</code> 触发 pending list 合并。<b>第一性原理</b>:GIN 是为"读多写少"设计的,高频写时必须配套高频 vacuum。</p>
+
+  <h3>5.7 为什么 BRIN 有时不快</h3>
+  <p>BRIN 适用场景:<b>线性数据</b>(按物理顺序存储)且 HEAP PAGE 之间的边界清晰,时序数据是天然例子。<b>不适用</b>:数据物理顺序与索引列顺序不一致(随机写入),多列任意组合查询(只对单列有效)。<b>证伪</b>:把表 <code>CLUSTER</code> 在 BRIN 列上,RT 立刻降 → 锁定是物理顺序问题;否则换 B-Tree。</p>
+
+  <h3>5.8 为什么执行计划不正确</h3>
+  <p>根因清单:</p>
+  <ul>
+    <li><b>统计信息维度不够</b>:多列相关性没体现,优化器以为独立 → bitmap 失准</li>
+    <li><b>统计信息陈旧</b>:长时间不 <code>ANALYZE</code>,<code>pg_class.reltuples</code> 与实际差几个数量级</li>
+    <li><b>优化器因子参数不对</b>:<code>random_page_cost = 4</code>(默认)时,PG 认为随机 IO 很贵,倾向顺序扫描;对 SSD 盘要调到 1.0~1.1</li>
+    <li><b>plan cache / prepared statement</b>:<code>plan_cache_mode = auto</code> 时,前 5 次执行选 plan,后续都用这个 plan,即使数据已变(plan sniping)</li>
+    <li><b>多表 JOIN 顺序</b>:超过 8~12 张表时,PG 改用遗传算法,不一定最优;可用 <code>join_collapse_limit</code> 强制穷举</li>
+  </ul>
+  <p><b>自检</b>:</p>
+<pre><code class="language-sql">-- 看统计信息新鲜度
+SELECT schemaname, relname, last_analyze, n_mod_since_analyze
+  FROM pg_stat_user_tables ORDER BY n_mod_since_analyze DESC;
+ANALYZE VERBOSE tbl;
+
+-- 看是否 plan cache 引起
+SET plan_cache_mode = force_custom_plan;
+-- 对比两条 EXPLAIN</code></pre>
+
+  <h3>5.9 为什么 push/pull 大量数据慢</h3>
+  <p>核心原因:走 <code>simple query</code> 协议(每个语句单独解析/规划/执行),大量 round-trip;走 <code>extended query</code> 协议(用 prepared statement),可以省去重复解析。</p>
+  <p><b>优化方向</b>:</p>
+  <ul>
+    <li>用 prepared + bind:<code>PREPARE p1 AS SELECT * FROM t WHERE id = $1;</code></li>
+    <li>用 COPY 替代 INSERT(10x~100x 提速)</li>
+    <li>批量提交</li>
+    <li>异步提交:<code>SET synchronous_commit = off;</code>(配合 <code>wal_writer_delay = 10ms</code>)</li>
+  </ul>
+  <div class="callout info">
+    <span class="lbl">第一性原理:</span><b>网络 round-trip + 单条事务的 fsync = 大量数据搬运的两大成本</b>。
+  </div>
+</section>
+
+<!-- ============================================================ -->
+<!--  六、30 秒速记卡 + 总结                                    -->
+<!-- ============================================================ -->
+<section class="chapter" id="sec-speedcard">
+  <h1>六、30 秒速记卡</h1>
+  <div class="meta">贴工位上的版本 · 5 min</div>
+
+  <div class="speedcard">
+<h3>【故障三件套】</h3>
+长事务 → 阻 vacuum → 膨胀 → 慢<br>
+长 2PC → 阻 vacuum → 同上<br>
+慢 slot → 主库 WAL 堆 → 磁盘爆
+  </div>
+
+  <div class="speedcard">
+<h3>【排错七问】</h3>
+1. pg_stat_activity 现在谁在跑?<br>
+2. 谁锁了谁?(pg_blocking_pids, PG 9.6+)<br>
+3. pg_stat_progress_vacuum 在 vacuum 吗?<br>
+4. pg_stat_replication 延迟是 send 还是 replay?<br>
+5. pg_replication_slots.xmin 卡了吗?<br>
+6. pg_stat_database 死元组/事务年龄?<br>
+7. pg_stat_bgwriter checkpoint 频率?
+  </div>
+
+  <div class="speedcard">
+<h3>【必杀参数】</h3>
+statement_timeout=30s<br>
+lock_timeout=5s<br>
+idle_in_transaction_session_timeout=10min<br>
+autovacuum_max_workers=8<br>
+autovacuum_vacuum_scale_factor=0.05<br>
+random_page_cost=1.1(SSD)
+  </div>
+
+  <div class="speedcard">
+<h3>【保命查询】</h3>
+SELECT age(datfrozenxid) FROM pg_database ORDER BY 2 DESC;<br>
+<span class="sec">-- 任一 > 2 亿立即处理</span>
+  </div>
+
+  <div class="notes">
+    这张速记卡打印 A4 一张发给大家,贴工位。Q&A 主要收集听众实际遇到的 PG 问题,选 1-2 个现场诊断演示。
+  </div>
+</section>
+
+<section class="chapter" id="sec-summary">
+  <h1>七、核心结论 &amp; 可观测验证</h1>
+  <div class="meta">最重要 3 句话 + 5 行验证清单 · 5 min</div>
+
+  <h3>最重要的 3 句话</h3>
+  <ol>
+    <li><b>读懂 EXPLAIN</b>(尤其是 actual rows、buffers、loops)比"调参"有用 10 倍。</li>
+    <li><b>擒贼先擒王</b>:优化 <code>pg_stat_statements.total_time desc top 5</code>,而不是优化你看不顺眼的那条 SQL。</li>
+    <li><b>统计信息是一切规划器决策的根</b>:ANALYZE 自动化不到位,后面所有优化都是空中楼阁。</li>
+  </ol>
+
+  <h3>观测验证清单</h3>
+  <table>
+    <tr><th style="width:30%">结论</th><th style="width:35%">证明手段</th><th>证伪手段</th></tr>
+    <tr><td>索引被命中</td><td>EXPLAIN 出现 Index Scan / Index Only Scan</td><td>同一 SQL 出现 Seq Scan</td></tr>
+    <tr><td>统计信息准确</td><td>EXPLAIN ANALYZE 估算 rows 与 actual 偏差 &lt; 3×</td><td>偏差 &gt; 10×</td></tr>
+    <tr><td>Hint 生效</td><td>EXPLAIN plan 与 Hint 描述一致</td><td><code>pg_hint_plan.debug_print</code> 显示 hint 被忽略</td></tr>
+    <tr><td>主备延迟是网络</td><td><code>write_lag</code> 大、<code>replay_lag</code> 正常</td><td><code>write_lag</code> 正常但 <code>replay_lag</code> 大 → 是回放问题</td></tr>
+    <tr><td>autovacuum 跟不上</td><td><code>pg_stat_user_tables.n_dead_tup</code> 持续上升</td><td>autovacuum 频率正常,dead tuple 比例 &lt; 10%</td></tr>
+  </table>
+
+  <h3>参考来源</h3>
+  <ul style="font-size:14px; color:var(--fg-soft)">
+    <li>德哥(digoal)培训讲义 1.pdf(《第十一章 SQL优化》)、2.pdf(《日常维护、监控、排错、优化》)、3.pdf(《PostgreSQL 常见为什么》)、4.pdf(《2018 PG 大会培训》)</li>
+    <li>PostgreSQL 17 官方文档:<a href="https://www.postgresql.org/docs/17/using-explain.html">Using EXPLAIN</a>、<a href="https://www.postgresql.org/docs/17/monitoring-stats.html">Monitoring Statistics</a>、<a href="https://www.postgresql.org/docs/17/auto-explain.html">auto_explain</a></li>
+    <li>pg_hint_plan:<a href="https://github.com/ossc-db/pg_hint_plan">GitHub: ossc-db/pg_hint_plan</a></li>
+    <li>PG 官方 wiki:<a href="https://wiki.postgresql.org/wiki/Performance_Optimization">Performance Optimization</a>、<a href="https://wiki.postgresql.org/wiki/Tuning_Your_PostgreSQL_Server">Server Tuning</a></li>
+  </ul>
+
+  <div class="callout good" style="margin-top:30px">
+    <span class="lbl">最后一句:</span>PG 的故障诊断本质上是"看监控 + 看等待事件 + 看统计信息"的循环,任何把 PG 故障神秘化的论调都是没真干过生产。保持冷静,看现象反推机制,看机制反推观测——这就是 PG 实战的基本功。
+  </div>
+</section>
+
+</main>
+
+<!-- ============================================================ -->
+<!--  CDN:highlight.js + mermaid                                -->
+<!-- ============================================================ -->
+<script src="https://cdn.jsdelivr.net/gh/highlightjs/cdn-release@11.9.0/build/highlight.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/mermaid@10/dist/mermaid.min.js"></script>
+
+<script>
+/* ====== 高亮初始化 ====== */
+hljs.configure({ ignoreUnescapedHTML: true, languages: ['sql', 'ini', 'bash', 'json'] });
+document.querySelectorAll('pre code').forEach(b => hljs.highlightElement(b));
+
+/* ====== Mermaid 初始化 ====== */
+mermaid.initialize({
+  startOnLoad: true,
+  theme: 'default',
+  securityLevel: 'loose',
+  flowchart: { curve: 'basis', useMaxWidth: true, htmlLabels: true },
+  themeVariables: { fontSize: '14px' }
+});
+
+/* ====== 状态 ====== */
+const $ = sel => document.querySelector(sel);
+const $$ = sel => Array.from(document.querySelectorAll(sel));
+let presentMode = false;
+let tocOpen = true;
+let notesOpen = false;
+let timerInterval = null;
+let elapsed = 0;
+const sections = $$('.chapter');
+let currentIdx = 0;
+
+/* ====== 计时器 ====== */
+function fmt(sec) {
+  const m = Math.floor(sec / 60), s = sec % 60;
+  return String(m).padStart(2,'0') + ':' + String(s).padStart(2,'0');
+}
+function startTimer() {
+  if (timerInterval) return;
+  timerInterval = setInterval(() => {
+    elapsed++;
+    $('#timer').textContent = fmt(elapsed);
+    /* 4 小时 = 14400 秒,> 14400 标红 */
+    if (elapsed > 14400) $('#timer').style.color = '#f87171';
+  }, 1000);
+}
+startTimer();
+
+/* ====== 进度条 + TOC 高亮 ====== */
+function updateProgress() {
+  const scrolled = window.scrollY;
+  const max = document.body.scrollHeight - window.innerHeight;
+  const pct = Math.min(100, Math.max(0, (scrolled / max) * 100));
+  $('#progressBar').style.width = pct + '%';
+
+  /* 找到当前可见章节 */
+  const viewportMid = window.scrollY + window.innerHeight / 3;
+  let activeIdx = 0;
+  sections.forEach((s, i) => {
+    if (s.offsetTop <= viewportMid) activeIdx = i;
+  });
+  currentIdx = activeIdx;
+
+  /* TOC 高亮 */
+  $$('#toc a').forEach(a => a.classList.remove('active'));
+  const activeId = sections[activeIdx]?.id;
+  if (activeId) {
+    const a = document.querySelector(`#toc a[href="#${activeId}"]`);
+    if (a) a.classList.add('active');
+  }
+}
+window.addEventListener('scroll', updateProgress, { passive: true });
+updateProgress();
+
+/* ====== 模式切换 ====== */
+function toggleTOC() {
+  tocOpen = !tocOpen;
+  document.body.classList.toggle('toc-open', tocOpen);
+  $('#modeBadge').textContent = tocOpen ? '目录' : (presentMode ? '演讲' : (notesOpen ? '备注' : '阅读'));
+}
+function toggleNotes() {
+  notesOpen = !notesOpen;
+  document.body.classList.toggle('show-notes', notesOpen);
+  $('#modeBadge').textContent = notesOpen ? '备注' : (presentMode ? '演讲' : '阅读');
+}
+function togglePresent() {
+  presentMode = !presentMode;
+  document.body.classList.toggle('present', presentMode);
+  $('#modeBadge').textContent = presentMode ? '演讲' : (notesOpen ? '备注' : '阅读');
+  if (presentMode) { document.body.classList.remove('show-notes'); notesOpen = false; }
+}
+function toggleFullscreen() {
+  if (!document.fullscreenElement) document.documentElement.requestFullscreen();
+  else document.exitFullscreen();
+}
+
+/* ====== 键盘翻页 ====== */
+function goSection(delta) {
+  const next = Math.max(0, Math.min(sections.length - 1, currentIdx + delta));
+  if (next !== currentIdx) {
+    sections[next].scrollIntoView({ behavior: 'smooth', block: 'start' });
+  }
+}
+document.addEventListener('keydown', e => {
+  /* 在输入控件里不响应 */
+  if (e.target.tagName === 'INPUT' || e.target.tagName === 'TEXTAREA') return;
+  switch (e.key) {
+    case 'ArrowRight': case 'PageDown': case ' ': e.preventDefault(); goSection(1); break;
+    case 'ArrowLeft': case 'PageUp': e.preventDefault(); goSection(-1); break;
+    case 'Home': e.preventDefault(); sections[0].scrollIntoView({behavior:'smooth'}); break;
+    case 'End': e.preventDefault(); sections[sections.length-1].scrollIntoView({behavior:'smooth'}); break;
+    case 'f': case 'F': toggleFullscreen(); break;
+    case 'p': case 'P': togglePresent(); break;
+    case 'n': case 'N': toggleNotes(); break;
+    case 't': case 'T': toggleTOC(); break;
+    case 's': case 'S': e.preventDefault(); $('#sec-speedcard').scrollIntoView({behavior:'smooth'}); break;
+  }
+});
+
+/* ====== 初始化小动作 ====== */
+$('#modeBadge').textContent = '就绪';
+</script>
+
+</body>
+</html>
