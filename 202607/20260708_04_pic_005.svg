@@ -1,0 +1,121 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1100 760" font-family="Helvetica, Arial, 'PingFang SC', 'Microsoft YaHei', sans-serif">
+  <defs>
+    <linearGradient id="demand" x1="0" x2="0" y1="0" y2="1">
+      <stop offset="0" stop-color="#0b3d91"/>
+      <stop offset="1" stop-color="#1a73e8"/>
+    </linearGradient>
+    <linearGradient id="hyper" x1="0" x2="0" y1="0" y2="1">
+      <stop offset="0" stop-color="#b91c1c"/>
+      <stop offset="1" stop-color="#ef4444"/>
+    </linearGradient>
+    <linearGradient id="neo" x1="0" x2="0" y1="0" y2="1">
+      <stop offset="0" stop-color="#065f46"/>
+      <stop offset="1" stop-color="#10b981"/>
+    </linearGradient>
+    <linearGradient id="sov" x1="0" x2="0" y1="0" y2="1">
+      <stop offset="0" stop-color="#7c2d12"/>
+      <stop offset="1" stop-color="#d97706"/>
+    </linearGradient>
+    <linearGradient id="hw" x1="0" x2="0" y1="0" y2="1">
+      <stop offset="0" stop-color="#4c1d95"/>
+      <stop offset="1" stop-color="#7c3aed"/>
+    </linearGradient>
+    <marker id="arrow" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="6" markerHeight="6" orient="auto-start-reverse">
+      <path d="M0,0 L10,5 L0,10 z" fill="#374151"/>
+    </marker>
+  </defs>
+
+  <rect width="1100" height="760" fill="#f8fafc"/>
+
+  <text x="550" y="36" text-anchor="middle" font-size="22" font-weight="700" fill="#0f172a">
+    AI Agent 时代云计算价值链势力地图（2026 H2 视角）
+  </text>
+  <text x="550" y="58" text-anchor="middle" font-size="13" fill="#475569">
+    节点大小代表议价权；颜色：紫=上游、绿=AI 原生、红=通用云、橙=Sovereign、蓝=需求方
+  </text>
+
+  <!-- 需求方 -->
+  <g>
+    <rect x="380" y="80" width="340" height="86" rx="14" fill="url(#demand)" stroke="#0b3d91" stroke-width="1.5"/>
+    <text x="550" y="108" text-anchor="middle" font-size="15" font-weight="700" fill="white">Agent 工作负载（需求方）</text>
+    <text x="550" y="130" text-anchor="middle" font-size="11" fill="#dbeafe">IDC: 2025 年 440 亿次 → 2030 年 400 万亿次（≈900 倍）</text>
+    <text x="550" y="148" text-anchor="middle" font-size="11" fill="#dbeafe">Anthropic ARR 单季 $9B → $25B</text>
+    <text x="550" y="164" text-anchor="middle" font-size="11" fill="#dbeafe">国内日均 Agent 调用量 1000 亿 → 140 万亿（2 年 +1400 倍）</text>
+  </g>
+
+  <!-- 上游硬件（左） -->
+  <g>
+    <rect x="60" y="240" width="220" height="180" rx="14" fill="url(#hw)" stroke="#4c1d95" stroke-width="1.5"/>
+    <text x="170" y="268" text-anchor="middle" font-size="15" font-weight="700" fill="white">上游硬件（确定性最高）</text>
+    <text x="80" y="295" font-size="11" fill="#ede9fe">• NVDA / AMD / TSM / AVGO</text>
+    <text x="80" y="315" font-size="11" fill="#ede9fe">• HBM：SK 海力士垄断</text>
+    <text x="80" y="335" font-size="11" fill="#ede9fe">• CoWoS：台积电 2026 110 万片</text>
+    <text x="80" y="355" font-size="11" fill="#ede9fe">• 光模块 / 液冷 / 电力 / 变压器</text>
+    <text x="170" y="385" text-anchor="middle" font-size="11" font-weight="600" fill="#fde68a">议价权：高</text>
+    <text x="170" y="405" text-anchor="middle" font-size="11" font-weight="600" fill="#fde68a">避不开的卖铲人</text>
+  </g>
+
+  <!-- AI 原生云（右） -->
+  <g>
+    <rect x="820" y="240" width="220" height="180" rx="14" fill="url(#neo)" stroke="#065f46" stroke-width="1.5"/>
+    <text x="930" y="268" text-anchor="middle" font-size="15" font-weight="700" fill="white">AI 原生云（高 beta）</text>
+    <text x="840" y="295" font-size="11" fill="#d1fae5">• CoreWeave EBITDA 60%</text>
+    <text x="840" y="315" font-size="11" fill="#d1fae5">• Nebius 现货弹性更大</text>
+    <text x="840" y="335" font-size="11" fill="#d1fae5">• Crusoe 能源套利</text>
+    <text x="840" y="355" font-size="11" fill="#d1fae5">• Lambda / Nscale / IREN</text>
+    <text x="930" y="385" text-anchor="middle" font-size="11" font-weight="600" fill="#fef3c7">议价权：高</text>
+    <text x="930" y="405" text-anchor="middle" font-size="11" font-weight="600" fill="#fef3c7">但客户集中度风险</text>
+  </g>
+
+  <!-- 通用云（中） -->
+  <g>
+    <rect x="320" y="280" width="460" height="200" rx="14" fill="url(#hyper)" stroke="#7f1d1d" stroke-width="1.5"/>
+    <text x="550" y="308" text-anchor="middle" font-size="15" font-weight="700" fill="white">通用云（被双向挤压）</text>
+    <text x="340" y="335" font-size="11" fill="#fee2e2">AWS：营业利润率 33%（上季 39%），RPO $364B</text>
+    <text x="340" y="355" font-size="11" fill="#fee2e2">Azure：CIO 首选 55%（vs AWS 28%），毛利率 68%</text>
+    <text x="340" y="375" font-size="11" fill="#fee2e2">GCP：增速 63%，RPO $462B 几乎翻倍，毛利率 21%</text>
+    <text x="340" y="395" font-size="11" fill="#fee2e2">Oracle AI 云：毛利率 14%（裸泳程度最高）</text>
+    <text x="340" y="425" font-size="11" fill="#fecaca">AI 部分毛利率压缩；非 AI 部分受益于 CPU 利用率回升</text>
+    <text x="550" y="455" text-anchor="middle" font-size="11" font-weight="600" fill="#fef3c7">议价权：中（分化）</text>
+    <text x="550" y="475" text-anchor="middle" font-size="11" font-weight="600" fill="#fef3c7">AWS/Azure/GCP 中性偏防御，Oracle 危险</text>
+  </g>
+
+  <!-- Sovereign 自建（左下） -->
+  <g>
+    <rect x="60" y="500" width="280" height="180" rx="14" fill="url(#sov)" stroke="#7c2d12" stroke-width="1.5"/>
+    <text x="200" y="528" text-anchor="middle" font-size="15" font-weight="700" fill="white">Sovereign / 自建</text>
+    <text x="80" y="555" font-size="11" fill="#fed7aa">• DELL / HPE / SMCI</text>
+    <text x="80" y="575" font-size="11" fill="#fed7aa">• 欧洲主权云（OVHcloud / IONOS）</text>
+    <text x="80" y="595" font-size="11" fill="#fed7aa">• 银行 / 政府 / 能源 / 大企业</text>
+    <text x="80" y="615" font-size="11" fill="#fed7aa">• 2026 主权 AI 支出 $80B（+35.6%）</text>
+    <text x="200" y="645" text-anchor="middle" font-size="11" font-weight="600" fill="#fef3c7">议价权：上升中</text>
+    <text x="200" y="665" text-anchor="middle" font-size="11" font-weight="600" fill="#fef3c7">80%+ 利用率时自建胜</text>
+  </g>
+
+  <!-- 价值流箭头 -->
+  <path d="M 550 166 L 550 280" stroke="#374151" stroke-width="2" fill="none" marker-end="url(#arrow)"/>
+  <path d="M 470 175 L 200 240" stroke="#374151" stroke-width="2" fill="none" marker-end="url(#arrow)"/>
+  <path d="M 630 175 L 900 240" stroke="#374151" stroke-width="2" fill="none" marker-end="url(#arrow)"/>
+
+  <!-- 现金流/价值流 -->
+  <text x="510" y="225" font-size="10" fill="#374151">↓ 需求</text>
+  <text x="350" y="210" font-size="10" fill="#374151">↓ GPU/CPU 采购</text>
+  <text x="700" y="210" font-size="10" fill="#374151">↓ 长约锁定 ↓</text>
+
+  <!-- 底部总结 -->
+  <g>
+    <rect x="380" y="500" width="400" height="180" rx="14" fill="#0f172a" stroke="#0f172a" stroke-width="1.5"/>
+    <text x="580" y="528" text-anchor="middle" font-size="15" font-weight="700" fill="#fbbf24">超卖叙事没有被推翻，但被压缩</text>
+    <text x="400" y="555" font-size="11" fill="#e2e8f0">• AI 专项云（Oracle 14%）已 "裸泳"</text>
+    <text x="400" y="575" font-size="11" fill="#e2e8f0">• 通用云 AI 部分毛利率压缩 5–10pp</text>
+    <text x="400" y="595" font-size="11" fill="#e2e8f0">• 非 AI 部分受益于 CPU 利用率回升</text>
+    <text x="400" y="615" font-size="11" fill="#e2e8f0">• 上游硬件是必买（无论哪条路径）</text>
+    <text x="400" y="635" font-size="11" fill="#e2e8f0">• Sovereign + 自建是反向 hedge</text>
+    <text x="580" y="665" text-anchor="middle" font-size="11" font-style="italic" fill="#94a3b8">建议组合：核心 40% + 卫星 25% + 防御 15% + 反向 20%</text>
+  </g>
+
+  <!-- 时间标签 -->
+  <text x="200" y="700" font-size="10" fill="#64748b">▷ 2025–2027 阶段：capex 军备竞赛，能源 = 终极护城河</text>
+  <text x="200" y="720" font-size="10" fill="#64748b">▷ 2028+ 阶段：若 Agent ROI 不达预期，毛利率进一步压缩，BIS 警告的"投资泡沫"剧本</text>
+  <text x="200" y="740" font-size="10" fill="#64748b">▷ 关键观察：H100 现货价、Anthropic/OpenAI ARR 增速、AWS op margin、半导体 Capex/销售比</text>
+</svg>

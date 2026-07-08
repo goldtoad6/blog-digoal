@@ -1,0 +1,75 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 880 560" font-family="-apple-system, 'PingFang SC', 'Helvetica Neue', Arial, sans-serif">
+  <rect width="880" height="560" fill="#FAFBFD"/>
+
+  <text x="440" y="32" font-size="20" font-weight="700" text-anchor="middle" fill="#1B2433">CPU vs GPU：超卖的两条命运分叉</text>
+  <text x="440" y="54" font-size="13" text-anchor="middle" fill="#5B6573">Agent 时代真正被"啃"的是 GPU 超卖比例；CPU 反而因为 vCPU 需求暴涨而得益</text>
+
+  <!-- left: CPU -->
+  <g transform="translate(70,100)">
+    <rect x="0" y="0" width="370" height="220" rx="8" fill="#FFFFFF" stroke="#D9DEE8"/>
+    <text x="20" y="30" font-size="16" font-weight="700" fill="#1B2433">CPU 池：超卖反而可能走强</text>
+    <text x="20" y="50" font-size="12" fill="#5B6573">超卖比 2:1 → 3:1 之间波动，方向：↑</text>
+
+    <!-- 物理 CPU 64 核 -->
+    <rect x="30" y="80" width="310" height="80" fill="#EEF3FB" stroke="#A4B4D6"/>
+    <text x="40" y="100" font-size="12" font-weight="600" fill="#1B2433">物理资源：64 vCPU</text>
+    <text x="40" y="118" font-size="11" fill="#5B6573">20 个客户各买 8 vCPU，承诺 160 vCPU</text>
+
+    <!-- gauge bar -->
+    <rect x="30" y="135" width="310" height="18" fill="#F4F6FA" rx="3"/>
+    <rect x="30" y="135" width="200" height="18" fill="#4F8EF7" rx="3"/>
+    <text x="340" y="148" font-size="11" text-anchor="end" fill="#1B2433">2.5:1 超卖</text>
+
+    <text x="20" y="180" font-size="12" fill="#1B2433">理由：agent 需要 vCPU 做工具调用、SQL 拼接、</text>
+    <text x="20" y="196" font-size="12" fill="#1B2433">JSON 解析、缓存写入；vCPU 与 GPU 比例从 1:8</text>
+    <text x="20" y="212" font-size="12" fill="#1B2433">提升到约 1:2–1:4（雪球社区测算，参考 GTC 数据）。</text>
+  </g>
+
+  <!-- right: GPU -->
+  <g transform="translate(460,100)">
+    <rect x="0" y="0" width="350" height="220" rx="8" fill="#FFFFFF" stroke="#D9DEE8"/>
+    <text x="20" y="30" font-size="16" font-weight="700" fill="#1B2433">GPU 池：超卖被显著压缩</text>
+    <text x="20" y="50" font-size="12" fill="#5B6573">超卖比 ≤ 1.2:1，方向：↓</text>
+
+    <rect x="30" y="80" width="290" height="80" fill="#FDEEEE" stroke="#DDA0A0"/>
+    <text x="40" y="100" font-size="12" font-weight="600" fill="#1B2433">物理资源：8 张 H100</text>
+    <text x="40" y="118" font-size="11" fill="#5B6573">推理 batch 锁定 → 实际只能卖 8–10 张</text>
+
+    <rect x="30" y="135" width="290" height="18" fill="#F4F6FA" rx="3"/>
+    <rect x="30" y="135" width="36" height="18" fill="#F76D6D" rx="3"/>
+    <text x="320" y="148" font-size="11" text-anchor="end" fill="#1B2433">1.1:1 超卖</text>
+
+    <text x="20" y="180" font-size="12" fill="#1B2433">理由：推理受 KV cache / 显存带宽约束，</text>
+    <text x="20" y="196" font-size="12" fill="#1B2433">长 prompt 占用显存 + 输出长度不可压缩，</text>
+    <text x="20" y="212" font-size="12" fill="#1B2433">MIG/MPS 切分粒度天然小，调度损失大。</text>
+  </g>
+
+  <!-- bottom: utilization comparison bars -->
+  <g transform="translate(70,350)">
+    <text x="0" y="0" font-size="14" font-weight="700" fill="#1B2433">利用率现实：被报道的"5%–32%"与"97.5%"为何不冲突</text>
+
+    <text x="0" y="30" font-size="12" fill="#1B2433">企业 K8s GPU 平均利用率</text>
+    <rect x="200" y="18" width="500" height="14" fill="#F4F6FA" rx="2"/>
+    <rect x="200" y="18" width="25"  height="14" fill="#F76D6D" rx="2"/>
+    <text x="715" y="30" font-size="11" fill="#5B6573">~5%  （Cast AI 2026）</text>
+
+    <text x="0" y="60" font-size="12" fill="#1B2433">OpenAI GPT-4 训练 MFU</text>
+    <rect x="200" y="48" width="500" height="14" fill="#F4F6FA" rx="2"/>
+    <rect x="200" y="48" width="170" height="14" fill="#F76D6D" rx="2"/>
+    <text x="715" y="60" font-size="11" fill="#5B6573">32–36%</text>
+
+    <text x="0" y="90" font-size="12" fill="#1B2433">Google / Meta 大集群训练利用率</text>
+    <rect x="200" y="78" width="500" height="14" fill="#F4F6FA" rx="2"/>
+    <rect x="200" y="78" width="220" height="14" fill="#FFB400" rx="2"/>
+    <text x="715" y="90" font-size="11" fill="#5B6573">43–46%</text>
+
+    <text x="0" y="120" font-size="12" fill="#1B2433">超大规模云对外售卖的 GPU 池</text>
+    <rect x="200" y="108" width="500" height="14" fill="#F4F6FA" rx="2"/>
+    <rect x="200" y="108" width="488" height="14" fill="#4FB477" rx="2"/>
+    <text x="715" y="120" font-size="11" fill="#5B6573">~97.5%（甲骨文 CEO 2026 财报会披露）</text>
+
+    <text x="0" y="156" font-size="11" fill="#5B6573">结论：同一行 GPU，训练时 MFU 32–46%，推理售卖时却几乎打满——</text>
+    <text x="0" y="172" font-size="11" fill="#5B6573">超卖的"魔法"不是把空闲抹掉，而是把训练闲时卖给推理，把推理闲时卖给微调。</text>
+  </g>
+</svg>

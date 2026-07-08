@@ -1,0 +1,68 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 880 600" font-family="-apple-system, 'PingFang SC', 'Helvetica Neue', Arial, sans-serif">
+  <defs>
+    <linearGradient id="human" x1="0" y1="0" x2="0" y2="1">
+      <stop offset="0%" stop-color="#4F8EF7" stop-opacity="0.7"/>
+      <stop offset="100%" stop-color="#4F8EF7" stop-opacity="0.05"/>
+    </linearGradient>
+    <linearGradient id="agent24x7" x1="0" y1="0" x2="0" y2="1">
+      <stop offset="0%" stop-color="#F76D6D" stop-opacity="0.55"/>
+      <stop offset="100%" stop-color="#F76D6D" stop-opacity="0.05"/>
+    </linearGradient>
+    <linearGradient id="agentInner" x1="0" y1="0" x2="0" y2="1">
+      <stop offset="0%" stop-color="#8E5CF7" stop-opacity="0.6"/>
+      <stop offset="100%" stop-color="#8E5CF7" stop-opacity="0.05"/>
+    </linearGradient>
+  </defs>
+
+  <rect width="880" height="600" fill="#FAFBFD"/>
+
+  <text x="440" y="32" font-size="20" font-weight="700" text-anchor="middle" fill="#1B2433">AI Agent 不会"彻底抹平"日内波形</text>
+  <text x="440" y="54" font-size="13" text-anchor="middle" fill="#5B6573">全天候 24/7 只是平均水位抬升，叠加的是另一层日内节律</text>
+
+  <g transform="translate(70,90)">
+    <line x1="0" y1="280" x2="800" y2="280" stroke="#C8CED9" stroke-width="1"/>
+    <line x1="0" y1="0" x2="0" y2="280" stroke="#C8CED9" stroke-width="1"/>
+
+    <text x="-8" y="6"   font-size="11" text-anchor="end" fill="#5B6573">100%</text>
+    <text x="-8" y="76"  font-size="11" text-anchor="end" fill="#5B6573">75%</text>
+    <text x="-8" y="146" font-size="11" text-anchor="end" fill="#5B6573">50%</text>
+    <text x="-8" y="216" font-size="11" text-anchor="end" fill="#5B6573">25%</text>
+    <text x="-8" y="280" font-size="11" text-anchor="end" fill="#5B6573">0%</text>
+
+    <text x="0"   y="300" font-size="11" text-anchor="middle" fill="#5B6573">00:00</text>
+    <text x="200" y="300" font-size="11" text-anchor="middle" fill="#5B6573">06:00</text>
+    <text x="400" y="300" font-size="11" text-anchor="middle" fill="#5B6573">12:00</text>
+    <text x="600" y="300" font-size="11" text-anchor="middle" fill="#5B6573">18:00</text>
+    <text x="800" y="300" font-size="11" text-anchor="middle" fill="#5B6573">24:00</text>
+
+    <path d="M 0 230 L 50 228 L 100 225 L 150 220 L 200 200 L 250 170 L 300 120 L 350 80 L 400 70 L 450 75 L 500 90 L 550 110 L 600 150 L 650 190 L 700 215 L 750 225 L 800 230 Z"
+          fill="url(#human)" stroke="#4F8EF7" stroke-width="2"/>
+
+    <path d="M 0 110 L 50 108 L 100 100 L 150 95 L 200 90 L 250 88 L 300 95 L 350 100 L 400 95 L 450 88 L 500 82 L 550 85 L 600 92 L 650 95 L 700 98 L 750 105 L 800 110 Z"
+          fill="url(#agent24x7)" stroke="#F76D6D" stroke-width="2"/>
+
+    <path d="M 0 115 L 25 130 L 50 145 L 75 160 L 100 175 L 125 165 L 150 150 L 175 135 L 200 125 L 225 115 L 250 100 L 275 88 L 300 80 L 325 85 L 350 95 L 375 105 L 400 115 L 425 125 L 450 130 L 475 125 L 500 115 L 525 105 L 550 100 L 575 105 L 600 115 L 625 125 L 650 130 L 675 125 L 700 115 L 725 108 L 750 105 L 775 108 L 800 115 Z"
+          fill="url(#agentInner)" stroke="#8E5CF7" stroke-width="2"/>
+
+    <text x="60"  y="245" font-size="12" font-weight="600" fill="#4F8EF7">人类分析师（白天峰、夜里谷）</text>
+    <text x="60"  y="105" font-size="12" font-weight="600" fill="#F76D6D">AI Agent（24/7 平均水位高）</text>
+    <text x="800" y="160" font-size="12" font-weight="700" text-anchor="end" fill="#8E5CF7">但 agent 集群的"日内次峰"</text>
+  </g>
+
+  <g transform="translate(70,420)">
+    <rect x="0" y="0" width="800" height="160" rx="6" fill="#F2F5FB" stroke="#D9DEE8"/>
+    <text x="20" y="26" font-size="14" font-weight="700" fill="#1B2433">Agent 集群内部为什么仍有节律？</text>
+
+    <g transform="translate(20,46)" font-size="12" fill="#1B2433">
+      <text x="0" y="14" font-weight="600">1. Continuous batching 的"次秒级"反向耦合</text>
+      <text x="20" y="32">推理服务把多个请求攒成 batch 一起算，batch 形成就有"小谷"——所谓 token throughput 的来源。</text>
+
+      <text x="0" y="62" font-weight="600">2. 工具调用与外部 API 限流</text>
+      <text x="20" y="80">agent 调 SQL、Slack、CRM、SaaS API，受外部系统 RPS 限流；当上游节流时，agent 队列立刻空转。</text>
+
+      <text x="0" y="110" font-weight="600">3. Human-in-the-loop 的"白班"</text>
+      <text x="20" y="128">企业部署的 agent 多数仍要人审——任务"提交窗口"对齐人类工作时间（Databricks Genie、客服 agent、代码 review agent 都很典型）。</text>
+    </g>
+  </g>
+</svg>

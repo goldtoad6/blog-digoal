@@ -1,0 +1,71 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 880 540" font-family="-apple-system, 'PingFang SC', 'Helvetica Neue', Arial, sans-serif">
+  <rect width="880" height="540" fill="#FAFBFD"/>
+
+  <text x="440" y="32" font-size="20" font-weight="700" text-anchor="middle" fill="#1B2433">利润的真正去向：价值链上谁吃亏、谁占便宜</text>
+  <text x="440" y="54" font-size="13" text-anchor="middle" fill="#5B6573">Agent 让"流量入口"回归云厂商：吃掉一层 SaaS 利润，但云本身更紧俏</text>
+
+  <!-- value chain blocks -->
+  <g font-family="-apple-system, 'PingFang SC', 'Helvetica Neue', Arial, sans-serif">
+    <!-- chip -->
+    <rect x="40" y="110" width="140" height="100" rx="8" fill="#FFFFFF" stroke="#D9DEE8"/>
+    <text x="110" y="138" font-size="14" font-weight="700" text-anchor="middle" fill="#1B2433">芯片层</text>
+    <text x="110" y="158" font-size="11" text-anchor="middle" fill="#5B6573">NVIDIA / AMD</text>
+    <text x="110" y="178" font-size="11" text-anchor="middle" fill="#4FB477" font-weight="700">毛利率 75%+</text>
+    <text x="110" y="196" font-size="11" text-anchor="middle" fill="#5B6573">（硬件稀缺性）</text>
+
+    <!-- hyperscaler cloud -->
+    <rect x="220" y="110" width="160" height="100" rx="8" fill="#FFFFFF" stroke="#D9DEE8"/>
+    <text x="300" y="138" font-size="14" font-weight="700" text-anchor="middle" fill="#1B2433">超大规模云</text>
+    <text x="300" y="158" font-size="11" text-anchor="middle" fill="#5B6573">MSFT / GOOG / AMZN</text>
+    <text x="300" y="178" font-size="11" text-anchor="middle" fill="#FFB400" font-weight="700">毛利率 50–66%</text>
+    <text x="300" y="196" font-size="11" text-anchor="middle" fill="#5B6573">（边际下行）</text>
+
+    <!-- data/AI infra -->
+    <rect x="420" y="110" width="160" height="100" rx="8" fill="#FFFFFF" stroke="#D9DEE8"/>
+    <text x="500" y="138" font-size="14" font-weight="700" text-anchor="middle" fill="#1B2433">数据/AI 平台</text>
+    <text x="500" y="158" font-size="11" text-anchor="middle" fill="#5B6573">Databricks / Snowflake</text>
+    <text x="500" y="178" font-size="11" text-anchor="middle" fill="#F76D6D" font-weight="700">毛利率 走低</text>
+    <text x="500" y="196" font-size="11" text-anchor="middle" fill="#5B6573">（按消耗定价）</text>
+
+    <!-- model API -->
+    <rect x="620" y="110" width="160" height="100" rx="8" fill="#FFFFFF" stroke="#D9DEE8"/>
+    <text x="700" y="138" font-size="14" font-weight="700" text-anchor="middle" fill="#1B2433">模型 API</text>
+    <text x="700" y="158" font-size="11" text-anchor="middle" fill="#5B6573">Anthropic / OpenAI</text>
+    <text x="700" y="178" font-size="11" text-anchor="middle" fill="#4F8EF7" font-weight="700">毛利率 &lt;30%</text>
+    <text x="700" y="196" font-size="11" text-anchor="middle" fill="#5B6573">（推理成本高）</text>
+
+    <!-- arrows showing value flow -->
+    <defs>
+      <marker id="arr" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="6" markerHeight="6" orient="auto">
+        <path d="M 0 0 L 10 5 L 0 10 z" fill="#5B6573"/>
+      </marker>
+    </defs>
+    <line x1="180" y1="160" x2="220" y2="160" stroke="#5B6573" stroke-width="2" marker-end="url(#arr)"/>
+    <line x1="380" y1="160" x2="420" y2="160" stroke="#5B6573" stroke-width="2" marker-end="url(#arr)"/>
+    <line x1="580" y1="160" x2="620" y2="160" stroke="#5B6573" stroke-width="2" marker-end="url(#arr)"/>
+
+    <text x="200" y="148" font-size="10" text-anchor="middle" fill="#5B6573">买</text>
+    <text x="400" y="148" font-size="10" text-anchor="middle" fill="#5B6573">买</text>
+    <text x="600" y="148" font-size="10" text-anchor="middle" fill="#5B6573">买</text>
+  </g>
+
+  <!-- insight blocks -->
+  <g transform="translate(40,260)" font-family="-apple-system, 'PingFang SC', 'Helvetica Neue', Arial, sans-serif">
+    <rect x="0" y="0" width="800" height="250" rx="8" fill="#F2F5FB" stroke="#D9DEE8"/>
+
+    <text x="20" y="28" font-size="14" font-weight="700" fill="#1B2433">三句话总结这条价值链</text>
+
+    <text x="20" y="60" font-size="12" font-weight="600" fill="#1B2433">1. 云厂商不是"超卖叙事破裂"的输家，而是赢家。</text>
+    <text x="20" y="78" font-size="12" fill="#1B2433">AWS 2026Q1 营业利润率 38%（同比 -2pp）但 376 亿美元营收同比 +28%；Google Cloud 32.9% 营业利润同比近翻倍；</text>
+    <text x="20" y="94" font-size="12" fill="#1B2433">Azure 从 60% 毛利率掉到 ~52%，但绝对毛利仍在膨胀。AI 把"超卖叙事"从 CPU 时代搬到 GPU 时代，叙事换了载体。</text>
+
+    <text x="20" y="124" font-size="12" font-weight="600" fill="#1B2433">2. 真正被 Agent 啃掉利润的，是"按消耗定价"的中间层（Databricks / Snowflake / 模型 API）。</text>
+    <text x="20" y="142" font-size="12" fill="#1B2433">Databricks CEO Ali Ghodsi 公开承认毛利率将走低，原因是"按消耗"模型让收入与算力成本强绑定；</text>
+    <text x="20" y="158" font-size="12" fill="#1B2433">Databricks 不得不推出 Unity AI Gateway 装"水龙头"。这是商业模式问题，不是云超卖问题。</text>
+
+    <text x="20" y="188" font-size="12" font-weight="600" fill="#1B2433">3. 长期：超卖从"硬件复用"变成"模型复用"。</text>
+    <text x="20" y="206" font-size="12" fill="#1B2433">多个 agent 共享同一基础模型的 weight + KV cache 缓存（prefix caching、speculative decoding）形成新一层复用——</text>
+    <text x="20" y="222" font-size="12" fill="#1B2433">云厂商卖"token/秒"而非"vCPU/小时"，超卖的载体从 CPU 周期变成"模型状态空间"。</text>
+  </g>
+</svg>

@@ -1,0 +1,87 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 880 540" font-family="-apple-system, 'PingFang SC', 'Helvetica Neue', Arial, sans-serif">
+  <defs>
+    <linearGradient id="g1" x1="0" y1="0" x2="0" y2="1">
+      <stop offset="0%" stop-color="#4F8EF7" stop-opacity="0.55"/>
+      <stop offset="100%" stop-color="#4F8EF7" stop-opacity="0.05"/>
+    </linearGradient>
+    <linearGradient id="g2" x1="0" y1="0" x2="0" y2="1">
+      <stop offset="0%" stop-color="#F76D6D" stop-opacity="0.55"/>
+      <stop offset="100%" stop-color="#F76D6D" stop-opacity="0.05"/>
+    </linearGradient>
+    <linearGradient id="g3" x1="0" y1="0" x2="0" y2="1">
+      <stop offset="0%" stop-color="#4FB477" stop-opacity="0.55"/>
+      <stop offset="100%" stop-color="#4FB477" stop-opacity="0.05"/>
+    </linearGradient>
+    <linearGradient id="gAgg" x1="0" y1="0" x2="0" y2="1">
+      <stop offset="0%" stop-color="#8E5CF7" stop-opacity="0.65"/>
+      <stop offset="100%" stop-color="#8E5CF7" stop-opacity="0.05"/>
+    </linearGradient>
+  </defs>
+
+  <!-- background -->
+  <rect width="880" height="540" fill="#FAFBFD"/>
+
+  <!-- title -->
+  <text x="440" y="32" font-size="20" font-weight="700" text-anchor="middle" fill="#1B2433">超卖的数学本质：统计复用 + 长尾空闲</text>
+  <text x="440" y="54" font-size="13" text-anchor="middle" fill="#5B6573">N 个独立客户的瞬时负载叠加 ≈ 容量利用率提升 N^(1/2)~N 倍</text>
+
+  <!-- chart area -->
+  <g transform="translate(70,90)">
+    <!-- axes -->
+    <line x1="0" y1="320" x2="800" y2="320" stroke="#C8CED9" stroke-width="1"/>
+    <line x1="0" y1="0" x2="0" y2="320" stroke="#C8CED9" stroke-width="1"/>
+
+    <!-- y labels (utilization) -->
+    <text x="-8" y="6" font-size="11" text-anchor="end" fill="#5B6573">100%</text>
+    <text x="-8" y="80" font-size="11" text-anchor="end" fill="#5B6573">75%</text>
+    <text x="-8" y="156" font-size="11" text-anchor="end" fill="#5B6573">50%</text>
+    <text x="-8" y="232" font-size="11" text-anchor="end" fill="#5B6573">25%</text>
+    <text x="-8" y="320" font-size="11" text-anchor="end" fill="#5B6573">0%</text>
+
+    <!-- x labels (time) -->
+    <text x="0"   y="340" font-size="11" text-anchor="middle" fill="#5B6573">00:00</text>
+    <text x="100" y="340" font-size="11" text-anchor="middle" fill="#5B6573">03:00</text>
+    <text x="200" y="340" font-size="11" text-anchor="middle" fill="#5B6573">06:00</text>
+    <text x="300" y="340" font-size="11" text-anchor="middle" fill="#5B6573">09:00</text>
+    <text x="400" y="340" font-size="11" text-anchor="middle" fill="#5B6573">12:00</text>
+    <text x="500" y="340" font-size="11" text-anchor="middle" fill="#5B6573">15:00</text>
+    <text x="600" y="340" font-size="11" text-anchor="middle" fill="#5B6573">18:00</text>
+    <text x="700" y="340" font-size="11" text-anchor="middle" fill="#5B6573">21:00</text>
+    <text x="800" y="340" font-size="11" text-anchor="middle" fill="#5B6573">24:00</text>
+
+    <!-- 客户 A: 白天高、夜里低（典型企业白天业务） -->
+    <path d="M 0 250 L 50 245 L 100 240 L 150 225 L 200 190 L 250 130 L 300 70 L 350 50 L 400 45 L 450 50 L 500 70 L 550 80 L 600 95 L 650 130 L 700 170 L 750 210 L 800 235 Z"
+          fill="url(#g1)" stroke="#4F8EF7" stroke-width="2"/>
+
+    <!-- 客户 B: 夜里高（欧洲/媒体夜间批处理） -->
+    <path d="M 0 80 L 50 60 L 100 45 L 150 50 L 200 80 L 250 130 L 300 180 L 350 220 L 400 250 L 450 260 L 500 245 L 550 215 L 600 175 L 650 140 L 700 110 L 750 95 L 800 85 Z"
+          fill="url(#g2)" stroke="#F76D6D" stroke-width="2"/>
+
+    <!-- 客户 C: 游戏 / 中段峰值 -->
+    <path d="M 0 200 L 50 195 L 100 190 L 150 180 L 200 170 L 250 150 L 300 130 L 350 110 L 400 95 L 450 90 L 500 95 L 550 110 L 600 130 L 650 150 L 700 170 L 750 185 L 800 200 Z"
+          fill="url(#g3)" stroke="#4FB477" stroke-width="2"/>
+
+    <!-- 聚合后：曲线明显被"压扁"，谷值提升 -->
+    <path d="M 0 170 L 50 158 L 100 145 L 150 135 L 200 120 L 250 100 L 300 85 L 350 78 L 400 75 L 450 78 L 500 88 L 550 95 L 600 108 L 650 125 L 700 142 L 750 160 L 800 175 Z"
+          fill="url(#gAgg)" stroke="#8E5CF7" stroke-width="3" stroke-dasharray="0"/>
+
+    <!-- 物理容量 60% 线 (即 1.6:1 oversub) -->
+    <line x1="0" y1="128" x2="800" y2="128" stroke="#FFB400" stroke-width="2" stroke-dasharray="6,4"/>
+    <text x="805" y="131" font-size="11" fill="#B07700">物理容量上限（卖出去的 1.6×）</text>
+
+    <!-- labels for curves -->
+    <text x="60"  y="260" font-size="12" font-weight="600" fill="#4F8EF7">客户 A（白天业务）</text>
+    <text x="60"  y="75"  font-size="12" font-weight="600" fill="#F76D6D">客户 B（夜间批处理）</text>
+    <text x="60"  y="195" font-size="12" font-weight="600" fill="#4FB477">客户 C（游戏时段峰）</text>
+    <text x="800" y="86"  font-size="12" font-weight="700" text-anchor="end" fill="#8E5CF7">三者叠加（聚合）</text>
+  </g>
+
+  <!-- math panel -->
+  <g transform="translate(70,460)">
+    <rect x="0" y="0" width="800" height="64" rx="6" fill="#F2F5FB" stroke="#D9DEE8"/>
+    <text x="20" y="22" font-size="13" font-weight="700" fill="#1B2433">一阶直觉</text>
+    <text x="20" y="42" font-size="12" fill="#1B2433">单客户峰值/均值比可高达 5–10×（业务集中在 8 小时）；独立客户叠加时方差按 √N 收缩 → 聚合峰值/均值迅速逼近 1.5–2×。</text>
+    <text x="20" y="58" font-size="12" fill="#1B2433">云厂商据此把 N 个 1 vCPU 卖给 N 个客户，把物理核数定为 N / 1.6：1，这就是"超卖"。</text>
+  </g>
+</svg>
