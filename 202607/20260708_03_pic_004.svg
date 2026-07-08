@@ -1,0 +1,170 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1200 760" font-family="system-ui, -apple-system, 'Segoe UI', sans-serif">
+  <!-- Surface -->
+  <rect width="1200" height="760" fill="#fcfcfb"/>
+
+  <!-- Title -->
+  <text x="600" y="40" font-size="18" font-weight="600" fill="#0b0b0b" text-anchor="middle">2026 中国桌面 AI Agent 势力地图：百"虾"大战</text>
+  <text x="600" y="60" font-size="12" fill="#52514e" text-anchor="middle">坐标轴：入口深度（横）· 模型自研（纵）· 气泡大小 ≈ 已知用户/ARR 量级</text>
+
+  <!-- Quadrant grid -->
+  <g transform="translate(150, 130)">
+    <!-- Axes -->
+    <line x1="0" y1="280" x2="900" y2="280" stroke="#c3c2b7" stroke-width="1.5"/>
+    <line x1="450" y1="0" x2="450" y2="560" stroke="#c3c2b7" stroke-width="1.5"/>
+    <!-- Quadrant labels -->
+    <g font-size="12" font-weight="500" fill="#52514e">
+      <text x="20" y="24" text-anchor="start">高模型自研 + 弱入口</text>
+      <text x="880" y="24" text-anchor="end">高模型自研 + 强入口 ⭐</text>
+      <text x="20" y="556" text-anchor="start">弱模型自研 + 弱入口</text>
+      <text x="880" y="556" text-anchor="end">弱模型自研 + 强入口</text>
+    </g>
+    <!-- Axis labels -->
+    <text x="450" y="-10" font-size="12" font-weight="600" fill="#0b0b0b" text-anchor="middle">入口生态深度 →</text>
+    <text x="-10" y="280" font-size="12" font-weight="600" fill="#0b0b0b" text-anchor="middle" transform="rotate(-90, -10, 280)">← 模型自研能力</text>
+
+    <!-- Players: x=0~900, y=0~560, all flipped y (low y = high score) -->
+
+    <!-- QoderWork (Alibaba): high model, high entry -->
+    <g transform="translate(680, 110)">
+      <circle r="38" fill="#2a78d6" fill-opacity="0.25" stroke="#2a78d6" stroke-width="2.5"/>
+      <text x="0" y="-3" font-size="13" font-weight="700" fill="#0b0b0b" text-anchor="middle">QoderWork</text>
+      <text x="0" y="14" font-size="10" fill="#52514e" text-anchor="middle">阿里 · Qwen 矩阵</text>
+    </g>
+    <!-- Annotation for QoderWork -->
+    <g transform="translate(680, 110)">
+      <line x1="35" y1="20" x2="80" y2="80" stroke="#2a78d6" stroke-width="1" stroke-dasharray="3,3"/>
+      <text x="86" y="86" font-size="10" fill="#2a78d6" font-weight="600">Qoder 全系 500 万+用户 / $6000 万 ARR</text>
+      <text x="86" y="100" font-size="10" fill="#52514e">百亿积分补贴 + 钉钉/悟空整合</text>
+    </g>
+
+    <!-- WorkBuddy (Tencent): mid model, high entry -->
+    <g transform="translate(720, 180)">
+      <circle r="34" fill="#eb6834" fill-opacity="0.25" stroke="#eb6834" stroke-width="2.5"/>
+      <text x="0" y="-3" font-size="13" font-weight="700" fill="#0b0b0b" text-anchor="middle">WorkBuddy</text>
+      <text x="0" y="14" font-size="10" fill="#52514e" text-anchor="middle">腾讯 · 微信/企微</text>
+    </g>
+    <g transform="translate(720, 180)">
+      <line x1="32" y1="20" x2="-30" y2="80" stroke="#eb6834" stroke-width="1" stroke-dasharray="3,3"/>
+      <text x="-36" y="86" font-size="10" fill="#eb6834" font-weight="600" text-anchor="end">5 个月两涨价 · 企业版 +154%</text>
+      <text x="-36" y="100" font-size="10" fill="#52514e" text-anchor="end">C 端沟通入口 + 多模型路由</text>
+    </g>
+
+    <!-- 豆包/TRAE (ByteDance) -->
+    <g transform="translate(580, 200)">
+      <circle r="26" fill="#1baf7a" fill-opacity="0.25" stroke="#1baf7a" stroke-width="2"/>
+      <text x="0" y="-2" font-size="11" font-weight="600" fill="#0b0b0b" text-anchor="middle">豆包 / TRAE</text>
+      <text x="0" y="12" font-size="9" fill="#52514e" text-anchor="middle">字节 · 飞书+抖音</text>
+    </g>
+
+    <!-- Kimi Work (月之暗面) -->
+    <g transform="translate(440, 220)">
+      <circle r="20" fill="#1baf7a" fill-opacity="0.18" stroke="#1baf7a" stroke-width="1.5" stroke-dasharray="3,2"/>
+      <text x="0" y="-2" font-size="10" font-weight="600" fill="#0b0b0b" text-anchor="middle">Kimi Work</text>
+      <text x="0" y="11" font-size="9" fill="#52514e" text-anchor="middle">月之暗面 · 自研</text>
+    </g>
+
+    <!-- 智谱 AutoClaw -->
+    <g transform="translate(500, 320)">
+      <circle r="18" fill="#1baf7a" fill-opacity="0.18" stroke="#1baf7a" stroke-width="1.5" stroke-dasharray="3,2"/>
+      <text x="0" y="-2" font-size="10" font-weight="600" fill="#0b0b0b" text-anchor="middle">AutoClaw</text>
+      <text x="0" y="11" font-size="9" fill="#52514e" text-anchor="middle">智谱 · GLM</text>
+    </g>
+
+    <!-- 阶跃 AI -->
+    <g transform="translate(380, 360)">
+      <circle r="16" fill="#1baf7a" fill-opacity="0.18" stroke="#1baf7a" stroke-width="1.5" stroke-dasharray="3,2"/>
+      <text x="0" y="-2" font-size="10" font-weight="600" fill="#0b0b0b" text-anchor="middle">阶跃 AI</text>
+      <text x="0" y="11" font-size="9" fill="#52514e" text-anchor="middle">阶跃星辰</text>
+    </g>
+
+    <!-- 百度 DuMate -->
+    <g transform="translate(620, 320)">
+      <circle r="20" fill="#eda100" fill-opacity="0.22" stroke="#eda100" stroke-width="1.5"/>
+      <text x="0" y="-2" font-size="10" font-weight="600" fill="#0b0b0b" text-anchor="middle">DuMate</text>
+      <text x="0" y="11" font-size="9" fill="#52514e" text-anchor="middle">百度 · 文心</text>
+    </g>
+
+    <!-- 腾讯 QClaw (电脑管家) -->
+    <g transform="translate(820, 260)">
+      <circle r="16" fill="#eb6834" fill-opacity="0.2" stroke="#eb6834" stroke-width="1.5"/>
+      <text x="0" y="-2" font-size="10" font-weight="600" fill="#0b0b0b" text-anchor="middle">QClaw</text>
+      <text x="0" y="11" font-size="9" fill="#52514e" text-anchor="middle">腾讯电脑管家</text>
+    </g>
+
+    <!-- 网易有道 LobsterAI -->
+    <g transform="translate(300, 420)">
+      <circle r="15" fill="#1baf7a" fill-opacity="0.18" stroke="#1baf7a" stroke-width="1.2"/>
+      <text x="0" y="-2" font-size="10" font-weight="600" fill="#0b0b0b" text-anchor="middle">LobsterAI</text>
+      <text x="0" y="11" font-size="9" fill="#52514e" text-anchor="middle">有道</text>
+    </g>
+
+    <!-- 牛马 AI -->
+    <g transform="translate(220, 460)">
+      <circle r="12" fill="#1baf7a" fill-opacity="0.18" stroke="#1baf7a" stroke-width="1.2"/>
+      <text x="0" y="-2" font-size="9" font-weight="600" fill="#0b0b0b" text-anchor="middle">牛马 AI</text>
+      <text x="0" y="10" font-size="8" fill="#52514e" text-anchor="middle">离线架构</text>
+    </g>
+
+    <!-- Marvis (腾讯应用宝) -->
+    <g transform="translate(770, 320)">
+      <circle r="14" fill="#eb6834" fill-opacity="0.2" stroke="#eb6834" stroke-width="1.2"/>
+      <text x="0" y="-2" font-size="10" font-weight="600" fill="#0b0b0b" text-anchor="middle">Marvis</text>
+      <text x="0" y="11" font-size="9" fill="#52514e" text-anchor="middle">应用宝</text>
+    </g>
+
+    <!-- OpenClaw (开源地基) -->
+    <g transform="translate(150, 200)">
+      <circle r="22" fill="#898781" fill-opacity="0.15" stroke="#898781" stroke-width="1.5" stroke-dasharray="2,2"/>
+      <text x="0" y="-2" font-size="11" font-weight="600" fill="#0b0b0b" text-anchor="middle">OpenClaw</text>
+      <text x="0" y="11" font-size="9" fill="#52514e" text-anchor="middle">开源 · 28-35 万 Star</text>
+    </g>
+    <text x="180" y="240" font-size="10" fill="#52514e">↑ 行业"地基"：所有大厂都兼容其技能</text>
+
+    <!-- 飞书 Aily (入口侧) -->
+    <g transform="translate(700, 80)">
+      <circle r="12" fill="#1baf7a" fill-opacity="0.18" stroke="#1baf7a" stroke-width="1.2"/>
+      <text x="0" y="-2" font-size="10" font-weight="600" fill="#0b0b0b" text-anchor="middle">飞书 Aily</text>
+      <text x="0" y="11" font-size="9" fill="#52514e" text-anchor="middle">字节飞书</text>
+    </g>
+
+    <!-- 阿里悟空 (企业级) -->
+    <g transform="translate(620, 80)">
+      <circle r="14" fill="#2a78d6" fill-opacity="0.22" stroke="#2a78d6" stroke-width="1.5"/>
+      <text x="0" y="-2" font-size="10" font-weight="600" fill="#0b0b0b" text-anchor="middle">阿里悟空</text>
+      <text x="0" y="11" font-size="9" fill="#52514e" text-anchor="middle">ATH · 钉钉</text>
+    </g>
+
+    <!-- 阿里 MuleRun (海外) -->
+    <g transform="translate(560, 50)">
+      <circle r="10" fill="#2a78d6" fill-opacity="0.18" stroke="#2a78d6" stroke-width="1"/>
+      <text x="0" y="-2" font-size="9" font-weight="600" fill="#0b0b0b" text-anchor="middle">MuleRun</text>
+      <text x="0" y="10" font-size="8" fill="#52514e" text-anchor="middle">海外</text>
+    </g>
+
+    <!-- 腾讯 Agent Suite (企业级套件) -->
+    <g transform="translate(800, 130)">
+      <circle r="12" fill="#eb6834" fill-opacity="0.18" stroke="#eb6834" stroke-width="1.2"/>
+      <text x="0" y="-2" font-size="10" font-weight="600" fill="#0b0b0b" text-anchor="middle">Agent Suite</text>
+      <text x="0" y="11" font-size="9" fill="#52514e" text-anchor="middle">腾讯云</text>
+    </g>
+
+    <!-- 类别色标说明 -->
+    <g transform="translate(20, 720)">
+      <rect x="0" y="-10" width="12" height="12" fill="#2a78d6" fill-opacity="0.25" stroke="#2a78d6" stroke-width="2"/>
+      <text x="18" y="0" font-size="11" fill="#0b0b0b">阿里系</text>
+      <rect x="100" y="-10" width="12" height="12" fill="#eb6834" fill-opacity="0.25" stroke="#eb6834" stroke-width="2"/>
+      <text x="118" y="0" font-size="11" fill="#0b0b0b">腾讯系</text>
+      <rect x="200" y="-10" width="12" height="12" fill="#1baf7a" fill-opacity="0.2" stroke="#1baf7a" stroke-width="2"/>
+      <text x="218" y="0" font-size="11" fill="#0b0b0b">独立/字节系</text>
+      <rect x="340" y="-10" width="12" height="12" fill="#eda100" fill-opacity="0.22" stroke="#eda100" stroke-width="2"/>
+      <text x="358" y="0" font-size="11" fill="#0b0b0b">百度系</text>
+      <rect x="440" y="-10" width="12" height="12" fill="#898781" fill-opacity="0.15" stroke="#898781" stroke-width="2" stroke-dasharray="2,2"/>
+      <text x="458" y="0" font-size="11" fill="#0b0b0b">开源/其他</text>
+    </g>
+  </g>
+
+  <!-- Bottom annotations -->
+  <g transform="translate(60, 730)">
+    <text x="0" y="0" font-size="10" fill="#52514e">数据来源：DoNews 2026·06·25《2026 年中国桌面 Agent 爆发》、各厂商官网、IDC 2026Q1。坐标位置为趋势研究员主观评估，非厂商官宣。</text>
+  </g>
+</svg>

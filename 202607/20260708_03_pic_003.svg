@@ -1,0 +1,120 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 800 720" font-family="system-ui, -apple-system, 'Segoe UI', sans-serif">
+  <!-- Surface -->
+  <rect width="800" height="720" fill="#fcfcfb"/>
+
+  <!-- Title -->
+  <text x="400" y="40" font-size="18" font-weight="600" fill="#0b0b0b" text-anchor="middle">五维战略雷达图：QoderWork vs WorkBuddy</text>
+  <text x="400" y="60" font-size="12" fill="#52514e" text-anchor="middle">数据时点：2026·07·07 · 主观评分（5 分制），详见正文</text>
+
+  <!-- Radar: center 400,360, radius 200, 5 axes -->
+  <g transform="translate(400, 360)">
+    <!-- Grid circles -->
+    <g fill="none" stroke="#e1e0d9" stroke-width="1">
+      <circle cx="0" cy="0" r="40"/>
+      <circle cx="0" cy="0" r="80"/>
+      <circle cx="0" cy="0" r="120"/>
+      <circle cx="0" cy="0" r="160"/>
+      <circle cx="0" cy="0" r="200"/>
+    </g>
+
+    <!-- Axes (5 dimensions, starting from top, going clockwise) -->
+    <!-- Axis 1: 模型自研能力 (top, 0°) -->
+    <!-- Axis 2: 入口生态深度 (top-right, 72°) -->
+    <!-- Axis 3: 商业化进度 (bottom-right, 144°) -->
+    <!-- Axis 4: 工程化能力 (bottom-left, 216°) -->
+    <!-- Axis 5: 移动端/Remote Control (top-left, 288°) -->
+    <g stroke="#c3c2b7" stroke-width="1">
+      <line x1="0" y1="0" x2="0" y2="-200"/>
+      <line x1="0" y1="0" x2="190" y2="-62"/>
+      <line x1="0" y1="0" x2="118" y2="162"/>
+      <line x1="0" y1="0" x2="-118" y2="162"/>
+      <line x1="0" y1="0" x2="-190" y2="-62"/>
+    </g>
+
+    <!-- Axis labels -->
+    <g font-size="12" fill="#0b0b0b" text-anchor="middle" font-weight="500">
+      <text x="0" y="-216">模型自研能力</text>
+      <text x="0" y="-202" font-size="10" fill="#52514e" font-weight="400">Qwen系 vs 混元</text>
+      <text x="206" y="-66">入口生态深度</text>
+      <text x="206" y="-52" font-size="10" fill="#52514e" font-weight="400">钉钉 vs 微信/企微</text>
+      <text x="130" y="180">商业化进度</text>
+      <text x="130" y="194" font-size="10" fill="#52514e" font-weight="400">ARR / 涨价 / 补贴</text>
+      <text x="-130" y="180">工程化能力</text>
+      <text x="-130" y="194" font-size="10" fill="#52514e" font-weight="400">Agent Harness · Skills</text>
+      <text x="-206" y="-66">移动端/Remote</text>
+      <text x="-206" y="-52" font-size="10" fill="#52514e" font-weight="400">手机遥控电脑</text>
+    </g>
+
+    <!-- Score markers (1-5 scale, 5 = r=200) -->
+    <!-- 阿里 QoderWork: 模型 4.5, 入口 4, 商业化 2.5, 工程化 4.5, 移动端 3 -->
+    <!-- 腾讯 WorkBuddy: 模型 3, 入口 5, 商业化 4, 工程化 3.5, 移动端 5 -->
+
+    <!-- QoderWork polygon (blue) -->
+    <polygon
+      points="0,-180 152,-50 59,81 -106,146 -114,-37"
+      fill="#2a78d6" fill-opacity="0.18"
+      stroke="#2a78d6" stroke-width="2.5"/>
+    <!-- QoderWork vertices -->
+    <g fill="#2a78d6">
+      <circle cx="0" cy="-180" r="5"/>
+      <circle cx="152" cy="-50" r="5"/>
+      <circle cx="59" cy="81" r="5"/>
+      <circle cx="-106" cy="146" r="5"/>
+      <circle cx="-114" cy="-37" r="5"/>
+    </g>
+
+    <!-- WorkBuddy polygon (orange) -->
+    <polygon
+      points="0,-120 190,-62 94,130 -83,114 -190,-62"
+      fill="#eb6834" fill-opacity="0.18"
+      stroke="#eb6834" stroke-width="2.5" stroke-dasharray="0"/>
+    <!-- WorkBuddy vertices -->
+    <g fill="#eb6834">
+      <circle cx="0" cy="-120" r="5"/>
+      <circle cx="190" cy="-62" r="5"/>
+      <circle cx="94" cy="130" r="5"/>
+      <circle cx="-83" cy="114" r="5"/>
+      <circle cx="-190" cy="-62" r="5"/>
+    </g>
+
+    <!-- Score labels on QoderWork vertices -->
+    <g font-size="11" font-weight="600" fill="#2a78d6" text-anchor="middle">
+      <text x="-14" y="-188">4.5</text>
+      <text x="170" y="-50">4.0</text>
+      <text x="68" y="76">2.5</text>
+      <text x="-115" y="158">4.5</text>
+      <text x="-122" y="-30">3.0</text>
+    </g>
+    <!-- Score labels on WorkBuddy vertices -->
+    <g font-size="11" font-weight="600" fill="#eb6834" text-anchor="middle">
+      <text x="14" y="-118">3.0</text>
+      <text x="200" y="-66">5.0</text>
+      <text x="84" y="146">4.0</text>
+      <text x="-78" y="128">3.5</text>
+      <text x="-198" y="-50">5.0</text>
+    </g>
+  </g>
+
+  <!-- Legend -->
+  <g transform="translate(120, 600)">
+    <rect x="0" y="0" width="24" height="14" rx="2" fill="#2a78d6" fill-opacity="0.4" stroke="#2a78d6" stroke-width="2"/>
+    <text x="32" y="12" font-size="13" font-weight="600" fill="#0b0b0b">QoderWork (阿里)</text>
+    <text x="32" y="28" font-size="10" fill="#52514e">优势: 模型自研 + 工程化</text>
+
+    <rect x="240" y="0" width="24" height="14" rx="2" fill="#eb6834" fill-opacity="0.4" stroke="#eb6834" stroke-width="2"/>
+    <text x="272" y="12" font-size="13" font-weight="600" fill="#0b0b0b">WorkBuddy (腾讯)</text>
+    <text x="272" y="28" font-size="10" fill="#52514e">优势: 入口生态 + 移动端</text>
+  </g>
+
+  <!-- Score scale -->
+  <g transform="translate(620, 600)">
+    <text x="0" y="0" font-size="11" font-weight="600" fill="#0b0b0b">评分尺度 (1-5)</text>
+    <text x="0" y="18" font-size="10" fill="#52514e">5 = 行业领先</text>
+    <text x="0" y="32" font-size="10" fill="#52514e">1 = 缺失/落后</text>
+  </g>
+
+  <!-- Bottom note -->
+  <g transform="translate(400, 680)">
+    <text x="0" y="0" font-size="11" fill="#52514e" text-anchor="middle" font-style="italic">注：评分为基于公开信息的趋势研究员主观判断，非厂商背书。详见 markdown/experts/3-trend-market.md §4-§5。</text>
+  </g>
+</svg>

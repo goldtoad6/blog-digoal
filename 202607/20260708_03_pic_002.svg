@@ -1,0 +1,156 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1280 720" font-family="system-ui, -apple-system, 'Segoe UI', sans-serif">
+  <!-- Surface -->
+  <rect width="1280" height="720" fill="#fcfcfb"/>
+  <rect x="0" y="0" width="1280" height="56" fill="#f9f9f7"/>
+  <line x1="0" y1="56" x2="1280" y2="56" stroke="#e1e0d9" stroke-width="1"/>
+
+  <!-- Title -->
+  <text x="40" y="36" font-size="18" font-weight="600" fill="#0b0b0b">QoderWork vs WorkBuddy — 2025.08 ~ 2026.07 关键事件时间线</text>
+  <text x="960" y="36" font-size="12" fill="#52514e">Source: 阿里云 / 腾讯云 / 财联社 / 36氪 / 百度百科</text>
+
+  <!-- Legend -->
+  <g transform="translate(40, 78)">
+    <rect x="0" y="0" width="14" height="14" rx="2" fill="#2a78d6"/>
+    <text x="22" y="12" font-size="13" fill="#0b0b0b">QoderWork (阿里)</text>
+    <rect x="170" y="0" width="14" height="14" rx="2" fill="#eb6834"/>
+    <text x="192" y="12" font-size="13" fill="#0b0b0b">WorkBuddy (腾讯)</text>
+    <circle cx="350" cy="7" r="5" fill="#fcfcfb" stroke="#2a78d6" stroke-width="2"/>
+    <text x="362" y="12" font-size="12" fill="#52514e">关键里程碑</text>
+  </g>
+
+  <!-- Timeline axis -->
+  <g transform="translate(80, 130)">
+    <line x1="0" y1="240" x2="1120" y2="240" stroke="#c3c2b7" stroke-width="1.5"/>
+    <!-- 12 month ticks: 2025-08 to 2026-07 -->
+    <g font-size="11" fill="#52514e" text-anchor="middle">
+      <line x1="0" y1="234" x2="0" y2="246" stroke="#c3c2b7"/>
+      <text x="0" y="262">2025·08</text>
+      <line x1="93" y1="234" x2="93" y2="246" stroke="#c3c2b7"/>
+      <text x="93" y="262">2025·09</text>
+      <line x1="186" y1="234" x2="186" y2="246" stroke="#c3c2b7"/>
+      <text x="186" y="262">2025·10</text>
+      <line x1="280" y1="234" x2="280" y2="246" stroke="#c3c2b7"/>
+      <text x="280" y="262">2025·11</text>
+      <line x1="373" y1="234" x2="373" y2="246" stroke="#c3c2b7"/>
+      <text x="373" y="262">2025·12</text>
+      <line x1="466" y1="234" x2="466" y2="246" stroke="#c3c2b7"/>
+      <text x="466" y="262">2026·01</text>
+      <line x1="560" y1="234" x2="560" y2="246" stroke="#c3c2b7"/>
+      <text x="560" y="262">2026·02</text>
+      <line x1="653" y1="234" x2="653" y2="246" stroke="#c3c2b7"/>
+      <text x="653" y="262">2026·03</text>
+      <line x1="746" y1="234" x2="746" y2="246" stroke="#c3c2b7"/>
+      <text x="746" y="262">2026·04</text>
+      <line x1="840" y1="234" x2="840" y2="246" stroke="#c3c2b7"/>
+      <text x="840" y="262">2026·05</text>
+      <line x1="933" y1="234" x2="933" y2="246" stroke="#c3c2b7"/>
+      <text x="933" y="262">2026·06</text>
+      <line x1="1026" y1="234" x2="1026" y2="246" stroke="#c3c2b7"/>
+      <text x="1026" y="262">2026·07</text>
+    </g>
+  </g>
+
+  <!-- QoderWork track (top) -->
+  <g transform="translate(80, 130)">
+    <line x1="0" y1="120" x2="1120" y2="120" stroke="#2a78d6" stroke-width="2" opacity="0.4"/>
+    <text x="-12" y="124" font-size="12" font-weight="600" fill="#2a78d6" text-anchor="end">QoderWork</text>
+    <!-- Event 1: 2025-08 Qoder IDE launch (origin) -->
+    <circle cx="0" cy="120" r="6" fill="#2a78d6"/>
+    <line x1="0" y1="120" x2="0" y2="60" stroke="#2a78d6" stroke-width="1" stroke-dasharray="2,2"/>
+    <text x="0" y="48" font-size="11" fill="#0b0b0b" text-anchor="middle">Qoder IDE 上线</text>
+    <text x="0" y="62" font-size="10" fill="#52514e" text-anchor="middle">起家：编程 Agent</text>
+    <!-- Event 2: 2026-01-30 邀测 (~466+20=486 → 实际约 466+(30/30)*93=466+93=559? 1月30日 → 接近月底) -->
+    <circle cx="555" cy="120" r="7" fill="#fcfcfb" stroke="#2a78d6" stroke-width="2.5"/>
+    <line x1="555" y1="120" x2="555" y2="60" stroke="#2a78d6" stroke-width="1" stroke-dasharray="2,2"/>
+    <text x="555" y="48" font-size="11" font-weight="600" fill="#0b0b0b" text-anchor="middle">2026·01·30</text>
+    <text x="555" y="62" font-size="10" fill="#52514e" text-anchor="middle">QoderWork 邀测</text>
+    <!-- Event 3: 2026-03-03 全面开放 (~653) -->
+    <circle cx="653" cy="120" r="8" fill="#2a78d6"/>
+    <line x1="653" y1="120" x2="653" y2="60" stroke="#2a78d6" stroke-width="1" stroke-dasharray="2,2"/>
+    <text x="653" y="48" font-size="11" font-weight="600" fill="#0b0b0b" text-anchor="middle">2026·03·03</text>
+    <text x="653" y="62" font-size="10" fill="#52514e" text-anchor="middle">Mac+Win 全面开放</text>
+    <!-- Event 4: 2026-03-27 打通三大 IM (略晚于03) -->
+    <circle cx="700" cy="120" r="6" fill="#2a78d6"/>
+    <line x1="700" y1="120" x2="760" y2="60" stroke="#2a78d6" stroke-width="1" stroke-dasharray="2,2"/>
+    <text x="760" y="48" font-size="11" fill="#0b0b0b" text-anchor="start">2026·03·27</text>
+    <text x="760" y="62" font-size="10" fill="#52514e" text-anchor="start">钉钉/微信/飞书打通</text>
+    <!-- Event 5: 2026-05-15 Qoder 1.0 (~840) -->
+    <circle cx="840" cy="120" r="8" fill="#2a78d6"/>
+    <line x1="840" y1="120" x2="840" y2="200" stroke="#2a78d6" stroke-width="1" stroke-dasharray="2,2"/>
+    <text x="840" y="218" font-size="11" font-weight="600" fill="#0b0b0b" text-anchor="middle">2026·05·15</text>
+    <text x="840" y="232" font-size="10" fill="#52514e" text-anchor="middle">Qoder 1.0 · IDE→Desktop</text>
+    <!-- Event 6: 2026-06-03 AI 生产力计划 -->
+    <circle cx="913" cy="120" r="7" fill="#fcfcfb" stroke="#2a78d6" stroke-width="2.5"/>
+    <line x1="913" y1="120" x2="913" y2="60" stroke="#2a78d6" stroke-width="1" stroke-dasharray="2,2"/>
+    <text x="913" y="48" font-size="11" font-weight="600" fill="#0b0b0b" text-anchor="middle">2026·06·03</text>
+    <text x="913" y="62" font-size="10" fill="#52514e" text-anchor="middle">"百亿积分"免费</text>
+    <!-- Event 7: 2026-06-16 意识功能 -->
+    <circle cx="940" cy="120" r="6" fill="#2a78d6"/>
+    <line x1="940" y1="120" x2="990" y2="60" stroke="#2a78d6" stroke-width="1" stroke-dasharray="2,2"/>
+    <text x="990" y="48" font-size="11" fill="#0b0b0b" text-anchor="start">2026·06·16</text>
+    <text x="990" y="62" font-size="10" fill="#52514e" text-anchor="start">"意识"功能上线</text>
+    <!-- Event 8: 2026-07-02 三线整合 -->
+    <circle cx="1015" cy="120" r="8" fill="#2a78d6"/>
+    <line x1="1015" y1="120" x2="1015" y2="200" stroke="#2a78d6" stroke-width="1" stroke-dasharray="2,2"/>
+    <text x="1015" y="218" font-size="11" font-weight="600" fill="#0b0b0b" text-anchor="middle">2026·07·02</text>
+    <text x="1015" y="232" font-size="10" fill="#52514e" text-anchor="middle">QoderWork+悟空+MuleRun</text>
+  </g>
+
+  <!-- WorkBuddy track (bottom) -->
+  <g transform="translate(80, 130)">
+    <line x1="0" y1="320" x2="1120" y2="320" stroke="#eb6834" stroke-width="2" opacity="0.4"/>
+    <text x="-12" y="324" font-size="12" font-weight="600" fill="#eb6834" text-anchor="end">WorkBuddy</text>
+    <!-- Event 1: 2026-01-19 内部 -->
+    <circle cx="440" cy="320" r="6" fill="#eb6834"/>
+    <line x1="440" y1="320" x2="440" y2="260" stroke="#eb6834" stroke-width="1" stroke-dasharray="2,2"/>
+    <text x="440" y="248" font-size="11" fill="#0b0b0b" text-anchor="middle">2026·01·19</text>
+    <text x="440" y="262" font-size="10" fill="#52514e" text-anchor="middle">内部试用 · 2000+员工</text>
+    <!-- Event 2: 2026-02-06 内测申请 -->
+    <circle cx="500" cy="320" r="6" fill="#eb6834"/>
+    <line x1="500" y1="320" x2="500" y2="400" stroke="#eb6834" stroke-width="1" stroke-dasharray="2,2"/>
+    <text x="500" y="418" font-size="11" fill="#0b0b0b" text-anchor="middle">2026·02·06</text>
+    <text x="500" y="432" font-size="10" fill="#52514e" text-anchor="middle">内测申请</text>
+    <!-- Event 3: 2026-03-09 正式上线 -->
+    <circle cx="653" cy="320" r="9" fill="#eb6834"/>
+    <line x1="653" y1="320" x2="653" y2="260" stroke="#eb6834" stroke-width="1" stroke-dasharray="2,2"/>
+    <text x="653" y="248" font-size="11" font-weight="600" fill="#0b0b0b" text-anchor="middle">2026·03·09</text>
+    <text x="653" y="262" font-size="10" fill="#52514e" text-anchor="middle">正式上线 (公测)</text>
+    <!-- Event 4: 2026-04-28 涨价 -->
+    <circle cx="780" cy="320" r="8" fill="#fcfcfb" stroke="#eb6834" stroke-width="2.5"/>
+    <line x1="780" y1="320" x2="780" y2="400" stroke="#eb6834" stroke-width="1" stroke-dasharray="2,2"/>
+    <text x="780" y="418" font-size="11" font-weight="600" fill="#0b0b0b" text-anchor="middle">2026·04·28</text>
+    <text x="780" y="432" font-size="10" fill="#52514e" text-anchor="middle">企业版涨价 154%</text>
+    <!-- Event 5: 2026-05-15 新计费执行 -->
+    <circle cx="840" cy="320" r="6" fill="#eb6834"/>
+    <line x1="840" y1="320" x2="840" y2="400" stroke="#eb6834" stroke-width="1" stroke-dasharray="2,2"/>
+    <text x="840" y="418" font-size="11" fill="#0b0b0b" text-anchor="middle">2026·05·15</text>
+    <text x="840" y="432" font-size="10" fill="#52514e" text-anchor="middle">新计费执行</text>
+    <!-- Event 6: 2026-06-05 企业版 -->
+    <circle cx="900" cy="320" r="8" fill="#eb6834"/>
+    <line x1="900" y1="320" x2="900" y2="260" stroke="#eb6834" stroke-width="1" stroke-dasharray="2,2"/>
+    <text x="900" y="248" font-size="11" font-weight="600" fill="#0b0b0b" text-anchor="middle">2026·06·05</text>
+    <text x="900" y="262" font-size="10" fill="#52514e" text-anchor="middle">企业版发布</text>
+    <!-- Event 7: 2026-07-01 个人版调价 -->
+    <circle cx="1026" cy="320" r="9" fill="#eb6834"/>
+    <line x1="1026" y1="320" x2="1026" y2="400" stroke="#eb6834" stroke-width="1" stroke-dasharray="2,2"/>
+    <text x="1026" y="418" font-size="11" font-weight="600" fill="#0b0b0b" text-anchor="middle">2026·07·01</text>
+    <text x="1026" y="432" font-size="10" fill="#52514e" text-anchor="middle">个人版 58→99 元/月</text>
+  </g>
+
+  <!-- Annotation: 6 day apart launch -->
+  <g transform="translate(80, 130)">
+    <path d="M 580 110 Q 620 80 660 100" stroke="#898781" stroke-width="1" fill="none" stroke-dasharray="3,3"/>
+    <path d="M 580 320 Q 620 350 660 330" stroke="#898781" stroke-width="1" fill="none" stroke-dasharray="3,3"/>
+    <rect x="600" y="190" width="120" height="40" rx="6" fill="#fcfcfb" stroke="#898781" stroke-width="1"/>
+    <text x="660" y="208" font-size="11" fill="#0b0b0b" text-anchor="middle" font-weight="600">正式上线相隔 6 天</text>
+    <text x="660" y="222" font-size="10" fill="#52514e" text-anchor="middle">03.03 vs 03.09 · 对狙</text>
+  </g>
+
+  <!-- Bottom annotation -->
+  <g transform="translate(80, 600)">
+    <text x="0" y="0" font-size="12" font-weight="600" fill="#0b0b0b">关键观察：</text>
+    <text x="0" y="22" font-size="11" fill="#52514e">· 阿里路径：编程 → 办公（Coding Agent 外溢）→ 钉钉/悟空（B 端企业渗透）</text>
+    <text x="0" y="40" font-size="11" fill="#52514e">· 腾讯路径：内部办公需求 → IM 联动（C 端沟通入口）→ 企业版（5 个月两涨价）</text>
+    <text x="0" y="58" font-size="11" fill="#52514e">· 同期市场：15+ 桌面 Agent 集中爆发，"百虾大战"格局形成（详见 3-market-landscape.svg）</text>
+  </g>
+</svg>
