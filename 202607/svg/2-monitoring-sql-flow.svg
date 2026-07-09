@@ -1,0 +1,127 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 960 780" font-family="-apple-system, BlinkMacSystemFont, 'Segoe UI', 'PingFang SC', 'Microsoft YaHei', sans-serif">
+  <defs>
+    <linearGradient id="entry" x1="0" y1="0" x2="0" y2="1">
+      <stop offset="0%" stop-color="#1e293b"/>
+      <stop offset="100%" stop-color="#475569"/>
+    </linearGradient>
+    <marker id="ar" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="8" markerHeight="8" orient="auto">
+      <path d="M0,0 L10,5 L0,10 z" fill="#475569"/>
+    </marker>
+  </defs>
+
+  <rect width="100%" height="100%" fill="#ffffff"/>
+
+  <text x="480" y="36" text-anchor="middle" font-size="22" font-weight="700" fill="#0f172a">监控 SQL 关系图：从报警到定位</text>
+  <text x="480" y="58" text-anchor="middle" font-size="13" fill="#475569">六个核心查询 — 排错第一刀从这里砍</text>
+
+  <!-- Entry: alert -->
+  <rect x="370" y="80" width="220" height="52" rx="10" fill="url(#entry)"/>
+  <text x="480" y="104" text-anchor="middle" font-size="14" font-weight="700" fill="#ffffff">报警：DB 卡 / 慢</text>
+  <text x="480" y="121" text-anchor="middle" font-size="11" fill="#cbd5e1">先分层，再下钻</text>
+
+  <!-- Branch 1: pg_stat_activity -->
+  <g>
+    <line x1="420" y1="132" x2="180" y2="180" stroke="#475569" stroke-width="1.5" marker-end="url(#ar)"/>
+    <rect x="40" y="180" width="280" height="56" rx="8" fill="#dbeafe" stroke="#3b82f6"/>
+    <text x="180" y="200" text-anchor="middle" font-size="13" font-weight="700" fill="#1e3a8a">① 谁在跑 — pg_stat_activity</text>
+    <text x="180" y="218" text-anchor="middle" font-size="10.5" fill="#1e40af" font-family="Menlo, monospace">state='active' AND now()-query_start&gt;5s</text>
+    <text x="180" y="232" text-anchor="middle" font-size="10.5" fill="#1e40af">→ 看到 query / wait_event / duration</text>
+  </g>
+
+  <!-- Branch 2: pg_prepared_xacts -->
+  <g>
+    <line x1="420" y1="132" x2="180" y2="270" stroke="#475569" stroke-width="1.5" marker-end="url(#ar)"/>
+    <rect x="40" y="270" width="280" height="56" rx="8" fill="#fef3c7" stroke="#f59e0b"/>
+    <text x="180" y="290" text-anchor="middle" font-size="13" font-weight="700" fill="#78350f">② 长事务 / 2PC</text>
+    <text x="180" y="308" text-anchor="middle" font-size="10.5" fill="#92400e" font-family="Menlo, monospace">pg_stat_activity idle in transaction &gt;30min</text>
+    <text x="180" y="322" text-anchor="middle" font-size="10.5" fill="#92400e" font-family="Menlo, monospace">pg_prepared_xacts WHERE prepared &gt; 1h</text>
+  </g>
+
+  <!-- Branch 3: pg_blocking_pids -->
+  <g>
+    <line x1="420" y1="132" x2="180" y2="360" stroke="#475569" stroke-width="1.5" marker-end="url(#ar)"/>
+    <rect x="40" y="360" width="280" height="56" rx="8" fill="#fce7f3" stroke="#db2777"/>
+    <text x="180" y="380" text-anchor="middle" font-size="13" font-weight="700" fill="#831843">③ 谁锁了谁 — pg_blocking_pids</text>
+    <text x="180" y="398" text-anchor="middle" font-size="10.5" fill="#9d174d" font-family="Menlo, monospace">WHERE wait_event_type='Lock'</text>
+    <text x="180" y="412" text-anchor="middle" font-size="10.5" fill="#9d174d">→ 拿到阻塞链，立刻 pg_terminate_backend</text>
+  </g>
+
+  <!-- Right side: pg_stat_statements -->
+  <g>
+    <line x1="540" y1="132" x2="700" y2="180" stroke="#475569" stroke-width="1.5" marker-end="url(#ar)"/>
+    <rect x="560" y="180" width="360" height="56" rx="8" fill="#fee2e2" stroke="#ef4444"/>
+    <text x="740" y="200" text-anchor="middle" font-size="13" font-weight="700" fill="#7f1d1d">④ 擒贼擒王 — pg_stat_statements</text>
+    <text x="740" y="218" text-anchor="middle" font-size="10.5" fill="#991b1b" font-family="Menlo, monospace">ORDER BY total_time DESC LIMIT 10</text>
+    <text x="740" y="232" text-anchor="middle" font-size="10.5" fill="#991b1b">→ TOP 5 SQL 解决,80% 场景就此消失</text>
+  </g>
+
+  <!-- Right side: wait_event distribution -->
+  <g>
+    <line x1="540" y1="132" x2="700" y2="270" stroke="#475569" stroke-width="1.5" marker-end="url(#ar)"/>
+    <rect x="560" y="270" width="360" height="56" rx="8" fill="#ede9fe" stroke="#8b5cf6"/>
+    <text x="740" y="290" text-anchor="middle" font-size="13" font-weight="700" fill="#4c1d95">⑤ 等待事件分布</text>
+    <text x="740" y="308" text-anchor="middle" font-size="10.5" fill="#5b21b6" font-family="Menlo, monospace">SELECT wait_event_type, wait_event, count(*) GROUP BY 1,2</text>
+    <text x="740" y="322" text-anchor="middle" font-size="10.5" fill="#5b21b6">→ IO / LWLock / Lock 谁是主因?</text>
+  </g>
+
+  <!-- Right side: pg_stat_replication -->
+  <g>
+    <line x1="540" y1="132" x2="700" y2="360" stroke="#475569" stroke-width="1.5" marker-end="url(#ar)"/>
+    <rect x="560" y="360" width="360" height="56" rx="8" fill="#cffafe" stroke="#06b6d4"/>
+    <text x="740" y="380" text-anchor="middle" font-size="13" font-weight="700" fill="#155e75">⑥ 主备延迟诊断 — pg_stat_replication</text>
+    <text x="740" y="398" text-anchor="middle" font-size="10.5" fill="#0e7490" font-family="Menlo, monospace">write_lag / flush_lag / replay_lag</text>
+    <text x="740" y="412" text-anchor="middle" font-size="10.5" fill="#0e7490">→ 分清是网络问题还是回放能力问题</text>
+  </g>
+
+  <!-- Lower band: action mapping -->
+  <g transform="translate(40, 460)">
+    <rect x="0" y="0" width="880" height="300" rx="10" fill="#f8fafc" stroke="#cbd5e1"/>
+    <text x="20" y="26" font-size="14" font-weight="700" fill="#0f172a">六查询 → 对应行动</text>
+
+    <!-- Row 1 -->
+    <rect x="20" y="40" width="220" height="40" rx="6" fill="#dbeafe" stroke="#3b82f6"/>
+    <text x="130" y="58" text-anchor="middle" font-size="12" font-weight="700" fill="#1e3a8a">① 谁在跑</text>
+    <text x="130" y="74" text-anchor="middle" font-size="10.5" fill="#1e40af">取 query 看 EXPLAIN</text>
+    <line x1="240" y1="60" x2="290" y2="60" stroke="#475569" stroke-width="1.4" marker-end="url(#ar)"/>
+    <rect x="295" y="40" width="565" height="40" rx="6" fill="#ecfdf5" stroke="#16a34a"/>
+    <text x="577" y="58" text-anchor="middle" font-size="12" fill="#14532d">如果是 IO:DataFileRead 主导 → 预热 / 换盘</text>
+    <text x="577" y="74" text-anchor="middle" font-size="10.5" fill="#166534">如果是 LWLock:lock_manager → 降连接数</text>
+
+    <!-- Row 2 -->
+    <rect x="20" y="90" width="220" height="40" rx="6" fill="#fef3c7" stroke="#f59e0b"/>
+    <text x="130" y="108" text-anchor="middle" font-size="12" font-weight="700" fill="#78350f">② 长事务 / 2PC</text>
+    <text x="130" y="124" text-anchor="middle" font-size="10.5" fill="#92400e">→ pg_terminate_backend</text>
+    <line x1="240" y1="110" x2="290" y2="110" stroke="#475569" stroke-width="1.4" marker-end="url(#ar)"/>
+    <rect x="295" y="90" width="565" height="40" rx="6" fill="#ecfdf5" stroke="#16a34a"/>
+    <text x="577" y="108" text-anchor="middle" font-size="12" fill="#14532d">止血后补参数: idle_in_transaction_session_timeout=10min</text>
+    <text x="577" y="124" text-anchor="middle" font-size="10.5" fill="#166534">配合 application_name 找到故障来源应用</text>
+
+    <!-- Row 3 -->
+    <rect x="20" y="140" width="220" height="40" rx="6" fill="#fce7f3" stroke="#db2777"/>
+    <text x="130" y="158" text-anchor="middle" font-size="12" font-weight="700" fill="#831843">③ 谁锁了谁</text>
+    <text x="130" y="174" text-anchor="middle" font-size="10.5" fill="#9d174d">→ 拿 blocking_pids 杀链头</text>
+    <line x1="240" y1="160" x2="290" y2="160" stroke="#475569" stroke-width="1.4" marker-end="url(#ar)"/>
+    <rect x="295" y="140" width="565" height="40" rx="6" fill="#ecfdf5" stroke="#16a34a"/>
+    <text x="577" y="158" text-anchor="middle" font-size="12" fill="#14532d">DDL 必须 SET LOCAL lock_timeout=100ms 包事务</text>
+    <text x="577" y="174" text-anchor="middle" font-size="10.5" fill="#166534">事务顺序不一致 → 应用层治理（限流/排队/异步化）</text>
+
+    <!-- Row 4 -->
+    <rect x="20" y="190" width="220" height="40" rx="6" fill="#fee2e2" stroke="#ef4444"/>
+    <text x="130" y="208" text-anchor="middle" font-size="12" font-weight="700" fill="#7f1d1d">④ TOP SQL</text>
+    <text x="130" y="224" text-anchor="middle" font-size="10.5" fill="#991b1b">→ EXPLAIN ANALYZE</text>
+    <line x1="240" y1="210" x2="290" y2="210" stroke="#475569" stroke-width="1.4" marker-end="url(#ar)"/>
+    <rect x="295" y="190" width="565" height="40" rx="6" fill="#ecfdf5" stroke="#16a34a"/>
+    <text x="577" y="208" text-anchor="middle" font-size="12" fill="#14532d">看 actual rows vs 估算;命中索引?</text>
+    <text x="577" y="224" text-anchor="middle" font-size="10.5" fill="#166534">走错 plan → pg_hint_plan / 改写;统计过期 → ANALYZE</text>
+
+    <!-- Row 5 -->
+    <rect x="20" y="240" width="220" height="40" rx="6" fill="#ede9fe" stroke="#8b5cf6"/>
+    <text x="130" y="258" text-anchor="middle" font-size="12" font-weight="700" fill="#4c1d95">⑤ 等待分布</text>
+    <text x="130" y="274" text-anchor="middle" font-size="10.5" fill="#5b21b6">→ 按类型映射动作</text>
+    <line x1="240" y1="260" x2="290" y2="260" stroke="#475569" stroke-width="1.4" marker-end="url(#ar)"/>
+    <rect x="295" y="240" width="565" height="40" rx="6" fill="#ecfdf5" stroke="#16a34a"/>
+    <text x="577" y="258" text-anchor="middle" font-size="12" fill="#14532d">IO 类 → 磁盘;LWLock 类 → 调参/扩缩;Lock 类 → SQL 改写</text>
+    <text x="577" y="274" text-anchor="middle" font-size="10.5" fill="#166534">active 且 wait_event IS NULL → 在 CPU 上跑</text>
+  </g>
+</svg>

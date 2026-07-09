@@ -1,0 +1,41 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 760 320" font-family="sans-serif">
+  <text x="380" y="24" text-anchor="middle" font-size="16" font-weight="bold">表 / 索引膨胀机制</text>
+
+  <!-- 表 heap -->
+  <text x="100" y="60" font-weight="bold">HEAP 表</text>
+  <g transform="translate(40,80)">
+    <rect x="0" y="0" width="50" height="40" fill="#cfc" stroke="#060"/>
+    <rect x="50" y="0" width="50" height="40" fill="#cfc" stroke="#060"/>
+    <rect x="100" y="0" width="50" height="40" fill="#fcc" stroke="#900"/>
+    <rect x="150" y="0" width="50" height="40" fill="#cfc" stroke="#060"/>
+    <rect x="200" y="0" width="50" height="40" fill="#fcc" stroke="#900"/>
+    <text x="25" y="24" text-anchor="middle" font-size="11">LIVE</text>
+    <text x="75" y="24" text-anchor="middle" font-size="11">LIVE</text>
+    <text x="125" y="24" text-anchor="middle" font-size="11">DEAD</text>
+    <text x="175" y="24" text-anchor="middle" font-size="11">LIVE</text>
+    <text x="225" y="24" text-anchor="middle" font-size="11">DEAD</text>
+  </g>
+  <text x="40" y="140" font-size="11">↑ VACUUM 后死元组空间归还 FSM,水位可降</text>
+
+  <!-- 索引 -->
+  <text x="500" y="60" font-weight="bold">B-Tree 索引</text>
+  <g transform="translate(440,80)">
+    <rect x="0" y="0" width="40" height="40" fill="#cfc" stroke="#060"/>
+    <rect x="40" y="0" width="40" height="40" fill="#fcc" stroke="#900"/>
+    <rect x="80" y="0" width="40" height="40" fill="#cfc" stroke="#060"/>
+    <rect x="120" y="0" width="40" height="40" fill="#cfc" stroke="#060"/>
+    <text x="20" y="24" text-anchor="middle" font-size="10">LIVE</text>
+    <text x="60" y="24" text-anchor="middle" font-size="10">DEAD</text>
+    <text x="100" y="24" text-anchor="middle" font-size="10">LIVE</text>
+    <text x="140" y="24" text-anchor="middle" font-size="10">LIVE</text>
+  </g>
+  <text x="440" y="140" font-size="11">↑ VACUUM 标 dead,新 INSERT 复用,但 page 不释放</text>
+
+  <!-- 解释 -->
+  <rect x="40" y="180" width="680" height="120" fill="#fff8dc" stroke="#a80"/>
+  <text x="60" y="206" font-weight="bold">为什么索引不能降水位?</text>
+  <text x="60" y="228" font-size="11">B-Tree 用双向链表连接 leaf page,即使只剩 1 个有效 item,</text>
+  <text x="60" y="248" font-size="11">page 也不能释放 — 否则链表断链。只有 REINDEX 才能重建。</text>
+  <text x="60" y="268" font-size="11">HEAP 的 page 可归还 FSM 给新 tuple,所以表大小可降。</text>
+  <text x="60" y="288" font-size="11">→ 表膨胀:VACUUM 即可;索引膨胀:REINDEX CONCURRENTLY。</text>
+</svg>

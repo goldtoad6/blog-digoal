@@ -1,0 +1,113 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1100 540" font-family="-apple-system, 'PingFang SC', 'Helvetica Neue', Arial, sans-serif">
+  <defs>
+    <linearGradient id="gStart" x1="0%" y1="0%" x2="100%" y2="0%">
+      <stop offset="0%" stop-color="#3b6ea8"/>
+      <stop offset="100%" stop-color="#4a83c4"/>
+    </linearGradient>
+    <linearGradient id="gWiki" x1="0%" y1="0%" x2="100%" y2="0%">
+      <stop offset="0%" stop-color="#7a4ea8"/>
+      <stop offset="100%" stop-color="#9b6dc4"/>
+    </linearGradient>
+    <linearGradient id="gSrc" x1="0%" y1="0%" x2="100%" y2="0%">
+      <stop offset="0%" stop-color="#3a8f6b"/>
+      <stop offset="100%" stop-color="#54a984"/>
+    </linearGradient>
+    <linearGradient id="gPg" x1="0%" y1="0%" x2="100%" y2="0%">
+      <stop offset="0%" stop-color="#c47a3b"/>
+      <stop offset="100%" stop-color="#d69455"/>
+    </linearGradient>
+    <linearGradient id="gMd" x1="0%" y1="0%" x2="100%" y2="0%">
+      <stop offset="0%" stop-color="#a8443b"/>
+      <stop offset="100%" stop-color="#c45d54"/>
+    </linearGradient>
+    <linearGradient id="gSkill" x1="0%" y1="0%" x2="100%" y2="0%">
+      <stop offset="0%" stop-color="#2d6e6e"/>
+      <stop offset="100%" stop-color="#3a8a8a"/>
+    </linearGradient>
+    <marker id="arrow" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="8" markerHeight="8" orient="auto">
+      <path d="M 0 0 L 10 5 L 0 10 z" fill="#445"/>
+    </marker>
+  </defs>
+
+  <!-- Title -->
+  <text x="550" y="36" text-anchor="middle" font-size="20" font-weight="700" fill="#1a2530">pgfaq SKILL · 五段式工作流</text>
+  <text x="550" y="58" text-anchor="middle" font-size="13" fill="#5a6878">DeepWiki 宏观 → 源码微观 → 本地 PG 实证 → 沉淀 markdown → 喂养 SKILL</text>
+
+  <!-- Step 1: Question -->
+  <g>
+    <rect x="20" y="120" width="160" height="80" rx="10" fill="url(#gStart)" stroke="#2a547e" stroke-width="1.5"/>
+    <text x="100" y="148" text-anchor="middle" font-size="14" font-weight="700" fill="#fff">1. 问题输入</text>
+    <text x="100" y="170" text-anchor="middle" font-size="11" fill="#e6f0fa">用户提 PG 概念</text>
+    <text x="100" y="186" text-anchor="middle" font-size="11" fill="#e6f0fa">或故障现象</text>
+  </g>
+
+  <!-- Step 2: DeepWiki -->
+  <g>
+    <rect x="220" y="120" width="180" height="80" rx="10" fill="url(#gWiki)" stroke="#5e3a86" stroke-width="1.5"/>
+    <text x="310" y="148" text-anchor="middle" font-size="14" font-weight="700" fill="#fff">2. DeepWiki 提问</text>
+    <text x="310" y="170" text-anchor="middle" font-size="11" fill="#f0e6fa">宏观机制 / 设计动机</text>
+    <text x="310" y="186" text-anchor="middle" font-size="11" fill="#f0e6fa">拿官方解读打底</text>
+  </g>
+
+  <!-- Step 3: Source code -->
+  <g>
+    <rect x="440" y="120" width="180" height="80" rx="10" fill="url(#gSrc)" stroke="#2a6b50" stroke-width="1.5"/>
+    <text x="530" y="148" text-anchor="middle" font-size="14" font-weight="700" fill="#fff">3. 源码 grep</text>
+    <text x="530" y="170" text-anchor="middle" font-size="11" fill="#e6f5ed">微观: 找具体函数</text>
+    <text x="530" y="186" text-anchor="middle" font-size="11" fill="#e6f5ed">看实现 / 注释</text>
+  </g>
+
+  <!-- Step 4: Local PG -->
+  <g>
+    <rect x="660" y="120" width="180" height="80" rx="10" fill="url(#gPg)" stroke="#8e5a2a" stroke-width="1.5"/>
+    <text x="750" y="148" text-anchor="middle" font-size="14" font-weight="700" fill="#fff">4. 本地 PG 验证</text>
+    <text x="750" y="170" text-anchor="middle" font-size="11" fill="#faf0e6">跑 SQL / 看视图</text>
+    <text x="750" y="186" text-anchor="middle" font-size="11" fill="#faf0e6">动手实证</text>
+  </g>
+
+  <!-- Step 5: Markdown -->
+  <g>
+    <rect x="880" y="120" width="180" height="80" rx="10" fill="url(#gMd)" stroke="#82362e" stroke-width="1.5"/>
+    <text x="970" y="148" text-anchor="middle" font-size="14" font-weight="700" fill="#fff">5. 沉淀 markdown</text>
+    <text x="970" y="170" text-anchor="middle" font-size="11" fill="#fae6e3">结论 + 前置条件</text>
+    <text x="970" y="186" text-anchor="middle" font-size="11" fill="#fae6e3">+ 证伪手段</text>
+  </g>
+
+  <!-- Arrows between steps -->
+  <line x1="180" y1="160" x2="218" y2="160" stroke="#445" stroke-width="2" marker-end="url(#arrow)"/>
+  <line x1="400" y1="160" x2="438" y2="160" stroke="#445" stroke-width="2" marker-end="url(#arrow)"/>
+  <line x1="620" y1="160" x2="658" y2="160" stroke="#445" stroke-width="2" marker-end="url(#arrow)"/>
+  <line x1="840" y1="160" x2="878" y2="160" stroke="#445" stroke-width="2" marker-end="url(#arrow)"/>
+
+  <!-- Feedback loop (Step 5 -> Step 2 to verify new questions) -->
+  <path d="M 970 200 Q 970 280 750 280 Q 530 280 530 200" fill="none" stroke="#a8443b" stroke-width="1.5" stroke-dasharray="6,3" marker-end="url(#arrow)"/>
+  <text x="750" y="270" text-anchor="middle" font-size="11" fill="#a8443b" font-style="italic">沉淀 → 下次同类问题直接复用</text>
+
+  <!-- Bottom: SKILL box -->
+  <g>
+    <rect x="350" y="340" width="500" height="120" rx="12" fill="url(#gSkill)" stroke="#1f5050" stroke-width="1.5"/>
+    <text x="600" y="372" text-anchor="middle" font-size="16" font-weight="700" fill="#fff">~/.claude/skills/pgfaq/SKILL.md</text>
+    <text x="600" y="398" text-anchor="middle" font-size="12" fill="#d9f0f0">frontmatter(name/description/when to use) · 工作流 SOP · 提问模板 · 验证清单</text>
+    <line x1="400" y1="412" x2="800" y2="412" stroke="#7fb0b0" stroke-width="1"/>
+    <text x="600" y="432" text-anchor="middle" font-size="11" fill="#bce0e0">触发后: Claude 拿到 PG 问题自动按 5 段走,而不是泛泛回答</text>
+    <text x="600" y="450" text-anchor="middle" font-size="11" fill="#bce0e0">前置条件 / 适用边界 / 证伪手段 — 缺一不可</text>
+  </g>
+
+  <!-- Connector from step 5 to skill box -->
+  <path d="M 970 200 Q 970 320 750 340" fill="none" stroke="#a8443b" stroke-width="1.5" stroke-dasharray="4,3" marker-end="url(#arrow)"/>
+  <path d="M 350 400 Q 230 400 100 280 Q 100 240 100 200" fill="none" stroke="#2d6e6e" stroke-width="1.5" stroke-dasharray="4,3" marker-end="url(#arrow)"/>
+  <text x="190" y="368" text-anchor="middle" font-size="11" fill="#2d6e6e" font-style="italic">下次问 → SKILL 接管</text>
+
+  <!-- Tool annotation -->
+  <g>
+    <rect x="20" y="370" width="280" height="90" rx="8" fill="#f4f6f9" stroke="#c0c8d0" stroke-width="1"/>
+    <text x="40" y="392" font-size="12" font-weight="600" fill="#2a3a4a">每段对应工具</text>
+    <text x="40" y="412" font-size="11" fill="#3a4a5a">Step 2 · mcp__deepwiki__ask_question</text>
+    <text x="40" y="428" font-size="11" fill="#3a4a5a">Step 3 · Read / Grep / Bash 直接看</text>
+    <text x="40" y="444" font-size="11" fill="#3a4a5a">Step 4 · docker exec psql / 本地 psql</text>
+  </g>
+
+  <!-- Footer -->
+  <text x="550" y="510" text-anchor="middle" font-size="10" fill="#8a96a4">★ 这套工作流核心: 不靠记忆,靠三层证据链交叉验证 ★</text>
+</svg>

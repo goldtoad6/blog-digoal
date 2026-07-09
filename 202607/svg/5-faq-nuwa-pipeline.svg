@@ -1,0 +1,166 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1200 680" font-family="-apple-system, 'PingFang SC', 'Helvetica Neue', Arial, sans-serif">
+  <defs>
+    <linearGradient id="np1" x1="0%" y1="0%" x2="100%" y2="0%">
+      <stop offset="0%" stop-color="#3b6ea8"/>
+      <stop offset="100%" stop-color="#4a83c4"/>
+    </linearGradient>
+    <linearGradient id="np2" x1="0%" y1="0%" x2="100%" y2="0%">
+      <stop offset="0%" stop-color="#7a4ea8"/>
+      <stop offset="100%" stop-color="#9b6dc4"/>
+    </linearGradient>
+    <linearGradient id="np3" x1="0%" y1="0%" x2="100%" y2="0%">
+      <stop offset="0%" stop-color="#3a8f6b"/>
+      <stop offset="100%" stop-color="#54a984"/>
+    </linearGradient>
+    <linearGradient id="np4" x1="0%" y1="0%" x2="100%" y2="0%">
+      <stop offset="0%" stop-color="#c47a3b"/>
+      <stop offset="100%" stop-color="#d69455"/>
+    </linearGradient>
+    <linearGradient id="np5" x1="0%" y1="0%" x2="100%" y2="0%">
+      <stop offset="0%" stop-color="#a8443b"/>
+      <stop offset="100%" stop-color="#c45d54"/>
+    </linearGradient>
+    <linearGradient id="np6" x1="0%" y1="0%" x2="100%" y2="0%">
+      <stop offset="0%" stop-color="#2d6e6e"/>
+      <stop offset="100%" stop-color="#3a8a8a"/>
+    </linearGradient>
+    <marker id="arrow3" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="8" markerHeight="8" orient="auto">
+      <path d="M 0 0 L 10 5 L 0 10 z" fill="#445"/>
+    </marker>
+  </defs>
+
+  <!-- Title -->
+  <text x="600" y="36" text-anchor="middle" font-size="20" font-weight="700" fill="#1a2530">女娲 · Skill 蒸馏流水线(蒸馏 digoal.skill 用)</text>
+  <text x="600" y="58" text-anchor="middle" font-size="13" fill="#5a6878">从德哥 14+ 份博客 markdown → 提炼心智模型 → 落地为可执行的 AI SOP</text>
+
+  <!-- Phase 0: Input -->
+  <g>
+    <rect x="40" y="100" width="200" height="120" rx="8" fill="url(#np1)" stroke="#2a547e" stroke-width="1.5"/>
+    <text x="140" y="124" text-anchor="middle" font-size="13" font-weight="700" fill="#fff">Phase 0 · 入口分流</text>
+    <text x="140" y="146" text-anchor="middle" font-size="10" fill="#e6f0fa">明确主题(德哥)</text>
+    <text x="140" y="162" text-anchor="middle" font-size="10" fill="#e6f0fa">+ 聚焦方向(数据库答疑)</text>
+    <text x="140" y="178" text-anchor="middle" font-size="10" fill="#e6f0fa">+ 本地语料(14 份博客)</text>
+    <text x="140" y="200" text-anchor="middle" font-size="10" fill="#e6f0fa" font-style="italic">→ 创建 skill 目录</text>
+  </g>
+
+  <line x1="240" y1="160" x2="280" y2="160" stroke="#445" stroke-width="2" marker-end="url(#arrow3)"/>
+
+  <!-- Phase 1: 6-Agent research -->
+  <g>
+    <rect x="280" y="100" width="220" height="120" rx="8" fill="url(#np2)" stroke="#5e3a86" stroke-width="1.5"/>
+    <text x="390" y="124" text-anchor="middle" font-size="13" font-weight="700" fill="#fff">Phase 1 · 多源调研</text>
+    <text x="390" y="146" text-anchor="middle" font-size="10" fill="#f0e6fa">6 个并行 Agent</text>
+    <text x="390" y="162" text-anchor="middle" font-size="10" fill="#f0e6fa">写作/对话/表达DNA</text>
+    <text x="390" y="178" text-anchor="middle" font-size="10" fill="#f0e6fa">他者视角/决策/时间线</text>
+    <text x="390" y="200" text-anchor="middle" font-size="10" fill="#f0e6fa" font-style="italic">→ references/research/*.md</text>
+  </g>
+
+  <line x1="500" y1="160" x2="540" y2="160" stroke="#445" stroke-width="2" marker-end="url(#arrow3)"/>
+
+  <!-- Phase 1.5: Review -->
+  <g>
+    <rect x="540" y="100" width="200" height="120" rx="8" fill="#f0e6fa" stroke="#5e3a86" stroke-width="1.5"/>
+    <text x="640" y="124" text-anchor="middle" font-size="13" font-weight="700" fill="#5e3a86">Phase 1.5 · 检查点</text>
+    <text x="640" y="146" text-anchor="middle" font-size="10" fill="#3a4a5a">来源数量 / 一手占比</text>
+    <text x="640" y="162" text-anchor="middle" font-size="10" fill="#3a4a5a">矛盾点 / 信息不足</text>
+    <text x="640" y="178" text-anchor="middle" font-size="10" fill="#3a4a5a">用户确认调研质量</text>
+    <text x="640" y="200" text-anchor="middle" font-size="10" fill="#3a4a5a" font-style="italic">→ 不够则补搜</text>
+  </g>
+
+  <line x1="740" y1="160" x2="780" y2="160" stroke="#445" stroke-width="2" marker-end="url(#arrow3)"/>
+
+  <!-- Phase 2: Synthesis -->
+  <g>
+    <rect x="780" y="100" width="220" height="120" rx="8" fill="url(#np3)" stroke="#2a6b50" stroke-width="1.5"/>
+    <text x="890" y="124" text-anchor="middle" font-size="13" font-weight="700" fill="#fff">Phase 2 · 框架提炼</text>
+    <text x="890" y="146" text-anchor="middle" font-size="10" fill="#e6f5ed">心智模型 3-7 个</text>
+    <text x="890" y="162" text-anchor="middle" font-size="10" fill="#e6f5ed">决策启发式 5-10 条</text>
+    <text x="890" y="178" text-anchor="middle" font-size="10" fill="#e6f5ed">表达DNA / 反模式</text>
+    <text x="890" y="200" text-anchor="middle" font-size="10" fill="#e6f5ed" font-style="italic">→ 三重验证筛选</text>
+  </g>
+
+  <line x1="1000" y1="160" x2="1040" y2="160" stroke="#445" stroke-width="2" marker-end="url(#arrow3)"/>
+
+  <!-- Phase 2.5: Confirm -->
+  <g>
+    <rect x="1040" y="100" width="140" height="120" rx="8" fill="#e6f5ed" stroke="#2a6b50" stroke-width="1.5"/>
+    <text x="1110" y="124" text-anchor="middle" font-size="12" font-weight="700" fill="#2a6b50">Phase 2.5</text>
+    <text x="1110" y="142" text-anchor="middle" font-size="10" fill="#3a4a5a">提炼确认</text>
+    <text x="1110" y="160" text-anchor="middle" font-size="10" fill="#3a4a5a">用户 review</text>
+    <text x="1110" y="178" text-anchor="middle" font-size="10" fill="#3a4a5a">模型数量</text>
+    <text x="1110" y="196" text-anchor="middle" font-size="10" fill="#3a4a5a">边界是否到位</text>
+  </g>
+
+  <!-- Down arrow -->
+  <path d="M 1110 220 L 1110 280" fill="none" stroke="#445" stroke-width="2" marker-end="url(#arrow3)"/>
+
+  <!-- Phase 3: Build SKILL.md -->
+  <g>
+    <rect x="380" y="280" width="220" height="120" rx="8" fill="url(#np4)" stroke="#8e5a2a" stroke-width="1.5"/>
+    <text x="490" y="304" text-anchor="middle" font-size="13" font-weight="700" fill="#fff">Phase 3 · 构建 SKILL.md</text>
+    <text x="490" y="326" text-anchor="middle" font-size="10" fill="#faf0e6">frontmatter / 身份卡</text>
+    <text x="490" y="342" text-anchor="middle" font-size="10" fill="#faf0e6">心智模型 / 启发式</text>
+    <text x="490" y="358" text-anchor="middle" font-size="10" fill="#faf0e6">回答工作流(Agentic)</text>
+    <text x="490" y="380" text-anchor="middle" font-size="10" fill="#faf0e6" font-style="italic">→ digoal/SKILL.md 落地</text>
+  </g>
+
+  <line x1="600" y1="340" x2="640" y2="340" stroke="#445" stroke-width="2" marker-end="url(#arrow3)"/>
+
+  <!-- Phase 4: Quality -->
+  <g>
+    <rect x="640" y="280" width="220" height="120" rx="8" fill="url(#np5)" stroke="#82362e" stroke-width="1.5"/>
+    <text x="750" y="304" text-anchor="middle" font-size="13" font-weight="700" fill="#fff">Phase 4 · 质量验证</text>
+    <text x="750" y="326" text-anchor="middle" font-size="10" fill="#fae6e3">已知测试(立场一致)</text>
+    <text x="750" y="342" text-anchor="middle" font-size="10" fill="#fae6e3">边缘测试(不武断)</text>
+    <text x="750" y="358" text-anchor="middle" font-size="10" fill="#fae6e3">风格测试(读出德哥味)</text>
+    <text x="750" y="380" text-anchor="middle" font-size="10" fill="#fae6e3" font-style="italic">→ 6 项通过标准</text>
+  </g>
+
+  <line x1="860" y1="340" x2="900" y2="340" stroke="#445" stroke-width="2" marker-end="url(#arrow3)"/>
+
+  <!-- Phase 5: Refine -->
+  <g>
+    <rect x="900" y="280" width="220" height="120" rx="8" fill="url(#np6)" stroke="#1f5050" stroke-width="1.5"/>
+    <text x="1010" y="304" text-anchor="middle" font-size="13" font-weight="700" fill="#fff">Phase 5 · 双 Agent 精炼</text>
+    <text x="1010" y="326" text-anchor="middle" font-size="10" fill="#d9f0f0">auto-skill-optimizer</text>
+    <text x="1010" y="342" text-anchor="middle" font-size="10" fill="#d9f0f0">skill-creator</text>
+    <text x="1010" y="358" text-anchor="middle" font-size="10" fill="#d9f0f0">并联改进建议</text>
+    <text x="1010" y="380" text-anchor="middle" font-size="10" fill="#d9f0f0" font-style="italic">→ 上线即执行</text>
+  </g>
+
+  <!-- Down arrow -->
+  <path d="M 1010 400 L 1010 460" fill="none" stroke="#445" stroke-width="2" marker-end="url(#arrow3)"/>
+
+  <!-- Final output -->
+  <g>
+    <rect x="780" y="460" width="460" height="120" rx="12" fill="#1f5050" stroke="#0f3030" stroke-width="1.5"/>
+    <text x="1010" y="486" text-anchor="middle" font-size="15" font-weight="700" fill="#fff">交付物: ~/.claude/skills/digoal/SKILL.md</text>
+    <text x="1010" y="508" text-anchor="middle" font-size="11" fill="#bce0e0">+ references/style-guide.md(德哥风格手册)</text>
+    <text x="1010" y="526" text-anchor="middle" font-size="11" fill="#bce0e0">+ references/workflows.md(SOP 工具箱)</text>
+    <text x="1010" y="544" text-anchor="middle" font-size="11" fill="#bce0e0">+ scripts/search_blog.py(本地语料检索)</text>
+    <text x="1010" y="564" text-anchor="middle" font-size="11" fill="#bce0e0" font-style="italic">触发后: 让 AI 用德哥方式回答 PG 问题</text>
+  </g>
+
+  <!-- Sidebar: critical rules -->
+  <g>
+    <rect x="40" y="280" width="320" height="300" rx="10" fill="#fef6e8" stroke="#c47a3b" stroke-width="1.5"/>
+    <text x="200" y="306" text-anchor="middle" font-size="13" font-weight="700" fill="#7a3f1a">蒸馏的 4 个铁律</text>
+    <text x="60" y="334" font-size="11" fill="#3a4a5a" font-weight="600">1. 长文 &gt; 金句</text>
+    <text x="60" y="350" font-size="11" fill="#5a6878">3000 字 essay 比 50 条推文更揭示思维结构</text>
+    <text x="60" y="378" font-size="11" fill="#3a4a5a" font-weight="600">2. 争议 &gt; 共识</text>
+    <text x="60" y="394" font-size="11" fill="#5a6878">最被争议的观点最能揭示独特性</text>
+    <text x="60" y="422" font-size="11" fill="#3a4a5a" font-weight="600">3. 变化 &gt; 固定</text>
+    <text x="60" y="438" font-size="11" fill="#5a6878">改变立场的地方比一直坚持的更有信息量</text>
+    <text x="60" y="466" font-size="11" fill="#3a4a5a" font-weight="600">4. 绝不做的事</text>
+    <text x="60" y="482" font-size="11" fill="#5a6878">• 编造此人没说过的话</text>
+    <text x="60" y="498" font-size="11" fill="#5a6878">• 把通用道理包装成独特见解</text>
+    <text x="60" y="514" font-size="11" fill="#5a6878">• 在信息不足时强行生成</text>
+    <text x="60" y="540" font-size="11" fill="#3a4a5a" font-weight="600">来源黑名单</text>
+    <text x="60" y="556" font-size="11" fill="#a8443b">知乎 / 微信公众号 / 百度百科 — 永远排除</text>
+  </g>
+
+  <!-- Footer -->
+  <text x="600" y="640" text-anchor="middle" font-size="11" fill="#8a96a4">★ 蒸馏 digoal 的素材源: 本目录 14 份德哥博客 markdown + PostgreSQL 17 官方文档 + DeepWiki MCP ★</text>
+  <text x="600" y="660" text-anchor="middle" font-size="11" fill="#8a96a4">★ 女娲 Skill 自身路径: ~/.claude/skills/nuwa-skill/SKILL.md(由花叔开源)★</text>
+</svg>

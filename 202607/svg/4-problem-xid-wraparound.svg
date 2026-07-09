@@ -1,0 +1,50 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="960" height="520" viewBox="0 0 960 520" role="img" aria-labelledby="title desc">
+  <title id="title">XID 回卷与 FREEZE 保护机制</title>
+  <desc id="desc">PostgreSQL 32 位事务号循环使用，freeze 将很老的元组标记成永远过去，避免回卷后可见性判断颠倒。</desc>
+  <defs>
+    <marker id="arrow" markerWidth="10" markerHeight="10" refX="8" refY="3" orient="auto" markerUnits="strokeWidth"><path d="M0,0 L0,6 L9,3 z" fill="#334155"/></marker>
+    <style>
+      .title{font:700 24px -apple-system,BlinkMacSystemFont,'Segoe UI',sans-serif;fill:#111827}.label{font:600 15px -apple-system,BlinkMacSystemFont,'Segoe UI',sans-serif;fill:#111827}.small{font:13px -apple-system,BlinkMacSystemFont,'Segoe UI',sans-serif;fill:#374151}.muted{font:12px -apple-system,BlinkMacSystemFont,'Segoe UI',sans-serif;fill:#6b7280}.ring{fill:none;stroke:#cbd5e1;stroke-width:34}.safe{fill:none;stroke:#16a34a;stroke-width:34}.warn{fill:none;stroke:#f59e0b;stroke-width:34}.danger{fill:none;stroke:#ef4444;stroke-width:34}.box{fill:#f8fafc;stroke:#334155;stroke-width:1.3;rx:12}.arrow{stroke:#334155;stroke-width:1.8;fill:none;marker-end:url(#arrow)}.dash{stroke:#64748b;stroke-width:1.4;stroke-dasharray:5 5}.pin{fill:#2563eb}.freeze{fill:#dcfce7;stroke:#16a34a;stroke-width:1.4;rx:10}
+    </style>
+  </defs>
+  <rect width="960" height="520" fill="#fff"/>
+  <text x="40" y="44" class="title">XID 是 32-bit 环：FREEZE 把“很老”变成“永远老”</text>
+
+  <circle cx="298" cy="246" r="132" class="ring"/>
+  <path d="M298 114 A132 132 0 0 1 430 246" class="safe"/>
+  <path d="M430 246 A132 132 0 0 1 298 378" class="warn"/>
+  <path d="M298 378 A132 132 0 0 1 166 246" class="danger"/>
+  <path d="M166 246 A132 132 0 0 1 298 114" class="safe"/>
+  <circle cx="298" cy="246" r="92" fill="#fff" stroke="#e5e7eb"/>
+  <text x="245" y="236" class="label">2^32 个 XID</text>
+  <text x="238" y="260" class="small">按模运算循环</text>
+  <text x="253" y="284" class="muted">past / future 只差半圈</text>
+
+  <circle cx="420" cy="198" r="8" class="pin"/>
+  <text x="436" y="202" class="small">当前 xid</text>
+  <line x1="298" y1="246" x2="420" y2="198" class="dash"/>
+  <circle cx="180" cy="298" r="8" fill="#ef4444"/>
+  <text x="64" y="305" class="small">很老的 relfrozenxid</text>
+  <line x1="298" y1="246" x2="180" y2="298" class="dash"/>
+
+  <rect x="558" y="92" width="318" height="82" class="box"/>
+  <text x="582" y="124" class="label">可见性比较的危险点</text>
+  <text x="582" y="148" class="small">未 freeze 的旧 xmin 继续变老</text>
+  <text x="582" y="168" class="small">回卷后可能被误判成“未来事务”</text>
+
+  <path d="M474 210 C510 202,526 150,556 138" class="arrow"/>
+
+  <rect x="558" y="216" width="318" height="92" class="freeze"/>
+  <text x="582" y="248" class="label">VACUUM FREEZE</text>
+  <text x="582" y="272" class="small">把足够老的 tuple xmin 标记为 frozen</text>
+  <text x="582" y="292" class="small">frozen 对所有正常事务都视为已提交且很老</text>
+
+  <rect x="558" y="350" width="318" height="92" class="box"/>
+  <text x="582" y="382" class="label">触发链</text>
+  <text x="582" y="406" class="small">age(relfrozenxid) 接近 autovacuum_freeze_max_age</text>
+  <text x="582" y="426" class="small">→ anti-wraparound vacuum 优先级升高</text>
+
+  <text x="150" y="438" class="small">绿色：安全窗口</text>
+  <text x="300" y="438" class="small">橙色：应主动处理</text>
+  <text x="462" y="438" class="small">红色：接近保护性停写风险</text>
+</svg>

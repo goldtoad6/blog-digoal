@@ -1,0 +1,41 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 800 360" font-family="sans-serif">
+  <text x="400" y="24" text-anchor="middle" font-size="16" font-weight="bold">pgbouncer 事务模式生命周期</text>
+
+  <!-- App -->
+  <rect x="20" y="60" width="120" height="60" fill="#cef" stroke="#06c"/>
+  <text x="80" y="92" text-anchor="middle">应用 App</text>
+  <text x="80" y="110" text-anchor="middle" font-size="11">(前端连接 N 个)</text>
+
+  <!-- pgbouncer -->
+  <rect x="240" y="60" width="320" height="240" fill="#fed" stroke="#c60"/>
+  <text x="400" y="92" text-anchor="middle" font-weight="bold">pgbouncer (前端)</text>
+
+  <!-- PG -->
+  <rect x="660" y="60" width="120" height="60" fill="#f9c" stroke="#900"/>
+  <text x="720" y="92" text-anchor="middle">PG (后端)</text>
+  <text x="720" y="110" text-anchor="middle" font-size="11">(真实连接 M 个)</text>
+
+  <!-- 时序步骤 -->
+  <text x="20" y="200" font-size="12">① App 发起连接请求</text>
+  <text x="20" y="222" font-size="12">② pgbouncer 复用已有后端连接 / 新建(直到 pool_size)</text>
+  <text x="20" y="244" font-size="12">③ App 发 BEGIN + SQL + COMMIT</text>
+  <text x="20" y="266" font-size="12">④ COMMIT 完成后,后端连接立即归还到池</text>
+  <text x="20" y="288" font-size="12">⑤ App 不释放,继续下一个事务复用前端连接</text>
+
+  <!-- 关键 -->
+  <rect x="500" y="190" width="240" height="110" fill="#fff8dc" stroke="#a80"/>
+  <text x="620" y="210" text-anchor="middle" font-weight="bold">事务模式关键</text>
+  <text x="510" y="232" font-size="11">• 事务结束后连接立刻归还</text>
+  <text x="510" y="252" font-size="11">• session-level 设置失效</text>
+  <text x="510" y="272" font-size="11">• 不能用 prepared statement</text>
+  <text x="510" y="292" font-size="11">• 不能用 LISTEN/NOTIFY / temp table</text>
+
+  <!-- 箭头 -->
+  <path d="M 140 90 L 240 90" stroke="#333" fill="none" marker-end="url(#a)"/>
+  <path d="M 560 90 L 660 90" stroke="#333" fill="none" marker-end="url(#a)"/>
+  <defs>
+    <marker id="a" markerWidth="10" markerHeight="10" refX="9" refY="3" orient="auto">
+      <path d="M0,0 L9,3 L0,6 z" fill="#333"/>
+    </marker>
+  </defs>
+</svg>

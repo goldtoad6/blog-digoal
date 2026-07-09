@@ -1,0 +1,99 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1100 640" font-family="-apple-system, 'PingFang SC', 'Helvetica Neue', Arial, sans-serif">
+  <defs>
+    <marker id="arrow2" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="8" markerHeight="8" orient="auto">
+      <path d="M 0 0 L 10 5 L 0 10 z" fill="#445"/>
+    </marker>
+  </defs>
+
+  <!-- Title -->
+  <text x="550" y="36" text-anchor="middle" font-size="20" font-weight="700" fill="#1a2530">pgfaq SKILL · 文件结构与依赖</text>
+  <text x="550" y="58" text-anchor="middle" font-size="13" fill="#5a6878">最小可用版本: 一个 SKILL.md + 一段 frontmatter + 一套 SOP + 三个提问模板</text>
+
+  <!-- Top: SKILL.md container -->
+  <g>
+    <rect x="380" y="90" width="340" height="60" rx="8" fill="#2d6e6e" stroke="#1f5050" stroke-width="1.5"/>
+    <text x="550" y="118" text-anchor="middle" font-size="16" font-weight="700" fill="#fff">~/.claude/skills/pgfaq/SKILL.md</text>
+    <text x="550" y="138" text-anchor="middle" font-size="11" fill="#bce0e0">单文件即可启动,进阶可加 references/ 与 examples/</text>
+  </g>
+
+  <!-- Vertical connector -->
+  <line x1="550" y1="150" x2="550" y2="190" stroke="#445" stroke-width="2" marker-end="url(#arrow2)"/>
+
+  <!-- Three sections: frontmatter / body / templates -->
+  <g>
+    <!-- 1. frontmatter -->
+    <rect x="60" y="200" width="320" height="120" rx="8" fill="#3b6ea8" stroke="#2a547e" stroke-width="1.5"/>
+    <text x="220" y="226" text-anchor="middle" font-size="14" font-weight="700" fill="#fff">① frontmatter (YAML)</text>
+    <text x="80" y="252" font-size="11" fill="#e6f0fa" font-family="Menlo, Monaco, monospace">name: pgfaq</text>
+    <text x="80" y="270" font-size="11" fill="#e6f0fa" font-family="Menlo, Monaco, monospace">description: |</text>
+    <text x="92" y="286" font-size="11" fill="#e6f0fa" font-family="Menlo, Monaco, monospace">  PostgreSQL 概念 / 故障诊断 /</text>
+    <text x="92" y="302" font-size="11" fill="#e6f0fa" font-family="Menlo, Monaco, monospace">  源码定位 / EXPLAIN 解读...</text>
+  </g>
+
+  <g>
+    <!-- 2. SOP -->
+    <rect x="400" y="200" width="320" height="120" rx="8" fill="#7a4ea8" stroke="#5e3a86" stroke-width="1.5"/>
+    <text x="560" y="226" text-anchor="middle" font-size="14" font-weight="700" fill="#fff">② 工作流 SOP</text>
+    <text x="420" y="252" font-size="11" fill="#f0e6fa">Step 1 · DeepWiki 宏观提问</text>
+    <text x="420" y="270" font-size="11" fill="#f0e6fa">Step 2 · 源码 grep / Read</text>
+    <text x="420" y="288" font-size="11" fill="#f0e6fa">Step 3 · 本地 PG 跑 SQL 验证</text>
+    <text x="420" y="306" font-size="11" fill="#f0e6fa">Step 4 · 沉淀 markdown,带前置/边界/证伪</text>
+  </g>
+
+  <g>
+    <!-- 3. Templates -->
+    <rect x="740" y="200" width="300" height="120" rx="8" fill="#c47a3b" stroke="#8e5a2a" stroke-width="1.5"/>
+    <text x="890" y="226" text-anchor="middle" font-size="14" font-weight="700" fill="#fff">③ 提问模板</text>
+    <text x="760" y="252" font-size="11" fill="#faf0e6">模板 A · 概念理解类(MVCC 是什么)</text>
+    <text x="760" y="270" font-size="11" fill="#faf0e6">模板 B · 故障诊断类(为什么 X 慢)</text>
+    <text x="760" y="288" font-size="11" fill="#faf0e6">模板 C · 源码定位类(逻辑在哪个文件)</text>
+    <text x="760" y="306" font-size="11" fill="#faf0e6">模板 D · 性能优化类(为什么 plan 选错)</text>
+  </g>
+
+  <!-- Vertical connector -->
+  <line x1="550" y1="320" x2="550" y2="360" stroke="#445" stroke-width="2" marker-end="url(#arrow2)"/>
+
+  <!-- Bottom: 验证清单 -->
+  <g>
+    <rect x="100" y="370" width="900" height="220" rx="10" fill="#fef6e8" stroke="#c47a3b" stroke-width="1.5"/>
+    <text x="550" y="398" text-anchor="middle" font-size="15" font-weight="700" fill="#7a3f1a">④ 验证清单 · 每条结论必带这三件事</text>
+
+    <!-- Three columns -->
+    <g>
+      <rect x="130" y="415" width="270" height="150" rx="6" fill="#fff" stroke="#d6a875" stroke-width="1"/>
+      <text x="265" y="438" text-anchor="middle" font-size="13" font-weight="600" fill="#7a3f1a">前置条件</text>
+      <text x="150" y="462" font-size="11" fill="#3a4a5a">• PG 版本</text>
+      <text x="150" y="480" font-size="11" fill="#3a4a5a">• 磁盘类型(SSD/HDD)</text>
+      <text x="150" y="498" font-size="11" fill="#3a4a5a">• 数据规模</text>
+      <text x="150" y="516" font-size="11" fill="#3a4a5a">• 是否有副本</text>
+      <text x="150" y="534" font-size="11" fill="#3a4a5a">• 关键 GUC 已开</text>
+      <text x="150" y="552" font-size="11" fill="#3a4a5a">  (track_io_timing 等)</text>
+    </g>
+
+    <g>
+      <rect x="415" y="415" width="270" height="150" rx="6" fill="#fff" stroke="#d6a875" stroke-width="1"/>
+      <text x="550" y="438" text-anchor="middle" font-size="13" font-weight="600" fill="#7a3f1a">适用边界</text>
+      <text x="435" y="462" font-size="11" fill="#3a4a5a">• OLTP vs OLAP</text>
+      <text x="435" y="480" font-size="11" fill="#3a4a5a">• 数据量级阈值</text>
+      <text x="435" y="498" font-size="11" fill="#3a4a5a">• 业务场景是否适用</text>
+      <text x="435" y="516" font-size="11" fill="#3a4a5a">• 不适用的反例</text>
+      <text x="435" y="534" font-size="11" fill="#3a4a5a">• 失效条件</text>
+      <text x="435" y="552" font-size="11" fill="#3a4a5a">  (前提不成立会怎样)</text>
+    </g>
+
+    <g>
+      <rect x="700" y="415" width="270" height="150" rx="6" fill="#fff" stroke="#d6a875" stroke-width="1"/>
+      <text x="835" y="438" text-anchor="middle" font-size="13" font-weight="600" fill="#7a3f1a">证伪手段</text>
+      <text x="720" y="462" font-size="11" fill="#3a4a5a">• 怎么用 EXPLAIN 验证</text>
+      <text x="720" y="480" font-size="11" fill="#3a4a5a">• 怎么用视图反查</text>
+      <text x="720" y="498" font-size="11" fill="#3a4a5a">• 跑哪个实验能推翻结论</text>
+      <text x="720" y="516" font-size="11" fill="#3a4a5a">• 反例查询 SQL</text>
+      <text x="720" y="534" font-size="11" fill="#3a4a5a">• 监控阈值确认</text>
+      <text x="720" y="552" font-size="11" fill="#3a4a5a">• "如果我错了会看到什么"</text>
+    </g>
+  </g>
+
+  <!-- Footer note -->
+  <text x="550" y="620" text-anchor="middle" font-size="11" fill="#5a6878">★ 这是德哥讲义反复强调的"工程师之间交流的最低礼貌" — 摘自《20260708_05.md》★</text>
+</svg>

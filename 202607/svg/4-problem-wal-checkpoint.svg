@@ -1,0 +1,49 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="960" height="520" viewBox="0 0 960 520" role="img" aria-labelledby="title desc">
+  <title id="title">pg_wal 滚动、checkpoint 与保留条件</title>
+  <desc id="desc">WAL segment 只有在 checkpoint、归档、复制 slot 等所有保留条件满足后才可回收或删除。</desc>
+  <defs>
+    <marker id="arrow" markerWidth="10" markerHeight="10" refX="8" refY="3" orient="auto" markerUnits="strokeWidth"><path d="M0,0 L0,6 L9,3 z" fill="#334155"/></marker>
+    <style>
+      .title{font:700 24px -apple-system,BlinkMacSystemFont,'Segoe UI',sans-serif;fill:#111827}.label{font:600 15px -apple-system,BlinkMacSystemFont,'Segoe UI',sans-serif;fill:#111827}.small{font:13px -apple-system,BlinkMacSystemFont,'Segoe UI',sans-serif;fill:#374151}.muted{font:12px -apple-system,BlinkMacSystemFont,'Segoe UI',sans-serif;fill:#6b7280}.seg{fill:#e0f2fe;stroke:#0284c7;stroke-width:1.2;rx:8}.old{fill:#f1f5f9;stroke:#64748b;stroke-width:1.2;rx:8}.keep{fill:#fee2e2;stroke:#ef4444;stroke-width:1.4;rx:8}.ckpt{fill:#dcfce7;stroke:#16a34a;stroke-width:1.4;rx:10}.box{fill:#f8fafc;stroke:#334155;stroke-width:1.3;rx:12}.arrow{stroke:#334155;stroke-width:1.8;fill:none;marker-end:url(#arrow)}.dash{stroke:#ef4444;stroke-width:2;stroke-dasharray:6 5;fill:none}.line{stroke:#94a3b8;stroke-width:2;fill:none}
+    </style>
+  </defs>
+  <rect width="960" height="520" fill="#fff"/>
+  <text x="40" y="44" class="title">WAL 不能随便删：它同时服务崩溃恢复、归档与复制</text>
+
+  <text x="76" y="108" class="label">pg_wal segment timeline</text>
+  <rect x="80" y="134" width="88" height="54" class="old"/><text x="105" y="166" class="small">0001</text>
+  <rect x="178" y="134" width="88" height="54" class="old"/><text x="203" y="166" class="small">0002</text>
+  <rect x="276" y="134" width="88" height="54" class="keep"/><text x="301" y="166" class="small">0003</text>
+  <rect x="374" y="134" width="88" height="54" class="seg"/><text x="399" y="166" class="small">0004</text>
+  <rect x="472" y="134" width="88" height="54" class="seg"/><text x="497" y="166" class="small">0005</text>
+  <rect x="570" y="134" width="88" height="54" class="seg"/><text x="595" y="166" class="small">0006</text>
+  <rect x="668" y="134" width="88" height="54" class="seg"/><text x="693" y="166" class="small">0007</text>
+  <rect x="766" y="134" width="88" height="54" class="seg"/><text x="791" y="166" class="small">0008</text>
+
+  <line x1="326" y1="118" x2="326" y2="208" class="dash"/>
+  <text x="284" y="228" class="small" fill="#ef4444">slot restart_lsn</text>
+  <line x1="618" y1="118" x2="618" y2="208" stroke="#16a34a" stroke-width="2" stroke-dasharray="6 5"/>
+  <text x="582" y="228" class="small" fill="#166534">redo/checkpoint 所需</text>
+
+  <rect x="100" y="284" width="210" height="90" class="ckpt"/>
+  <text x="124" y="316" class="label">Checkpoint</text>
+  <text x="124" y="340" class="small">脏页写盘 + fsync</text>
+  <text x="124" y="360" class="small">决定崩溃恢复起点</text>
+
+  <rect x="374" y="284" width="210" height="90" class="box"/>
+  <text x="398" y="316" class="label">Archive</text>
+  <text x="398" y="340" class="small">archive_command 成功前</text>
+  <text x="398" y="360" class="small">segment 不能被清理</text>
+
+  <rect x="648" y="284" width="210" height="90" class="box"/>
+  <text x="672" y="316" class="label">Replication slot</text>
+  <text x="672" y="340" class="small">restart_lsn 未前进</text>
+  <text x="672" y="360" class="small">主库必须保留 WAL</text>
+
+  <path d="M205 284 C228 246,270 224,326 188" class="arrow"/>
+  <path d="M480 284 C470 236,430 210,364 188" class="arrow"/>
+  <path d="M753 284 C690 230,472 220,326 188" class="arrow"/>
+
+  <rect x="186" y="420" width="588" height="52" class="keep"/>
+  <text x="214" y="452" class="small">删除 0003 看似释放空间，实际可能让崩溃恢复、备库追赶、PITR 任一链路断裂。</text>
+</svg>

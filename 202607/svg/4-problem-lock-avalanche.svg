@@ -1,0 +1,47 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="960" height="520" viewBox="0 0 960 520" role="img" aria-labelledby="title desc">
+  <title id="title">锁队列导致雪崩</title>
+  <desc id="desc">长 SELECT 持有 AccessShareLock，DDL 请求 AccessExclusiveLock 后进入等待队列，后续读写被排队放大。</desc>
+  <defs>
+    <marker id="arrow" markerWidth="10" markerHeight="10" refX="8" refY="3" orient="auto" markerUnits="strokeWidth"><path d="M0,0 L0,6 L9,3 z" fill="#334155"/></marker>
+    <style>
+      .title{font:700 24px -apple-system,BlinkMacSystemFont,'Segoe UI',sans-serif;fill:#111827}.label{font:600 15px -apple-system,BlinkMacSystemFont,'Segoe UI',sans-serif;fill:#111827}.small{font:13px -apple-system,BlinkMacSystemFont,'Segoe UI',sans-serif;fill:#374151}.muted{font:12px -apple-system,BlinkMacSystemFont,'Segoe UI',sans-serif;fill:#6b7280}.held{fill:#dcfce7;stroke:#16a34a;stroke-width:1.4;rx:12}.wait{fill:#fee2e2;stroke:#ef4444;stroke-width:1.4;rx:12}.queue{fill:#ffedd5;stroke:#f97316;stroke-width:1.4;rx:12}.box{fill:#f8fafc;stroke:#334155;stroke-width:1.3;rx:14}.arrow{stroke:#334155;stroke-width:1.8;fill:none;marker-end:url(#arrow)}.line{stroke:#94a3b8;stroke-width:2;fill:none}.hot{fill:#dbeafe;stroke:#2563eb;stroke-width:1.3;rx:12}
+    </style>
+  </defs>
+  <rect width="960" height="520" fill="#fff"/>
+  <text x="40" y="44" class="title">雪崩：一个等待的强锁，把兼容的小锁也推入队列</text>
+
+  <rect x="70" y="94" width="820" height="108" class="box"/>
+  <text x="94" y="128" class="label">LockTag: relation public.orders</text>
+  <rect x="120" y="148" width="168" height="42" class="held"/>
+  <text x="146" y="174" class="small">S1 SELECT：AccessShare 已持有</text>
+  <rect x="340" y="148" width="168" height="42" class="wait"/>
+  <text x="358" y="174" class="small">S2 ALTER：AccessExclusive 等待</text>
+  <rect x="560" y="148" width="168" height="42" class="queue"/>
+  <text x="578" y="174" class="small">S3 SELECT：排在强锁之后</text>
+  <path d="M288 169 L340 169" class="arrow"/>
+  <path d="M508 169 L560 169" class="arrow"/>
+  <text x="746" y="174" class="muted">队列公平性阻止插队</text>
+
+  <rect x="92" y="262" width="212" height="92" class="box"/>
+  <text x="116" y="294" class="label">无 lock_timeout</text>
+  <text x="116" y="318" class="small">DDL 等多久都不退出</text>
+  <text x="116" y="338" class="small">连接池 worker 被耗尽</text>
+
+  <rect x="374" y="262" width="212" height="92" class="box"/>
+  <text x="398" y="294" class="label">热点行队列</text>
+  <text x="398" y="318" class="small">tuple lock / transactionid lock</text>
+  <text x="398" y="338" class="small">所有事务串行化等待同一行</text>
+
+  <rect x="656" y="262" width="212" height="92" class="box"/>
+  <text x="680" y="294" class="label">放大路径</text>
+  <text x="680" y="318" class="small">等待 → 连接占用 → 队列变长</text>
+  <text x="680" y="338" class="small">业务重试 → 锁压力继续放大</text>
+
+  <path d="M198 202 L198 262" class="arrow"/>
+  <path d="M480 202 L480 262" class="arrow"/>
+  <path d="M644 202 L762 262" class="arrow"/>
+
+  <rect x="180" y="404" width="600" height="58" class="hot"/>
+  <text x="206" y="430" class="label">机制结论</text>
+  <text x="318" y="430" class="small">PG 不会自动替你做雪崩保护；超时、限流、SKIP LOCKED、DDL 窗口必须显式设计。</text>
+</svg>

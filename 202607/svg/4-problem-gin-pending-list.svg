@@ -1,0 +1,48 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="960" height="520" viewBox="0 0 960 520" role="img" aria-labelledby="title desc">
+  <title id="title">GIN pending list 合并机制</title>
+  <desc id="desc">GIN fastupdate 将写入先放到 pending list，查询需要同时读主索引和 pending list，合并时会产生延迟尖刺。</desc>
+  <defs>
+    <marker id="arrow" markerWidth="10" markerHeight="10" refX="8" refY="3" orient="auto" markerUnits="strokeWidth"><path d="M0,0 L0,6 L9,3 z" fill="#334155"/></marker>
+    <style>
+      .title{font:700 24px -apple-system,BlinkMacSystemFont,'Segoe UI',sans-serif;fill:#111827}.label{font:600 15px -apple-system,BlinkMacSystemFont,'Segoe UI',sans-serif;fill:#111827}.small{font:13px -apple-system,BlinkMacSystemFont,'Segoe UI',sans-serif;fill:#374151}.muted{font:12px -apple-system,BlinkMacSystemFont,'Segoe UI',sans-serif;fill:#6b7280}.box{fill:#f8fafc;stroke:#334155;stroke-width:1.3;rx:14}.pending{fill:#ffedd5;stroke:#f97316;stroke-width:1.3;rx:10}.main{fill:#dbeafe;stroke:#2563eb;stroke-width:1.3;rx:10}.query{fill:#dcfce7;stroke:#16a34a;stroke-width:1.3;rx:10}.spike{fill:#fee2e2;stroke:#ef4444;stroke-width:1.3;rx:10}.arrow{stroke:#334155;stroke-width:1.8;fill:none;marker-end:url(#arrow)}.dash{stroke:#f97316;stroke-width:2;stroke-dasharray:6 5;fill:none;marker-end:url(#arrow)}
+    </style>
+  </defs>
+  <rect width="960" height="520" fill="#fff"/>
+  <text x="40" y="44" class="title">GIN 有时不快：写入快路径把成本推迟到查询/合并</text>
+
+  <rect x="56" y="96" width="180" height="86" class="box"/>
+  <text x="88" y="130" class="label">INSERT / UPDATE</text>
+  <text x="82" y="156" class="small">jsonb / tsvector / array</text>
+
+  <rect x="310" y="78" width="252" height="126" class="pending"/>
+  <text x="338" y="112" class="label">Pending list</text>
+  <text x="338" y="138" class="small">未排序的 TID + key 条目</text>
+  <text x="338" y="160" class="small">写入便宜，查询需要额外扫描</text>
+  <text x="338" y="182" class="muted">gin_pending_list_limit / VACUUM 触发清理</text>
+
+  <rect x="660" y="78" width="230" height="126" class="main"/>
+  <text x="688" y="112" class="label">Main GIN index</text>
+  <text x="688" y="138" class="small">entry tree</text>
+  <text x="688" y="160" class="small">posting list / posting tree</text>
+  <text x="688" y="182" class="muted">适合读多写少的倒排结构</text>
+
+  <path d="M236 139 L310 139" class="arrow"/>
+  <path d="M562 141 L660 141" class="dash"/>
+  <text x="576" y="126" class="small" fill="#f97316">cleanup / merge</text>
+
+  <rect x="96" y="292" width="180" height="76" class="query"/>
+  <text x="132" y="324" class="label">查询 @&gt; / @@</text>
+  <text x="128" y="348" class="small">必须合并两个来源</text>
+  <path d="M276 318 C342 280,390 218,434 204" class="arrow"/>
+  <path d="M276 348 C440 414,650 254,724 204" class="arrow"/>
+
+  <rect x="364" y="312" width="232" height="84" class="spike"/>
+  <text x="392" y="344" class="label">延迟尖刺</text>
+  <text x="392" y="368" class="small">pending 太大：查询扫描变重</text>
+  <text x="392" y="388" class="small">合并发生：单次写/VACUUM 付账</text>
+
+  <rect x="674" y="302" width="198" height="94" class="box"/>
+  <text x="698" y="334" class="label">怎么证伪</text>
+  <text x="698" y="358" class="small">n_pending_pages 很小仍慢</text>
+  <text x="698" y="378" class="small">→ 不是 pending list，转看选择性/重检</text>
+</svg>

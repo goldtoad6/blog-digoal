@@ -1,0 +1,43 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 800 280" font-family="sans-serif">
+  <text x="400" y="24" text-anchor="middle" font-size="16" font-weight="bold">PG Wait Event 大类(PG 14+ 细分最强)</text>
+
+  <g font-size="12">
+    <rect x="40" y="60" width="120" height="40" rx="6" fill="#cde" stroke="#06c"/>
+    <text x="100" y="84" text-anchor="middle">Activity</text>
+    <text x="100" y="120" text-anchor="middle" font-size="10">空闲主循环</text>
+
+    <rect x="180" y="60" width="120" height="40" rx="6" fill="#fed" stroke="#c60"/>
+    <text x="240" y="84" text-anchor="middle">BufferPin</text>
+    <text x="240" y="120" text-anchor="middle" font-size="10">等 buffer 排他锁</text>
+
+    <rect x="320" y="60" width="120" height="40" rx="6" fill="#fdc" stroke="#c60"/>
+    <text x="380" y="84" text-anchor="middle">Client</text>
+    <text x="380" y="120" text-anchor="middle" font-size="10">等客户端收发包</text>
+
+    <rect x="460" y="60" width="120" height="40" rx="6" fill="#fdb" stroke="#900"/>
+    <text x="520" y="84" text-anchor="middle">IO</text>
+    <text x="520" y="120" text-anchor="middle" font-size="10">等数据文件/WAL</text>
+
+    <rect x="600" y="60" width="120" height="40" rx="6" fill="#fdb" stroke="#900"/>
+    <text x="660" y="84" text-anchor="middle">IPC</text>
+    <text x="660" y="120" text-anchor="middle" font-size="10">等子进程/worker</text>
+
+    <rect x="40" y="160" width="120" height="40" rx="6" fill="#fdb" stroke="#900"/>
+    <text x="100" y="184" text-anchor="middle">Lock</text>
+    <text x="100" y="220" text-anchor="middle" font-size="10">heavy-weight lock</text>
+
+    <rect x="180" y="160" width="120" height="40" rx="6" fill="#fdb" stroke="#900"/>
+    <text x="240" y="184" text-anchor="middle">LWLock</text>
+    <text x="240" y="220" text-anchor="middle" font-size="10">轻量锁 shared mem</text>
+
+    <rect x="320" y="160" width="120" height="40" rx="6" fill="#cde" stroke="#06c"/>
+    <text x="380" y="184" text-anchor="middle">Timeout</text>
+    <text x="380" y="220" text-anchor="middle" font-size="10">故意 sleep</text>
+
+    <rect x="460" y="160" width="120" height="40" rx="6" fill="#cde" stroke="#06c"/>
+    <text x="520" y="184" text-anchor="middle">Extension</text>
+    <text x="520" y="220" text-anchor="middle" font-size="10">扩展自定义</text>
+  </g>
+
+  <text x="400" y="260" text-anchor="middle" font-size="11" fill="#444">红色 = 通常是性能问题,蓝色 = 正常等待</text>
+</svg>

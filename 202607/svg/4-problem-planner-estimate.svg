@@ -1,0 +1,61 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="960" height="520" viewBox="0 0 960 520" role="img" aria-labelledby="title desc">
+  <title id="title">规划器估算与实际执行偏差</title>
+  <desc id="desc">Planner 从统计信息估算行数，再把行数带入 cost 模型选择计划；统计失真会导致估算成本和实际成本偏离。</desc>
+  <defs>
+    <marker id="arrow" markerWidth="10" markerHeight="10" refX="8" refY="3" orient="auto" markerUnits="strokeWidth"><path d="M0,0 L0,6 L9,3 z" fill="#334155"/></marker>
+    <style>
+      .title{font:700 24px -apple-system,BlinkMacSystemFont,'Segoe UI',sans-serif;fill:#111827}.label{font:600 15px -apple-system,BlinkMacSystemFont,'Segoe UI',sans-serif;fill:#111827}.small{font:13px -apple-system,BlinkMacSystemFont,'Segoe UI',sans-serif;fill:#374151}.muted{font:12px -apple-system,BlinkMacSystemFont,'Segoe UI',sans-serif;fill:#6b7280}.stat{fill:#dbeafe;stroke:#2563eb;stroke-width:1.3;rx:12}.cost{fill:#ffedd5;stroke:#f97316;stroke-width:1.3;rx:12}.plan{fill:#f8fafc;stroke:#334155;stroke-width:1.3;rx:12}.actual{fill:#dcfce7;stroke:#16a34a;stroke-width:1.3;rx:12}.bad{fill:#fee2e2;stroke:#ef4444;stroke-width:1.3;rx:12}.arrow{stroke:#334155;stroke-width:1.8;fill:none;marker-end:url(#arrow)}.bar1{fill:#93c5fd}.bar2{fill:#fca5a5}.axis{stroke:#94a3b8;stroke-width:1}
+    </style>
+  </defs>
+  <rect width="960" height="520" fill="#fff"/>
+  <text x="40" y="44" class="title">执行计划“不正确”：通常是输入信息或代价模型错了</text>
+
+  <rect x="62" y="98" width="170" height="94" class="stat"/>
+  <text x="90" y="130" class="label">pg_statistic</text>
+  <text x="86" y="154" class="small">MCV / histogram</text>
+  <text x="86" y="174" class="small">ndistinct / correlation</text>
+
+  <rect x="286" y="98" width="170" height="94" class="cost"/>
+  <text x="320" y="130" class="label">Cardinality</text>
+  <text x="316" y="154" class="small">rows = 100</text>
+  <text x="316" y="174" class="muted">假设列独立 / 采样足够</text>
+
+  <rect x="510" y="98" width="170" height="94" class="cost"/>
+  <text x="548" y="130" class="label">Cost model</text>
+  <text x="540" y="154" class="small">seq_page_cost</text>
+  <text x="540" y="174" class="small">random_page_cost</text>
+
+  <rect x="734" y="98" width="170" height="94" class="plan"/>
+  <text x="768" y="130" class="label">Chosen Path</text>
+  <text x="760" y="154" class="small">Nested Loop?</text>
+  <text x="760" y="174" class="small">Seq Scan?</text>
+
+  <path d="M232 145 L286 145" class="arrow"/>
+  <path d="M456 145 L510 145" class="arrow"/>
+  <path d="M680 145 L734 145" class="arrow"/>
+
+  <rect x="82" y="268" width="230" height="132" class="bad"/>
+  <text x="110" y="300" class="label">常见误差源</text>
+  <text x="110" y="326" class="small">统计陈旧 / 数据倾斜</text>
+  <text x="110" y="348" class="small">多列相关却按独立相乘</text>
+  <text x="110" y="370" class="small">generic plan 复用坏样本</text>
+
+  <rect x="378" y="268" width="210" height="132" class="actual"/>
+  <text x="410" y="300" class="label">EXPLAIN ANALYZE</text>
+  <text x="416" y="326" class="small">rows=100</text>
+  <text x="416" y="348" class="small">actual rows=100000</text>
+  <text x="416" y="370" class="small">Buffers read=high</text>
+
+  <rect x="664" y="260" width="212" height="150" fill="#fff" stroke="#cbd5e1" rx="12"/>
+  <text x="690" y="292" class="label">估算 vs 实际</text>
+  <line x1="708" y1="374" x2="836" y2="374" class="axis"/>
+  <line x1="708" y1="318" x2="708" y2="374" class="axis"/>
+  <rect x="728" y="360" width="34" height="14" class="bar1"/>
+  <rect x="790" y="318" width="34" height="56" class="bar2"/>
+  <text x="722" y="394" class="muted">estimate</text>
+  <text x="786" y="394" class="muted">actual</text>
+  <text x="724" y="344" class="small">100</text>
+  <text x="782" y="310" class="small">100k</text>
+
+  <path d="M819 192 C818 228,770 230,770 260" class="arrow"/>
+</svg>

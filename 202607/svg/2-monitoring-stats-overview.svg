@@ -1,0 +1,113 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 940 660" font-family="-apple-system, BlinkMacSystemFont, 'Segoe UI', 'PingFang SC', 'Microsoft YaHei', sans-serif">
+  <defs>
+    <linearGradient id="os" x1="0" y1="0" x2="0" y2="1">
+      <stop offset="0%" stop-color="#e0e7ff"/>
+      <stop offset="100%" stop-color="#c7d2fe"/>
+    </linearGradient>
+    <marker id="arrow2" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="8" markerHeight="8" orient="auto">
+      <path d="M0,0 L10,5 L0,10 z" fill="#94a3b8"/>
+    </marker>
+  </defs>
+
+  <rect width="100%" height="100%" fill="#ffffff"/>
+
+  <text x="470" y="36" text-anchor="middle" font-size="22" font-weight="700" fill="#0f172a">6 张最常用监控视图全景</text>
+  <text x="470" y="58" text-anchor="middle" font-size="13" fill="#475569">生产环境 90% 的监控需求由这 6 张视图覆盖 — 出问题先翻它们</text>
+
+  <!-- Cards -->
+  <!-- Row 1 -->
+  <g transform="translate(40, 90)">
+    <rect x="0" y="0" width="280" height="180" rx="10" fill="#dbeafe" stroke="#3b82f6" stroke-width="1.5"/>
+    <text x="20" y="28" font-size="13" font-weight="700" fill="#1e3a8a">pg_stat_activity</text>
+    <text x="20" y="46" font-size="11" fill="#1e40af">当前所有会话 — 实时切片</text>
+    <line x1="20" y1="56" x2="260" y2="56" stroke="#93c5fd" stroke-width="1"/>
+    <text x="20" y="78" font-size="11" fill="#1e3a8a" font-family="Menlo, monospace">pid / state / wait_event_type</text>
+    <text x="20" y="94" font-size="11" fill="#1e3a8a" font-family="Menlo, monospace">wait_event / query_start</text>
+    <text x="20" y="110" font-size="11" fill="#1e3a8a" font-family="Menlo, monospace">xact_start / query / backend_xid</text>
+    <text x="20" y="134" font-size="11" fill="#1e40af">用途:谁在跑 / 谁锁了谁 / 长事务</text>
+    <text x="20" y="152" font-size="11" fill="#1e40af">频率:1~5s 采样</text>
+    <text x="20" y="170" font-size="11" font-style="italic" fill="#1e40af">前提:track_activities=on</text>
+  </g>
+
+  <g transform="translate(340, 90)">
+    <rect x="0" y="0" width="280" height="180" rx="10" fill="#fee2e2" stroke="#ef4444" stroke-width="1.5"/>
+    <text x="20" y="28" font-size="13" font-weight="700" fill="#7f1d1d">pg_stat_database</text>
+    <text x="20" y="46" font-size="11" fill="#991b1b">数据库级累计 — 健康总览</text>
+    <line x1="20" y1="56" x2="260" y2="56" stroke="#fca5a5" stroke-width="1"/>
+    <text x="20" y="78" font-size="11" fill="#7f1d1d" font-family="Menlo, monospace">numbackends / xact_commit</text>
+    <text x="20" y="94" font-size="11" fill="#7f1d1d" font-family="Menlo, monospace">xact_rollback / blks_hit/read</text>
+    <text x="20" y="110" font-size="11" fill="#7f1d1d" font-family="Menlo, monospace">deadlocks / temp_bytes / blk_*_time</text>
+    <text x="20" y="134" font-size="11" fill="#991b1b">用途:TPS / 回滚率 / 缓存命中率</text>
+    <text x="20" y="152" font-size="11" fill="#991b1b">频率:30s 采样(累计值)</text>
+    <text x="20" y="170" font-size="11" font-style="italic" fill="#991b1b">前提:track_counts=on,track_io_timing=on</text>
+  </g>
+
+  <g transform="translate(640, 90)">
+    <rect x="0" y="0" width="280" height="180" rx="10" fill="#fef3c7" stroke="#f59e0b" stroke-width="1.5"/>
+    <text x="20" y="28" font-size="13" font-weight="700" fill="#78350f">pg_stat_user_tables</text>
+    <text x="20" y="46" font-size="11" fill="#92400e">用户表 DML / 扫描统计</text>
+    <line x1="20" y1="56" x2="260" y2="56" stroke="#fcd34d" stroke-width="1"/>
+    <text x="20" y="78" font-size="11" fill="#78350f" font-family="Menlo, monospace">seq_scan / idx_scan</text>
+    <text x="20" y="94" font-size="11" fill="#78350f" font-family="Menlo, monospace">n_live_tup / n_dead_tup</text>
+    <text x="20" y="110" font-size="11" fill="#78350f" font-family="Menlo, monospace">n_mod_since_analyze / last_*</text>
+    <text x="20" y="134" font-size="11" fill="#92400e">用途:膨胀 / 统计信息 / 索引热度</text>
+    <text x="20" y="152" font-size="11" fill="#92400e">频率:5min 采样</text>
+    <text x="20" y="170" font-size="11" font-style="italic" fill="#92400e">前提:track_counts=on</text>
+  </g>
+
+  <!-- Row 2 -->
+  <g transform="translate(40, 290)">
+    <rect x="0" y="0" width="280" height="180" rx="10" fill="#ede9fe" stroke="#8b5cf6" stroke-width="1.5"/>
+    <text x="20" y="28" font-size="13" font-weight="700" fill="#4c1d95">pg_stat_user_indexes</text>
+    <text x="20" y="46" font-size="11" fill="#5b21b6">索引使用次数 — 找死索引</text>
+    <line x1="20" y1="56" x2="260" y2="56" stroke="#c4b5fd" stroke-width="1"/>
+    <text x="20" y="78" font-size="11" fill="#4c1d95" font-family="Menlo, monospace">idx_scan / idx_tup_read</text>
+    <text x="20" y="94" font-size="11" fill="#4c1d95" font-family="Menlo, monospace">idx_tup_fetch</text>
+    <text x="20" y="110" font-size="11" fill="#4c1d95" font-family="Menlo, monospace">schemaname / relname / indexrelname</text>
+    <text x="20" y="134" font-size="11" fill="#5b21b6">用途:清理 idx_scan=0 索引</text>
+    <text x="20" y="152" font-size="11" fill="#5b21b6">频率:小时级(变化缓慢)</text>
+    <text x="20" y="170" font-size="11" font-style="italic" fill="#5b21b6">前提:track_counts=on;计数器不重置</text>
+  </g>
+
+  <g transform="translate(340, 290)">
+    <rect x="0" y="0" width="280" height="180" rx="10" fill="#cffafe" stroke="#06b6d4" stroke-width="1.5"/>
+    <text x="20" y="28" font-size="13" font-weight="700" fill="#155e75">pg_statio_user_tables</text>
+    <text x="20" y="46" font-size="11" fill="#0e7490">表/索引/toast 磁盘 IO</text>
+    <line x1="20" y1="56" x2="260" y2="56" stroke="#67e8f9" stroke-width="1"/>
+    <text x="20" y="78" font-size="11" fill="#155e75" font-family="Menlo, monospace">heap_blks_hit / heap_blks_read</text>
+    <text x="20" y="94" font-size="11" fill="#155e75" font-family="Menlo, monospace">idx_blks_hit / idx_blks_read</text>
+    <text x="20" y="110" font-size="11" fill="#155e75" font-family="Menlo, monospace">toast_blks_hit / toast_blks_read</text>
+    <text x="20" y="134" font-size="11" fill="#0e7490">用途:定位大表热读 / seq scan 源</text>
+    <text x="20" y="152" font-size="11" fill="#0e7490">频率:分钟级</text>
+    <text x="20" y="170" font-size="11" font-style="italic" fill="#0e7490">前提:track_counts=on(blk_*_time 在 pg_stat_database)</text>
+  </g>
+
+  <g transform="translate(640, 290)">
+    <rect x="0" y="0" width="280" height="180" rx="10" fill="#ecfdf5" stroke="#16a34a" stroke-width="1.5"/>
+    <text x="20" y="28" font-size="13" font-weight="700" fill="#14532d">pg_stat_replication</text>
+    <text x="20" y="46" font-size="11" fill="#166534">主备流复制状态 — HA 必看</text>
+    <line x1="20" y1="56" x2="260" y2="56" stroke="#86efac" stroke-width="1"/>
+    <text x="20" y="78" font-size="11" fill="#14532d" font-family="Menlo, monospace">state / sync_state / sync_priority</text>
+    <text x="20" y="94" font-size="11" fill="#14532d" font-family="Menlo, monospace">sent_lsn / replay_lsn</text>
+    <text x="20" y="110" font-size="11" fill="#14532d" font-family="Menlo, monospace">write_lag / flush_lag / replay_lag</text>
+    <text x="20" y="134" font-size="11" fill="#166534">用途:send 慢 / replay 慢 / 断流</text>
+    <text x="20" y="152" font-size="11" fill="#166534">频率:10s 采样</text>
+    <text x="20" y="170" font-size="11" font-style="italic" fill="#166534">前提:流复制 / 逻辑复制启用</text>
+  </g>
+
+  <!-- Bottom band -->
+  <g transform="translate(40, 490)">
+    <rect x="0" y="0" width="880" height="140" rx="10" fill="#f1f5f9" stroke="#94a3b8"/>
+    <text x="20" y="26" font-size="13" font-weight="700" fill="#0f172a">视图之间的协作关系</text>
+
+    <text x="20" y="54" font-size="11.5" fill="#1e293b" font-family="Menlo, monospace">pg_stat_activity.query_id ← → pg_stat_statements.queryid</text>
+    <text x="40" y="70" font-size="11" fill="#475569">compute_query_id 开启后,实时会话与累计统计一一对应</text>
+
+    <text x="20" y="92" font-size="11.5" fill="#1e293b" font-family="Menlo, monospace">pg_stat_user_tables.idx_scan ← → pg_stat_user_indexes.idx_scan</text>
+    <text x="40" y="108" font-size="11" fill="#475569">同一指标在不同维度的切面,前者按表、后者按索引</text>
+
+    <text x="20" y="130" font-size="11.5" fill="#1e293b" font-family="Menlo, monospace">pg_stat_database.blk_*_time ← → pg_statio_user_tables.heap_*_blks</text>
+    <text x="40" y="146" font-size="11" fill="#475569">前者看全局 IO 耗时,后者定位是哪张表贡献的</text>
+  </g>
+</svg>

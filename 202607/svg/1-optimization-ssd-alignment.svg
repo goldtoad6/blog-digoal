@@ -1,0 +1,103 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 960 520" font-family="-apple-system, 'PingFang SC', 'Microsoft YaHei', sans-serif">
+  <defs>
+    <marker id="arr" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="8" markerHeight="8" orient="auto">
+      <path d="M 0 0 L 10 5 L 0 10 z" fill="#475569"/>
+    </marker>
+  </defs>
+
+  <rect width="960" height="520" fill="#fafbfc"/>
+
+  <text x="480" y="36" text-anchor="middle" font-size="22" font-weight="700" fill="#0f172a">SSD 4K 未对齐：一次 PG 写入触发的 IO</text>
+  <text x="480" y="60" text-anchor="middle" font-size="13" fill="#475569">PG block = 8K · SSD physical page = 4K · 起点偏移 512B，横跨 3 个 page，触发 Read-Modify-Write</text>
+
+  <rect x="40" y="80" width="880" height="420" rx="10" fill="#fff5f5" stroke="#dc2626" stroke-width="1.5"/>
+  <text x="56" y="106" font-size="16" font-weight="700" fill="#991b1b">❌ 不对齐：PG block 起点偏移 512B，横跨 3 个 SSD page</text>
+
+  <!-- 左侧结构图 -->
+  <text x="56" y="136" font-size="13" font-weight="600" fill="#475569">▎PG block 与 SSD 物理页的对应关系</text>
+
+  <!-- 上层：PG block（8K） -->
+  <text x="56" y="160" font-size="12" fill="#475569">上层：PG block（8KB = 8192B），起点在 page 0 内偏移 512B</text>
+  <g>
+    <rect x="72" y="170" width="56" height="36" fill="#fecaca" stroke="#dc2626" stroke-width="1.2" rx="2"/>
+    <rect x="128" y="170" width="64" height="36" fill="#fecaca" stroke="#dc2626" stroke-width="1.2" rx="2"/>
+    <rect x="192" y="170" width="8" height="36" fill="#fecaca" stroke="#dc2626" stroke-width="1.2" rx="2"/>
+
+    <text x="100" y="221" text-anchor="middle" font-size="10" fill="#991b1b">3584B</text>
+    <text x="160" y="221" text-anchor="middle" font-size="10" fill="#991b1b">4096B</text>
+    <text x="196" y="221" text-anchor="middle" font-size="10" fill="#991b1b">512B</text>
+
+    <line x1="56" y1="188" x2="72" y2="188" stroke="#991b1b" stroke-width="1.5" marker-end="url(#arr)"/>
+    <text x="64" y="183" font-size="9" fill="#991b1b">512B</text>
+
+    <text x="136" y="195" text-anchor="middle" font-size="12" font-weight="600" fill="#7f1d1d">一个 8KB PG block（横跨 3 个 page）</text>
+  </g>
+
+  <!-- 下层：SSD 物理页（4K） -->
+  <text x="56" y="248" font-size="12" fill="#475569">下层：SSD 物理 page（4KB = 4096B）</text>
+  <g>
+    <rect x="56"  y="258" width="64" height="32" fill="#fef3c7" stroke="#a16207" stroke-width="1" rx="2"/>
+    <text x="88" y="278" text-anchor="middle" font-size="11" fill="#78350f">page 0</text>
+
+    <rect x="120" y="258" width="64" height="32" fill="#fef3c7" stroke="#a16207" stroke-width="1" rx="2"/>
+    <text x="152" y="278" text-anchor="middle" font-size="11" fill="#78350f">page 1</text>
+
+    <rect x="184" y="258" width="64" height="32" fill="#fef3c7" stroke="#a16207" stroke-width="1" rx="2"/>
+    <text x="216" y="278" text-anchor="middle" font-size="11" fill="#78350f">page 2</text>
+
+    <rect x="248" y="258" width="64" height="32" fill="#fef3c7" stroke="#a16207" stroke-width="1" rx="2"/>
+    <text x="280" y="278" text-anchor="middle" font-size="11" fill="#78350f">page 3</text>
+
+    <rect x="312" y="258" width="64" height="32" fill="#fef3c7" stroke="#a16207" stroke-width="1" rx="2"/>
+    <text x="344" y="278" text-anchor="middle" font-size="11" fill="#78350f">page 4</text>
+
+    <rect x="376" y="258" width="64" height="32" fill="#fef3c7" stroke="#a16207" stroke-width="1" rx="2"/>
+    <text x="408" y="278" text-anchor="middle" font-size="11" fill="#78350f">page 5</text>
+  </g>
+
+  <!-- 虚线指示 -->
+  <g stroke="#dc2626" stroke-width="1" stroke-dasharray="4,3" opacity="0.6">
+    <line x1="72" y1="208" x2="72" y2="256"/>
+    <line x1="128" y1="208" x2="128" y2="256"/>
+    <line x1="192" y1="208" x2="192" y2="256"/>
+    <line x1="200" y1="208" x2="200" y2="256"/>
+  </g>
+
+  <!-- 高亮覆盖的 3 个 page -->
+  <rect x="56"  y="258" width="64" height="32" fill="none" stroke="#dc2626" stroke-width="2" rx="2"/>
+  <rect x="120" y="258" width="64" height="32" fill="none" stroke="#dc2626" stroke-width="2" rx="2"/>
+  <rect x="184" y="258" width="16" height="32" fill="none" stroke="#dc2626" stroke-width="2" rx="2"/>
+
+  <!-- 右侧 IO 操作 -->
+  <text x="460" y="136" font-size="13" font-weight="600" fill="#475569">▎写入过程（Read-Modify-Write）</text>
+
+  <g transform="translate(460, 160)">
+    <text x="0" y="0" font-size="12" font-weight="700" fill="#7f1d1d">一次 8K 写入 → 6 次 IO</text>
+
+    <rect x="0" y="14" width="440" height="28" rx="4" fill="#fecaca" stroke="#dc2626"/>
+    <text x="220" y="33" text-anchor="middle" font-size="11" fill="#7f1d1d">① 读 SSD page 0（4K）—— 取后 3584B</text>
+
+    <rect x="0" y="46" width="440" height="28" rx="4" fill="#fecaca" stroke="#dc2626"/>
+    <text x="220" y="65" text-anchor="middle" font-size="11" fill="#7f1d1d">② 读 SSD page 1（4K）—— 取全部 4096B</text>
+
+    <rect x="0" y="78" width="440" height="28" rx="4" fill="#fecaca" stroke="#dc2626"/>
+    <text x="220" y="97" text-anchor="middle" font-size="11" fill="#7f1d1d">③ 读 SSD page 2（4K）—— 取前 512B</text>
+
+    <rect x="0" y="110" width="440" height="28" rx="4" fill="#fed7aa" stroke="#ea580c"/>
+    <text x="220" y="129" text-anchor="middle" font-size="11" fill="#7c2d12">④ CPU 内存合并新旧数据（Read-Modify）</text>
+
+    <rect x="0" y="142" width="440" height="28" rx="4" fill="#fee2e2" stroke="#dc2626"/>
+    <text x="220" y="161" text-anchor="middle" font-size="11" fill="#7f1d1d">⑤ 写回 SSD page 0（4K）</text>
+
+    <rect x="0" y="174" width="440" height="28" rx="4" fill="#fee2e2" stroke="#dc2626"/>
+    <text x="220" y="193" text-anchor="middle" font-size="11" fill="#7f1d1d">⑥ 写回 SSD page 1（4K）</text>
+
+    <rect x="0" y="206" width="440" height="28" rx="4" fill="#fee2e2" stroke="#dc2626"/>
+    <text x="220" y="225" text-anchor="middle" font-size="11" fill="#7f1d1d">⑦ 写回 SSD page 2（4K）</text>
+  </g>
+
+  <!-- 底部结论（大框内最底部） -->
+  <rect x="56" y="434" width="848" height="52" rx="6" fill="#fee2e2" stroke="#dc2626" stroke-width="1.5"/>
+  <text x="480" y="456" text-anchor="middle" font-size="13" font-weight="600" fill="#991b1b">结论：未对齐写入触发 3 次读 + 3 次写 = 6 次 IO，且需 CPU 参与数据合并，性能严重下降</text>
+  <text x="480" y="476" text-anchor="middle" font-size="11" fill="#991b1b">对齐可避免 Read-Modify-Write，将 IO 次数从 6 次降至 2 次，建议分区时确保 4K 对齐</text>
+</svg>

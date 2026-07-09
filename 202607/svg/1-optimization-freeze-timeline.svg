@@ -1,0 +1,29 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 800 220" font-family="sans-serif">
+  <text x="400" y="24" text-anchor="middle" font-size="16" font-weight="bold">xid_age 时间线与 freeze 触发</text>
+
+  <line x1="40" y1="100" x2="760" y2="100" stroke="#333" stroke-width="2"/>
+  <polygon points="760,100 750,95 750,105" fill="#333"/>
+
+  <!-- 节点 -->
+  <circle cx="100" cy="100" r="8" fill="#6c6"/>
+  <text x="100" y="130" text-anchor="middle" font-size="11">刚 vacuum</text>
+  <text x="100" y="144" text-anchor="middle" font-size="10">xid_age=0</text>
+
+  <circle cx="280" cy="100" r="8" fill="#fc6"/>
+  <text x="280" y="130" text-anchor="middle" font-size="11">常规 vacuum</text>
+  <text x="280" y="144" text-anchor="middle" font-size="10">n_dead_tup 触发</text>
+
+  <circle cx="460" cy="100" r="8" fill="#f93"/>
+  <text x="460" y="130" text-anchor="middle" font-size="11">anti-wraparound</text>
+  <text x="460" y="144" text-anchor="middle" font-size="10">xid_age ≥ 2 亿</text>
+
+  <circle cx="640" cy="100" r="8" fill="#f33"/>
+  <text x="640" y="130" text-anchor="middle" font-size="11">灾难</text>
+  <text x="640" y="144" text-anchor="middle" font-size="10">数据库只读</text>
+
+  <!-- 标签 -->
+  <text x="40" y="80" font-size="11" fill="#444">0</text>
+  <text x="280" y="80" font-size="11" fill="#444">2 亿(autovacuum_freeze_max_age)</text>
+  <text x="540" y="80" font-size="11" fill="#444">~21 亿(实际回卷点)</text>
+  <text x="40" y="180" font-size="11" fill="#c00">生产监控阈值:age &gt; 2 亿立即处理,age &gt; 15 亿紧急</text>
+</svg>
