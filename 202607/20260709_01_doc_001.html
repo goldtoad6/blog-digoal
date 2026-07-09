@@ -1,0 +1,2871 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>PostgreSQL 实战 · 4 小时 · 优化 / 监控 / 故障 / 内核 / AI</title>
+<style>
+  /* ============= 基础 ============= */
+  *,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
+  :root{
+    --bg:#f5f6fa;
+    --surface:#ffffff;
+    --surface-2:#eef1f7;
+    --border:#dfe4ec;
+    --text:#1a1f2e;
+    --text-dim:#5a6378;
+    --text-dimmer:#5a6378;
+    --pg:#1e4d7b;
+    --pg-bright:#2c6ca8;
+    --amber:#c2691e;
+    --amber-bg:rgba(194,105,30,.1);
+    --green:#15803d;
+    --green-bg:rgba(21,128,61,.1);
+    --red:#b91c1c;
+    --red-bg:rgba(185,28,28,.1);
+    --purple:#6d28d9;
+    --purple-bg:rgba(109,40,217,.1);
+    --cyan:#0e7490;
+    --cyan-bg:rgba(14,116,144,.1);
+    --pg-bg:rgba(30,77,123,.08);
+    --shadow:0 4px 16px rgba(20,30,60,.06);
+    --shadow-md:0 8px 32px rgba(20,30,60,.10);
+  }
+
+  /* ============= 深色主题覆盖 ============= */
+  :root[data-theme="dark"]{
+    --bg:#07090f;
+    --surface:#0f1320;
+    --surface-2:#161b2c;
+    --border:#1f2540;
+    --text:#e8eaf0;
+    --text-dim:#8a93a6;
+    --text-dimmer:#555c75;
+    --pg:#336791;
+    --pg-bright:#5a8dc4;
+    --amber:#ffb84d;
+    --amber-bg:rgba(255,184,77,.10);
+    --green:#4ade80;
+    --green-bg:rgba(74,222,128,.10);
+    --red:#f87171;
+    --red-bg:rgba(248,113,113,.10);
+    --purple:#a78bfa;
+    --purple-bg:rgba(167,139,250,.10);
+    --cyan:#22d3ee;
+    --cyan-bg:rgba(34,211,238,.10);
+    --pg-bg:rgba(51,103,145,.18);
+    --shadow:0 12px 40px rgba(0,0,0,.5);
+    --shadow-md:0 16px 48px rgba(0,0,0,.6);
+  }
+  :root[data-theme="dark"] body::before{
+    background-image:
+      radial-gradient(circle at 20% 30%, rgba(51,103,145,.18) 0%, transparent 40%),
+      radial-gradient(circle at 80% 70%, rgba(167,139,250,.10) 0%, transparent 40%);
+  }
+  :root[data-theme="dark"] .sidebar{background:rgba(15,19,32,.92)}
+  :root[data-theme="dark"] .topbar{background:var(--surface-2)}
+  :root[data-theme="dark"] .floating button{background:var(--surface)}
+  :root[data-theme="dark"] .print button{background:var(--surface)}
+  :root[data-theme="dark"] .flow .node{background:var(--surface-2);color:var(--text)}
+  :root[data-theme="dark"] pre{background:#04060b;color:#aab2c0}
+  :root[data-theme="dark"] .compare .bad,
+  :root[data-theme="dark"] .compare .good{background:var(--surface)}
+  :root[data-theme="dark"] .cover .hero-title{
+    background:linear-gradient(180deg,#fff 30%,var(--pg-bright) 100%);
+    -webkit-background-clip:text;-webkit-text-fill-color:transparent;
+    background-clip:text;
+  }
+  :root[data-theme="dark"] h2,
+  :root[data-theme="dark"] h3{color:var(--text)}
+  :root[data-theme="dark"] .chap-cover .num-huge{
+    -webkit-text-stroke:2px var(--pg);
+  }
+  html,body{height:100%}
+  body{
+    background:var(--bg);
+    color:var(--text);
+    font-family:-apple-system,BlinkMacSystemFont,"PingFang SC","Microsoft YaHei",sans-serif;
+    line-height:1.55;
+    overflow-x:hidden;
+    overflow-y:hidden;
+    -webkit-font-smoothing:antialiased;
+  }
+  /* ============= 背景纹理 ============= */
+  body::before{
+    content:"";position:fixed;inset:0;pointer-events:none;z-index:0;
+    background-image:
+      radial-gradient(circle at 20% 30%, rgba(30,77,123,.05) 0%, transparent 40%),
+      radial-gradient(circle at 80% 70%, rgba(109,40,217,.04) 0%, transparent 40%);
+  }
+
+  /* ============= 布局 ============= */
+  .sidebar{
+    position:fixed;top:0;left:0;bottom:0;width:240px;
+    background:rgba(255,255,255,.92);
+    border-right:1px solid var(--border);
+    backdrop-filter:blur(20px);
+    z-index:100;padding:24px 0;overflow-y:auto;
+  }
+  .brand{
+    padding:0 24px 20px;border-bottom:1px solid var(--border);margin-bottom:16px;
+  }
+  .brand h1{font-size:13px;letter-spacing:.18em;color:var(--text-dim);font-weight:600}
+  .brand .logo{font-size:18px;font-weight:700;color:var(--pg);margin-top:4px}
+  .sidebar-tools{padding:0 16px 16px;border-bottom:1px solid var(--border);margin-bottom:8px;display:flex;gap:8px}
+  .sidebar-tools button{
+    flex:1;display:flex;align-items:center;justify-content:center;gap:6px;
+    padding:8px 12px;background:var(--surface);border:1px solid var(--border);
+    border-radius:8px;color:var(--text);font-size:13px;font-weight:600;
+    cursor:pointer;transition:all .2s;
+  }
+  .sidebar-tools button:hover{background:var(--pg);border-color:var(--pg);color:#fff}
+  .sidebar-tools .ti-icon{font-size:15px;line-height:1}
+  .nav{padding:0 12px;list-style:none}
+  .nav li{margin:2px 0}
+  .nav a{
+    display:flex;align-items:center;gap:10px;
+    padding:10px 14px;color:var(--text-dim);
+    text-decoration:none;font-size:13px;border-radius:8px;
+    transition:all .2s;border:1px solid transparent;
+  }
+  .nav a:hover{background:var(--surface-2);color:var(--text)}
+  .nav a.active{background:var(--pg-bg);color:var(--pg);border-color:rgba(30,77,123,.25);font-weight:600}
+  .nav .num{
+    width:22px;height:22px;border-radius:6px;
+    background:var(--surface-2);color:var(--text-dim);
+    display:flex;align-items:center;justify-content:center;
+    font-size:11px;font-weight:700;flex-shrink:0;
+  }
+  .nav .ch.active .num{background:var(--pg);color:#fff}
+  .nav .sub{padding-left:36px;font-size:12px}
+  .nav .sub .num{width:18px;height:18px;font-size:10px}
+
+  /* 章节扉页大数字 stroke 颜色加深,保证在白底上可见 */
+  .chap-cover .num-huge{-webkit-text-stroke:2px var(--pg)}
+
+  main{
+    margin-left:240px;position:relative;z-index:1;
+    /* proximity: 自然滚动,只在边界附近吸附;长页内容不被切 */
+    scroll-snap-type:y proximity;
+    scroll-behavior:smooth;
+    overflow-y:scroll;
+    height:100vh;
+  }
+  html{scroll-behavior:smooth}
+  section{
+    min-height:100vh;padding:80px 64px;
+    display:flex;flex-direction:column;justify-content:center;
+    border-bottom:1px solid var(--border);
+    position:relative;
+    scroll-snap-align:start;
+    /* 不强制停:长页可滚动到底 */
+  }
+  section.cover{min-height:100vh}
+  section:last-child{border-bottom:none}
+
+  /* ============= 翻页提示 ============= */
+  .scroll-hint{
+    position:absolute;left:50%;bottom:32px;transform:translateX(-50%);
+    display:flex;flex-direction:column;align-items:center;gap:6px;
+    color:var(--text-dim);font-size:11px;letter-spacing:.2em;
+    text-transform:uppercase;opacity:.7;
+    animation:bob 2s ease-in-out infinite;
+    pointer-events:none;
+  }
+  .scroll-hint .arrow{font-size:18px}
+  @keyframes bob{
+    0%,100%{transform:translate(-50%,0)}
+    50%{transform:translate(-50%,6px)}
+  }
+
+  /* ============= 顶部进度条 ============= */
+  .topbar{
+    position:fixed;top:0;left:240px;right:0;height:3px;
+    background:var(--surface-2);z-index:50;
+  }
+  .topbar .progress{height:100%;background:linear-gradient(90deg,var(--pg) 0%,var(--amber) 100%);width:0;transition:width .3s;box-shadow:0 0 8px rgba(30,77,123,.4)}
+
+  /* ============= 通用样式 ============= */
+  .eyebrow{
+    font-size:11px;letter-spacing:.25em;color:var(--pg-bright);
+    text-transform:uppercase;font-weight:700;margin-bottom:14px;
+  }
+  h2{font-size:64px;font-weight:800;letter-spacing:-.02em;line-height:1.05;margin-bottom:18px;color:var(--text)}
+  h3{font-size:38px;font-weight:700;margin-bottom:16px;letter-spacing:-.01em;color:var(--text)}
+  h4{font-size:22px;font-weight:700;margin-bottom:10px;color:var(--pg)}
+  .lead{font-size:20px;color:var(--text-dim);max-width:820px;margin-bottom:32px;line-height:1.65}
+  .keyword{color:var(--amber);font-weight:700}
+  .key-red{color:var(--red);font-weight:700}
+  .key-green{color:var(--green);font-weight:700}
+  .key-purple{color:var(--purple);font-weight:700}
+  .key-cyan{color:var(--cyan);font-weight:700}
+  .pg{color:var(--pg-bright)}
+  .dim{color:var(--text-dim)}
+  .muted{color:var(--text-dimmer)}
+
+  /* ============= Cover ============= */
+  .cover{
+    background:radial-gradient(ellipse at top,rgba(30,77,123,.08) 0%,transparent 60%);
+    text-align:left;padding-top:120px;
+  }
+  .cover .hero-title{
+    font-size:88px;font-weight:900;line-height:.95;
+    letter-spacing:-.04em;margin-bottom:24px;
+    background:linear-gradient(180deg,var(--text) 0%,var(--pg) 100%);
+    -webkit-background-clip:text;-webkit-text-fill-color:transparent;
+    background-clip:text;
+  }
+  .cover .sub{font-size:24px;color:var(--text-dim);margin-bottom:48px;max-width:880px}
+  .cover .quote{
+    margin-top:40px;padding:24px 28px;
+    background:var(--purple-bg);border-left:3px solid var(--purple);
+    border-radius:0 12px 12px 0;font-size:16px;color:var(--text);
+    max-width:760px;
+  }
+  .cover .quote strong{color:var(--purple)}
+
+  /* ============= 时间线/地图 ============= */
+  .timeline{display:flex;gap:14px;margin-top:36px;flex-wrap:wrap}
+  .tl-item{
+    flex:1;min-width:140px;padding:18px 16px;
+    background:var(--surface);border:1px solid var(--border);
+    border-radius:12px;position:relative;cursor:pointer;
+    transition:transform .25s,border-color .25s;
+  }
+  .tl-item:hover{transform:translateY(-3px);border-color:var(--pg);box-shadow:var(--shadow-md)}
+  .tl-item .num{
+    font-size:11px;color:var(--text-dimmer);letter-spacing:.15em;font-weight:700;
+  }
+  .tl-item .name{font-size:16px;font-weight:700;margin:6px 0 4px;color:var(--text)}
+  .tl-item .dur{font-size:12px;color:var(--amber);font-weight:700}
+  .tl-item .desc{font-size:12px;color:var(--text-dim);margin-top:6px;line-height:1.5}
+  .tl-item::before{
+    content:"";position:absolute;left:-1px;top:0;bottom:0;width:3px;
+    background:var(--pg);border-radius:12px 0 0 12px;opacity:.7;
+  }
+
+  /* ============= 卡片网格 ============= */
+  .grid{display:grid;gap:20px}
+  .grid-2{grid-template-columns:1fr 1fr}
+  .grid-3{grid-template-columns:1fr 1fr 1fr}
+  .grid-4{grid-template-columns:repeat(4,1fr)}
+  .card{
+    background:var(--surface);border:1px solid var(--border);
+    border-radius:14px;padding:24px;transition:all .25s;
+    box-shadow:var(--shadow);
+  }
+  .card:hover{border-color:var(--pg);transform:translateY(-2px);box-shadow:var(--shadow-md)}
+  .card .ic{font-size:28px;margin-bottom:12px;display:block}
+  .card .t{font-size:16px;font-weight:700;margin-bottom:8px}
+  .card .d{font-size:13px;color:var(--text-dim);line-height:1.6}
+
+  /* ============= 速记卡 ============= */
+  .cheat{
+    background:linear-gradient(135deg,var(--pg-bg) 0%,var(--purple-bg) 100%);
+    border:1px solid var(--pg);border-radius:18px;
+    padding:32px 36px;margin-top:24px;
+  }
+  .cheat .title{
+    font-size:13px;color:var(--pg);letter-spacing:.2em;font-weight:700;
+    margin-bottom:18px;text-transform:uppercase;
+  }
+  .cheat ul{list-style:none}
+  .cheat li{
+    padding:8px 0;font-size:15px;color:var(--text);
+    border-bottom:1px dashed rgba(30,77,123,.2);
+  }
+  .cheat li:last-child{border:none}
+  .cheat li b{color:var(--amber);margin-right:8px;font-weight:700}
+  .cheat li code{
+    font-family:"SF Mono",Monaco,Consolas,monospace;
+    background:rgba(0,0,0,.4);padding:2px 8px;border-radius:4px;
+    font-size:13px;color:var(--cyan);
+  }
+
+  /* ============= SVG 图通用 ============= */
+  .fig-wrap{
+    display:flex;justify-content:center;align-items:center;
+    margin:24px 0;padding:20px;background:var(--surface);
+    border-radius:16px;border:1px solid var(--border);
+    box-shadow:var(--shadow);
+  }
+  .fig-wrap svg{max-width:100%;height:auto}
+  .fig-cap{text-align:center;font-size:12px;color:var(--text-dim);margin-top:10px}
+
+  /* ============= 表格 ============= */
+  table{width:100%;border-collapse:collapse;margin:16px 0;font-size:14px}
+  th,td{padding:10px 14px;text-align:left;border-bottom:1px solid var(--border)}
+  th{background:var(--surface-2);color:var(--pg);font-weight:700;font-size:12px;letter-spacing:.08em;text-transform:uppercase}
+  tr:hover td{background:var(--surface-2)}
+  td code{font-family:"SF Mono",Monaco,Consolas,monospace;font-size:13px;color:var(--cyan)}
+
+  /* ============= 代码块 ============= */
+  pre{
+    background:#1a1f2e;border:1px solid var(--border);border-radius:12px;
+    padding:18px 22px;overflow-x:auto;font-size:14px;line-height:1.6;
+    font-family:"SF Mono",Monaco,Consolas,monospace;color:#d8dde6;
+    margin:14px 0;box-shadow:var(--shadow);
+  }
+  pre .c{color:#7a8395;font-style:italic}
+  pre .k{color:#6d28d9}
+  pre .s{color:#15803d}
+  pre .n{color:#67e8f9}
+  pre .v{color:#fbbf24}
+
+  /* ============= 警示框 ============= */
+  .alert{
+    padding:14px 18px;border-radius:10px;
+    margin:14px 0;font-size:14px;line-height:1.6;
+    display:flex;gap:12px;align-items:flex-start;
+  }
+  .alert::before{font-size:18px;flex-shrink:0;line-height:1}
+  .alert-warn{background:var(--amber-bg);border-left:3px solid var(--amber);color:#7c3a0e}
+  .alert-warn::before{content:"⚠️"}
+  .alert-crit{background:var(--red-bg);border-left:3px solid var(--red);color:#7f1d1d}
+  .alert-crit::before{content:"🛑"}
+  .alert-info{background:var(--pg-bg);border-left:3px solid var(--pg);color:#1e3a5f}
+  .alert-info::before{content:"💡"}
+  .alert-tip{background:var(--green-bg);border-left:3px solid var(--green);color:#14532d}
+  .alert-tip::before{content:"✅"}
+
+  /* ============= 标签 ============= */
+  .tag{
+    display:inline-block;padding:3px 10px;border-radius:20px;
+    font-size:11px;font-weight:700;letter-spacing:.05em;
+    background:var(--surface-2);color:var(--text-dim);margin:0 4px 4px 0;
+  }
+  .tag-pg{background:var(--pg-bg);color:var(--pg)}
+  .tag-amber{background:var(--amber-bg);color:var(--amber)}
+  .tag-red{background:var(--red-bg);color:var(--red)}
+  .tag-green{background:var(--green-bg);color:var(--green)}
+  .tag-purple{background:var(--purple-bg);color:var(--purple)}
+
+  /* ============= 章节扉页 ============= */
+  .chap-cover{
+    text-align:left;min-height:100vh;
+    background:radial-gradient(ellipse at center right,rgba(30,77,123,.06) 0%,transparent 60%);
+  }
+  .chap-cover .num-huge{
+    font-size:240px;font-weight:900;line-height:.85;
+    color:transparent;-webkit-text-stroke:2px var(--pg);
+    letter-spacing:-.06em;margin-bottom:-40px;
+  }
+  .chap-cover h2{font-size:64px;margin-top:0}
+
+  /* ============= 浮窗控制 ============= */
+  .floating{
+    position:fixed;right:24px;bottom:24px;display:flex;gap:8px;
+    z-index:80;
+  }
+  .floating button{
+    width:48px;height:48px;border-radius:12px;
+    background:var(--surface);border:1px solid var(--border);
+    color:var(--text);cursor:pointer;font-size:18px;
+    display:flex;align-items:center;justify-content:center;
+    transition:all .2s;box-shadow:var(--shadow);
+  }
+  .floating button:hover{background:var(--pg);border-color:var(--pg);color:#fff}
+  .floating .clock{
+    background:var(--surface);border:1px solid var(--border);
+    padding:0 18px;height:48px;border-radius:12px;
+    display:flex;align-items:center;gap:8px;font-size:14px;color:var(--text-dim);
+    font-family:"SF Mono",Monaco,monospace;
+    box-shadow:var(--shadow);
+  }
+  .floating .clock b{color:var(--amber);font-weight:700}
+
+  /* ============= 章节标记 ============= */
+  .stamp{
+    display:inline-flex;align-items:center;gap:8px;
+    padding:6px 14px;background:var(--surface-2);
+    border:1px solid var(--border);border-radius:20px;
+    font-size:12px;color:var(--text-dim);margin-bottom:24px;
+  }
+  .stamp .dot{width:8px;height:8px;border-radius:50%;background:var(--amber)}
+
+  /* ============= 比较行 ============= */
+  .compare{display:grid;grid-template-columns:1fr auto 1fr;gap:24px;align-items:center;margin:18px 0}
+  .compare .bad,.compare .good{background:var(--surface);border-radius:12px;padding:18px;font-family:"SF Mono",monospace;font-size:13px;position:relative;color:var(--text);box-shadow:var(--shadow)}
+  .compare .bad{border-left:3px solid var(--red)}
+  .compare .good{border-left:3px solid var(--green)}
+  .compare .bad::before{content:"✗";position:absolute;top:14px;right:14px;color:var(--red);font-weight:700}
+  .compare .good::before{content:"✓";position:absolute;top:14px;right:14px;color:var(--green);font-weight:700}
+  .compare .arrow{font-size:24px;color:var(--text-dim)}
+
+  /* ============= 流程节点 ============= */
+  .flow{display:flex;align-items:center;gap:8px;flex-wrap:wrap;margin:18px 0}
+  .flow .node{
+    padding:8px 16px;background:var(--surface-2);
+    border:1px solid var(--border);border-radius:8px;font-size:13px;font-weight:600;color:var(--text);
+  }
+  .flow .node.hl{background:var(--pg);color:#fff;border-color:var(--pg)}
+  .flow .node.warn{background:var(--amber-bg);color:var(--amber);border-color:var(--amber)}
+  .flow .arrow{color:var(--text-dim);font-size:18px}
+
+  /* ============= 退出按钮 ============= */
+  /* 打印按钮 - 右上角,避开底部时钟 */
+  .print{position:fixed;top:14px;right:18px;z-index:90}
+  .print button{
+    height:36px;padding:0 14px;border-radius:10px;
+    background:var(--surface);border:1px solid var(--border);
+    color:var(--text);cursor:pointer;font-size:12px;font-weight:600;
+    transition:all .2s;display:flex;align-items:center;gap:6px;
+    box-shadow:var(--shadow);
+  }
+  .print button:hover{background:var(--pg);border-color:var(--pg);color:#fff}
+
+  /* topbar 高度让位给右上角按钮 */
+  .topbar{height:3px}
+
+  /* ============= 大字标语 ============= */
+  .bigquote{
+    font-size:48px;font-weight:800;line-height:1.15;
+    letter-spacing:-.02em;margin:30px 0;
+  }
+  .bigquote em{font-style:normal;color:var(--amber)}
+  .bigquote small{display:block;font-size:18px;color:var(--text-dim);font-weight:400;margin-top:14px}
+
+  /* ============= 散落关键字 ============= */
+  .word-cloud{
+    display:flex;flex-wrap:wrap;gap:14px;align-items:center;
+    padding:30px;background:var(--surface);border-radius:16px;
+    border:1px solid var(--border);margin:20px 0;
+  }
+  .word-cloud span{padding:6px 14px;background:var(--surface-2);border-radius:8px;font-weight:600;color:var(--text-dim)}
+  .word-cloud span.xl{font-size:32px;color:var(--amber);background:transparent;padding:0}
+  .word-cloud span.l{font-size:22px;color:var(--pg-bright);background:transparent;padding:0}
+  .word-cloud span.m{font-size:16px;color:var(--purple);background:transparent;padding:0}
+  .word-cloud span.s{font-size:13px}
+
+  @media (max-width:1100px){
+    .sidebar{transform:translateX(-100%)}
+    main{margin-left:0}
+    .topbar{left:0}
+    section{padding:60px 32px}
+    .cover .hero-title{font-size:56px}
+    h2{font-size:38px}
+    .grid-3,.grid-4{grid-template-columns:1fr 1fr}
+    .grid-2{grid-template-columns:1fr}
+  }
+</style>
+</head>
+<body>
+
+<aside class="sidebar">
+  <div class="brand">
+    <h1>PG 实战 · 4H</h1>
+    <div class="logo">🐘 PostgreSQL</div>
+  </div>
+  <div class="sidebar-tools">
+    <button id="theme-toggle" onclick="toggleTheme()" title="切换 深/浅 主题">
+      <span class="ti-icon">🌙</span><span class="ti-label">深色</span>
+    </button>
+  </div>
+  <ul class="nav" id="nav">
+    <li><a href="#cover" data-section="cover"><span class="num">∞</span><span>课前 · 思路</span></a></li>
+    <li><a href="#ch1" data-section="ch1" class="ch"><span class="num">1</span><span>优化 · 60min</span></a></li>
+    <li><a href="#ch2" data-section="ch2" class="ch"><span class="num">2</span><span>监控 · 45min</span></a></li>
+    <li><a href="#ch3" data-section="ch3" class="ch"><span class="num">3</span><span>故障诊断 · 55min</span></a></li>
+    <li><a href="#ch4" data-section="ch4" class="ch"><span class="num">4</span><span>问题分析 · 50min</span></a></li>
+    <li><a href="#ch5" data-section="ch5" class="ch"><span class="num">5</span><span>AI 增强 · 30min</span></a></li>
+    <li><a href="#end" data-section="end"><span class="num">✓</span><span>课后 · 带走</span></a></li>
+  </ul>
+</aside>
+
+<div class="topbar"><div class="progress" id="progress"></div></div>
+
+<main>
+
+<!-- ============= COVER ============= -->
+<section class="cover" id="cover">
+  <div class="stamp"><span class="dot"></span>4 小时实战版 · 2026-07</div>
+  <h1 class="hero-title">PostgreSQL<br>优化 · 监控 · 故障 · 内核</h1>
+  <p class="sub">把 4 小时装进脑子里。<br>带走的是<span class="keyword">思维方式</span>,不是 SQL 模板 —— 技术会变,思路不变。</p>
+
+  <div class="timeline">
+    <div class="tl-item"><div class="num">CH 1</div><div class="name">⚙️ 优化</div><div class="dur">60 min</div><div class="desc">事前堵坑 · 事后挖坑</div></div>
+    <div class="tl-item"><div class="num">CH 2</div><div class="name">📊 监控</div><div class="dur">45 min</div><div class="desc">看见 · 趋势 · 报警</div></div>
+    <div class="tl-item"><div class="num">CH 3</div><div class="name">🚒 故障</div><div class="dur">55 min</div><div class="desc">分层漏斗 · 止血三件套</div></div>
+    <div class="tl-item"><div class="num">CH 4</div><div class="name">🔬 内核</div><div class="dur">50 min</div><div class="desc">17 个为什么 · 反推机制</div></div>
+    <div class="tl-item"><div class="num">CH 5</div><div class="name">🤖 AI</div><div class="dur">30 min</div><div class="desc">沉淀 SOP · 实战派 SKILL</div></div>
+  </div>
+
+  <div class="quote">
+    <strong>「重点是思维方式</strong>, 技术更迭很快, 环境各不相同, 不要生搬硬套, 希望有所启发。」
+    <div style="margin-top:8px;font-size:12px;color:var(--text-dimmer)">—— 德哥 digoal</div>
+  </div>
+</section>
+
+<!-- ============= 哲学篇 ============= -->
+<section id="philosophy">
+  <div class="eyebrow">课前 · 一杯水时间</div>
+  <h2>课前 · 把脑子清空</h2>
+  <p class="lead">这堂课讲的不是参数,是<span class="keyword">一条诊断回路</span>。把心里的"标准答案"先放一边,我们从问题出发。</p>
+
+  <div class="bigquote">
+    <em>结论</em>会过期,<br>
+    <em>思路</em>不会。
+  </div>
+
+  <div class="grid grid-3">
+    <div class="card">
+      <span class="ic">🧠</span>
+      <div class="t">证伪 &gt; 结论</div>
+      <div class="d">每个结论都标 <b>前置条件</b> · <b>适用边界</b> · <b>证伪手段</b>。<br>模糊的"看现象"是废话,能跑的 SQL 才是真功夫。</div>
+    </div>
+    <div class="card">
+      <span class="ic">🔥</span>
+      <div class="t">实战 &gt; 教科书</div>
+      <div class="d">56 核 ECS 上 145 万行/s 的具体数字,胜过"较高"。<br>区分 <b>OLTP</b> / <b>OLAP</b> / <b>HTAP</b>,笼统说"性能优化"是耍流氓。</div>
+    </div>
+    <div class="card">
+      <span class="ic">🎯</span>
+      <div class="t">擒贼擒王</div>
+      <div class="d"><code>pg_stat_statements</code> TOP 5 命中 80% 场景。<br>先 SQL 后漏斗,别被"90% 不在 SQL 层"忽悠得漏掉 TOP SQL。</div>
+    </div>
+  </div>
+
+  <div class="alert alert-info">
+    每个核心结论都标了 <b>前置条件</b>、<b>适用边界</b>、<b>证伪/证明手段</b> —— 这是工程师之间交流的最低礼貌,也是德哥讲义的"实战派"签名。
+  </div>
+</section>
+
+<!-- ============= CH 1 扉页 ============= -->
+<section class="chap-cover" id="ch1">
+  <div class="num-huge">01</div>
+  <div class="eyebrow">CHAPTER 1 · 60 MIN</div>
+  <h2>⚙️ 优化</h2>
+  <p class="lead" style="font-size:22px;margin-top:8px">事前把坑堵住,<span class="keyword">事后把坑挖出来</span>。<br>两者不是对立,是<span class="key-purple">同一回路</span>。</p>
+
+  <div class="fig-wrap" style="margin-top:40px">
+    <svg viewBox="0 0 800 280" width="800" height="280">
+      <defs>
+        <linearGradient id="grad1" x1="0" y1="0" x2="1" y2="0">
+          <stop offset="0" stop-color="#336791"/>
+          <stop offset="1" stop-color="#1e4d7b"/>
+        </linearGradient>
+        <linearGradient id="grad2" x1="0" y1="0" x2="1" y2="0">
+          <stop offset="0" stop-color="#c2691e"/>
+          <stop offset="1" stop-color="#b91c1c"/>
+        </linearGradient>
+        <marker id="arrow" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="6" markerHeight="6" orient="auto">
+          <path d="M0,0 L10,5 L0,10 z" fill="#5a6378"/>
+        </marker>
+      </defs>
+      <!-- 事前 -->
+      <rect x="40" y="80" width="320" height="120" rx="16" fill="#ffffff" stroke="#336791" stroke-width="2"/>
+      <text x="200" y="115" text-anchor="middle" fill="#1e4d7b" font-size="14" font-weight="700" letter-spacing="3">事 前 · PRE</text>
+      <text x="200" y="148" text-anchor="middle" fill="#1a1f2e" font-size="20" font-weight="700">把坑堵住</text>
+      <text x="200" y="172" text-anchor="middle" fill="#5a6378" font-size="13">环境 · 参数 · 池 · 业务</text>
+      <text x="200" y="190" text-anchor="middle" fill="#15803d" font-size="12" font-weight="600">成本 = 1</text>
+
+      <!-- 回路箭头 -->
+      <path d="M 360 140 Q 400 60 440 140" fill="none" stroke="#6d28d9" stroke-width="2" stroke-dasharray="4,4" marker-end="url(#arrow)"/>
+      <text x="400" y="50" text-anchor="middle" fill="#6d28d9" font-size="12" font-weight="600">经验沉淀 ↻</text>
+
+      <!-- 事后 -->
+      <rect x="440" y="80" width="320" height="120" rx="16" fill="#ffffff" stroke="#c2691e" stroke-width="2"/>
+      <text x="600" y="115" text-anchor="middle" fill="#c2691e" font-size="14" font-weight="700" letter-spacing="3">事 后 · POST</text>
+      <text x="600" y="148" text-anchor="middle" fill="#1a1f2e" font-size="20" font-weight="700">把坑挖出来</text>
+      <text x="600" y="172" text-anchor="middle" fill="#5a6378" font-size="13">TOP SQL · 锁 · 等待 · 隐患</text>
+      <text x="600" y="190" text-anchor="middle" fill="#b91c1c" font-size="12" font-weight="600">成本 >> 事前</text>
+
+      <!-- 底部注解 -->
+      <text x="400" y="250" text-anchor="middle" fill="#555c75" font-size="12" font-style="italic">事后反推出来的经验,又沉淀成下一次的"事前"</text>
+    </svg>
+  </div>
+  <div class="fig-cap">↑ 优化回路 —— 事前低成本堵,事后高成本挖</div>
+</section>
+
+<!-- ============= CH 1.1 Workload ============= -->
+<section>
+  <div class="eyebrow">1.1 · 起点</div>
+  <h2>先分清 <span class="keyword">Workload</span></h2>
+  <p class="lead">参数调优的起点<span class="key-red">不是参数本身</span>,是你的 workload 形态。三种 workload,三套打法。</p>
+
+  <div class="grid grid-3">
+    <div class="card" style="border-top:3px solid var(--cyan)">
+      <span class="ic">⚡</span>
+      <div class="t" style="color:var(--cyan)">OLTP</div>
+      <div class="d">
+        <span class="tag">短事务</span><span class="tag">高并发</span><span class="tag">点查</span><span class="tag">ms 级</span><br><br>
+        <b>work_mem 小</b> · shared_buffers 适中 · <b>random_page_cost ↓</b><br><br>
+        <span class="dim">关注:</span> TPS · P99 · 锁等待 · 长事务
+      </div>
+    </div>
+    <div class="card" style="border-top:3px solid var(--amber)">
+      <span class="ic">📈</span>
+      <div class="t" style="color:var(--amber)">OLAP</div>
+      <div class="d">
+        <span class="tag">长查询</span><span class="tag">大表扫</span><span class="tag">并行</span><span class="tag">s-m 级</span><br><br>
+        <b>work_mem 大</b> · 并行 worker 多 · <b>random_page_cost 高</b><br><br>
+        <span class="dim">关注:</span> 查询 RT · 临时文件 · worker 利用率
+      </div>
+    </div>
+    <div class="card" style="border-top:3px solid var(--purple)">
+      <span class="ic">🔀</span>
+      <div class="t" style="color:var(--purple)">HTAP 混合</div>
+      <div class="d">
+        <span class="tag">长短并存</span><span class="tag">资源争抢</span><br><br>
+        <b>资源池隔离</b> · OLAP 单独实例 · Read Replica<br><br>
+        <span class="dim">关注:</span> 两套指标同时监控
+      </div>
+    </div>
+  </div>
+
+  <div class="alert alert-warn">
+    上来就照搬"标准 postgresql.conf" → OLTP 库 <code>work_mem</code> 给大了浪费内存,OLAP 库 <code>work_mem</code> 给小了疯狂落盘。<b>workload 不分清,所有调优都是猜。</b>
+  </div>
+</section>
+
+<!-- ============= CH 1.2 环境基线 ============= -->
+<section>
+  <div class="eyebrow">1.2 · 新库第一步</div>
+  <h2>环境基线 &gt; 任何调优清单</h2>
+  <p class="lead">拿到一份新库,<span class="keyword">第一件事</span>是登记这张表。没有环境基线,调优就是玄学。</p>
+
+  <div class="fig-wrap">
+    <svg viewBox="0 0 900 360" width="900" height="360">
+      <!-- OS -->
+      <g>
+        <rect x="20" y="20" width="200" height="80" rx="10" fill="#ffffff" stroke="#336791"/>
+        <text x="120" y="48" text-anchor="middle" fill="#1e4d7b" font-size="12" font-weight="700">🖥️ 操作系统</text>
+        <text x="120" y="72" text-anchor="middle" fill="#1a1f2e" font-size="14">内核 · OS 版本</text>
+        <text x="120" y="90" text-anchor="middle" fill="#5a6378" font-size="11">内核 ≥ 4.19 (io_uring)</text>
+      </g>
+      <!-- CPU/MEM -->
+      <g>
+        <rect x="240" y="20" width="200" height="80" rx="10" fill="#ffffff" stroke="#6d28d9"/>
+        <text x="340" y="48" text-anchor="middle" fill="#6d28d9" font-size="12" font-weight="700">⚡ CPU / 内存</text>
+        <text x="340" y="72" text-anchor="middle" fill="#1a1f2e" font-size="14">核数 · NUMA</text>
+        <text x="340" y="90" text-anchor="middle" fill="#5a6378" font-size="11">lscpu · free -h</text>
+      </g>
+      <!-- DISK -->
+      <g>
+        <rect x="460" y="20" width="200" height="80" rx="10" fill="#ffffff" stroke="#c2691e"/>
+        <text x="560" y="48" text-anchor="middle" fill="#c2691e" font-size="12" font-weight="700">💾 磁盘</text>
+        <text x="560" y="72" text-anchor="middle" fill="#1a1f2e" font-size="14">SSD/NVMe · IOPS</text>
+        <text x="560" y="90" text-anchor="middle" fill="#5a6378" font-size="11">lsblk · nvme list</text>
+      </g>
+      <!-- FS -->
+      <g>
+        <rect x="680" y="20" width="200" height="80" rx="10" fill="#ffffff" stroke="#15803d"/>
+        <text x="780" y="48" text-anchor="middle" fill="#15803d" font-size="12" font-weight="700">📁 文件系统</text>
+        <text x="780" y="72" text-anchor="middle" fill="#1a1f2e" font-size="14">xfs 推荐</text>
+        <text x="780" y="90" text-anchor="middle" fill="#5a6378" font-size="11">df -Th</text>
+      </g>
+
+      <!-- PG -->
+      <g>
+        <rect x="20" y="140" width="280" height="80" rx="10" fill="#ffffff" stroke="#336791" stroke-width="2"/>
+        <text x="160" y="168" text-anchor="middle" fill="#1e4d7b" font-size="12" font-weight="700">🐘 PostgreSQL</text>
+        <text x="160" y="192" text-anchor="middle" fill="#1a1f2e" font-size="14">版本 · 关键参数</text>
+        <text x="160" y="210" text-anchor="middle" fill="#5a6378" font-size="11">version() · pg_settings</text>
+      </g>
+      <g>
+        <rect x="320" y="140" width="280" height="80" rx="10" fill="#ffffff" stroke="#336791" stroke-width="2"/>
+        <text x="460" y="168" text-anchor="middle" fill="#1e4d7b" font-size="12" font-weight="700">🧩 关键扩展</text>
+        <text x="460" y="192" text-anchor="middle" fill="#1a1f2e" font-size="14">pg_stat_statements · auto_explain</text>
+        <text x="460" y="210" text-anchor="middle" fill="#5a6378" font-size="11">pg_extension</text>
+      </g>
+      <g>
+        <rect x="620" y="140" width="260" height="80" rx="10" fill="#ffffff" stroke="#b91c1c"/>
+        <text x="750" y="168" text-anchor="middle" fill="#b91c1c" font-size="12" font-weight="700">📦 对象大小 · 膨胀</text>
+        <text x="750" y="192" text-anchor="middle" fill="#1a1f2e" font-size="14">表 / 索引 / 总容量</text>
+        <text x="750" y="210" text-anchor="middle" fill="#5a6378" font-size="11">n_dead_tup / n_live_tup</text>
+      </g>
+
+      <!-- 中央汇总 -->
+      <rect x="200" y="260" width="500" height="70" rx="14" fill="#eef1f7" stroke="#6d28d9" stroke-width="2"/>
+      <text x="450" y="290" text-anchor="middle" fill="#6d28d9" font-size="14" font-weight="700">环境基线登记</text>
+      <text x="450" y="312" text-anchor="middle" fill="#1a1f2e" font-size="12">同一 work_mem=64MB · 16G OLTP = 灾难 · 256G OLAP = 入门</text>
+
+      <!-- 连接线 -->
+      <line x1="120" y1="100" x2="450" y2="260" stroke="#dfe4ec" stroke-dasharray="2,4"/>
+      <line x1="340" y1="100" x2="450" y2="260" stroke="#dfe4ec" stroke-dasharray="2,4"/>
+      <line x1="560" y1="100" x2="450" y2="260" stroke="#dfe4ec" stroke-dasharray="2,4"/>
+      <line x1="780" y1="100" x2="450" y2="260" stroke="#dfe4ec" stroke-dasharray="2,4"/>
+      <line x1="160" y1="220" x2="450" y2="260" stroke="#dfe4ec" stroke-dasharray="2,4"/>
+      <line x1="460" y1="220" x2="450" y2="260" stroke="#dfe4ec" stroke-dasharray="2,4"/>
+      <line x1="750" y1="220" x2="450" y2="260" stroke="#dfe4ec" stroke-dasharray="2,4"/>
+    </svg>
+  </div>
+  <div class="fig-cap">7 个维度 · 拿到新库 30 分钟填完 · 永久存档</div>
+
+  <div class="grid grid-2">
+    <div class="card">
+      <div class="t">☁️ 云上架构</div>
+      <div class="d">
+        <code>APP → SLB → PG Primary → 流复制 → Standby</code><br>
+        <span class="dim">底层 IO 封装,你看到的 SSD 其实是 EBS gp3</span><br>
+        <span class="dim">DB 层 <code>pg_stat_*</code> 仍可用,OS 层由云厂暴露</span>
+      </div>
+    </div>
+    <div class="card">
+      <div class="t">🖥️ 本地架构</div>
+      <div class="d">
+        <code>APP → HAProxy/PgBouncer → Primary → Standby</code><br>
+        <span class="dim">硬件完全可控,从 IO 调度器一路调到 PG 内核</span><br>
+        <span class="dim">SSD 4K 对齐 / 本地盘条带化,云盘做不到的极致</span>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ============= CH 1.3 环境优化 ============= -->
+<section>
+  <div class="eyebrow">1.3 · 事前优化 · 环境</div>
+  <h2>OS 与硬件的<span class="keyword">硬功夫</span></h2>
+  <p class="lead">这些坑,<span class="key-red">参数再调也救不回来</span>。</p>
+
+  <div class="grid grid-2">
+    <div class="card">
+      <div class="t">🔧 SSD 4K 对齐</div>
+      <div class="d">
+        物理页 4K · 文件系统块 · PG block 8K 都要对齐<br>
+        <span class="key-red">否则一次写触发 read-modify-write,性能掉一半</span><br><br>
+        <span class="dim">证伪:</span> <code>fio randwrite -bs=4k</code>,未对齐比对齐低 30%~50%<br><br>
+        <code>mkfs.xfs -d su=4k,sw=1</code>
+      </div>
+    </div>
+    <div class="card">
+      <div class="t">⚙️ IO 调度器</div>
+      <div class="d">
+        SSD 没有磁头,<code>cfq/deadline</code> 反而<span class="key-red">增加延迟</span><br>
+        Linux 5.x 默认 <code>mq-deadline / none / kyber</code> 更适合<br><br>
+        <span class="dim">边界:</span> 云盘由云厂处理,看不见也改不了<br><br>
+        <code>echo none &gt; /sys/block/nvme0n1/queue/scheduler</code>
+      </div>
+    </div>
+    <div class="card">
+      <div class="t">🧠 HugePage</div>
+      <div class="d">
+        <code>shared_buffers</code> 推荐 RAM × 1/4<br>
+        超过 <b>32GB 必须配 HugePage</b>,否则 TLB miss 让大库掉 30%+<br><br>
+        <code>echo $((64*1024*1024/2048)) &gt; /proc/sys/vm/nr_hugepages</code><br><br>
+        <span class="dim">边界:</span> 容器嵌套虚拟化时配不上
+      </div>
+    </div>
+    <div class="card">
+      <div class="t">📊 块设备条带化</div>
+      <div class="d">
+        多盘 RAID0 把单盘 IOPS × N<br>
+        chunk size 64KB~256KB,与 PG block 8K 对齐<br><br>
+        <code>mdadm -C /dev/md0 -l 0 -n 4 /dev/nvme[0-3]n1</code><br><br>
+        <span class="dim">边界:</span> 云盘已底层条带化,<b>不需要再做 RAID0</b>
+      </div>
+    </div>
+  </div>
+
+  <div class="alert alert-info">
+    <b>必避坑</b>:禁用 <code>btrfs</code>(社区历史问题多)、<code>zfs</code>(PG 18+ 适配中)。PG 官方推荐 <code class="key-green">xfs</code>。
+  </div>
+
+  <h3 style="margin-top:40px">内核脏页参数</h3>
+  <pre><span class="c"># 128GB 内存示例:让刷盘更平滑</span>
+<span class="v">vm.swappiness</span> = <span class="n">0</span>                    <span class="c"># PG 用 swap = 性能灾难</span>
+<span class="v">vm.dirty_background_bytes</span> = <span class="n">314572800</span>  <span class="c"># 300MB 触发后台刷</span>
+<span class="v">vm.dirty_bytes</span> = <span class="n">4294967296</span>          <span class="c"># 4GB 强制同步</span>
+<span class="v">vm.dirty_expire_centisecs</span> = <span class="n">500</span>      <span class="c"># 5 秒(默认 30s 太长)</span>
+<span class="v">vm.dirty_writeback_centisecs</span> = <span class="n">100</span>   <span class="c"># 1 秒唤醒</span>
+<span class="v">net.core.somaxconn</span> = <span class="n">4096</span>             <span class="c"># 高并发排队</span></pre>
+</section>
+
+<!-- ============= IO 调度器深度对比 ============= -->
+<section>
+  <div class="eyebrow">1.3 · 补充 · 调度器对比</div>
+  <h2>IO 调度器 · <span class="keyword">6 种核心区别</span></h2>
+  <p class="lead">调度器是<span class="keyword">块设备层的请求重排器</span>。机械盘时代为磁头寻道而生,SSD/NVMe 时代多数调度器反而成了<span class="key-red">开销</span>。</p>
+
+  <!-- 决策树 SVG -->
+  <div class="fig-wrap">
+    <svg viewBox="0 0 900 360" width="900" height="360">
+      <defs>
+        <marker id="arr-tree" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="6" markerHeight="6" orient="auto">
+          <path d="M0,0 L10,5 L0,10 z" fill="#5a6378"/>
+        </marker>
+      </defs>
+      <g font-size="13" font-weight="600">
+        <!-- 根 -->
+        <rect x="350" y="10" width="200" height="50" rx="10" fill="#eef4fa" stroke="#1e4d7b" stroke-width="2"/>
+        <text x="450" y="40" text-anchor="middle" fill="#1a1f2e">你的盘是什么?</text>
+
+        <!-- 第一层分支 -->
+        <rect x="30" y="100" width="160" height="50" rx="10" fill="#fff" stroke="#15803d" stroke-width="2"/>
+        <text x="110" y="125" text-anchor="middle" fill="#15803d">🖴 HDD 机械盘</text>
+        <text x="110" y="142" text-anchor="middle" fill="#5a6378" font-size="10">寻道成本高</text>
+        <line x1="430" y1="60" x2="140" y2="98" stroke="#5a6378" marker-end="url(#arr-tree)"/>
+
+        <rect x="220" y="100" width="160" height="50" rx="10" fill="#fff" stroke="#c2691e" stroke-width="2"/>
+        <text x="300" y="125" text-anchor="middle" fill="#c2691e">💾 SATA SSD</text>
+        <text x="300" y="142" text-anchor="middle" fill="#5a6378" font-size="10">中等速度</text>
+        <line x1="450" y1="60" x2="300" y2="98" stroke="#5a6378" marker-end="url(#arr-tree)"/>
+
+        <rect x="410" y="100" width="160" height="50" rx="10" fill="#fff" stroke="#b91c1c" stroke-width="2"/>
+        <text x="490" y="125" text-anchor="middle" fill="#b91c1c">⚡ NVMe SSD</text>
+        <text x="490" y="142" text-anchor="middle" fill="#5a6378" font-size="10">设备极快</text>
+        <line x1="450" y1="60" x2="460" y2="98" stroke="#5a6378" marker-end="url(#arr-tree)"/>
+
+        <rect x="600" y="100" width="270" height="50" rx="10" fill="#fff" stroke="#6d28d9" stroke-width="2"/>
+        <text x="735" y="125" text-anchor="middle" fill="#6d28d9">☁️ 云盘 (EBS/ESSD/云盘)</text>
+        <text x="735" y="142" text-anchor="middle" fill="#5a6378" font-size="10">调度器云厂管</text>
+        <line x1="470" y1="60" x2="700" y2="98" stroke="#5a6378" marker-end="url(#arr-tree)"/>
+
+        <!-- 第二层 推荐调度器 -->
+        <rect x="30" y="200" width="160" height="50" rx="10" fill="#15803d" opacity="0.1" stroke="#15803d" stroke-width="2"/>
+        <text x="110" y="225" text-anchor="middle" fill="#15803d">mq-deadline</text>
+        <text x="110" y="242" text-anchor="middle" fill="#5a6378" font-size="10">合并寻道,防饥饿</text>
+        <line x1="110" y1="150" x2="110" y2="198" stroke="#5a6378" stroke-dasharray="3,3" marker-end="url(#arr-tree)"/>
+
+        <rect x="220" y="200" width="160" height="50" rx="10" fill="#c2691e" opacity="0.1" stroke="#c2691e" stroke-width="2"/>
+        <text x="300" y="225" text-anchor="middle" fill="#c2691e">mq-deadline</text>
+        <text x="300" y="242" text-anchor="middle" fill="#5a6378" font-size="10">Linux 5.x 默认</text>
+        <line x1="300" y1="150" x2="300" y2="198" stroke="#5a6378" stroke-dasharray="3,3" marker-end="url(#arr-tree)"/>
+
+        <rect x="410" y="200" width="160" height="50" rx="10" fill="#b91c1c" opacity="0.1" stroke="#b91c1c" stroke-width="2"/>
+        <text x="490" y="220" text-anchor="middle" fill="#b91c1c">none 或 kyber</text>
+        <text x="490" y="237" text-anchor="middle" fill="#5a6378" font-size="10">调度器=开销</text>
+        <text x="490" y="252" text-anchor="middle" fill="#5a6378" font-size="10">让设备直接干</text>
+        <line x1="490" y1="150" x2="490" y2="198" stroke="#5a6378" stroke-dasharray="3,3" marker-end="url(#arr-tree)"/>
+
+        <rect x="600" y="200" width="270" height="50" rx="10" fill="#6d28d9" opacity="0.1" stroke="#6d28d9" stroke-width="2"/>
+        <text x="735" y="225" text-anchor="middle" fill="#6d28d9">不可控</text>
+        <text x="735" y="242" text-anchor="middle" fill="#5a6378" font-size="10">用 iostat 测延迟观察</text>
+        <line x1="735" y1="150" x2="735" y2="198" stroke="#5a6378" stroke-dasharray="3,3" marker-end="url(#arr-tree)"/>
+
+        <!-- 底部注解 -->
+        <line x1="30" y1="290" x2="870" y2="290" stroke="#dfe4ec" stroke-dasharray="2,4"/>
+        <text x="450" y="315" text-anchor="middle" fill="#5a6378" font-size="12" font-style="italic">机械盘:调度器帮磁头;  SSD:调度器抢设备带宽;  NVMe:让设备做主</text>
+        <text x="450" y="338" text-anchor="middle" fill="#b91c1c" font-size="12" font-weight="700">⚠️ 永远不要给 NVMe 用 bfq / cfq(已废弃或反优化)</text>
+      </g>
+    </svg>
+  </div>
+  <div class="fig-cap">↑ 按盘类型选调度器 · 一棵树搞定</div>
+
+  <!-- 6 调度器对比表 -->
+  <h3 style="margin-top:24px">6 种调度器 · 关键差异</h3>
+  <table>
+    <thead>
+      <tr><th>调度器</th><th>队列</th><th>核心策略</th><th>适用</th><th>PG 场景评价</th></tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td><b>noop</b></td>
+        <td>单队列</td>
+        <td>几乎不排序,只合并相邻请求</td>
+        <td>NVMe · 虚拟化透传</td>
+        <td><span class="key-green">✅ 延迟最低</span></td>
+      </tr>
+      <tr>
+        <td><b>deadline</b></td>
+        <td>单队列</td>
+        <td>读/写各设 500ms 截止,防饥饿</td>
+        <td>SATA SSD · 混合负载</td>
+        <td><span class="key-green">✅ 兜底之选</span></td>
+      </tr>
+      <tr>
+        <td><b>cfq</b></td>
+        <td>单队列</td>
+        <td>按进程公平时间片轮转</td>
+        <td>桌面(已废弃)</td>
+        <td><span class="key-red">❌ Linux 5.x 已移除</span></td>
+      </tr>
+      <tr>
+        <td><b>mq-deadline</b></td>
+        <td>多队列 blk-mq</td>
+        <td>deadline 的并行版,每个 CPU 一队列</td>
+        <td>SATA SSD · Linux 5.x 默认</td>
+        <td><span class="key-green">✅ 通用首选</span></td>
+      </tr>
+      <tr>
+        <td><b>kyber</b></td>
+        <td>多队列 blk-mq</td>
+        <td>读/写分队列 + 目标延迟控制</td>
+        <td>NVMe · 快速设备</td>
+        <td><span class="key-green">✅ NVMe 优选</span></td>
+      </tr>
+      <tr>
+        <td><b>bfq</b></td>
+        <td>多队列 blk-mq</td>
+        <td>按进程 IO 预算公平,适合桌面</td>
+        <td>桌面交互</td>
+        <td><span class="key-red">❌ 服务器不推荐</span></td>
+      </tr>
+    </tbody>
+  </table>
+
+  <div class="alert alert-warn">
+    <b>关键差异一句话总结</b>:
+    <ul style="margin:6px 0 0 18px;line-height:1.8">
+      <li><b>noop</b> = 啥也不干,合并相邻请求后直接送,适合"设备自己就够快"</li>
+      <li><b>deadline</b> = 防饿死型,保证请求有最迟完成时间</li>
+      <li><b>cfq</b> = 公平型,进程轮流用 IO,2019 起被 Linux 内核废弃</li>
+      <li><b>mq-deadline</b> = deadline 的多核并行版,Linux 5.x 默认</li>
+      <li><b>kyber</b> = 读/写分家 + 目标延迟,快设备的精细调度</li>
+      <li><b>bfq</b> = 给进程的"IO 预算",桌面才需要,服务器会拖累吞吐</li>
+    </ul>
+  </div>
+
+  <h3 style="margin-top:24px">切换命令 · 一行搞定</h3>
+  <pre><span class="c"># 查看当前可用调度器(方括号 [ ] 包裹的就是当前)</span>
+$ cat /sys/block/nvme0n1/queue/scheduler
+[none] mq-deadline kyber bfq
+
+<span class="c"># 临时切换(重启失效)</span>
+echo none &gt; /sys/block/nvme0n1/queue/scheduler
+
+<span class="c"># 永久:写入 udev 规则(开机自动应用)</span>
+$ cat /etc/udev/rules.d/60-ssd-scheduler.rules
+ACTION==<span class="s">"add|change"</span>, KERNEL==<span class="s">"nvme[0-9]n[0-9]"</span>, ATTR{queue/scheduler}=<span class="s">"none"</span>
+ACTION==<span class="s">"add|change"</span>, KERNEL==<span class="s">"sd[a-z]"</span>, ATTR{queue/scheduler}=<span class="s">"mq-deadline"</span>
+
+$ udevadm control --reload-rules   <span class="c"># 重载规则</span></pre>
+
+  <div class="alert alert-info">
+    <b>边界 / 证伪</b>:
+    <ul style="margin:6px 0 0 18px;line-height:1.8">
+      <li><b>云盘看不见</b>:EBS / ESSD / 阿里云 SSD 都是云厂在宿主机里调好,你看不到也改不了 — 用 <code>iostat -x 1</code> 观察 <code>r_await/w_await</code> 验证</li>
+      <li><b>改完有用没用</b>:跑 <code>fio -filename=/pgdata/test -direct=1 -rw=randwrite -bs=4k -size=1G -runtime=30</code> 对比 IOPS / 延迟</li>
+      <li><b>不能跨设备套用</b>:NVMe 用了 bfq 会从 50 万 IOPS 掉到 5 万,一定要按盘类型选</li>
+    </ul>
+  </div>
+
+  <div class="cheat" style="margin-top:24px">
+    <div class="title">📋 调度器速记</div>
+    <ul>
+      <li><b>NVMe</b> → <code>none</code> 或 <code>kyber</code> · 设备自己够快,别加开销</li>
+      <li><b>SATA SSD</b> → <code>mq-deadline</code> · Linux 5.x 默认,平衡之选</li>
+      <li><b>HDD 机械盘</b> → <code>mq-deadline</code> · 合并寻道 + 防饿死</li>
+      <li><b>云盘</b> → 不可控,看 <code>iostat</code> 延迟就行</li>
+      <li><b>永远不要</b>在 NVMe 上用 <code>bfq / cfq</code></li>
+    </ul>
+  </div>
+</section>
+
+<!-- ============= CH 1.4 参数优化 ============= -->
+<section>
+  <div class="eyebrow">1.4 · 事前优化 · 参数</div>
+  <h2><span class="keyword">必杀参数</span>速记</h2>
+  <p class="lead">每条公式都是经验值,<span class="key-red">不是教条</span>。上生产前在自己环境跑 benchmark 验证。</p>
+
+  <div class="grid grid-2">
+    <div class="card" style="background:linear-gradient(135deg,#eef4fa,#f5f0fa)">
+      <div class="t">🧮 连接与内存</div>
+      <div class="d">
+        <code>max_connections = 2000</code><br>
+        <span class="dim">公式:</span> 内存(GB) × 1000 × 1/4 ÷ 5<br><br>
+        <code>shared_buffers = RAM × 1/4</code>(配 HugePage)<br>
+        <code>work_mem = min(物理内存/4096, 64MB)</code><br>
+        <span class="dim">单条 query 多个 NODE 都用,<b>实际 ×N 倍消耗</b></span><br><br>
+        <code>effective_cache_size = RAM × 1/2</code><br>
+        <span class="dim">给 OS page cache 的估算</span>
+      </div>
+    </div>
+    <div class="card" style="background:linear-gradient(135deg,#eef4fa,#f5f0fa)">
+      <div class="t">📀 WAL 与复制</div>
+      <div class="d">
+        <code>wal_compression = lz4</code><br>
+        <code>max_wal_size = 16GB</code><br>
+        <code>checkpoint_timeout = 30min</code><br>
+        <code>checkpoint_completion_target = 0.9</code><br>
+        <span class="dim">PG 14+ 默认,拉长 checkpoint 把 IO 摊平</span><br><br>
+        <code>synchronous_commit = on</code><br>
+        <span class="key-amber">off 模式</span>最坏丢 <code>3 × wal_writer_delay</code>
+      </div>
+    </div>
+    <div class="card" style="background:linear-gradient(135deg,#eef4fa,#f5f0fa)">
+      <div class="t">🧹 Autovacuum 关键</div>
+      <div class="d">
+        <code>autovacuum_max_workers = 8</code><br>
+        <span class="dim">默认 3,大库不够。公式:max(min(8, CPU/2), 5)</span><br><br>
+        <code>autovacuum_vacuum_scale_factor = 0.05</code><br>
+        <span class="key-red">默认 0.2 → 大表等到 20% 才触发,膨胀元凶</span><br><br>
+        <code>autovacuum_vacuum_cost_delay = 10ms</code><br>
+        <code>autovacuum_freeze_max_age = 200000000</code><br>
+        <span class="dim">不要改!</span>
+      </div>
+    </div>
+    <div class="card" style="background:linear-gradient(135deg,#eef4fa,#f5f0fa)">
+      <div class="t">🎯 规划器</div>
+      <div class="d">
+        <code>random_page_cost = 1.1</code> <span class="tag tag-amber">本地 SSD</span><br>
+        <code>random_page_cost = 1.0</code> <span class="tag tag-green">NVMe 本地</span><br>
+        <code>random_page_cost = 1.5</code> <span class="tag tag-purple">云盘</span><br>
+        <span class="dim">默认 4.0 是机械盘时代定的</span><br><br>
+        <code>effective_io_concurrency = 200</code><br>
+        <code>default_statistics_target = 500</code><br>
+        <code>jit = on</code>(OLAP 受益,OLTP 关掉省 CPU)
+      </div>
+    </div>
+  </div>
+
+  <div class="alert alert-crit">
+    <b>证伪</b>: <code>EXPLAIN</code> 看是否多走 Index Scan。改 <code>random_page_cost=1.1</code> 后某些大表 Seq Scan 反而快 —— 这是 Planner"看穿"了索引的真正价值,<b>不是失准</b>。
+  </div>
+</section>
+
+<!-- ============= CH 1.5 连接池 ============= -->
+<section>
+  <div class="eyebrow">1.5 · 事前优化 · 连接池</div>
+  <h2>连接 = 进程,<span class="keyword">雪崩起点</span></h2>
+  <p class="lead">PG 单进程模型下,5000 连接就是 5000 个进程。<span class="key-red">生产单实例后端连接数控制在 100~500</span>。</p>
+
+  <div class="fig-wrap">
+    <svg viewBox="0 0 900 360" width="900" height="360">
+      <!-- 前端 -->
+      <rect x="20" y="40" width="180" height="280" rx="12" fill="#ffffff" stroke="#6d28d9" stroke-width="2"/>
+      <text x="110" y="68" text-anchor="middle" fill="#6d28d9" font-size="13" font-weight="700">应用层</text>
+      <text x="110" y="92" text-anchor="middle" fill="#1a1f2e" font-size="14" font-weight="700">4000 客户端</text>
+      <g font-family="monospace" font-size="11" fill="#5a6378">
+        <text x="50" y="125">│ conn 1</text>
+        <text x="50" y="145">│ conn 2</text>
+        <text x="50" y="165">│ conn 3</text>
+        <text x="50" y="185">│ ...</text>
+        <text x="50" y="205">│ conn 4000</text>
+      </g>
+      <text x="110" y="290" text-anchor="middle" fill="#15803d" font-size="12" font-weight="700">前端连接池</text>
+
+      <!-- 中间 pgbouncer -->
+      <rect x="320" y="80" width="260" height="200" rx="12" fill="#eef1f7" stroke="#336791" stroke-width="3"/>
+      <text x="450" y="112" text-anchor="middle" fill="#1e4d7b" font-size="14" font-weight="700">PgBouncer</text>
+      <text x="450" y="134" text-anchor="middle" fill="#1a1f2e" font-size="11">transaction 模式</text>
+      <line x1="340" y1="155" x2="560" y2="155" stroke="#dfe4ec"/>
+      <text x="450" y="180" text-anchor="middle" fill="#15803d" font-size="12" font-weight="600">复用 · 多路复用</text>
+      <text x="450" y="205" text-anchor="middle" fill="#5a6378" font-size="11">前后端 50:1 ~ 100:1</text>
+      <text x="450" y="230" text-anchor="middle" fill="#c2691e" font-size="11">default_pool_size = 40</text>
+      <text x="450" y="260" text-anchor="middle" fill="#5a6378" font-size="10">CPU 核数 × 2~4</text>
+
+      <!-- 后端 -->
+      <rect x="700" y="40" width="180" height="280" rx="12" fill="#ffffff" stroke="#c2691e" stroke-width="2"/>
+      <text x="790" y="68" text-anchor="middle" fill="#c2691e" font-size="13" font-weight="700">PG 后端</text>
+      <text x="790" y="92" text-anchor="middle" fill="#1a1f2e" font-size="14" font-weight="700">40 进程</text>
+      <g font-family="monospace" font-size="11" fill="#5a6378">
+        <text x="730" y="125">│ backend 1</text>
+        <text x="730" y="145">│ backend 2</text>
+        <text x="730" y="165">│ backend 3</text>
+        <text x="730" y="185">│ ...</text>
+        <text x="730" y="205">│ backend 40</text>
+      </g>
+      <text x="790" y="290" text-anchor="middle" fill="#b91c1c" font-size="12" font-weight="700">单进程模型</text>
+
+      <!-- 连接线 -->
+      <g stroke="#6d28d9" stroke-width="1" opacity="0.4">
+        <line x1="200" y1="120" x2="320" y2="120"/>
+        <line x1="200" y1="160" x2="320" y2="160"/>
+        <line x1="200" y1="200" x2="320" y2="200"/>
+      </g>
+      <g stroke="#c2691e" stroke-width="1" opacity="0.6">
+        <line x1="580" y1="120" x2="700" y2="120"/>
+        <line x1="580" y1="160" x2="700" y2="160"/>
+        <line x1="580" y1="200" x2="700" y2="200"/>
+      </g>
+
+      <!-- 比例标记 -->
+      <text x="450" y="50" text-anchor="middle" fill="#c2691e" font-size="20" font-weight="900">4000 : 40 = 100 : 1</text>
+    </svg>
+  </div>
+  <div class="fig-cap">↑ PgBouncer transaction 模式复用连接,把"100 个客户端 / 1 个进程"的浪费压扁</div>
+
+  <div class="grid grid-3">
+    <div class="card">
+      <div class="t" style="color:var(--text-dimmer)">session 模式</div>
+      <div class="d">一 client 占一 server 直到断开<br><span class="key-red">完全不 pool,没意义</span></div>
+    </div>
+    <div class="card" style="border-color:var(--green)">
+      <div class="t" style="color:var(--green)">transaction 模式 ✓</div>
+      <div class="d">一 client 占 server 直到事务结束<br><span class="key-green">通用首选</span><br><span class="dim">不能:session SET / prepared / LISTEN / temp table</span></div>
+    </div>
+    <div class="card">
+      <div class="t" style="color:var(--text-dimmer)">statement 模式</div>
+      <div class="d">一条 SQL 一个 server<br><span class="key-red">事务边界不保,别用</span></div>
+    </div>
+  </div>
+</section>
+
+<!-- ============= CH 1.6 业务优化 ============= -->
+<section>
+  <div class="eyebrow">1.6 · 事前优化 · 业务</div>
+  <h2>业务优化 = 性价比<span class="keyword">最高</span></h2>
+  <p class="lead">上面所有环境/参数调优加起来,可能都比不上业务层<span class="key-green">改一个 SQL</span>。</p>
+
+  <h3 style="margin-top:24px">类型精准 · 一表打尽</h3>
+  <div class="fig-wrap">
+    <svg viewBox="0 0 900 280" width="900" height="280">
+      <g font-size="13">
+        <!-- Header -->
+        <rect x="0" y="0" width="900" height="36" fill="#eef1f7"/>
+        <text x="20" y="23" fill="#b91c1c" font-weight="700">✗ 反例</text>
+        <text x="240" y="23" fill="#15803d" font-weight="700">✓ 正解</text>
+        <text x="500" y="23" fill="#6d28d9" font-weight="700">原因</text>
+
+        <text x="20" y="65" fill="#b91c1c">VARCHAR(255) 存手机号</text>
+        <text x="240" y="65" fill="#15803d">CHAR(11) / VARCHAR(11)</text>
+        <text x="500" y="65" fill="#6d28d9">索引更小、更快</text>
+
+        <text x="20" y="95" fill="#b91c1c">VARCHAR(255) 存 IPv4</text>
+        <text x="240" y="95" fill="#15803d">INET</text>
+        <text x="500" y="95" fill="#6d28d9">内置函数 / 网络转换高效</text>
+
+        <text x="20" y="125" fill="#b91c1c">BIGINT 存时间戳(毫秒)</text>
+        <text x="240" y="125" fill="#15803d">TIMESTAMPTZ</text>
+        <text x="500" y="125" fill="#6d28d9">时区 / 范围 / 索引</text>
+
+        <text x="20" y="155" fill="#b91c1c">FLOAT 存金额</text>
+        <text x="240" y="155" fill="#15803d">NUMERIC(15,2)</text>
+        <text x="500" y="155" fill="#6d28d9">精度不丢</text>
+
+        <text x="20" y="185" fill="#b91c1c">TEXT + 拆 JSON 字符串</text>
+        <text x="240" y="185" fill="#15803d">JSONB</text>
+        <text x="500" y="185" fill="#6d28d9">GIN 索引 / 内置函数</text>
+
+        <text x="20" y="215" fill="#b91c1c">自增 ID(分布式)</text>
+        <text x="240" y="215" fill="#15803d">UUIDv7 (PG 17+) / BIGSERIAL</text>
+        <text x="500" y="215" fill="#6d28d9">UUIDv7 有序、B-Tree 友好</text>
+      </g>
+    </svg>
+  </div>
+
+  <h3 style="margin-top:32px">索引反模式 · 8 条清单</h3>
+  <div class="grid grid-2">
+    <div class="card">
+      <div class="t">🚫 每个查询都建索引</div>
+      <div class="d">写性能下降 / 维护成本高</div>
+    </div>
+    <div class="card">
+      <div class="t">🚫 复合索引列顺序错</div>
+      <div class="d"><code>(a, b)</code> 与 <code>(b, a)</code> 完全不同</div>
+    </div>
+    <div class="card">
+      <div class="t">🚫 长字段建索引</div>
+      <div class="d"><code>VARCHAR(255)</code> 让 B-Tree 高度 +1</div>
+    </div>
+    <div class="card">
+      <div class="t">🚫 冗余索引</div>
+      <div class="d"><code>(a)</code> 和 <code>(a, b)</code> 同时存在</div>
+    </div>
+    <div class="card">
+      <div class="t">🚫 死索引不清理</div>
+      <div class="d"><code>idx_scan=0</code> 持续 1 个月,<code>DROP CONCURRENTLY</code></div>
+    </div>
+    <div class="card" style="border-color:var(--green)">
+      <div class="t">✅ Partial Index</div>
+      <div class="d">1% 数据占 99% 查询 · <b>投入产出比最高</b></div>
+    </div>
+  </div>
+
+  <h3 style="margin-top:32px">EXPLAIN · 6 信号法</h3>
+  <div class="grid grid-3">
+    <div class="card"><div class="t" style="color:var(--cyan)">1. actual time</div><div class="d">真耗时 · <code>loops</code> 相乘才是真实成本</div></div>
+    <div class="card"><div class="t" style="color:var(--cyan)">2. rows vs actual</div><div class="d">偏差 &gt; 10× → 统计信息失真</div></div>
+    <div class="card"><div class="t" style="color:var(--cyan)">3. Buffers hit/read</div><div class="d">read 占比高 → shared_buffers 不够</div></div>
+    <div class="card"><div class="t" style="color:var(--cyan)">4. loops &gt; 1</div><div class="d">多半是 NestLoop,成本完全骗人</div></div>
+    <div class="card"><div class="t" style="color:var(--cyan)">5. 节点类型</div><div class="d">Seq Scan / Index / Bitmap / Hash / Sort</div></div>
+    <div class="card"><div class="t" style="color:var(--cyan)">6. SETTINGS</div><div class="d">打印实际生效的优化器参数</div></div>
+  </div>
+
+  <div class="alert alert-crit">
+    <b>必避坑</b>: <code class="key-red">EXPLAIN ANALYZE 真的执行 SQL</code>!对 <code>INSERT/UPDATE/DELETE</code> 必须包事务:
+    <pre style="margin-top:8px"><span class="k">BEGIN</span>;
+<span class="k">EXPLAIN ANALYZE</span> <span class="k">DELETE FROM</span> t <span class="k">WHERE</span> ...;
+<span class="k">ROLLBACK</span>;</pre>
+  </div>
+</section>
+
+<!-- ============= CH 1.7 擒贼擒王 ============= -->
+<section>
+  <div class="eyebrow">1.7 · 事后优化 · 擒贼擒王</div>
+  <h2><span class="keyword">TOP SQL</span> = 80% 起点</h2>
+  <p class="lead">报警响了?先问一句:<span class="key-amber">是 PG 的锅吗?</span></p>
+
+  <div class="alert alert-warn">
+    <b>擒贼先擒王适用于已经定位到 PG 内、SQL 占比 &gt; 50% 的场景</b>。如果报警来自连接池打满 / JVM Full GC / 上游阻塞,TOP SQL 会因为请求堆积而<span class="key-red">总耗时虚高</span> —— 盯着 SQL 改没用,根因在 APP 层。
+  </div>
+
+  <h3>擒贼擒王 · 一条 SQL</h3>
+  <pre><span class="k">SELECT</span> round(total_exec_time::numeric, <span class="n">2</span>) total_ms,
+       calls,
+       round(mean_exec_time::numeric, <span class="n">2</span>) mean_ms,
+       shared_blks_hit + shared_blks_read <span class="k">AS</span> blks,
+       query
+  <span class="k">FROM</span> pg_stat_statements
+ <span class="k">ORDER BY</span> total_exec_time <span class="k">DESC</span> <span class="k">LIMIT</span> <span class="n">10</span>;</pre>
+
+  <h3>5 大 Planner 失准场景</h3>
+  <div class="grid grid-2">
+    <div class="card">
+      <div class="t">📊 数据倾斜</div>
+      <div class="d">rows 估算严重偏高<br><b>对策:</b> <code>CREATE STATISTICS ON a,b FROM t</code></div>
+    </div>
+    <div class="card">
+      <div class="t">📦 bulk load 后没 ANALYZE</div>
+      <div class="d">全 Seq Scan<br><b>对策:</b> <code>COPY WITH (FREEZE)</code> + 立即 ANALYZE</div>
+    </div>
+    <div class="card">
+      <div class="t">⏱️ 长时间小批量写入</div>
+      <div class="d">统计陈旧<br><b>对策:</b> <code>autovacuum_analyze_scale_factor = 0.025</code></div>
+    </div>
+    <div class="card">
+      <div class="t">📉 数据分布漂移</div>
+      <div class="d">老统计不反映新常态<br><b>对策:</b> 周期性 ANALYZE 或 cron</div>
+    </div>
+  </div>
+
+  <div class="alert alert-info">
+    抓 TOP SQL 后:看 <b>EXPLAIN 七步法</b>(1.6 节)→ 决定改法:
+    <div class="flow" style="margin-top:12px">
+      <span class="node">rows 偏差 &gt; 10×</span><span class="arrow">→</span><span class="node hl">ANALYZE</span>
+      <span class="node warn">Seq Scan 大表</span><span class="arrow">→</span><span class="node hl">加索引</span>
+      <span class="node warn">Hash Batches &gt; 1</span><span class="arrow">→</span><span class="node hl">SET work_mem</span>
+    </div>
+  </div>
+</section>
+
+<!-- ============= CH 1.8 锁等待 ============= -->
+<section>
+  <div class="eyebrow">1.8 · 事后优化 · 锁</div>
+  <h2>锁等待 & <span class="keyword">秒杀优化</span></h2>
+  <p class="lead">从一条救命 SQL 说起,到 80 倍性能差距。</p>
+
+  <div class="grid grid-2">
+    <div class="card">
+      <h4>🔗 谁堵了谁</h4>
+      <pre><span class="k">SELECT</span> pid, pg_blocking_pids(pid) blocked_by,
+       wait_event_type, wait_event, query
+  <span class="k">FROM</span> pg_stat_activity
+ <span class="k">WHERE</span> wait_event_type = <span class="s">'Lock'</span>;</pre>
+    </div>
+    <div class="card">
+      <h4>⚡ SKIP LOCKED · 队列 worker</h4>
+      <pre><span class="k">SELECT</span> * <span class="k">FROM</span> task_queue
+ <span class="k">WHERE</span> status = <span class="s">'pending'</span>
+ <span class="k">ORDER BY</span> id <span class="k">LIMIT</span> <span class="n">1</span>
+ <span class="k">FOR UPDATE SKIP LOCKED</span>;</pre>
+    </div>
+  </div>
+
+  <h3 style="margin-top:24px">秒杀场景 · 80× 性能差</h3>
+  <div class="fig-wrap">
+    <svg viewBox="0 0 800 220" width="800" height="220">
+      <!-- 柱状图 -->
+      <g>
+        <rect x="50" y="120" width="120" height="60" fill="#b91c1c" opacity=".7"/>
+        <text x="110" y="100" text-anchor="middle" fill="#1a1f2e" font-size="22" font-weight="900">2,855</text>
+        <text x="110" y="200" text-anchor="middle" fill="#b91c1c" font-size="12">未优化 UPDATE</text>
+
+        <rect x="220" y="60" width="120" height="120" fill="#c2691e" opacity=".7"/>
+        <text x="280" y="40" text-anchor="middle" fill="#1a1f2e" font-size="22" font-weight="900">66,630</text>
+        <text x="280" y="200" text-anchor="middle" fill="#c2691e" font-size="12">NOWAIT 优化</text>
+
+        <rect x="390" y="20" width="120" height="160" fill="#15803d" opacity=".7"/>
+        <text x="450" y="14" text-anchor="middle" fill="#1a1f2e" font-size="26" font-weight="900">231,376</text>
+        <text x="450" y="200" text-anchor="middle" fill="#15803d" font-size="12">pg_try_advisory_xact_lock</text>
+
+        <!-- 比例 -->
+        <text x="540" y="80" fill="#1e4d7b" font-size="14" font-weight="700">⚡ 80 倍</text>
+        <text x="540" y="100" fill="#5a6378" font-size="12">TPS 提升</text>
+      </g>
+    </svg>
+  </div>
+
+  <pre><span class="c">-- 关键写法:WHERE 里直接抢锁</span>
+<span class="k">UPDATE</span> t <span class="k">SET</span> x = x + <span class="n">1</span>
+ <span class="k">WHERE</span> id = ? <span class="k">AND</span> pg_try_advisory_xact_lock(id)
+<span class="k">RETURNING</span> *;</pre>
+
+  <div class="alert alert-warn">
+    <b>前置条件</b>:必须配合"先查再写"的两阶段模式,锁粒度 = 单条记录 id。<br>
+    <b>边界</b>:若 <code>pg_stat_activity</code> 看到大量 <code>LockWait</code>,说明冲突超出 AD Lock 缓解能力,必须分片 / 排队 / 异步化。
+  </div>
+</section>
+
+<!-- ============= CH 1.9 wait_event ============= -->
+<section>
+  <div class="eyebrow">1.9 · 事后优化 · 等待事件</div>
+  <h2><span class="keyword">wait_event</span> = 最强诊断武器</h2>
+  <p class="lead">告诉你<span class="keyword">"这一刻 backend 为什么不在跑"</span>。PG 9.6+ 起,9 大类全覆盖。</p>
+
+  <div class="fig-wrap">
+    <svg viewBox="0 0 900 280" width="900" height="280">
+      <defs>
+        <radialGradient id="hub">
+          <stop offset="0" stop-color="#1e4d7b"/>
+          <stop offset="1" stop-color="#336791"/>
+        </radialGradient>
+      </defs>
+      <!-- 中央 hub -->
+      <circle cx="450" cy="140" r="50" fill="url(#hub)"/>
+      <text x="450" y="135" text-anchor="middle" fill="#1a1f2e" font-size="13" font-weight="700">wait_event</text>
+      <text x="450" y="155" text-anchor="middle" fill="#1e4d7b" font-size="10">9 大类</text>
+
+      <!-- 9 个分支 -->
+      <g font-size="11" fill="#1a1f2e">
+        <g><circle cx="120" cy="40" r="32" fill="#ffffff" stroke="#6d28d9"/><text x="120" y="38" text-anchor="middle" font-weight="700">Activity</text><text x="120" y="52" text-anchor="middle" fill="#5a6378" font-size="9">空闲主循环</text><line x1="148" y1="62" x2="400" y2="125" stroke="#dfe4ec"/></g>
+        <g><circle cx="120" cy="240" r="32" fill="#ffffff" stroke="#b91c1c"/><text x="120" y="238" text-anchor="middle" font-weight="700">BufferPin</text><text x="120" y="252" text-anchor="middle" fill="#5a6378" font-size="9">buffer 排他锁</text><line x1="148" y1="218" x2="400" y2="155" stroke="#dfe4ec"/></g>
+        <g><circle cx="270" cy="20" r="32" fill="#ffffff" stroke="#c2691e"/><text x="270" y="18" text-anchor="middle" font-weight="700">Client</text><text x="270" y="32" text-anchor="middle" fill="#5a6378" font-size="9">客户端通信</text><line x1="296" y1="42" x2="410" y2="118" stroke="#dfe4ec"/></g>
+        <g><circle cx="270" cy="260" r="32" fill="#ffffff" stroke="#0e7490"/><text x="270" y="258" text-anchor="middle" font-weight="700">IO</text><text x="270" y="272" text-anchor="middle" fill="#5a6378" font-size="9">数据/WAL 文件</text><line x1="296" y1="238" x2="410" y2="162" stroke="#dfe4ec"/></g>
+        <g><circle cx="450" cy="20" r="32" fill="#ffffff" stroke="#15803d"/><text x="450" y="18" text-anchor="middle" font-weight="700">IPC</text><text x="450" y="32" text-anchor="middle" fill="#5a6378" font-size="9">并行 worker</text><line x1="450" y1="52" x2="450" y2="90" stroke="#dfe4ec"/></g>
+        <g><circle cx="450" cy="260" r="32" fill="#ffffff" stroke="#c2691e"/><text x="450" y="258" text-anchor="middle" font-weight="700">Lock</text><text x="450" y="272" text-anchor="middle" fill="#5a6378" font-size="9">heavy-weight</text><line x1="450" y1="228" x2="450" y2="190" stroke="#dfe4ec"/></g>
+        <g><circle cx="630" cy="20" r="32" fill="#ffffff" stroke="#6d28d9"/><text x="630" y="18" text-anchor="middle" font-weight="700">LWLock</text><text x="630" y="32" text-anchor="middle" fill="#5a6378" font-size="9">shared mem</text><line x1="604" y1="42" x2="490" y2="118" stroke="#dfe4ec"/></g>
+        <g><circle cx="630" cy="260" r="32" fill="#ffffff" stroke="#b91c1c"/><text x="630" y="258" text-anchor="middle" font-weight="700">Timeout</text><text x="630" y="272" text-anchor="middle" fill="#5a6378" font-size="9">故意 sleep</text><line x1="604" y1="238" x2="490" y2="162" stroke="#dfe4ec"/></g>
+        <g><circle cx="780" cy="140" r="32" fill="#ffffff" stroke="#0e7490"/><text x="780" y="138" text-anchor="middle" font-weight="700">Extension</text><text x="780" y="152" text-anchor="middle" fill="#5a6378" font-size="9">扩展自定义</text><line x1="752" y1="140" x2="500" y2="140" stroke="#dfe4ec"/></g>
+      </g>
+    </svg>
+  </div>
+
+  <div class="grid grid-2">
+    <div class="card">
+      <h4 style="color:var(--cyan)">IO 类</h4>
+      <div class="d">
+        <code>IO:DataFileRead</code> → <code>iostat -x 1</code>, <code>r_await&gt;10ms</code> 物理 IO 瓶颈<br>
+        <code>IO:WALWrite</code> → 主备延迟?同步复制降级异步<br>
+        <code>IO:ControlFileSync</code> → checkpoint 风暴?<code>completion_target=0.9</code>
+      </div>
+    </div>
+    <div class="card">
+      <h4 style="color:var(--purple)">LWLock 类</h4>
+      <div class="d">
+        <code>LWLock:buffer_mapping</code> → shared_buffers 设太大(&gt; RAM 25%)<br>
+        <code>LWLock:lock_manager</code> → 单实例连接数 &gt; 500,上 pgbouncer<br>
+        <span class="dim">PG 16+ 8 分区优化,buffer_mapping 缓解</span>
+      </div>
+    </div>
+    <div class="card">
+      <h4 style="color:var(--amber)">Lock 类</h4>
+      <div class="d">
+        <code>Lock:transactionid</code> → 看 <code>pg_blocking_pids</code>,应用层事务顺序不一致<br>
+        <code>Lock:tuple</code> → 用 <code>SKIP LOCKED</code> 改写<br>
+        <code>Lock:relation</code> → DDL 阻塞,加 <code>lock_timeout</code>
+      </div>
+    </div>
+    <div class="card">
+      <h4 style="color:var(--green)">Activity</h4>
+      <div class="d">
+        <code>state=active</code> 且 <code>wait_event IS NULL</code> → <b>在 CPU 上跑</b><br>
+        <span class="dim">大排序 / 哈希聚合</span><br>
+        <code>perf top -p &lt;pid&gt;</code> 看是不是 CPU bound
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ============= CH 1.10 隐患 ============= -->
+<section>
+  <div class="eyebrow">1.10-1.12 · 事后优化 · 隐患三件套</div>
+  <h2>隐患不查 = <span class="key-red">雪崩</span></h2>
+
+  <div class="grid grid-2">
+    <div class="card" style="border-left:3px solid var(--amber)">
+      <div class="t">⏰ 长事务 / 长 2PC</div>
+      <div class="d">
+        阻 vacuum → 膨胀 → 慢<br>
+        <b>治理</b>:杀 + <code>idle_in_transaction_session_timeout=10min</code><br>
+        2PC &gt; 1h:<code>ROLLBACK PREPARED</code>
+      </div>
+    </div>
+    <div class="card" style="border-left:3px solid var(--amber)">
+      <div class="t">🐌 慢 / 异常 Slot</div>
+      <div class="d">
+        <code>pg_replication_slots.xmin</code> 不前进<br>
+        主库 WAL 堆积撑爆磁盘<br>
+        <b>治理</b>:<code>pg_recvlogical</code> 修消费端
+      </div>
+    </div>
+    <div class="card" style="border-left:3px solid var(--amber)">
+      <div class="t">💀 B-Tree 索引膨胀</div>
+      <div class="d">
+        <span class="key-red">B-Tree 不释放空间,只 REUSE</span><br>
+        长期没 INSERT 永远不释放<br>
+        <b>治理</b>:<code>REINDEX CONCURRENTLY</code>(PG 12+)
+      </div>
+    </div>
+    <div class="card" style="border-left:3px solid var(--red)">
+      <div class="t">❄️ XID 回卷</div>
+      <div class="d">
+        32-bit xid 最多 43 亿<br>
+        <code>age(datfrozenxid) &gt; 2亿</code> 触发 anti-wraparound vacuum<br>
+        <span class="key-red">回卷后库变只读,只能 VACUUM</span><br>
+        <b>绝对不要</b>用 <code>pg_resetwal</code>
+      </div>
+    </div>
+  </div>
+
+  <h3 style="margin-top:32px">MVCC → 膨胀 因果链</h3>
+  <div class="fig-wrap">
+    <svg viewBox="0 0 900 120" width="900" height="120">
+      <g font-size="13" font-weight="600">
+        <rect x="10" y="40" width="120" height="40" rx="8" fill="#ffffff" stroke="#b91c1c"/>
+        <text x="70" y="65" text-anchor="middle" fill="#1a1f2e">UPDATE/DELETE</text>
+
+        <text x="140" y="65" fill="#5a6378" font-size="20">→</text>
+
+        <rect x="170" y="40" width="120" height="40" rx="8" fill="#ffffff" stroke="#c2691e"/>
+        <text x="230" y="65" text-anchor="middle" fill="#1a1f2e">dead tuple</text>
+
+        <text x="300" y="65" fill="#5a6378" font-size="20">→</text>
+
+        <rect x="330" y="40" width="100" height="40" rx="8" fill="#ffffff" stroke="#0e7490"/>
+        <text x="380" y="65" text-anchor="middle" fill="#1a1f2e">vacuum</text>
+
+        <text x="440" y="65" fill="#5a6378" font-size="20">→</text>
+
+        <rect x="470" y="40" width="120" height="40" rx="8" fill="#ffffff" stroke="#15803d"/>
+        <text x="530" y="65" text-anchor="middle" fill="#1a1f2e">回收</text>
+
+        <text x="600" y="65" fill="#5a6378" font-size="20">vs</text>
+
+        <rect x="640" y="40" width="120" height="40" rx="8" fill="#ffffff" stroke="#b91c1c"/>
+        <text x="700" y="65" text-anchor="middle" fill="#1a1f2e">跟不上</text>
+
+        <text x="770" y="65" fill="#5a6378" font-size="20">→</text>
+
+        <rect x="800" y="40" width="90" height="40" rx="8" fill="#ffffff" stroke="#6d28d9"/>
+        <text x="845" y="65" text-anchor="middle" fill="#1a1f2e" font-weight="900">膨胀</text>
+      </g>
+    </svg>
+  </div>
+</section>
+
+<!-- ============= CH 1.13 优化速记 ============= -->
+<section>
+  <div class="eyebrow">1 · 总结</div>
+  <h2>优化速记卡</h2>
+  <p class="lead">一图带回家。</p>
+
+  <div class="cheat">
+    <div class="title">📋 事前 4 件套</div>
+    <ul>
+      <li><b>环境</b> <code>SSD 4K 对齐</code> + <code>xfs</code> + <code>IO=none/mq-deadline</code> + <code>HugePage</code></li>
+      <li><b>参数</b> <code>shared_buffers = RAM×1/4</code> · <code>work_mem</code> · <code>autovacuum_scale_factor=0.05</code></li>
+      <li><b>连接池</b> <code>pgbouncer transaction</code> · 前后端 <code>50:1~100:1</code></li>
+      <li><b>业务</b> 类型精准 · <code>Keyset</code> 分页 · 事务短 · 超时设置</li>
+    </ul>
+  </div>
+
+  <div class="cheat" style="margin-top:16px;border-color:var(--amber)">
+    <div class="title" style="color:var(--amber)">📋 事后 4 件套</div>
+    <ul>
+      <li><b>擒贼擒王</b> <code>pg_stat_statements TOP 5</code> + <code>EXPLAIN 七步法</code></li>
+      <li><b>锁</b> <code>pg_blocking_pids</code> + <code>AD Lock</code> 秒杀</li>
+      <li><b>等待事件</b> <code>wait_event</code> 9 大类分布</li>
+      <li><b>隐患</b> 长事务 / 长 2PC / 慢 slot / 膨胀 / 冻结</li>
+    </ul>
+  </div>
+
+  <div class="cheat" style="margin-top:16px;border-color:var(--red)">
+    <div class="title" style="color:var(--red)">🩸 必杀 / 保命参数</div>
+    <ul>
+      <li><code>random_page_cost</code> = <b>1.1</b>(本地 SSD) / <b>1.0</b>(NVMe) / <b>1.5</b>(云盘)</li>
+      <li><code>checkpoint_completion_target = 0.9</code></li>
+      <li><code>autovacuum_max_workers = 8</code> · <code>scale_factor = 0.05</code> · <code>cost_delay = 10ms</code></li>
+      <li><b>保命查询</b>:<code>SELECT age(datfrozenxid) FROM pg_database ORDER BY 2 DESC;</code> → 任一 &gt; 2 亿立即处理</li>
+    </ul>
+  </div>
+</section>
+
+<!-- ============= CH 2 扉页 ============= -->
+<section class="chap-cover" id="ch2">
+  <div class="num-huge">02</div>
+  <div class="eyebrow">CHAPTER 2 · 45 MIN</div>
+  <h2>📊 监控</h2>
+  <p class="lead" style="font-size:22px">看见 · 趋势 · 报警。<br>PG 自带统计视图超过 100 个,<span class="keyword">真正稳定报警的不超过 20 个</span>。</p>
+</section>
+
+<!-- ============= CH 2.1 分层监控 ============= -->
+<section>
+  <div class="eyebrow">2.1 · 分层架构</div>
+  <h2>先分层,<span class="keyword">再下钻</span></h2>
+  <p class="lead">4 层漏斗,SQL 层优先 + 漏斗排查补充。</p>
+
+  <div class="fig-wrap">
+    <svg viewBox="0 0 900 380" width="900" height="380">
+      <!-- L1 -->
+      <path d="M 100 30 L 800 30 L 760 100 L 140 100 Z" fill="#ffffff" stroke="#336791" stroke-width="2"/>
+      <text x="450" y="60" text-anchor="middle" fill="#1e4d7b" font-size="14" font-weight="700">L1 · 操作系统层</text>
+      <text x="450" y="85" text-anchor="middle" fill="#1a1f2e" font-size="12">CPU · Load · IO util/await · 内存/swap · 网络</text>
+
+      <!-- L2 -->
+      <path d="M 140 110 L 760 110 L 720 180 L 180 180 Z" fill="#ffffff" stroke="#6d28d9" stroke-width="2"/>
+      <text x="450" y="140" text-anchor="middle" fill="#6d28d9" font-size="14" font-weight="700">L2 · PostgreSQL 实例层</text>
+      <text x="450" y="165" text-anchor="middle" fill="#1a1f2e" font-size="12">连接数 · 锁等待 · LWLock · WAL/checkpoint · 复制延迟</text>
+
+      <!-- L3 -->
+      <path d="M 180 190 L 720 190 L 680 260 L 220 260 Z" fill="#ffffff" stroke="#c2691e" stroke-width="2"/>
+      <text x="450" y="220" text-anchor="middle" fill="#c2691e" font-size="14" font-weight="700">L3 · 对象层</text>
+      <text x="450" y="245" text-anchor="middle" fill="#1a1f2e" font-size="12">膨胀 · dead_tuple · 索引使用率 · 长事务 / 2PC</text>
+
+      <!-- L4 -->
+      <path d="M 220 270 L 680 270 L 640 340 L 260 340 Z" fill="#ffffff" stroke="#15803d" stroke-width="2"/>
+      <text x="450" y="300" text-anchor="middle" fill="#15803d" font-size="14" font-weight="700">L4 · SQL 层 ⭐</text>
+      <text x="450" y="325" text-anchor="middle" fill="#1a1f2e" font-size="12">TOP SQL · 慢 SQL · 响应时间抖动</text>
+
+      <!-- 标注 -->
+      <text x="60" y="180" fill="#1e4d7b" font-size="12" font-weight="700">漏斗</text>
+      <text x="40" y="200" fill="#5a6378" font-size="10">先 SQL</text>
+      <text x="40" y="214" fill="#5a6378" font-size="10">再漏斗</text>
+
+      <text x="820" y="300" fill="#15803d" font-size="13" font-weight="700">80%</text>
+      <text x="820" y="316" fill="#5a6378" font-size="10">从这里开始</text>
+    </svg>
+  </div>
+
+  <div class="alert alert-info">
+    <b>核心观点</b>:SQL 层优先 + 漏斗排查补充。<br>
+    "数据库慢 90% 不在 SQL 层" —— 听着很爽,但事实是 SQL 层问题确实占大多数生产事故。<span class="key-red">别被这句话忽悠得漏掉 TOP SQL</span>。
+  </div>
+</section>
+
+<!-- ============= CH 2.2-2.3 开关 + pgss ============= -->
+<section>
+  <div class="eyebrow">2.2-2.3 · 必开 + 擒贼擒王</div>
+  <h2>5 个开关 + <span class="keyword">pg_stat_statements</span></h2>
+  <p class="lead">任何一个没开,后续视图就是空的。</p>
+
+  <div class="grid grid-2">
+    <div class="card">
+      <h4>⚡ 必开 5 个统计开关</h4>
+      <pre><span class="v">track_activities</span> = on
+<span class="v">track_counts</span>     = on
+<span class="v">track_io_timing</span>  = on
+<span class="v">track_functions</span>  = <span class="s">'all'</span>
+<span class="v">compute_query_id</span> = on  <span class="c"># PG 13+</span></pre>
+      <div class="d"><code>SELECT pg_reload_conf();</code> 生效</div>
+    </div>
+    <div class="card">
+      <h4>📝 半必开 3 个日志开关</h4>
+      <pre><span class="v">log_lock_waits</span> = on
+<span class="v">log_temp_files</span> = <span class="n">0</span>     <span class="c"># 0=全部记录</span>
+<span class="v">log_min_duration_statement</span> = <span class="n">3s</span></pre>
+      <div class="d">OLTP 1~5s · OLAP 30s~5min</div>
+    </div>
+  </div>
+
+  <h3 style="margin-top:32px">pg_stat_statements · 擒贼擒王 SQL</h3>
+  <pre><span class="k">SELECT</span> round(total_exec_time::numeric, <span class="n">2</span>) total_ms,
+       calls, round(mean_exec_time::numeric, <span class="n">2</span>) mean_ms,
+       shared_blks_hit + shared_blks_read <span class="k">AS</span> blks, query
+  <span class="k">FROM</span> pg_stat_statements
+ <span class="k">ORDER BY</span> total_exec_time <span class="k">DESC</span> <span class="k">LIMIT</span> <span class="n">10</span>;</pre>
+
+  <div class="alert alert-warn">
+    <b>关于 <code>queryid</code></b>:在同一 major 版本内 + 同一 SQL 文本稳定;PG 大版本升级(14→15)会因算法微调而变化 —— <span class="key-red">不能说"跨实例"稳定</span>。
+  </div>
+
+  <h3>外部快照 · 唯一做趋势的方法</h3>
+  <div class="flow">
+    <span class="node">pgss 视图</span>
+    <span class="arrow">→</span>
+    <span class="node hl">定时快照</span>
+    <span class="arrow">→</span>
+    <span class="node">历史表</span>
+    <span class="arrow">→</span>
+    <span class="node hl">趋势 SQL</span>
+  </div>
+  <div class="alert alert-info">
+    单纯靠 <code>pg_stat_statements</code> 没有外部快照就没有趋势 —— <b>这是新手最常踩的坑</b>。
+  </div>
+</section>
+
+<!-- ============= CH 2.5 auto_explain ============= -->
+<section>
+  <div class="eyebrow">2.5 · 自动捕获慢 SQL</div>
+  <h2>auto_explain · <span class="keyword">慢 SQL 自动落盘</span></h2>
+  <p class="lead">超过阈值的 SQL 自动写执行计划,不用手抓。</p>
+
+  <pre><span class="v">shared_preload_libraries</span> = <span class="s">'auto_explain,pg_stat_statements'</span>
+<span class="v">auto_explain.log_min_duration</span> = <span class="s">'3s'</span>
+<span class="v">auto_explain.log_analyze</span>      = on
+<span class="v">auto_explain.log_buffers</span>      = on
+<span class="v">auto_explain.log_format</span>       = <span class="s">'json'</span>    <span class="c"># PG 10+</span>
+<span class="v">auto_explain.sample_rate</span>      = <span class="n">1</span></pre>
+
+  <div class="alert alert-crit">
+    <b>大流量场景(&gt; 5000 QPS)必须抽样</b> —— <code>sample_rate=0.01~0.1</code>。<br>
+    <code>log_min_duration=3s + sample_rate=0.01</code> 的组合有盲区:平时 0.5s、突发 4s 的致命 SQL 可能一条都采不到。<br>
+    <span class="key-red">生产建议 <code>log_min_duration=1s + sample_rate=0.05</code> 起跳</span>,配合 <code>pg_stat_statements</code> 短期快照双轨。
+  </div>
+</section>
+
+<!-- ============= CH 2.6 6 视图 ============= -->
+<section>
+  <div class="eyebrow">2.6 · 视图</div>
+  <h2>6 张视图 · <span class="keyword">看一眼心里有数</span></h2>
+
+  <table>
+    <thead><tr><th>视图</th><th>一句话作用</th><th>关键字段</th></tr></thead>
+    <tbody>
+      <tr><td><code>pg_stat_activity</code></td><td>当前所有会话</td><td><code>state</code> · <code>wait_event</code> · <code>query_start</code> · <code>xact_start</code></td></tr>
+      <tr><td><code>pg_stat_database</code></td><td>数据库级累计</td><td><code>numbackends</code> · <code>xact_commit/rollback</code> · <code>blks_hit/read</code> · <code>deadlocks</code></td></tr>
+      <tr><td><code>pg_stat_user_tables</code></td><td>表 DML / 扫描</td><td><code>seq_scan</code> · <code>idx_scan</code> · <code>n_live_tup</code> · <code>n_dead_tup</code></td></tr>
+      <tr><td><code>pg_stat_user_indexes</code></td><td>索引使用</td><td><code>idx_scan</code> · <code>idx_tup_read</code> · <code>idx_tup_fetch</code></td></tr>
+      <tr><td><code>pg_statio_user_tables</code></td><td>磁盘 IO</td><td><code>heap_blks_hit/read</code> · <code>idx_blks_hit/read</code></td></tr>
+      <tr><td><code>pg_stat_replication</code></td><td>主备流复制</td><td><code>state</code> · <code>write_lag</code> · <code>flush_lag</code> · <code>replay_lag</code></td></tr>
+    </tbody>
+  </table>
+</section>
+
+<!-- ============= CH 2.7 10 救命 SQL ============= -->
+<section>
+  <div class="eyebrow">2.7 · 实战</div>
+  <h2>10 条 <span class="keyword">救命级</span> SQL</h2>
+  <p class="lead">收藏这 10 条,先救命再优化。</p>
+
+  <div class="grid grid-2">
+    <div class="card">
+      <h4>1. 运行中慢 SQL</h4>
+      <pre style="font-size:11px"><span class="k">SELECT</span> pid, now() - query_start dur, state, wait_event, query
+  <span class="k">FROM</span> pg_stat_activity
+ <span class="k">WHERE</span> state=<span class="s">'active'</span> <span class="k">AND</span> now() - query_start &gt; <span class="s">'5s'</span>;</pre>
+    </div>
+    <div class="card">
+      <h4>2. 长事务</h4>
+      <pre style="font-size:11px"><span class="k">SELECT</span> pid, now() - xact_start xact_age, query
+  <span class="k">FROM</span> pg_stat_activity
+ <span class="k">WHERE</span> state <span class="k">IN</span> (<span class="s">'active'</span>,<span class="s">'idle in transaction'</span>)
+   <span class="k">AND</span> now() - xact_start &gt; <span class="s">'30min'</span>;</pre>
+    </div>
+    <div class="card">
+      <h4>3. 长空闲事务(真凶)</h4>
+      <pre style="font-size:11px"><span class="k">SELECT</span> pid, now() - state_change idle_age
+  <span class="k">FROM</span> pg_stat_activity
+ <span class="k">WHERE</span> state <span class="k">LIKE</span> <span class="s">'idle in transaction%'</span>
+   <span class="k">AND</span> now() - state_change &gt; <span class="s">'10min'</span>;</pre>
+    </div>
+    <div class="card">
+      <h4>4. 长 2PC</h4>
+      <pre style="font-size:11px"><span class="k">SELECT</span> gid, prepared, owner, database
+  <span class="k">FROM</span> pg_prepared_xacts
+ <span class="k">WHERE</span> now() - prepared &gt; <span class="s">'1h'</span>;</pre>
+    </div>
+    <div class="card">
+      <h4>5. 谁堵了谁</h4>
+      <pre style="font-size:11px"><span class="k">SELECT</span> pid, pg_blocking_pids(pid) blocked_by,
+       wait_event_type, wait_event, query
+  <span class="k">FROM</span> pg_stat_activity
+ <span class="k">WHERE</span> wait_event_type = <span class="s">'Lock'</span>;</pre>
+    </div>
+    <div class="card">
+      <h4>6. 等待事件分布</h4>
+      <pre style="font-size:11px"><span class="k">SELECT</span> wait_event_type, wait_event, count(*)
+  <span class="k">FROM</span> pg_stat_activity
+ <span class="k">WHERE</span> wait_event <span class="k">IS NOT NULL</span>
+ <span class="k">GROUP BY</span> <span class="n">1</span>,<span class="n">2</span> <span class="k">ORDER BY</span> count(*) <span class="k">DESC</span>;</pre>
+    </div>
+    <div class="card">
+      <h4>7. vacuum 进度</h4>
+      <pre style="font-size:11px"><span class="k">SELECT</span> pid, relid::regclass, phase,
+       heap_blks_total, heap_blks_scanned
+  <span class="k">FROM</span> pg_stat_progress_vacuum;</pre>
+    </div>
+    <div class="card">
+      <h4>8. checkpoint 频率</h4>
+      <pre style="font-size:11px"><span class="k">SELECT</span> * <span class="k">FROM</span> pg_stat_bgwriter;
+<span class="c">-- checkpoints_req 远多于</span>
+<span class="c">-- checkpoints_timed → 雪崩</span></pre>
+    </div>
+    <div class="card">
+      <h4>9. 复制延迟</h4>
+      <pre style="font-size:11px"><span class="k">SELECT</span> pid, state, sync_state,
+       write_lag, flush_lag, replay_lag
+  <span class="k">FROM</span> pg_stat_replication;</pre>
+    </div>
+    <div class="card">
+      <h4>10. DB 总览 + xid</h4>
+      <pre style="font-size:11px"><span class="k">SELECT</span> datname, numbackends conns,
+       round(<span class="n">100.0</span>*blks_hit/
+         NULLIF(blks_hit+blks_read,<span class="n">0</span>),<span class="n">2</span>) cache_hit_pct,
+       age(datfrozenxid) xid_age
+  <span class="k">FROM</span> pg_stat_database;</pre>
+    </div>
+  </div>
+
+  <h3 style="margin-top:32px">阈值经验值</h3>
+  <table>
+    <thead><tr><th>指标</th><th>健康</th><th>异常</th></tr></thead>
+    <tbody>
+      <tr><td>TPS 突降/突增</td><td>业务基线 ±20%</td><td>突降 → 看 wait_event · 突增 → 看 temp_bytes</td></tr>
+      <tr><td>回滚率</td><td>&lt; 1%</td><td>&gt; 5% 持续 → 应用层 BUG</td></tr>
+      <tr><td>连接使用率</td><td>&lt; 70%</td><td>&gt; 80% → 拒连风险</td></tr>
+      <tr><td>死锁次数</td><td>0</td><td>&gt; 0/min → 看 <code>log_lock_waits</code></td></tr>
+      <tr><td>临时文件</td><td>短期 0</td><td>单查询 &gt; 1GB → <code>work_mem</code> 不够</td></tr>
+      <tr><td>缓存命中率</td><td>看趋势</td><td>OLTP 95~98% 长期稳</td></tr>
+    </tbody>
+  </table>
+
+  <div class="alert alert-warn">
+    不要把缓存命中率当作性能的唯一指标 —— 它<span class="key-amber">作为趋势指标</span>最有用,稳定 99% 突然掉到 80% = 热点被踢出 buffer。作为硬阈值最容易误导。
+  </div>
+</section>
+
+<!-- ============= CH 2 速记 ============= -->
+<section>
+  <div class="eyebrow">2 · 总结</div>
+  <h2>监控速记卡</h2>
+
+  <div class="cheat">
+    <div class="title">📋 5 个必开开关</div>
+    <ul>
+      <li><code>track_activities</code> · <code>track_counts</code> · <code>track_io_timing</code> · <code>track_functions</code> · <code>compute_query_id</code></li>
+    </ul>
+  </div>
+
+  <div class="cheat" style="margin-top:16px;border-color:var(--green)">
+    <div class="title" style="color:var(--green)">📋 擒贼擒王</div>
+    <ul>
+      <li><code>pg_stat_statements ORDER BY total_exec_time DESC LIMIT 10</code></li>
+    </ul>
+  </div>
+
+  <div class="cheat" style="margin-top:16px;border-color:var(--amber)">
+    <div class="title" style="color:var(--amber)">📋 wait_event 速查</div>
+    <ul>
+      <li><code>IO:DataFileRead</code> → 物理 IO 瓶颈</li>
+      <li><code>LWLock:buffer_mapping</code> → shared_buffers 太大</li>
+      <li><code>LWLock:lock_manager</code> → 连接太多</li>
+      <li><code>Lock:tuple</code> → 行锁竞争</li>
+    </ul>
+  </div>
+</section>
+
+<!-- ============= CH 3 扉页 ============= -->
+<section class="chap-cover" id="ch3">
+  <div class="num-huge">03</div>
+  <div class="eyebrow">CHAPTER 3 · 55 MIN</div>
+  <h2>🚒 故障诊断</h2>
+  <p class="lead" style="font-size:22px">报警响起 <span class="keyword">5 分钟内</span> 走完排查漏斗,<br>定位根因,给出<span class="key-purple">止血动作</span>。</p>
+</section>
+
+<!-- ============= CH 3.1 分层漏斗 ============= -->
+<section>
+  <div class="eyebrow">3.1 · 救火第一步</div>
+  <h2>分层定位漏斗</h2>
+  <p class="lead">任何报警先分层。<span class="key-red">顺序错了,排查就迷路</span>。</p>
+
+  <div class="fig-wrap">
+    <svg viewBox="0 0 900 460" width="900" height="460">
+      <!-- 报警 -->
+      <rect x="320" y="10" width="260" height="48" rx="10" fill="#ffffff" stroke="#b91c1c" stroke-width="2"/>
+      <text x="450" y="40" text-anchor="middle" fill="#b91c1c" font-size="14" font-weight="700">🚨 报警:DB 卡 / 慢 / Hang</text>
+
+      <!-- OS -->
+      <path d="M 120 80 L 780 80 L 740 130 L 160 130 Z" fill="#ffffff" stroke="#336791" stroke-width="2"/>
+      <text x="450" y="105" text-anchor="middle" fill="#1e4d7b" font-size="13" font-weight="700">① OS 层健康?</text>
+      <text x="450" y="123" text-anchor="middle" fill="#1a1f2e" font-size="11">CPU / IO / 内存 / 磁盘 / 网卡</text>
+
+      <!-- 网络 -->
+      <path d="M 160 140 L 740 140 L 700 190 L 200 190 Z" fill="#ffffff" stroke="#6d28d9" stroke-width="2"/>
+      <text x="450" y="165" text-anchor="middle" fill="#6d28d9" font-size="13" font-weight="700">② 网络层?</text>
+      <text x="450" y="183" text-anchor="middle" fill="#1a1f2e" font-size="11">带宽 / RTT / 丢包 / 防火墙</text>
+
+      <!-- PG 实例 -->
+      <path d="M 200 200 L 700 200 L 660 250 L 240 250 Z" fill="#ffffff" stroke="#c2691e" stroke-width="2"/>
+      <text x="450" y="225" text-anchor="middle" fill="#c2691e" font-size="13" font-weight="700">③ PG 实例存活?</text>
+      <text x="450" y="243" text-anchor="middle" fill="#1a1f2e" font-size="11">连接打满 / postmaster 死 / crash</text>
+
+      <!-- 数据库 -->
+      <path d="M 240 260 L 660 260 L 620 310 L 280 310 Z" fill="#ffffff" stroke="#0e7490" stroke-width="2"/>
+      <text x="450" y="285" text-anchor="middle" fill="#0e7490" font-size="13" font-weight="700">④ 数据库级?</text>
+      <text x="450" y="303" text-anchor="middle" fill="#1a1f2e" font-size="11">锁等待 / 长事务 / autovacuum 风暴</text>
+
+      <!-- 对象 -->
+      <path d="M 280 320 L 620 320 L 580 370 L 320 370 Z" fill="#ffffff" stroke="#15803d" stroke-width="2"/>
+      <text x="450" y="345" text-anchor="middle" fill="#15803d" font-size="13" font-weight="700">⑤ 表 / 索引级?</text>
+      <text x="450" y="363" text-anchor="middle" fill="#1a1f2e" font-size="11">膨胀 / 统计信息失准</text>
+
+      <!-- SQL -->
+      <path d="M 320 380 L 580 380 L 540 430 L 360 430 Z" fill="#ffffff" stroke="#6d28d9" stroke-width="3"/>
+      <text x="450" y="405" text-anchor="middle" fill="#6d28d9" font-size="13" font-weight="700">⑥ 最后才是单条 SQL</text>
+
+      <!-- 箭头 -->
+      <defs>
+        <marker id="arr" viewBox="0 0 10 10" refX="5" refY="5" markerWidth="6" markerHeight="6" orient="auto">
+          <path d="M0,0 L10,5 L0,10 z" fill="#5a6378"/>
+        </marker>
+      </defs>
+      <line x1="450" y1="58" x2="450" y2="78" stroke="#5a6378" stroke-width="2" marker-end="url(#arr)"/>
+      <line x1="450" y1="130" x2="450" y2="138" stroke="#5a6378" stroke-width="2" marker-end="url(#arr)"/>
+      <line x1="450" y1="190" x2="450" y2="198" stroke="#5a6378" stroke-width="2" marker-end="url(#arr)"/>
+      <line x1="450" y1="250" x2="450" y2="258" stroke="#5a6378" stroke-width="2" marker-end="url(#arr)"/>
+      <line x1="450" y1="310" x2="450" y2="318" stroke="#5a6378" stroke-width="2" marker-end="url(#arr)"/>
+      <line x1="450" y1="370" x2="450" y2="378" stroke="#5a6378" stroke-width="2" marker-end="url(#arr)"/>
+    </svg>
+  </div>
+
+  <div class="alert alert-warn">
+    <b>适用边界</b>:本地单实例 PG 适用;托管 RDS 上 OS/网络层由云厂负责,只能拿到 PG 层指标。<br>
+    <b>证伪</b>:OS、PG 实例、锁、autovacuum 都没事,但业务还在慢 → 不是 DB 层的锅,去查 APP 层。
+  </div>
+</section>
+
+<!-- ============= CH 3.2 救命查询 ============= -->
+<section>
+  <div class="eyebrow">3.2 · 救命 3 条</div>
+  <h2>三个核心查询</h2>
+  <p class="lead">先收藏,关键时刻能救火。</p>
+
+  <div class="grid grid-3">
+    <div class="card" style="border-color:var(--cyan)">
+      <h4 style="color:var(--cyan)">① 谁在跑</h4>
+      <pre style="font-size:11px"><span class="k">SELECT</span> pid, now() - query_start dur,
+       state, wait_event, query
+  <span class="k">FROM</span> pg_stat_activity
+ <span class="k">WHERE</span> state=<span class="s">'active'</span>
+   <span class="k">AND</span> now() - query_start &gt; <span class="s">'5s'</span>;</pre>
+    </div>
+    <div class="card" style="border-color:var(--amber)">
+      <h4 style="color:var(--amber)">② 谁在等</h4>
+      <pre style="font-size:11px"><span class="k">SELECT</span> pid, state,
+       now() - xact_start xact_age, query
+  <span class="k">FROM</span> pg_stat_activity
+ <span class="k">WHERE</span> state <span class="k">LIKE</span> <span class="s">'idle in transaction%'</span>
+   <span class="k">AND</span> now() - xact_start &gt; <span class="s">'30min'</span>;
+<span class="k">SELECT</span> * <span class="k">FROM</span> pg_prepared_xacts
+ <span class="k">WHERE</span> now() - prepared &gt; <span class="s">'1h'</span>;</pre>
+    </div>
+    <div class="card" style="border-color:var(--red)">
+      <h4 style="color:var(--red)">③ 谁锁了谁</h4>
+      <pre style="font-size:11px"><span class="k">SELECT</span> pid, pg_blocking_pids(pid) blocked_by,
+       wait_event_type, wait_event, query
+  <span class="k">FROM</span> pg_stat_activity
+ <span class="k">WHERE</span> wait_event_type = <span class="s">'Lock'</span>;</pre>
+    </div>
+  </div>
+</section>
+
+<!-- ============= CH 3.3 七步法 ============= -->
+<section>
+  <div class="eyebrow">3.3 · 慢 SQL 排查</div>
+  <h2>慢 SQL · <span class="keyword">七步法</span></h2>
+  <p class="lead">从现象到根因,严格按顺序。</p>
+
+  <div class="flow">
+    <span class="node hl">1. 抓样本</span><span class="arrow">→</span>
+    <span class="node">2. 看类型</span><span class="arrow">→</span>
+    <span class="node">3. rows 估算</span><span class="arrow">→</span>
+    <span class="node">4. 看 buffer</span><span class="arrow">→</span>
+    <span class="node">5. actual time</span><span class="arrow">→</span>
+    <span class="node">6. SETTINGS</span><span class="arrow">→</span>
+    <span class="node">7. filter</span>
+  </div>
+
+  <div class="grid grid-2">
+    <div class="card">
+      <div class="t">🪜 1-3 步 · 抓什么</div>
+      <div class="d">
+        <code>pg_stat_statements</code> 擒贼擒王<br>
+        节点类型:Seq Scan / NestLoop / Hash Join / Sort<br>
+        <code>rows=</code> 偏差 &gt; 数量级 → <code>ANALYZE</code>
+      </div>
+    </div>
+    <div class="card">
+      <div class="t">🪜 4-5 步 · 看哪</div>
+      <div class="d">
+        <code>shared hit</code> 高 = 内存友好<br>
+        <code>read</code> 高 = 物理 IO 大<br>
+        两个 actual time:首行 vs 全部
+      </div>
+    </div>
+    <div class="card">
+      <div class="t">🪜 6-7 步 · 为何</div>
+      <div class="d">
+        <code>SETTINGS</code> 打印实际参数(如 SSD 上的 <code>random_page_cost</code>)<br>
+        <code>Removed by Filter</code> 多 = 索引选错列
+      </div>
+    </div>
+    <div class="card" style="border-color:var(--red)">
+      <div class="t">🛑 停止条件</div>
+      <div class="d">七步都查完,plan 也对,buffer 也合理,但还是慢 → <span class="key-red">不是 DB 层的锅</span>,去查 APP 层(连接池、ORM、GC、上下游)。</div>
+    </div>
+  </div>
+</section>
+
+<!-- ============= CH 3.4 止血三件套 ============= -->
+<section>
+  <div class="eyebrow">3.4 · 止血</div>
+  <h2><span class="keyword">止血三件套</span></h2>
+  <p class="lead">没它不行,但也别滥用。</p>
+
+  <div class="grid grid-3">
+    <div class="card" style="border-color:var(--red)">
+      <h4 style="color:var(--red)">pg_terminate_backend</h4>
+      <pre style="font-size:11px"><span class="k">SELECT</span> pg_terminate_backend(pid)
+  <span class="k">FROM</span> pg_stat_activity
+ <span class="k">WHERE</span> now() - query_start &gt;= <span class="s">'10s'</span>
+   <span class="k">AND</span> pid &lt;&gt; pg_backend_pid();</pre>
+      <div class="d">杀会话,强制</div>
+    </div>
+    <div class="card" style="border-color:var(--amber)">
+      <h4 style="color:var(--amber)">pg_cancel_backend</h4>
+      <pre style="font-size:11px"><span class="k">SELECT</span> pg_cancel_backend(pid)
+  <span class="k">FROM</span> pg_stat_activity <span class="k">WHERE</span> ...;</pre>
+      <div class="d">只杀当前 query,<span class="key-green">更安全</span></div>
+    </div>
+    <div class="card" style="border-color:var(--green)">
+      <h4 style="color:var(--green)">SET LOCAL lock_timeout</h4>
+      <pre style="font-size:11px"><span class="k">BEGIN</span>;
+<span class="k">SET LOCAL</span> lock_timeout = <span class="s">'100ms'</span>;
+<span class="k">ALTER TABLE</span> big_table <span class="k">ADD COLUMN</span> ...;
+<span class="k">COMMIT</span>;</pre>
+      <div class="d">DDL 包事务,防雪崩</div>
+    </div>
+  </div>
+
+  <h3 style="margin-top:24px">预防参数 · 防大于治</h3>
+  <pre><span class="v">statement_timeout</span> = <span class="s">'30s'</span>
+<span class="v">lock_timeout</span> = <span class="s">'5s'</span>
+<span class="v">deadlock_timeout</span> = <span class="s">'1s'</span>
+<span class="v">idle_in_transaction_session_timeout</span> = <span class="s">'10min'</span>
+<span class="v">idle_session_timeout</span> = <span class="s">'1h'</span>       <span class="c"># PG 14+</span></pre>
+
+  <div class="alert alert-warn">
+    <b>辩证地看</b>:长事务确实是 PG 高频灾难源之一,但 replication slot 误删、磁盘满、连接打满等灾难跟长事务无关。<span class="key-red">不要把所有生产事故都往长事务上套</span>。
+  </div>
+</section>
+
+<!-- ============= CH 3.5 复制延迟 ============= -->
+<section>
+  <div class="eyebrow">3.5 · 复制</div>
+  <h2>STANDBY 延迟 · <span class="keyword">四段拆解</span></h2>
+  <p class="lead">延迟不是一件事,是四件事。</p>
+
+  <div class="fig-wrap">
+    <svg viewBox="0 0 900 200" width="900" height="200">
+      <g font-size="13" font-weight="600">
+        <rect x="20" y="70" width="180" height="60" rx="10" fill="#ffffff" stroke="#336791"/>
+        <text x="110" y="95" text-anchor="middle" fill="#1e4d7b">send_lag</text>
+        <text x="110" y="115" text-anchor="middle" fill="#1a1f2e" font-size="11">主 → 网络</text>
+
+        <text x="200" y="105" fill="#5a6378" font-size="20">→</text>
+
+        <rect x="220" y="70" width="180" height="60" rx="10" fill="#ffffff" stroke="#6d28d9"/>
+        <text x="310" y="95" text-anchor="middle" fill="#6d28d9">flush_lag</text>
+        <text x="310" y="115" text-anchor="middle" fill="#1a1f2e" font-size="11">备 WAL 刷盘</text>
+
+        <text x="400" y="105" fill="#5a6378" font-size="20">→</text>
+
+        <rect x="420" y="70" width="180" height="60" rx="10" fill="#ffffff" stroke="#c2691e"/>
+        <text x="510" y="95" text-anchor="middle" fill="#c2691e">replay_lag</text>
+        <text x="510" y="115" text-anchor="middle" fill="#1a1f2e" font-size="11">备 WAL 应用</text>
+
+        <text x="600" y="105" fill="#5a6378" font-size="20">→</text>
+
+        <rect x="620" y="70" width="260" height="60" rx="10" fill="#ffffff" stroke="#b91c1c"/>
+        <text x="750" y="95" text-anchor="middle" fill="#b91c1c">xmin horizon</text>
+        <text x="750" y="115" text-anchor="middle" fill="#1a1f2e" font-size="11">逻辑槽 / 长事务卡死</text>
+      </g>
+      <text x="450" y="170" text-anchor="middle" fill="#5a6378" font-size="12" font-style="italic">send = 网络 · flush = 备盘 IO · replay = 执行能力 · xmin = 全局被事务卡</text>
+    </svg>
+  </div>
+
+  <div class="alert alert-info">
+    <b>证伪</b>:把 <code>hot_standby_feedback</code> 暂时关掉,延迟立刻消失 → 锁定是 feedback 导致的卡死。
+  </div>
+</section>
+
+<!-- ============= CH 3.6 后台三件套 ============= -->
+<section>
+  <div class="eyebrow">3.6 · 突发 IO/CPU</div>
+  <h2>后台进程三件套:<span class="keyword">autovacuum + checkpoint + bgwriter</span></h2>
+  <p class="lead">TOP SQL 没什么变化,但 CPU/IO 高?答案几乎都在这三个里。</p>
+
+  <div class="grid grid-3">
+    <div class="card" style="border-color:var(--amber)">
+      <h4>🌀 autovacuum 风暴</h4>
+      <div class="d">
+        <code>autovacuum_freeze_max_age = 200000000</code> 是 PG 硬编码防线<br>
+        某库 <code>age(xid) &gt; 2亿</code> → 系统强制全表 freeze<br>
+        <span class="key-amber">"突然很卡"的最大单一原因</span>
+      </div>
+    </div>
+    <div class="card" style="border-color:var(--amber)">
+      <h4>🌀 checkpoint 风暴</h4>
+      <div class="d">
+        <code>pg_stat_bgwriter.checkpoints_req</code> ≫ <code>timed</code><br>
+        拉长 checkpoint 把 IO 摊平:<br>
+        <code>completion_target = 0.9</code><br>
+        <span class="key-red">别因为"SSD 快"调到 0.2</span>,反而更尖刺
+      </div>
+    </div>
+    <div class="card" style="border-color:var(--amber)">
+      <h4>🌀 bgwriter 不够</h4>
+      <div class="d">
+        <code>buffers_backend</code> &gt; <code>buffers_clean</code><br>
+        backend 写盘太多,bgwriter 不够<br>
+        调大 <code>bgwriter_lru_maxpages</code> 或 <code>shared_buffers</code>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ============= CH 3.9 磁盘满 ============= -->
+<section>
+  <div class="eyebrow">3.9 · 磁盘</div>
+  <h2>磁盘满 / WAL 堆积 / <span class="keyword">slot 卡死</span></h2>
+
+  <div class="grid grid-2">
+    <div class="card">
+      <h4>💥 紧急清理顺序</h4>
+      <ol style="padding-left:24px;color:var(--text-dim);line-height:1.8;font-size:13px">
+        <li>归档老 WAL:<code>SELECT pg_switch_wal();</code></li>
+        <li>临时调小 <code>wal_keep_size='1GB'</code></li>
+        <li>实在不行,删除<span class="key-red">已归档</span>的 WAL(绝对不要删未归档的!)</li>
+      </ol>
+    </div>
+    <div class="card" style="border-color:var(--red)">
+      <h4 style="color:var(--red)">💀 slot 卡死 = 磁盘撑爆</h4>
+      <div class="d">
+        <code>pg_replication_slots.xmin</code> 不前进 → 主库不能回收 WAL<br>
+        <b>根因</b>:消费端崩了没人修<br><br>
+        <code>SELECT pg_drop_replication_slot('slot_name');</code>
+      </div>
+    </div>
+  </div>
+
+  <div class="alert alert-crit">
+    监控加 <code>pg_stat_user_tables.n_dead_tup / n_live_tup &gt; 0.2</code> 报警 + <code>pg_replication_slots.xmin</code> 不前进告警 + 磁盘 &gt; 80% 告警,<span class="key-red">三道防线缺一不可</span>。
+  </div>
+</section>
+
+<!-- ============= CH 3.10-3.11 crash + RCA ============= -->
+<section>
+  <div class="eyebrow">3.10-3.11 · crash + 复盘</div>
+  <h2>Postmaster crash & <span class="keyword">RCA 模板</span></h2>
+
+  <div class="grid grid-2">
+    <div class="card">
+      <h4>💀 看 crash 原因</h4>
+      <pre style="font-size:11px"><span class="c"># 1. PG 日志</span>
+tail -100 /pglog/postgresql-*.log
+grep -i <span class="s">"FATAL\|PANIC\|crash"</span> /pglog/postgresql-*.log
+
+<span class="c"># 2. core dump</span>
+ls /pgdata/core*</pre>
+      <h4 style="margin-top:16px">🚑 启动恢复</h4>
+      <pre style="font-size:11px"><span class="c"># 强制启动(有未完成事务)</span>
+pg_ctl -D /pgdata start -o <span class="s">"-c ignore_system_indexes=on"</span>
+
+<span class="c"># 单用户模式</span>
+postgres --single -D /pgdata mydb</pre>
+    </div>
+    <div class="card">
+      <h4>📋 故障复盘模板</h4>
+      <div class="d" style="font-size:12px;line-height:1.7">
+        <b style="color:var(--pg-bright)">事故信息</b><br>
+        时间 / 业务影响 / 等级<br><br>
+        <b style="color:var(--pg-bright)">时间线</b><br>
+        14:23 告警 → 14:25 接警 → 14:35 止血 → 14:50 恢复<br><br>
+        <b style="color:var(--pg-bright)">根因</b><br>
+        不是"数据库慢了",而是 <span class="key-red">OMS 14:20 启动 2GB 大事务,阻断 autovacuum</span><br><br>
+        <b style="color:var(--pg-bright)">短期修复 / 长期预防</b><br>
+        kill + 手动 VACUUM / <code>idle_in_transaction_session_timeout</code> + 应用层大小校验
+      </div>
+    </div>
+  </div>
+
+  <div class="alert alert-info">
+    <b>预防</b>:部署 watchdog(<code>pg_auto_failover</code> / <code>Patroni</code>) + <code>restart_after_crash = on</code>(默认) + 监控 <code>pg_stat_database.xact_commit</code> 是否突然归零(重启信号)。
+  </div>
+</section>
+
+<!-- ============= CH 3 速记 ============= -->
+<section>
+  <div class="eyebrow">3 · 总结</div>
+  <h2>故障诊断速记卡</h2>
+
+  <div class="cheat">
+    <div class="title">📋 分层漏斗</div>
+    <ul><li><b>OS → 网络 → PG 实例 → 数据库 → 对象 → SQL</b></li></ul>
+  </div>
+
+  <div class="cheat" style="margin-top:16px;border-color:var(--cyan)">
+    <div class="title" style="color:var(--cyan)">📋 3 个救命查询</div>
+    <ul>
+      <li>谁在跑:<code>state='active' AND query_start &gt; 5s</code></li>
+      <li>谁在等:<code>xact_start &gt; 30min</code> / <code>pg_prepared_xacts &gt; 1h</code></li>
+      <li>谁锁了谁:<code>pg_blocking_pids(pid)</code>(PG 9.6+)</li>
+    </ul>
+  </div>
+
+  <div class="cheat" style="margin-top:16px;border-color:var(--red)">
+    <div class="title" style="color:var(--red)">📋 止血三件套</div>
+    <ul>
+      <li><code>pg_terminate_backend(pid)</code> · 杀会话</li>
+      <li><code>pg_cancel_backend(pid)</code> · 只杀当前 query</li>
+      <li><code>SET LOCAL lock_timeout</code> · DDL 加超时</li>
+    </ul>
+  </div>
+
+  <div class="cheat" style="margin-top:16px;border-color:var(--amber)">
+    <div class="title" style="color:var(--amber)">📋 雪崩三件套(因果链)</div>
+    <ul>
+      <li>长事务 → 阻 vacuum → 膨胀 → 慢</li>
+      <li>长 2PC → 阻 vacuum → 同上</li>
+      <li>慢 slot → 主库 WAL 堆 → 磁盘爆</li>
+    </ul>
+  </div>
+</section>
+
+<!-- ============= CH 4 扉页 ============= -->
+<section class="chap-cover" id="ch4">
+  <div class="num-huge">04</div>
+  <div class="eyebrow">CHAPTER 4 · 50 MIN</div>
+  <h2>🔬 问题分析</h2>
+  <p class="lead" style="font-size:22px">机制篇 · <span class="keyword">17 个"为什么"</span> 反推内核<br>第三章讲定位 + 止血,这一章讲<span class="key-purple">为什么会出现</span>。</p>
+</section>
+
+<!-- ============= CH 4 主入口 ============= -->
+<section>
+  <div class="eyebrow">4 · 全景</div>
+  <h2>17 个 <span class="keyword">为什么</span> · 一张全景图</h2>
+  <p class="lead">每个"为什么"就是一个<span class="key-amber">机制因果链</span>,记一个记住一类。</p>
+
+  <div class="word-cloud">
+    <span class="xl">MVCC</span>
+    <span class="l">OFFSET</span>
+    <span class="m">xid 回卷</span>
+    <span class="m">流复制</span>
+    <span class="m">锁雪崩</span>
+    <span class="l">GIN pending</span>
+    <span class="m">BRIN</span>
+    <span class="xl">checkpoint</span>
+    <span class="m">shared_buffers</span>
+    <span class="m">ANALYZE</span>
+    <span class="m">visibility map</span>
+    <span class="m">freeze</span>
+    <span class="l">count()</span>
+    <span class="m">Keyset</span>
+    <span class="m">round-trip</span>
+    <span class="m">plan cache</span>
+    <span class="m">vacuum 串行</span>
+  </div>
+
+  <div class="alert alert-info">
+    <b>背诵方式</b>:不要按顺序背。按 <b>现象 → 机制 → 证伪 SQL</b> 三段式记一个,17 个反而变成 5 类:
+    <div class="flow" style="margin-top:12px">
+      <span class="node">MVCC 类</span><span class="arrow">→</span><span class="node hl">4 个</span>
+      <span class="node">Planner 类</span><span class="arrow">→</span><span class="node hl">3 个</span>
+      <span class="node">IO 类</span><span class="arrow">→</span><span class="node hl">4 个</span>
+      <span class="node">索引类</span><span class="arrow">→</span><span class="node hl">2 个</span>
+      <span class="node">其他</span><span class="arrow">→</span><span class="node hl">4 个</span>
+    </div>
+  </div>
+</section>
+
+<!-- ============= CH 4.1 OFFSET ============= -->
+<section>
+  <div class="eyebrow">4.1 · SQL 反直觉</div>
+  <h2>为什么 <span class="keyword">OFFSET</span> 大就慢</h2>
+  <p class="lead"><span class="key-red">OFFSET 不是"跳过",是"先排序再扔"</span>。</p>
+
+  <div class="compare">
+    <div class="bad">SELECT * FROM t<br>ORDER BY id LIMIT 20<br>OFFSET 1000000;<br><br><span class="key-red">先排 1000020 行,扔掉前 1000000</span></div>
+    <div class="arrow">→</div>
+    <div class="good">SELECT * FROM t<br>WHERE id &gt; $last<br>ORDER BY id LIMIT 20;<br><br><span class="key-green">索引直接定位 20 行</span></div>
+  </div>
+
+  <div class="alert alert-warn">
+    <b>前置条件</b>:固定排序键 + 应用层记上一页最大 ID。<br>
+    <b>边界</b>:跨页查询("跳到第 1000 页")仍要用 OFFSET —— Keyset 不支持随机跳页。
+  </div>
+</section>
+
+<!-- ============= CH 4.2 MVCC 膨胀 ============= -->
+<section>
+  <div class="eyebrow">4.2 · MVCC</div>
+  <h2>为什么表 / 索引会<span class="keyword">膨胀</span></h2>
+  <p class="lead">结论:<span class="key-red">膨胀是 vacuum 跟不上的结果</span>,不是 UPDATE/DELETE 本身。</p>
+
+  <h3 style="margin-top:24px">vacuum 跟不上的 7 条原因</h3>
+  <div class="grid grid-2">
+    <div class="card"><div class="t">1. autovacuum = off</div></div>
+    <div class="card"><div class="t">2. scale_factor = 0.2</div><div class="d">默认太大,大表等到 20% 才触发</div></div>
+    <div class="card"><div class="t">3. naptime = 60s</div><div class="d">默认太慢</div></div>
+    <div class="card"><div class="t">4. cost_delay = 20ms</div><div class="d">默认太斯文</div></div>
+    <div class="card"><div class="t">5. max_workers = 3</div><div class="d">默认太少</div></div>
+    <div class="card"><div class="t">6. maintenance_work_mem 小</div></div>
+    <div class="card"><div class="t">7. 长事务 / 2PC / 慢 slot</div><div class="d">挡 vacuum</div></div>
+  </div>
+</section>
+
+<!-- ============= CH 4.4 雪崩 ============= -->
+<section>
+  <div class="eyebrow">4.4 · 雪崩</div>
+  <h2>为什么会<span class="keyword">雪崩</span></h2>
+  <p class="lead"><span class="key-red">没有超时 = 没有雪崩保护</span> —— 德哥反复强调。</p>
+
+  <div class="fig-wrap">
+    <svg viewBox="0 0 900 280" width="900" height="280">
+      <g font-size="13" font-weight="600">
+        <!-- 大事务 -->
+        <rect x="30" y="30" width="160" height="50" rx="10" fill="#ffffff" stroke="#b91c1c" stroke-width="2"/>
+        <text x="110" y="55" text-anchor="middle" fill="#1a1f2e">大事务</text>
+        <text x="110" y="72" text-anchor="middle" fill="#b91c1c" font-size="11">DDL / 长事务</text>
+
+        <text x="195" y="60" fill="#5a6378" font-size="20">→</text>
+
+        <rect x="220" y="30" width="160" height="50" rx="10" fill="#ffffff" stroke="#c2691e" stroke-width="2"/>
+        <text x="300" y="55" text-anchor="middle" fill="#1a1f2e">持锁</text>
+        <text x="300" y="72" text-anchor="middle" fill="#c2691e" font-size="11">ACCESS EXCLUSIVE</text>
+
+        <text x="385" y="60" fill="#5a6378" font-size="20">→</text>
+
+        <rect x="410" y="30" width="160" height="50" rx="10" fill="#ffffff" stroke="#6d28d9" stroke-width="2"/>
+        <text x="490" y="55" text-anchor="middle" fill="#1a1f2e">阻塞别人</text>
+        <text x="490" y="72" text-anchor="middle" fill="#6d28d9" font-size="11">100 个 worker 等</text>
+
+        <text x="575" y="60" fill="#5a6378" font-size="20">→</text>
+
+        <rect x="600" y="20" width="270" height="70" rx="14" fill="#eef1f7" stroke="#b91c1c" stroke-width="3"/>
+        <text x="735" y="50" text-anchor="middle" fill="#b91c1c" font-size="20" font-weight="900">雪崩</text>
+        <text x="735" y="72" text-anchor="middle" fill="#1a1f2e" font-size="11">所有 DDL/DML 排队</text>
+
+        <!-- 底部注解 -->
+        <line x1="60" y1="100" x2="840" y2="100" stroke="#dfe4ec" stroke-dasharray="2,4"/>
+        <text x="60" y="130" fill="#6d28d9" font-weight="700">场景 1:lock</text>
+        <text x="60" y="148" fill="#5a6378" font-size="12">大事务持锁 → 小事务都等 → 一个慢查询卡 100 worker</text>
+
+        <text x="60" y="180" fill="#6d28d9" font-weight="700">场景 2:大锁被小锁堵</text>
+        <text x="60" y="198" fill="#5a6378" font-size="12">DDL(ACCESS EXCLUSIVE)被 SELECT 阻 → 所有后续 DDL/DML 都排队</text>
+
+        <text x="60" y="230" fill="#6d28d9" font-weight="700">场景 3:高并发小锁等大锁</text>
+        <text x="60" y="248" fill="#5a6378" font-size="12">秒杀场景,几百事务抢同一行的 <code>SELECT FOR UPDATE</code></text>
+      </g>
+    </svg>
+  </div>
+</section>
+
+<!-- ============= CH 4.5 XID ============= -->
+<section>
+  <div class="eyebrow">4.5 · XID</div>
+  <h2>为什么需要 <span class="keyword">FREEZE</span></h2>
+  <p class="lead">32-bit xid 最多 <b>43 亿</b>,PG 设计为循环使用 —— 回卷后"过去"变"未来",数据<span class="key-red">消失</span>。</p>
+
+  <div class="fig-wrap">
+    <svg viewBox="0 0 900 180" width="900" height="180">
+      <defs>
+        <linearGradient id="xid-grad">
+          <stop offset="0" stop-color="#15803d"/>
+          <stop offset="0.4" stop-color="#c2691e"/>
+          <stop offset="0.6" stop-color="#c2691e"/>
+          <stop offset="1" stop-color="#b91c1c"/>
+        </linearGradient>
+      </defs>
+      <rect x="50" y="60" width="800" height="20" rx="10" fill="url(#xid-grad)"/>
+      <text x="50" y="50" text-anchor="middle" fill="#15803d" font-size="11" font-weight="700">0</text>
+      <text x="450" y="50" text-anchor="middle" fill="#c2691e" font-size="11" font-weight="700">2 亿</text>
+      <text x="750" y="50" text-anchor="middle" fill="#b91c1c" font-size="11" font-weight="700">15 亿</text>
+      <text x="850" y="50" text-anchor="middle" fill="#b91c1c" font-size="11" font-weight="700">43 亿</text>
+
+      <line x1="370" y1="60" x2="370" y2="100" stroke="#c2691e" stroke-width="2"/>
+      <text x="370" y="120" text-anchor="middle" fill="#c2691e" font-size="11" font-weight="700">anti-wraparound</text>
+      <text x="370" y="135" text-anchor="middle" fill="#c2691e" font-size="11" font-weight="700">vacuum 触发</text>
+
+      <line x1="710" y1="60" x2="710" y2="100" stroke="#b91c1c" stroke-width="2"/>
+      <text x="710" y="120" text-anchor="middle" fill="#b91c1c" font-size="11" font-weight="700">紧急</text>
+      <text x="710" y="135" text-anchor="middle" fill="#b91c1c" font-size="11" font-weight="700">保护模式</text>
+
+      <text x="450" y="160" text-anchor="middle" fill="#5a6378" font-size="11">回卷后 → 数据库拒绝写入,只允许 VACUUM</text>
+    </svg>
+  </div>
+
+  <pre><span class="c">-- 看事务年龄(任一库 &gt; 2 亿报警,&gt; 15 亿紧急)</span>
+<span class="k">SELECT</span> datname, age(datfrozenxid) <span class="k">FROM</span> pg_database <span class="k">ORDER BY</span> <span class="n">2</span> <span class="k">DESC</span>;</pre>
+
+  <div class="alert alert-crit">
+    <b>绝对不要</b>在生产用 <code>pg_resetwal</code> 等"清零"工具 —— <span class="key-red">会破坏一致性</span>。
+  </div>
+</section>
+
+<!-- ============= CH 4.6 GIN ============= -->
+<section>
+  <div class="eyebrow">4.6 · 索引</div>
+  <h2>为什么 GIN <span class="keyword">有时不快</span></h2>
+  <p class="lead">GIN 更新走"快路径"(pending list),vacuum 时才合并。<span class="key-red">pending list 越大越慢</span>。</p>
+
+  <div class="grid grid-2">
+    <div class="card">
+      <h4>🔍 诊断</h4>
+      <pre style="font-size:11px"><span class="k">CREATE EXTENSION</span> pageinspect;
+<span class="k">SELECT</span> * <span class="k">FROM</span> gin_metapage_info(
+  get_raw_page(<span class="s">'idx_xxx'</span>, <span class="n">0</span>));
+<span class="c">-- 看 n_pending_pages,越大越慢</span></pre>
+    </div>
+    <div class="card">
+      <h4>🛠️ 修复</h4>
+      <pre style="font-size:11px"><span class="k">VACUUM</span> tbl;
+<span class="c">-- 触发 pending list 合并</span></pre>
+      <div class="d"><b>第一性原理</b>:GIN 是为"读多写少"设计的,高频写时必须配套高频 vacuum。</div>
+    </div>
+  </div>
+</section>
+
+<!-- ============= CH 4.8 planner ============= -->
+<section>
+  <div class="eyebrow">4.8 · Planner</div>
+  <h2>为什么<span class="keyword">执行计划</span>不正确</h2>
+  <p class="lead">根因清单 —— 5 类估算失准。</p>
+
+  <div class="grid grid-2">
+    <div class="card"><div class="t">📊 统计信息维度不够</div><div class="d">多列相关性没体现 → <code>CREATE STATISTICS ON a,b FROM t</code></div></div>
+    <div class="card"><div class="t">📉 统计信息陈旧</div><div class="d"><code>reltuples</code> 与实际差数量级</div></div>
+    <div class="card"><div class="t">⚙️ 优化器因子不对</div><div class="d"><code>random_page_cost</code> 没按存储介质调</div></div>
+    <div class="card"><div class="t">🗄️ plan cache</div><div class="d">前 5 次选 plan 锁死(plan sniping)</div></div>
+    <div class="card"><div class="t">🧮 多表 JOIN</div><div class="d">&gt; 8~12 张改用遗传算法,不最优<br>用 <code>join_collapse_limit</code> 强制穷举</div></div>
+  </div>
+</section>
+
+<!-- ============= CH 4.9 push/pull ============= -->
+<section>
+  <div class="eyebrow">4.9 · 数据搬运</div>
+  <h2>为什么 push/pull <span class="keyword">大量数据</span>慢</h2>
+  <p class="lead"><span class="keyword">网络 round-trip + 单条事务的 fsync</span> = 两大成本。</p>
+
+  <div class="grid grid-3">
+    <div class="card">
+      <div class="t" style="color:var(--cyan)">prepared + bind</div>
+      <div class="d"><code>PREPARE p1 AS SELECT ... WHERE id=$1</code><br>省去重复解析</div>
+    </div>
+    <div class="card">
+      <div class="t" style="color:var(--cyan)">COPY 替代 INSERT</div>
+      <div class="d"><b>10×~100×</b> 提速</div>
+    </div>
+    <div class="card">
+      <div class="t" style="color:var(--cyan)">批量 + 异步提交</div>
+      <div class="d"><code>synchronous_commit=off</code><br>最坏丢 <code>3 × wal_writer_delay</code></div>
+    </div>
+  </div>
+</section>
+
+<!-- ============= CH 4.10-4.17 关键 ============= -->
+<section>
+  <div class="eyebrow">4.10-4.17 · 关键杂项</div>
+  <h2>还有 8 个<span class="keyword">为什么</span></h2>
+  <p class="lead">每个一句话记住关键点。</p>
+
+  <div class="grid grid-2">
+    <div class="card">
+      <div class="t">4.10 LIMIT 不一定止住大扫描</div>
+      <div class="d">无索引或重复值多 → Seq Scan + Sort<br>LIMIT 只限返回行,不限扫描行</div>
+    </div>
+    <div class="card">
+      <div class="t">4.11 count() 一定扫表</div>
+      <div class="d">PG <code>count(*)</code> 没记录总数缓存<br>MVCC 必须判断可见版本<br>替代:<code>pg_class.reltuples</code> · 物化视图 · HLL</div>
+    </div>
+    <div class="card">
+      <div class="t">4.12 XID 不是无限增长</div>
+      <div class="d">32-bit 无符号,最多 43 亿<br>PG 17+ 可选 64-bit 但兼容性未广泛采用</div>
+    </div>
+    <div class="card">
+      <div class="t">4.13 index-only scan 还是会回表</div>
+      <div class="d">visibility map 前提:页面全可见才不回表<br>VACUUM 维护 VM</div>
+    </div>
+    <div class="card">
+      <div class="t">4.14 checkpoint 突然变慢</div>
+      <div class="d">脏页太多 / <code>full_page_writes=on</code> / <code>completion_target=0.2</code> / 磁盘 IO 拥塞</div>
+    </div>
+    <div class="card">
+      <div class="t">4.15 vacuum 不能并行回收同一张表</div>
+      <div class="d">单进程扫表 + maintain single relation lock<br>替代:分区(<code>pg_partman</code>)· PG 14+ <code>vacuumdb --parallel</code>(仅 index cleanup)</div>
+    </div>
+    <div class="card">
+      <div class="t">4.16 shared_buffers 太大反而慢</div>
+      <div class="d">PG 16+ 前:buffer_mapping LWLock 争用<br>PG 16+ 8 分区优化缓解,可设到 40%</div>
+    </div>
+    <div class="card">
+      <div class="t">4.17 ANALYZE 后 plan 反而变差</div>
+      <div class="d">扩展统计重建 · 表极小(&lt;100 行)<br><code>default_statistics_target</code> &gt; 1000</div>
+    </div>
+  </div>
+</section>
+
+<!-- ============= CH 4 速记 ============= -->
+<section>
+  <div class="eyebrow">4 · 总结</div>
+  <h2>问题分析速记卡</h2>
+
+  <div class="cheat">
+    <div class="title">📋 MVCC 反推链</div>
+    <ul>
+      <li>UPDATE → 新版本 + 旧 dead tuple</li>
+      <li>DELETE → 新 dead tuple</li>
+      <li>vacuum → 回收</li>
+      <li>vacuum 跟不上 → 膨胀</li>
+    </ul>
+  </div>
+
+  <div class="cheat" style="margin-top:16px;border-color:var(--amber)">
+    <div class="title" style="color:var(--amber)">📋 三个"真相"</div>
+    <ul>
+      <li><b>OFFSET</b> = 排序 + 丢弃,不是跳过</li>
+      <li><b>xid</b> = 32-bit 循环,2 亿触发 anti-wraparound vacuum</li>
+      <li><b>雪崩</b> = 没有超时 = 没有雪崩保护</li>
+    </ul>
+  </div>
+
+  <div class="cheat" style="margin-top:16px;border-color:var(--cyan)">
+    <div class="title" style="color:var(--cyan)">📋 plan 失准检查清单</div>
+    <ul>
+      <li>① ANALYZE 了没?</li>
+      <li>② <code>random_page_cost</code> 对吗?</li>
+      <li>③ <code>plan_cache_mode</code> 配了吗?</li>
+      <li>④ 多表 JOIN &gt; 8 张?用 <code>join_collapse_limit</code></li>
+    </ul>
+  </div>
+</section>
+
+<!-- ============= CH 5 扉页 ============= -->
+<section class="chap-cover" id="ch5">
+  <div class="num-huge">05</div>
+  <div class="eyebrow">CHAPTER 5 · 30 MIN</div>
+  <h2>🤖 FAQ AI 增强</h2>
+  <p class="lead" style="font-size:22px">把前四章的<span class="keyword">实战经验沉淀成 SOP</span><br>用 Claude Code + DeepWiki + 本地 PG。</p>
+</section>
+
+<!-- ============= CH 5.1 准备工作 ============= -->
+<section>
+  <div class="eyebrow">5.1 · 从 0 到 1</div>
+  <h2>准备工作 · 4 步</h2>
+  <p class="lead">搭一个能跑"概念验证 → SQL 验证"的环境。</p>
+
+  <div class="grid grid-2">
+    <div class="card">
+      <h4>① clone PG 源码</h4>
+      <pre style="font-size:11px">mkdir -p ~/pgstudy &amp;&amp; cd ~/pgstudy
+git clone https://github.com/postgres/postgres.git
+cd postgres
+git checkout REL_17_STABLE
+bear -- make -j$(nproc)   <span class="c"># compile_commands.json</span></pre>
+    </div>
+    <div class="card">
+      <h4>② 初始化 Claude Code</h4>
+      <pre style="font-size:11px">cd ~/pgstudy/postgres
+claude        <span class="c"># 首次自动初始化</span>
+<span class="c"># 或在已有项目 /init 生成 CLAUDE.md</span></pre>
+    </div>
+    <div class="card">
+      <h4>③ 配置 DeepWiki MCP</h4>
+      <pre style="font-size:11px"><span class="c"># ~/.claude/settings.json</span>
+{
+  <span class="s">"mcpServers"</span>: {
+    <span class="s">"deepwiki"</span>: {
+      <span class="s">"command"</span>: <span class="s">"npx"</span>,
+      <span class="s">"args"</span>: [<span class="s">"-y"</span>,<span class="s">"mcp-deepwiki"</span>]
+    }
+  }
+}</pre>
+      <div class="d">重启 Claude Code → <code>/mcp</code> 看到 ✓</div>
+    </div>
+    <div class="card">
+      <h4>④ 启动本地 PG</h4>
+      <pre style="font-size:11px">docker run -d --name pgstudy \
+  -e POSTGRES_PASSWORD=postgres \
+  -p 5432:5432 postgres:17
+
+psql -h 127.0.0.1 -p 5432 -U postgres</pre>
+    </div>
+  </div>
+</section>
+
+<!-- ============= CH 5.2 pgfaq SKILL ============= -->
+<section>
+  <div class="eyebrow">5.2 · 通用 SKILL</div>
+  <h2>pgfaq · <span class="keyword">4 步工作流</span></h2>
+  <p class="lead">把 DeepWiki + 源码 + 本地 PG 串成 SOP。</p>
+
+  <div class="fig-wrap">
+    <svg viewBox="0 0 900 200" width="900" height="200">
+      <defs>
+        <marker id="arr5" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="6" markerHeight="6" orient="auto">
+          <path d="M0,0 L10,5 L0,10 z" fill="#6d28d9"/>
+        </marker>
+      </defs>
+      <g font-size="13" font-weight="700">
+        <circle cx="120" cy="100" r="50" fill="#eef1f7" stroke="#6d28d9" stroke-width="2"/>
+        <text x="120" y="95" text-anchor="middle" fill="#6d28d9">Step 1</text>
+        <text x="120" y="115" text-anchor="middle" fill="#1a1f2e" font-size="11">DeepWiki</text>
+
+        <circle cx="340" cy="100" r="50" fill="#eef1f7" stroke="#336791" stroke-width="2"/>
+        <text x="340" y="95" text-anchor="middle" fill="#1e4d7b">Step 2</text>
+        <text x="340" y="115" text-anchor="middle" fill="#1a1f2e" font-size="11">源码 grep</text>
+
+        <circle cx="560" cy="100" r="50" fill="#eef1f7" stroke="#15803d" stroke-width="2"/>
+        <text x="560" y="95" text-anchor="middle" fill="#15803d">Step 3</text>
+        <text x="560" y="115" text-anchor="middle" fill="#1a1f2e" font-size="11">本地 PG</text>
+
+        <circle cx="780" cy="100" r="50" fill="#eef1f7" stroke="#c2691e" stroke-width="2"/>
+        <text x="780" y="95" text-anchor="middle" fill="#c2691e">Step 4</text>
+        <text x="780" y="115" text-anchor="middle" fill="#1a1f2e" font-size="11">沉淀 markdown</text>
+      </g>
+      <line x1="170" y1="100" x2="290" y2="100" stroke="#6d28d9" stroke-width="2" marker-end="url(#arr5)"/>
+      <line x1="390" y1="100" x2="510" y2="100" stroke="#6d28d9" stroke-width="2" marker-end="url(#arr5)"/>
+      <line x1="610" y1="100" x2="730" y2="100" stroke="#6d28d9" stroke-width="2" marker-end="url(#arr5)"/>
+
+      <text x="120" y="180" text-anchor="middle" fill="#5a6378" font-size="11">宏观提问</text>
+      <text x="340" y="180" text-anchor="middle" fill="#5a6378" font-size="11">微观验证</text>
+      <text x="560" y="180" text-anchor="middle" fill="#5a6378" font-size="11">行为验证</text>
+      <text x="780" y="180" text-anchor="middle" fill="#5a6378" font-size="11">可复用 SOP</text>
+    </svg>
+  </div>
+
+  <div class="grid grid-2">
+    <div class="card">
+      <h4>Step 1 · DeepWiki 宏观</h4>
+      <div class="d">对每个 PG 概念(MVCC / vacuum / xid / WAL),先问 DeepWiki:<br>「请解释 PostgreSQL 中 [概念] 的核心机制」<br>拿到高层架构 + 主要文件路径</div>
+    </div>
+    <div class="card">
+      <h4>Step 2 · 源码定位</h4>
+      <div class="d"><code>grep -rn "function_name" src/backend/</code><br>读头注释 + 关键路径</div>
+    </div>
+    <div class="card">
+      <h4>Step 3 · 本地 PG 跑 SQL</h4>
+      <div class="d">在 Docker PG 里跑 SQL,看实际行为<br>观察 <code>pg_stat_progress_vacuum</code> 等视图</div>
+    </div>
+    <div class="card">
+      <h4>Step 4 · 沉淀 markdown</h4>
+      <div class="d">机制 + 验证 SQL + 边界 + 证伪 → markdown<br>链接到 PG 官方文档 + 源码位置</div>
+    </div>
+  </div>
+</section>
+
+<!-- ============= CH 5.3 德哥风格 ============= -->
+<section>
+  <div class="eyebrow">5.3 · 蒸馏风格</div>
+  <h2>把<span class="keyword">德哥味</span>固化成 SOP</h2>
+  <p class="lead">对照德哥博客原文,蒸馏 8 条核心风格特征。</p>
+
+  <table>
+    <thead><tr><th style="color:var(--green)">德哥味</th><th style="color:var(--red)">AI 八股味</th></tr></thead>
+    <tbody>
+      <tr><td>必给<span class="key-green">前置条件 / 边界 / 证伪</span></td><td>给结论不给边界</td></tr>
+      <tr><td>引用必标出处</td><td>不标出处或含糊"相关研究表明"</td></tr>
+      <tr><td>SQL / 参数可直接 copy</td><td>写"建议优化"等抽象表达</td></tr>
+      <tr><td>实战派语气,像在救火</td><td>教科书语气</td></tr>
+      <tr><td>大量<span class="key-green">具体数字</span>("56 核 ECS 145 万行/s")</td><td>模糊"较高" / "较低"</td></tr>
+      <tr><td>区分 OLTP / OLAP / 混合</td><td>笼统说"性能优化"</td></tr>
+      <tr><td>强调"擒贼先擒王"</td><td>罗列 N 种方法不区分优先级</td></tr>
+      <tr><td>配速记卡 / 30 秒总结</td><td>长篇大论无总结</td></tr>
+    </tbody>
+  </table>
+
+  <h3 style="margin-top:24px">蒸馏流程 · 女娲式 6 阶段</h3>
+  <div class="flow">
+    <span class="node">① 搜集</span><span class="arrow">→</span>
+    <span class="node">② 归纳</span><span class="arrow">→</span>
+    <span class="node">③ 反例对照</span><span class="arrow">→</span>
+    <span class="node">④ 结构化</span><span class="arrow">→</span>
+    <span class="node hl">⑤ SKILL.md</span><span class="arrow">→</span>
+    <span class="node">⑥ 回归测试</span>
+  </div>
+
+  <div class="alert alert-warn">
+    <b>SKILL 保质期</b>:基于截止 2026-07 的德哥公开博客。PG 新特性 / 新场景如果德哥没覆盖,SKILL 会"卡在风格而非事实" —— <span class="key-red">优先看官方文档而不是依赖 SKILL</span>。
+  </div>
+</section>
+
+<!-- ============= CH 5.4 实战 ============= -->
+<section>
+  <div class="eyebrow">5.4 · 现场带一个 case</div>
+  <h2>FAQ 实战 · <span class="keyword">MVCC 可见性</span></h2>
+
+  <div class="grid grid-2">
+    <div class="card">
+      <h4>Step 1 · DeepWiki 提问</h4>
+      <div class="d">
+        「请解释 PostgreSQL 中 MVCC 可见性判断的核心机制,特别说明 <code>HeapTupleSatisfiesVisibility</code> 在哪个文件,调用链是什么」<br><br>
+        <b>返回</b>:
+        <ul style="padding-left:18px;color:var(--text-dim);font-size:12px;margin-top:6px">
+          <li>文件:<code>src/backend/access/heap/heapam_visibility.c</code>(PG 17)</li>
+          <li>入口:<code>HeapTupleSatisfiesMVCC</code></li>
+          <li>关键:<code>xmin &lt; Snapshot.xmin AND xmax &gt; Snapshot.xmin</code></li>
+        </ul>
+      </div>
+    </div>
+    <div class="card">
+      <h4>Step 2 · 源码 grep</h4>
+      <pre style="font-size:11px">cd ~/pgstudy/postgres
+grep -rn <span class="s">"HeapTupleSatisfiesMVCC"</span> \
+  src/backend/access/heap/</pre>
+    </div>
+    <div class="card">
+      <h4>Step 3 · 本地 PG 验证</h4>
+      <pre style="font-size:11px"><span class="c">-- Session A</span>
+<span class="k">BEGIN</span>;
+<span class="k">UPDATE</span> mvcctest <span class="k">SET</span> val = <span class="s">'b'</span> <span class="k">WHERE</span> id = <span class="n">1</span>;
+<span class="c">-- 不 COMMIT</span>
+
+<span class="c">-- Session B → 看到 'a'</span>
+<span class="k">SELECT</span> * <span class="k">FROM</span> mvcctest;</pre>
+    </div>
+    <div class="card">
+      <h4>Step 4 · 沉淀 markdown</h4>
+      <div class="d">写到 <code>~/pgstudy/notes/mvcc-visibility.md</code><br>包括:<br>
+        · DeepWiki 概要<br>
+        · 源码关键路径<br>
+        · 验证 SQL 输出截图<br>
+        · 边界:隔离级别差异<br>
+        · PG 官方文档链接
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ============= CH 5 速记 ============= -->
+<section>
+  <div class="eyebrow">5 · 总结</div>
+  <h2>FAQ AI 速记卡</h2>
+
+  <div class="cheat">
+    <div class="title">📋 准备工作 4 步</div>
+    <ul>
+      <li>① clone PG 源码到 <code>~/pgstudy/postgres</code></li>
+      <li>② <code>claude /init</code> 生成 CLAUDE.md</li>
+      <li>③ 加 deepwiki MCP</li>
+      <li>④ <code>docker run postgres:17</code> 跑本地实例</li>
+    </ul>
+  </div>
+
+  <div class="cheat" style="margin-top:16px;border-color:var(--cyan)">
+    <div class="title" style="color:var(--cyan)">📋 pgfaq SKILL 4 步</div>
+    <ul><li><b>DeepWiki → 源码 grep → 本地 PG → markdown 沉淀</b></li></ul>
+  </div>
+
+  <div class="cheat" style="margin-top:16px;border-color:var(--purple)">
+    <div class="title" style="color:var(--purple)">📋 蒸馏 6 阶段</div>
+    <ul><li><b>搜集 → 归纳 → 反例 → 结构化 → SKILL.md → 回归测试</b></li></ul>
+  </div>
+</section>
+
+<!-- ============= END ============= -->
+<section class="cover" id="end">
+  <div class="stamp"><span class="dot"></span>4 小时 · 完</div>
+  <h1 class="hero-title">带走的是<br><span class="keyword">思路</span>,<br>不是模板</h1>
+  <p class="sub">技术更迭很快,SQL 会过期。<br><span class="key-purple">诊断回路</span> · <span class="key-cyan">分层漏斗</span> · <span class="key-amber">擒贼擒王</span> · <span class="key-green">前置 / 边界 / 证伪</span> —— 这些不变。</p>
+
+  <div class="quote">
+    <strong>「重点是思维方式</strong>, 技术更迭很快, 环境各不相同, 不要生搬硬套, 希望有所启发。」<br>
+    <div style="margin-top:12px;font-size:13px;color:var(--text-dim)">—— 德哥 digoal</div>
+  </div>
+
+  <div class="grid grid-3" style="margin-top:40px">
+    <div class="card">
+      <span class="ic">🎯</span>
+      <div class="t">下次遇到报警</div>
+      <div class="d">先 SQL · 后漏斗<br>先擒贼 · 后全局<br>先止血 · 后根治</div>
+    </div>
+    <div class="card">
+      <span class="ic">📚</span>
+      <div class="t">持续学习路径</div>
+      <div class="d">PG 17 官方文档<br>德哥博客 github.com/digoal/blog<br>DeepWiki · PoWA · pgwatch2</div>
+    </div>
+    <div class="card">
+      <span class="ic">🛠️</span>
+      <div class="t">动手开始</div>
+      <div class="d">docker run postgres:17<br>写第一条 EXPLAIN<br>装上 pg_stat_statements</div>
+    </div>
+  </div>
+
+  <div style="text-align:center;margin-top:60px;color:var(--text-dimmer);font-size:13px">
+    🐘 PostgreSQL 4H · 优化 / 监控 / 故障 / 内核 / AI · 2026-07
+  </div>
+</section>
+
+</main>
+
+<div class="floating">
+  <div class="clock"><span id="clock-time">00:00</span> · <b id="clock-chap">课前</b></div>
+  <button onclick="scrollToSection(0)" title="顶部">↑</button>
+  <button onclick="scrollToSection(-1)" title="底部">↓</button>
+</div>
+<div class="print">
+  <button onclick="window.print()">🖨️ 打印速记卡</button>
+</div>
+
+<script>
+  // 进度条
+  const progress = document.getElementById('progress');
+  const navLinks = document.querySelectorAll('.nav a');
+  const sections = document.querySelectorAll('section');
+
+  // 给每个 chapter cover / 主封面加翻页提示
+  document.querySelectorAll('section.cover, section.chap-cover').forEach((s, i, arr) => {
+    if (i < arr.length - 1) {
+      const hint = document.createElement('div');
+      hint.className = 'scroll-hint';
+      hint.innerHTML = '<span>下一节</span><span class="arrow">↓</span><span style="font-size:10px;margin-top:2px">空格 / 滚轮</span>';
+      s.appendChild(hint);
+    }
+  });
+
+  // ============= 主题切换 =============
+  // SVG 颜色翻转映射(浅色 ↔ 深色)
+  const colorSwap = {
+    '#ffffff': '#0f1320',  // 卡片背景
+    '#1a1f2e': '#e8eaf0',  // 卡片文本
+    '#eef1f7': '#1f2540',  // 边框填充
+    '#dfe4ec': '#1f2540',  // 边框描边
+    // 深色→亮色
+    '#5a6378': '#8a93a6',  // 次要文本
+    '#1e4d7b': '#5a8dc4',  // PG 蓝
+    '#c2691e': '#ffb84d',  // 琥珀
+    '#b91c1c': '#f87171',  // 红
+    '#15803d': '#4ade80',  // 绿
+    '#6d28d9': '#a78bfa',  // 紫
+    '#0e7490': '#22d3ee',  // 青
+  };
+
+  function recolorSvgs(reverse) {
+    const map = {};
+    Object.entries(colorSwap).forEach(([from, to]) => {
+      if (reverse) map[to] = from;
+      else map[from] = to;
+    });
+    document.querySelectorAll('svg [fill], svg [stroke], svg [stop-color]').forEach(el => {
+      ['fill', 'stroke', 'stop-color'].forEach(attr => {
+        const v = el.getAttribute(attr);
+        if (v && map[v]) el.setAttribute(attr, map[v]);
+      });
+    });
+  }
+
+  function applyTheme(theme) {
+    const root = document.documentElement;
+    const wasDark = root.dataset.theme === 'dark';
+    const willBeDark = theme === 'dark';
+    root.dataset.theme = theme;
+    document.getElementById('theme-toggle').textContent = willBeDark ? '☀️' : '🌙';
+    // 仅在主题实际变化时翻转 SVG
+    if (wasDark !== willBeDark) recolorSvgs(willBeDark);
+    try { localStorage.setItem('pg_theme', theme); } catch(e) {}
+  }
+
+  window.toggleTheme = function() {
+    const cur = document.documentElement.dataset.theme === 'dark' ? 'dark' : 'light';
+    applyTheme(cur === 'dark' ? 'light' : 'dark');
+  };
+
+  window.scrollToSection = function(idx) {
+    if (!mainEl || !allSections.length) return;
+    if (idx === 0) { mainEl.scrollTo({top: 0, behavior: 'smooth'}); return; }
+    if (idx === -1) { mainEl.scrollTo({top: mainEl.scrollHeight, behavior: 'smooth'}); return; }
+    mainEl.scrollTo({top: allSections[idx].offsetTop, behavior: 'smooth'});
+  };
+
+  // 初始化主题(读 localStorage)
+  try {
+    const saved = localStorage.getItem('pg_theme');
+    if (saved === 'dark') applyTheme('dark');
+  } catch(e) {}
+
+  // 当前 section 高亮
+  const observer = new IntersectionObserver((entries) => {
+    entries.forEach(entry => {
+      if (entry.isIntersecting && entry.intersectionRatio > 0.3) {
+        const id = entry.target.id;
+        navLinks.forEach(a => a.classList.toggle('active', a.getAttribute('href') === '#' + id));
+      }
+    });
+  }, {threshold: [0.3, 0.5]});
+  sections.forEach(s => s.id && observer.observe(s));
+
+  // 滚动进度
+  const mainScrollEl = document.querySelector('main');
+  mainScrollEl.addEventListener('scroll', () => {
+    const scrollTop = mainScrollEl.scrollTop;
+    const docHeight = mainScrollEl.scrollHeight - mainScrollEl.clientHeight;
+    const pct = docHeight > 0 ? Math.min(100, (scrollTop / docHeight) * 100) : 0;
+    progress.style.width = pct + '%';
+
+    // 时钟 + 章节
+    const timeEl = document.getElementById('clock-time');
+    const chapEl = document.getElementById('clock-chap');
+    if (timeEl) {
+      const totalSec = Math.floor((scrollTop / docHeight) * 4 * 3600);
+      const hh = Math.floor(totalSec / 3600).toString().padStart(2, '0');
+      const mm = Math.floor((totalSec % 3600) / 60).toString().padStart(2, '0');
+      const ss = (totalSec % 60).toString().padStart(2, '0');
+      timeEl.textContent = `${hh}:${mm}:${ss}`;
+    }
+    if (chapEl) {
+      const scrollPct = scrollTop / docHeight;
+      let ch = '课前';
+      if (scrollPct > 0.04 && scrollPct < 0.18) ch = '1. 优化';
+      else if (scrollPct >= 0.18 && scrollPct < 0.20) ch = '—';
+      else if (scrollPct >= 0.20 && scrollPct < 0.40) ch = '2. 监控';
+      else if (scrollPct >= 0.40 && scrollPct < 0.42) ch = '—';
+      else if (scrollPct >= 0.42 && scrollPct < 0.62) ch = '3. 故障诊断';
+      else if (scrollPct >= 0.62 && scrollPct < 0.64) ch = '—';
+      else if (scrollPct >= 0.64 && scrollPct < 0.84) ch = '4. 问题分析';
+      else if (scrollPct >= 0.84 && scrollPct < 0.86) ch = '—';
+      else if (scrollPct >= 0.86 && scrollPct < 0.97) ch = '5. AI 增强';
+      else if (scrollPct >= 0.97) ch = '课后';
+      chapEl.textContent = ch;
+    }
+  }, {passive: true});
+
+  // 键盘导航 - 跳到下一个/上一个 section 边界
+  const mainEl = document.querySelector('main');
+  const allSections = Array.from(document.querySelectorAll('section'));
+
+  function gotoSection(idx) {
+    if (idx < 0 || idx >= allSections.length) return;
+    mainEl.scrollTo({top: allSections[idx].offsetTop, behavior: 'smooth'});
+  }
+  function currentSectionIdx() {
+    const scroll = mainEl.scrollTop;
+    let idx = allSections.findIndex(s => Math.abs(s.offsetTop - scroll) < 5);
+    if (idx < 0) {
+      // 找最近的
+      idx = allSections.reduce((best, s, i) => {
+        return Math.abs(s.offsetTop - scroll) < Math.abs(allSections[best].offsetTop - scroll) ? i : best;
+      }, 0);
+    }
+    return idx;
+  }
+
+  document.addEventListener('keydown', (e) => {
+    if (e.target.tagName === 'INPUT' || e.target.tagName === 'TEXTAREA') return;
+    const idx = currentSectionIdx();
+    if (e.key === 'ArrowDown' || e.key === 'PageDown' || e.key === ' ' || e.key === 'ArrowRight') {
+      e.preventDefault();
+      gotoSection(idx + 1);
+    } else if (e.key === 'ArrowUp' || e.key === 'PageUp' || e.key === 'ArrowLeft') {
+      e.preventDefault();
+      gotoSection(idx - 1);
+    } else if (e.key === 'Home') {
+      mainEl.scrollTo({top: 0, behavior: 'smooth'});
+    } else if (e.key === 'End') {
+      mainEl.scrollTo({top: mainEl.scrollHeight, behavior: 'smooth'});
+    }
+  });
+
+  // 滚轮处理 - 让长页可自然滚动,只在 section 顶部才翻页
+  let wheelLock = false;
+  if (mainEl) {
+    mainEl.addEventListener('wheel', (e) => {
+      // 大幅滚轮才触发翻页(避免普通滚动被拦截)
+      if (Math.abs(e.deltaY) < 50) return;
+      if (wheelLock) { e.preventDefault(); return; }
+
+      const currentSection = allSections[currentSectionIdx()];
+      const sectionTop = currentSection.offsetTop;
+      const scroll = mainEl.scrollTop;
+      const sectionBottom = sectionTop + currentSection.offsetHeight;
+      const viewportTop = scroll;
+      const viewportBottom = scroll + mainEl.clientHeight;
+      const overscroll = e.deltaY > 0 ? viewportBottom - sectionBottom : sectionTop - viewportTop;
+
+      // 长页 + 还有内容可滚 → 让浏览器自然滚,不跳页
+      if (Math.abs(overscroll) > 30) return;
+
+      // 已在边界 → 跳到下一页
+      wheelLock = true;
+      e.preventDefault();
+      const idx = currentSectionIdx();
+      const targetIdx = Math.max(0, Math.min(allSections.length - 1, idx + (e.deltaY > 0 ? 1 : -1)));
+      gotoSection(targetIdx);
+      setTimeout(() => { wheelLock = false; }, 700);
+    }, {passive: false});
+  }
+</script>
+
+</body>
+</html>
