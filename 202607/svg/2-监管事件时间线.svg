@@ -1,0 +1,220 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1200 720" font-family="-apple-system, 'PingFang SC', 'Microsoft YaHei', sans-serif">
+  <!-- 背景 -->
+  <defs>
+    <linearGradient id="bg" x1="0" y1="0" x2="0" y2="1">
+      <stop offset="0%" stop-color="#fafbfc"/>
+      <stop offset="100%" stop-color="#eef2f5"/>
+    </linearGradient>
+    <linearGradient id="down" x1="0" y1="0" x2="0" y2="1">
+      <stop offset="0%" stop-color="#d63031"/>
+      <stop offset="100%" stop-color="#b22222"/>
+    </linearGradient>
+    <linearGradient id="up" x1="0" y1="0" x2="0" y2="1">
+      <stop offset="0%" stop-color="#0984e3"/>
+      <stop offset="100%" stop-color="#0652a3"/>
+    </linearGradient>
+    <linearGradient id="neutral" x1="0" y1="0" x2="0" y2="1">
+      <stop offset="0%" stop-color="#fdcb6e"/>
+      <stop offset="100%" stop-color="#e17055"/>
+    </linearGradient>
+    <linearGradient id="us" x1="0" y1="0" x2="0" y2="1">
+      <stop offset="0%" stop-color="#6c5ce7"/>
+      <stop offset="100%" stop-color="#4834d4"/>
+    </linearGradient>
+    <marker id="arrow" viewBox="0 0 10 10" refX="5" refY="5" markerWidth="6" markerHeight="6" orient="auto">
+      <path d="M0,0 L10,5 L0,10 z" fill="#2d3436"/>
+    </marker>
+  </defs>
+
+  <rect width="1200" height="720" fill="url(#bg)"/>
+
+  <!-- 标题 -->
+  <text x="600" y="36" text-anchor="middle" font-size="22" font-weight="700" fill="#2d3436">
+    阿里巴巴监管事件与估值冲击时间线（2020–2026）
+  </text>
+  <text x="600" y="60" text-anchor="middle" font-size="12" fill="#636e72">
+    红色=负面冲击 / 蓝色=正面缓解 / 橙色=中性框架 / 紫色=中美跨境事件
+  </text>
+
+  <!-- 主时间轴 -->
+  <line x1="60" y1="380" x2="1140" y2="380" stroke="#2d3436" stroke-width="2" marker-end="url(#arrow)"/>
+  <!-- 时间刻度 -->
+  <g font-size="11" fill="#636e72" text-anchor="middle">
+    <line x1="120"  y1="376" x2="120"  y2="384" stroke="#2d3436"/>
+    <line x1="240"  y1="376" x2="240"  y2="384" stroke="#2d3436"/>
+    <line x1="360"  y1="376" x2="360"  y2="384" stroke="#2d3436"/>
+    <line x1="480"  y1="376" x2="480"  y2="384" stroke="#2d3436"/>
+    <line x1="600"  y1="376" x2="600"  y2="384" stroke="#2d3436"/>
+    <line x1="720"  y1="376" x2="720"  y2="384" stroke="#2d3436"/>
+    <line x1="840"  y1="376" x2="840"  y2="384" stroke="#2d3436"/>
+    <line x1="960"  y1="376" x2="960"  y2="384" stroke="#2d3436"/>
+    <line x1="1080" y1="376" x2="1080" y2="384" stroke="#2d3436"/>
+    <text x="120"  y="400">2020</text>
+    <text x="240"  y="400">2021</text>
+    <text x="360"  y="400">2021末</text>
+    <text x="480"  y="400">2022</text>
+    <text x="600"  y="400">2023</text>
+    <text x="720"  y="400">2024</text>
+    <text x="840"  y="400">2025H1</text>
+    <text x="960"  y="400">2025H2</text>
+    <text x="1080" y="400">2026</text>
+  </g>
+
+  <!-- 上半部分：负面冲击 -->
+  <text x="80" y="120" font-size="13" font-weight="600" fill="#d63031">▍负向冲击事件</text>
+  <line x1="60" y1="135" x2="1140" y2="135" stroke="#fab1a0" stroke-width="1" stroke-dasharray="4 4"/>
+
+  <!-- 1. 蚂蚁IPO暂停 2020.11 -->
+  <g>
+    <line x1="120" y1="135" x2="120" y2="380" stroke="#d63031" stroke-width="1" stroke-dasharray="3 3"/>
+    <rect x="50" y="148" width="160" height="44" rx="6" fill="url(#down)" opacity="0.92"/>
+    <text x="130" y="166" text-anchor="middle" font-size="12" font-weight="700" fill="#fff">2020.11 蚂蚁IPO暂停</text>
+    <text x="130" y="184" text-anchor="middle" font-size="10" fill="#fff">上交所/港交所同日叫停</text>
+  </g>
+
+  <!-- 2. SAMR立案 2020.12 -->
+  <g>
+    <line x1="160" y1="135" x2="160" y2="380" stroke="#d63031" stroke-width="1" stroke-dasharray="3 3"/>
+    <rect x="160" y="200" width="150" height="42" rx="6" fill="url(#down)" opacity="0.92"/>
+    <text x="235" y="217" text-anchor="middle" font-size="12" font-weight="700" fill="#fff">2020.12 反垄断立案</text>
+    <text x="235" y="234" text-anchor="middle" font-size="10" fill="#fff">市监总局对阿里"二选一"</text>
+  </g>
+
+  <!-- 3. 182亿罚款 2021.04 -->
+  <g>
+    <line x1="220" y1="135" x2="220" y2="380" stroke="#d63031" stroke-width="1" stroke-dasharray="3 3"/>
+    <rect x="210" y="252" width="180" height="50" rx="6" fill="url(#down)"/>
+    <text x="300" y="272" text-anchor="middle" font-size="13" font-weight="700" fill="#fff">2021.04.10</text>
+    <text x="300" y="290" text-anchor="middle" font-size="12" font-weight="700" fill="#fff">182.28亿反垄断罚款</text>
+  </g>
+
+  <!-- 4. 平台经济整改 2021.07 -->
+  <g>
+    <line x1="310" y1="135" x2="310" y2="380" stroke="#d63031" stroke-width="1" stroke-dasharray="3 3"/>
+    <rect x="280" y="318" width="160" height="40" rx="6" fill="url(#down)" opacity="0.85"/>
+    <text x="360" y="334" text-anchor="middle" font-size="12" font-weight="700" fill="#fff">2021 平台经济整治</text>
+    <text x="360" y="350" text-anchor="middle" font-size="10" fill="#fff">七部门进驻 / 阿里跌超50%</text>
+  </g>
+
+  <!-- 上半部分：中性框架 -->
+  <text x="80" y="430" font-size="13" font-weight="600" fill="#e17055">▍中性/框架性事件</text>
+  <line x1="60" y1="445" x2="1140" y2="445" stroke="#ffeaa7" stroke-width="1" stroke-dasharray="4 4"/>
+
+  <!-- 5. 互联互通 2021.11 -->
+  <g>
+    <line x1="380" y1="380" x2="380" y2="445" stroke="#e17055" stroke-width="1" stroke-dasharray="3 3"/>
+    <rect x="320" y="455" width="160" height="42" rx="6" fill="url(#neutral)" opacity="0.9"/>
+    <text x="400" y="472" text-anchor="middle" font-size="12" font-weight="700" fill="#2d3436">2021.11 互联互通</text>
+    <text x="400" y="489" text-anchor="middle" font-size="10" fill="#2d3436">工信部要求外链开放</text>
+  </g>
+
+  <!-- 6. 港双重主要上市 2022.08 -->
+  <g>
+    <line x1="490" y1="380" x2="490" y2="445" stroke="#e17055" stroke-width="1" stroke-dasharray="3 3"/>
+    <rect x="430" y="505" width="180" height="42" rx="6" fill="url(#neutral)" opacity="0.9"/>
+    <text x="520" y="522" text-anchor="middle" font-size="12" font-weight="700" fill="#2d3436">2022.08 双重主要上市</text>
+    <text x="520" y="539" text-anchor="middle" font-size="10" fill="#2d3436">阿里港股纳入港股通</text>
+  </g>
+
+  <!-- 7. 蚂蚁消金 2023.01 -->
+  <g>
+    <line x1="560" y1="380" x2="560" y2="445" stroke="#e17055" stroke-width="1" stroke-dasharray="3 3"/>
+    <rect x="535" y="555" width="160" height="40" rx="6" fill="url(#neutral)" opacity="0.9"/>
+    <text x="615" y="572" text-anchor="middle" font-size="12" font-weight="700" fill="#2d3436">2023.01 蚂蚁整改推进</text>
+    <text x="615" y="588" text-anchor="middle" font-size="10" fill="#2d3436">消金牌照落地</text>
+  </g>
+
+  <!-- 下半部分：正面缓解 -->
+  <text x="80" y="630" font-size="13" font-weight="600" fill="#0984e3">▍正向缓解事件</text>
+  <line x1="60" y1="645" x2="1140" y2="645" stroke="#74b9ff" stroke-width="1" stroke-dasharray="4 4"/>
+
+  <!-- 8. 政治局表态 2023.07 -->
+  <g>
+    <line x1="610" y1="380" x2="610" y2="645" stroke="#0984e3" stroke-width="1" stroke-dasharray="3 3"/>
+    <rect x="565" y="655" width="170" height="42" rx="6" fill="url(#up)" opacity="0.9"/>
+    <text x="650" y="672" text-anchor="middle" font-size="12" font-weight="700" fill="#fff">2023.07 政治局表态</text>
+    <text x="650" y="689" text-anchor="middle" font-size="10" fill="#fff">"支持平台经济"</text>
+  </g>
+
+  <!-- 9. 民营31条 2023.07 -->
+  <g>
+    <line x1="690" y1="380" x2="690" y2="645" stroke="#0984e3" stroke-width="1" stroke-dasharray="3 3"/>
+    <rect x="660" y="600" width="160" height="42" rx="6" fill="url(#up)" opacity="0.9"/>
+    <text x="740" y="617" text-anchor="middle" font-size="12" font-weight="700" fill="#fff">2023.07 民营经济31条</text>
+    <text x="740" y="634" text-anchor="middle" font-size="10" fill="#fff">鼓励平台创新</text>
+  </g>
+
+  <!-- 10. 阿里云利润+49% 2024 -->
+  <g>
+    <line x1="800" y1="380" x2="800" y2="645" stroke="#0984e3" stroke-width="1" stroke-dasharray="3 3"/>
+    <rect x="740" y="545" width="160" height="42" rx="6" fill="url(#up)" opacity="0.9"/>
+    <text x="820" y="562" text-anchor="middle" font-size="12" font-weight="700" fill="#fff">2024.05 阿里云+49%</text>
+    <text x="820" y="579" text-anchor="middle" font-size="10" fill="#fff">FY24 EBITA 同比双位数</text>
+  </g>
+
+  <!-- 11. DeepSeek催化 2025.02 -->
+  <g>
+    <line x1="870" y1="380" x2="870" y2="645" stroke="#0984e3" stroke-width="1" stroke-dasharray="3 3"/>
+    <rect x="820" y="490" width="170" height="42" rx="6" fill="url(#up)"/>
+    <text x="905" y="507" text-anchor="middle" font-size="12" font-weight="700" fill="#fff">2025.02 DeepSeek催化</text>
+    <text x="905" y="524" text-anchor="middle" font-size="10" fill="#fff">AI重估+南向资金狂买</text>
+  </g>
+
+  <!-- 12. 港股通权重 2025.09 -->
+  <g>
+    <line x1="970" y1="380" x2="970" y2="645" stroke="#0984e3" stroke-width="1" stroke-dasharray="3 3"/>
+    <rect x="910" y="438" width="170" height="40" rx="6" fill="url(#up)" opacity="0.9"/>
+    <text x="995" y="455" text-anchor="middle" font-size="12" font-weight="700" fill="#fff">2025.09 港股通权重</text>
+    <text x="995" y="472" text-anchor="middle" font-size="10" fill="#fff">阿里2.61万亿港元</text>
+  </g>
+
+  <!-- 13. 中央经济工作会议 2025.12 -->
+  <g>
+    <line x1="1030" y1="380" x2="1030" y2="645" stroke="#0984e3" stroke-width="1" stroke-dasharray="3 3"/>
+    <rect x="965" y="385" width="170" height="42" rx="6" fill="url(#up)" opacity="0.9"/>
+    <text x="1050" y="402" text-anchor="middle" font-size="12" font-weight="700" fill="#fff">2025.12 中央经济工作会</text>
+    <text x="1050" y="419" text-anchor="middle" font-size="10" fill="#fff">"规范健康发展"</text>
+  </g>
+
+  <!-- 跨境事件：HFCAA/PCAOB -->
+  <text x="80" y="100" font-size="13" font-weight="600" fill="#6c5ce7">▍跨境事件（HFCAA / PCAOB）</text>
+
+  <g>
+    <line x1="100" y1="105" x2="100" y2="380" stroke="#6c5ce7" stroke-width="1" stroke-dasharray="3 3"/>
+    <rect x="20" y="105" width="170" height="42" rx="6" fill="url(#us)" opacity="0.85"/>
+    <text x="105" y="122" text-anchor="middle" font-size="12" font-weight="700" fill="#fff">2020.12 HFCAA通过</text>
+    <text x="105" y="139" text-anchor="middle" font-size="10" fill="#fff">ADR退市风险上升</text>
+  </g>
+
+  <g>
+    <line x1="450" y1="105" x2="450" y2="380" stroke="#6c5ce7" stroke-width="1" stroke-dasharray="3 3"/>
+    <rect x="370" y="105" width="180" height="42" rx="6" fill="url(#us)"/>
+    <text x="460" y="122" text-anchor="middle" font-size="12" font-weight="700" fill="#fff">2022.08 PCAOB签协议</text>
+    <text x="460" y="139" text-anchor="middle" font-size="10" fill="#fff">可现场检查中港审计</text>
+  </g>
+
+  <g>
+    <line x1="900" y1="105" x2="900" y2="380" stroke="#6c5ce7" stroke-width="1" stroke-dasharray="3 3"/>
+    <rect x="820" y="105" width="180" height="42" rx="6" fill="url(#us)" opacity="0.9"/>
+    <text x="910" y="122" text-anchor="middle" font-size="12" font-weight="700" fill="#fff">2024.12 第三次确认</text>
+    <text x="910" y="139" text-anchor="middle" font-size="10" fill="#fff">PCAOB连续三年准入</text>
+  </g>
+
+  <!-- 估值折线（示意） -->
+  <text x="80" y="262" font-size="13" font-weight="600" fill="#2d3436">▍阿里美股股价示意（高->低->修复）</text>
+  <polyline points="80,250 200,260 320,300 480,310 600,270 720,240 880,210 1080,200"
+    fill="none" stroke="#2d3436" stroke-width="2" stroke-dasharray="2 2" opacity="0.55"/>
+  <text x="200" y="245" font-size="9" fill="#636e72">$270</text>
+  <text x="320" y="295" font-size="9" fill="#636e72">$108</text>
+  <text x="480" y="305" font-size="9" fill="#636e72">$80</text>
+  <text x="600" y="265" font-size="9" fill="#636e72">$98</text>
+  <text x="720" y="235" font-size="9" fill="#636e72">$120</text>
+  <text x="880" y="205" font-size="9" fill="#636e72">$148</text>
+  <text x="1080" y="195" font-size="9" fill="#636e72">$165</text>
+
+  <!-- 底部说明 -->
+  <text x="600" y="710" text-anchor="middle" font-size="10" fill="#636e72">
+    数据来源：人民日报、新华社、SAMR公告、PCAOB官网、Wind/Reuters/雪球（截至 2026-07-11）
+  </text>
+</svg>

@@ -1,0 +1,188 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 960 720" font-family="Helvetica, Arial, 'PingFang SC', sans-serif">
+  <!-- Background -->
+  <rect width="960" height="720" fill="#FFFFFF"/>
+
+  <!-- Title -->
+  <text x="480" y="38" text-anchor="middle" font-size="22" font-weight="700" fill="#0B1F3A">阿里巴巴（9988.HK / BABA）SOTP 分部估值瀑布图</text>
+  <text x="480" y="60" text-anchor="middle" font-size="13" fill="#54677B">基准日：2026-07-11 ｜ 单位：人民币亿元 ｜ 汇率假设 USD/CNY = 7.15 ｜ 数据源：FY2026 Q4 财报 + 分析师共识</text>
+
+  <!-- Y-axis grid lines -->
+  <g stroke="#E6EBF1" stroke-width="1">
+    <line x1="80" y1="120" x2="940" y2="120"/>
+    <line x1="80" y1="200" x2="940" y2="200"/>
+    <line x1="80" y1="280" x2="940" y2="280"/>
+    <line x1="80" y1="360" x2="940" y2="360"/>
+    <line x1="80" y1="440" x2="940" y2="440"/>
+    <line x1="80" y1="520" x2="940" y2="520"/>
+    <line x1="80" y1="600" x2="940" y2="600"/>
+  </g>
+
+  <!-- Y-axis labels -->
+  <g font-size="11" fill="#54677B" text-anchor="end">
+    <text x="74" y="124">5,000</text>
+    <text x="74" y="204">4,000</text>
+    <text x="74" y="284">3,000</text>
+    <text x="74" y="364">2,000</text>
+    <text x="74" y="444">1,000</text>
+    <text x="74" y="524">0</text>
+    <text x="74" y="604">-1,000</text>
+  </g>
+
+  <!-- Bars: starting positions and heights (scale: 1000 億 = 80px, baseline at y=520) -->
+  <!-- 淘天集团: 1,956 -->
+  <g>
+    <rect x="95" y="363.5" width="78" height="156.5" fill="#1F4E79"/>
+    <text x="134" y="356" text-anchor="middle" font-size="11" fill="#0B1F3A" font-weight="600">1,956</text>
+    <text x="134" y="540" text-anchor="middle" font-size="11" fill="#0B1F3A">淘天</text>
+    <text x="134" y="554" text-anchor="middle" font-size="9" fill="#7A8A9A">12× P/EBITA</text>
+  </g>
+
+  <!-- 云智能集团: 925 -->
+  <g>
+    <rect x="190" y="446" width="78" height="74" fill="#2E7BB8"/>
+    <text x="229" y="438" text-anchor="middle" font-size="11" fill="#0B1F3A" font-weight="600">925</text>
+    <text x="229" y="540" text-anchor="middle" font-size="11" fill="#0B1F3A">云智能</text>
+    <text x="229" y="554" text-anchor="middle" font-size="9" fill="#7A8A9A">25× P/EBITA</text>
+  </g>
+
+  <!-- 国际数字商业 AIDC: 248 -->
+  <g>
+    <rect x="285" y="500.2" width="78" height="19.8" fill="#5B9BD5"/>
+    <text x="324" y="492" text-anchor="middle" font-size="11" fill="#0B1F3A" font-weight="600">248</text>
+    <text x="324" y="540" text-anchor="middle" font-size="11" fill="#0B1F3A">国际电商</text>
+    <text x="324" y="554" text-anchor="middle" font-size="9" fill="#7A8A9A">1.5× P/S</text>
+  </g>
+
+  <!-- 菜鸟: 105 -->
+  <g>
+    <rect x="380" y="511.6" width="78" height="8.4" fill="#7AAFD8"/>
+    <text x="419" y="504" text-anchor="middle" font-size="11" fill="#0B1F3A" font-weight="600">105</text>
+    <text x="419" y="540" text-anchor="middle" font-size="11" fill="#0B1F3A">菜鸟</text>
+    <text x="419" y="554" text-anchor="middle" font-size="9" fill="#7A8A9A">12× P/EBITA</text>
+  </g>
+
+  <!-- 本地生活: 40 -->
+  <g>
+    <rect x="475" y="516.8" width="78" height="3.2" fill="#9CC2E4"/>
+    <text x="514" y="510" text-anchor="middle" font-size="11" fill="#0B1F3A" font-weight="600">40</text>
+    <text x="514" y="540" text-anchor="middle" font-size="11" fill="#0B1F3A">本地生活</text>
+    <text x="514" y="554" text-anchor="middle" font-size="9" fill="#7A8A9A">0.5× P/S</text>
+  </g>
+
+  <!-- 大文娱: 14 -->
+  <g>
+    <rect x="570" y="518.9" width="78" height="1.1" fill="#A8CDE9"/>
+    <text x="609" y="512" text-anchor="middle" font-size="11" fill="#0B1F3A" font-weight="600">14</text>
+    <text x="609" y="540" text-anchor="middle" font-size="11" fill="#0B1F3A">大文娱</text>
+    <text x="609" y="554" text-anchor="middle" font-size="9" fill="#7A8A9A">0.5× P/S</text>
+  </g>
+
+  <!-- 其他业务: 66 -->
+  <g>
+    <rect x="665" y="514.7" width="78" height="5.3" fill="#7AAFD8"/>
+    <text x="704" y="508" text-anchor="middle" font-size="11" fill="#0B1F3A" font-weight="600">66</text>
+    <text x="704" y="540" text-anchor="middle" font-size="11" fill="#0B1F3A">其他业务</text>
+    <text x="704" y="554" text-anchor="middle" font-size="9" fill="#7A8A9A">盒马/钉钉/犀牛</text>
+  </g>
+
+  <!-- 小计 (Subtotal) -->
+  <g>
+    <rect x="760" y="370" width="78" height="150" fill="#0B1F3A"/>
+    <text x="799" y="362" text-anchor="middle" font-size="12" fill="#0B1F3A" font-weight="700">3,354</text>
+    <text x="799" y="540" text-anchor="middle" font-size="11" fill="#0B1F3A" font-weight="700">运营小计</text>
+    <text x="799" y="554" text-anchor="middle" font-size="9" fill="#7A8A9A">核心业务合计</text>
+  </g>
+
+  <!-- Connecting dashed lines between segments -->
+  <g stroke="#7A8A9A" stroke-width="1" stroke-dasharray="3,3">
+    <line x1="173" y1="363.5" x2="190" y2="446"/>
+    <line x1="268" y1="446" x2="285" y2="500.2"/>
+    <line x1="363" y1="500.2" x2="380" y2="511.6"/>
+    <line x1="458" y1="511.6" x2="475" y2="516.8"/>
+    <line x1="553" y1="516.8" x2="570" y2="518.9"/>
+    <line x1="648" y1="518.9" x2="665" y2="514.7"/>
+    <line x1="743" y1="514.7" x2="760" y2="370"/>
+  </g>
+
+  <!-- Second row: Investments & Adjustments -->
+  <!-- 蚂蚁集团 33% stake: 233 -->
+  <g>
+    <rect x="95" y="430" width="78" height="90" fill="#E07B39"/>
+    <text x="134" y="423" text-anchor="middle" font-size="11" fill="#0B1F3A" font-weight="600">+233</text>
+    <text x="134" y="595" text-anchor="middle" font-size="11" fill="#0B1F3A">蚂蚁集团</text>
+    <text x="134" y="609" text-anchor="middle" font-size="9" fill="#7A8A9A">33% × $100B</text>
+  </g>
+
+  <!-- 净现金: 421 -->
+  <g>
+    <rect x="190" y="358" width="78" height="162" fill="#F2A65A"/>
+    <text x="229" y="351" text-anchor="middle" font-size="11" fill="#0B1F3A" font-weight="600">+421</text>
+    <text x="229" y="595" text-anchor="middle" font-size="11" fill="#0B1F3A">净现金</text>
+    <text x="229" y="609" text-anchor="middle" font-size="9" fill="#7A8A9A">现金-有息负债</text>
+  </g>
+
+  <!-- 上市股权: 35 -->
+  <g>
+    <rect x="285" y="514" width="78" height="6" fill="#F5C28A"/>
+    <text x="324" y="508" text-anchor="middle" font-size="11" fill="#0B1F3A" font-weight="600">+35</text>
+    <text x="324" y="595" text-anchor="middle" font-size="11" fill="#0B1F3A">上市股权</text>
+    <text x="324" y="609" text-anchor="middle" font-size="9" fill="#7A8A9A">影业/健康/其他</text>
+  </g>
+
+  <!-- 少数股东权益调整: -200 -->
+  <g>
+    <rect x="380" y="520" width="78" height="16" fill="#C44545"/>
+    <text x="419" y="514" text-anchor="middle" font-size="11" fill="#0B1F3A" font-weight="600">-200</text>
+    <text x="419" y="595" text-anchor="middle" font-size="11" fill="#0B1F3A">少数股东</text>
+    <text x="419" y="609" text-anchor="middle" font-size="9" fill="#7A8A9A">权益抵扣</text>
+  </g>
+
+  <!-- Total Equity Value bar: 3,843 -->
+  <g>
+    <rect x="475" y="212.6" width="160" height="307.4" fill="#0B1F3A" stroke="#1F4E79" stroke-width="2"/>
+    <text x="555" y="200" text-anchor="middle" font-size="16" fill="#FFFFFF" font-weight="700">3,843 亿元</text>
+    <text x="555" y="218" text-anchor="middle" font-size="13" fill="#FFFFFF">每股价值 ¥20.1 / ADS US$22.5</text>
+    <text x="555" y="540" text-anchor="middle" font-size="12" fill="#0B1F3A" font-weight="700">股权总价值</text>
+    <text x="555" y="554" text-anchor="middle" font-size="9" fill="#7A8A9A">等价 HK$175/9988</text>
+  </g>
+
+  <!-- Current Market Cap bar: ~1,950 -->
+  <g>
+    <rect x="660" y="364" width="78" height="156" fill="#9CA3AF"/>
+    <text x="699" y="356" text-anchor="middle" font-size="11" fill="#0B1F3A" font-weight="600">1,950</text>
+    <text x="699" y="540" text-anchor="middle" font-size="11" fill="#0B1F3A">当前市值</text>
+    <text x="699" y="554" text-anchor="middle" font-size="9" fill="#7A8A9A">HK$113 × 191亿</text>
+  </g>
+
+  <!-- Upside gap -->
+  <g>
+    <rect x="760" y="212.6" width="160" height="151.4" fill="#16A34A" opacity="0.85"/>
+    <text x="840" y="270" text-anchor="middle" font-size="28" font-weight="700" fill="#FFFFFF">+97%</text>
+    <text x="840" y="294" text-anchor="middle" font-size="11" fill="#FFFFFF">理论上涨空间</text>
+    <text x="840" y="540" text-anchor="middle" font-size="12" fill="#16A34A" font-weight="700">估值修复空间</text>
+    <text x="840" y="554" text-anchor="middle" font-size="9" fill="#7A8A9A">SOTP vs 市值</text>
+  </g>
+
+  <!-- Legend -->
+  <g font-size="11" fill="#54677B">
+    <rect x="80" y="640" width="14" height="14" fill="#1F4E79"/>
+    <text x="100" y="652">核心运营分部</text>
+    <rect x="200" y="640" width="14" height="14" fill="#E07B39"/>
+    <text x="220" y="652">投资性资产</text>
+    <rect x="310" y="640" width="14" height="14" fill="#F2A65A"/>
+    <text x="330" y="652">现金/股权调整</text>
+    <rect x="440" y="640" width="14" height="14" fill="#C44545"/>
+    <text x="460" y="652">少数股东/扣减</text>
+    <rect x="580" y="640" width="14" height="14" fill="#0B1F3A"/>
+    <text x="600" y="652">小计/合计</text>
+    <rect x="680" y="640" width="14" height="14" fill="#9CA3AF"/>
+    <text x="700" y="652">当前市值</text>
+    <rect x="780" y="640" width="14" height="14" fill="#16A34A"/>
+    <text x="800" y="652">上涨空间</text>
+  </g>
+
+  <!-- Footer note -->
+  <text x="480" y="690" text-anchor="middle" font-size="10" fill="#7A8A9A">注：估值基准日 2026-07-11；FY2026 = 截至2026年3月31日财年；分部 EBITA 按 FY2026 Q3 季度数据年化推算；EBITA 倍数为分析师共识中位数</text>
+  <text x="480" y="706" text-anchor="middle" font-size="10" fill="#7A8A9A">资料来源：阿里巴巴 FY2026 Q4 财报、Reuters/Bloomberg、Goldman/Morgan Stanley/UBS/Bernstein 等卖方研报</text>
+</svg>
