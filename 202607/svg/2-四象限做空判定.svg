@@ -1,0 +1,116 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 900 600" font-family="-apple-system, 'PingFang SC', 'Helvetica Neue', Helvetica, Arial, sans-serif">
+  <defs>
+    <linearGradient id="bg4" x1="0" y1="0" x2="0" y2="1">
+      <stop offset="0" stop-color="#f8fafc"/>
+      <stop offset="1" stop-color="#eef2f7"/>
+    </linearGradient>
+    <linearGradient id="q1" x1="0" y1="0" x2="0" y2="1">
+      <stop offset="0" stop-color="#fecaca" stop-opacity="0.7"/>
+      <stop offset="1" stop-color="#fecaca" stop-opacity="0.2"/>
+    </linearGradient>
+    <linearGradient id="q2" x1="0" y1="0" x2="0" y2="1">
+      <stop offset="0" stop-color="#bbf7d0" stop-opacity="0.5"/>
+      <stop offset="1" stop-color="#bbf7d0" stop-opacity="0.1"/>
+    </linearGradient>
+    <linearGradient id="q3" x1="0" y1="0" x2="0" y2="1">
+      <stop offset="0" stop-color="#fde68a" stop-opacity="0.55"/>
+      <stop offset="1" stop-color="#fde68a" stop-opacity="0.15"/>
+    </linearGradient>
+    <linearGradient id="q4" x1="0" y1="0" x2="0" y2="1">
+      <stop offset="0" stop-color="#bae6fd" stop-opacity="0.6"/>
+      <stop offset="1" stop-color="#bae6fd" stop-opacity="0.15"/>
+    </linearGradient>
+  </defs>
+
+  <rect width="900" height="600" fill="url(#bg4)"/>
+
+  <text x="450" y="36" text-anchor="middle" font-size="22" font-weight="700" fill="#0f172a">
+    "AI 做空印度"叙事强度 vs 实际冲击强度
+  </text>
+  <text x="450" y="58" text-anchor="middle" font-size="13" fill="#475569">
+    横轴：AI 冲击实际强度　·　纵轴：资本市场叙事强度　·　印度当前位置：右下象限
+  </text>
+
+  <!-- quadrant box -->
+  <g transform="translate(150,110)">
+    <!-- 4 quadrants -->
+    <!-- Quadrant 1: top-left (high narrative, low impact) -->
+    <rect x="0" y="0" width="300" height="200" fill="url(#q1)"/>
+    <text x="14" y="22" font-size="13" font-weight="700" fill="#7f1d1d">Q1 · 叙事过度 / 冲击不强</text>
+    <text x="14" y="40" font-size="11" fill="#7f1d1d">恐慌已发生，但现实尚未跟上</text>
+
+    <!-- Quadrant 2: top-right (high narrative, high impact) -->
+    <rect x="300" y="0" width="300" height="200" fill="url(#q3)"/>
+    <text x="314" y="22" font-size="13" font-weight="700" fill="#92400e">Q2 · 现实 + 叙事共振</text>
+    <text x="314" y="40" font-size="11" fill="#92400e">做空是事实的同义词</text>
+
+    <!-- Quadrant 3: bottom-left (low narrative, low impact) -->
+    <rect x="0" y="200" width="300" height="200" fill="url(#q2)"/>
+    <text x="14" y="222" font-size="13" font-weight="700" fill="#065f46">Q3 · 平静期</text>
+    <text x="14" y="240" font-size="11" fill="#065f46">无感期 / 媒体未跟进</text>
+
+    <!-- Quadrant 4: bottom-right (low narrative, high impact) -->
+    <rect x="300" y="200" width="300" height="200" fill="url(#q4)"/>
+    <text x="314" y="222" font-size="13" font-weight="700" fill="#075985">Q4 · 印度当前位置</text>
+    <text x="314" y="240" font-size="11" fill="#075985">冲击已发生，但市场或后续才发现</text>
+
+    <!-- axis -->
+    <line x1="300" y1="0" x2="300" y2="400" stroke="#475569" stroke-width="1.4"/>
+    <line x1="0" y1="200" x2="600" y2="200" stroke="#475569" stroke-width="1.4"/>
+
+    <!-- axis arrows -->
+    <polygon points="596,200 600,196 604,200 600,204" fill="#475569"/>
+    <polygon points="300,4 296,0 304,0 300,4" fill="#475569"/>
+
+    <!-- axis labels -->
+    <text x="0" y="-12" font-size="13" font-weight="700" fill="#0f172a" transform="rotate(-90 0 -12)">
+      ↑ 资本市场叙事强度
+    </text>
+    <text x="600" y="420" font-size="13" font-weight="700" fill="#0f172a">
+      AI 实际冲击强度 →
+    </text>
+
+    <!-- India marker -->
+    <g transform="translate(440,320)">
+      <circle r="22" fill="#0ea5e9" stroke="#0c4a6e" stroke-width="2.4" opacity="0.85"/>
+      <circle r="34" fill="none" stroke="#0ea5e9" stroke-width="1" opacity="0.45"/>
+      <circle r="48" fill="none" stroke="#0ea5e9" stroke-width="1" opacity="0.25"/>
+      <text x="0" y="6" text-anchor="middle" font-size="14" font-weight="800" fill="#fff">印度</text>
+    </g>
+
+    <!-- example companies / events pin -->
+    <g font-size="11" fill="#0f172a">
+      <line x1="450" y1="305" x2="480" y2="270" stroke="#0ea5e9" stroke-width="1" stroke-dasharray="3,3"/>
+      <rect x="475" y="252" width="130" height="20" rx="3" fill="#fff" stroke="#bae6fd"/>
+      <text x="540" y="266" text-anchor="middle">TCS: 裁员 + AI 转型</text>
+
+      <line x1="430" y1="330" x2="380" y2="365" stroke="#0ea5e9" stroke-width="1" stroke-dasharray="3,3"/>
+      <rect x="280" y="362" width="120" height="20" rx="3" fill="#fff" stroke="#bae6fd"/>
+      <text x="340" y="376" text-anchor="middle">Hunar.AI: 65→45→25 人</text>
+
+      <line x1="455" y1="335" x2="510" y2="365" stroke="#0ea5e9" stroke-width="1" stroke-dasharray="3,3"/>
+      <rect x="500" y="362" width="110" height="20" rx="3" fill="#fff" stroke="#bae6fd"/>
+      <text x="555" y="376" text-anchor="middle">GCC: 招聘 −28%</text>
+    </g>
+
+    <!-- Q4 deep dive -->
+    <g transform="translate(10,210)">
+      <rect width="270" height="180" rx="6" fill="#fff" stroke="#bae6fd" opacity="0.95"/>
+      <text x="14" y="22" font-size="13" font-weight="700" fill="#0c4a6e">Q4 内部的张力</text>
+      <g font-size="11" fill="#0c4a6e">
+        <text x="14" y="48">· 2026Q2 入门岗位空缺 −44%</text>
+        <text x="14" y="66">· 五大 IT FY26 净减员</text>
+        <text x="14" y="84">· 25 岁以下大学毕业生失业率 40%</text>
+        <text x="14" y="102">· 但 Nifty IT 7 月初反弹 +4%</text>
+        <text x="14" y="120">· Microsoft/Google/Amazon 承诺 675 亿</text>
+        <text x="14" y="138">· TCS AI 收入 Q4 23 亿美元 / 7.5%</text>
+        <text x="14" y="158" font-style="italic" fill="#475569">— 不接缝的"无就业增长"</text>
+      </g>
+    </g>
+  </g>
+
+  <!-- footer -->
+  <text x="450" y="580" text-anchor="middle" font-size="11" fill="#475569">
+    图示解读：印度从右下向右上漂移的速率决定了 Nifty IT 下一阶段走势；反向漂移需要 AI 收入占比持续超过 15%。
+  </text>
+</svg>

@@ -1,0 +1,140 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1000 560" font-family="-apple-system, 'PingFang SC', 'Helvetica Neue', Helvetica, Arial, sans-serif">
+  <defs>
+    <linearGradient id="barNeg" x1="0" y1="0" x2="0" y2="1">
+      <stop offset="0" stop-color="#fca5a5"/>
+      <stop offset="1" stop-color="#dc2626"/>
+    </linearGradient>
+    <linearGradient id="barPos" x1="0" y1="0" x2="0" y2="1">
+      <stop offset="0" stop-color="#86efac"/>
+      <stop offset="1" stop-color="#10b981"/>
+    </linearGradient>
+    <linearGradient id="bg2" x1="0" y1="0" x2="0" y2="1">
+      <stop offset="0" stop-color="#f8fafc"/>
+      <stop offset="1" stop-color="#eef2f7"/>
+    </linearGradient>
+  </defs>
+
+  <rect width="1000" height="560" fill="url(#bg2)"/>
+
+  <text x="500" y="36" text-anchor="middle" font-size="22" font-weight="700" fill="#0f172a">
+    印度五大 IT 服务公司：财年净增员工数（人）
+  </text>
+  <text x="500" y="58" text-anchor="middle" font-size="13" fill="#475569">
+    红柱 = 净减员　·　绿柱 = 净增员　·　数据按公开口径，截止 2026 年 3 月（FY26 含 Q4 尚未完全披露）
+  </text>
+
+  <!-- baseline -->
+  <g transform="translate(110,100)">
+    <line x1="0" y1="220" x2="820" y2="220" stroke="#0f172a" stroke-width="1.6"/>
+
+    <!-- y-axis ticks -->
+    <g font-size="10" fill="#64748b" text-anchor="end">
+      <text x="-6" y="64">+25,000</text>
+      <text x="-6" y="106">+10,000</text>
+      <text x="-6" y="148">0</text>
+      <text x="-6" y="180">−10,000</text>
+      <text x="-6" y="216">−25,000</text>
+      <text x="-6" y="240">−40,000</text>
+    </g>
+    <g stroke="#cbd5e1" stroke-width="0.8">
+      <line x1="0" y1="70" x2="820" y2="70"/>
+      <line x1="0" y1="112" x2="820" y2="112"/>
+      <line x1="0" y1="190" x2="820" y2="190"/>
+      <line x1="0" y1="224" x2="820" y2="224"/>
+      <line x1="0" y1="244" x2="820" y2="244" stroke-dasharray="3,3"/>
+    </g>
+
+    <!-- bars (FY24 - massive negative, FY25 - mild, FY26 - mild negative for many) -->
+    <!-- Each company group: 3 bars for FY24, FY25, FY26 -->
+    <!-- group width: 150; gap: 14 -->
+
+    <!-- TCS: FY24=-13,249 | FY25=-12,000 | FY26=-23,000 -->
+    <g transform="translate(20,0)">
+      <text x="60" y="265" text-anchor="middle" font-size="12" font-weight="700" fill="#0f172a">TCS</text>
+      <!-- FY24 -->
+      <rect x="6" y="184" width="36" height="36" fill="url(#barNeg)"/>
+      <text x="24" y="178" text-anchor="middle" font-size="10" fill="#7f1d1d">-13.2k</text>
+      <!-- FY25 -->
+      <rect x="48" y="186" width="36" height="34" fill="url(#barNeg)"/>
+      <text x="66" y="180" text-anchor="middle" font-size="10" fill="#7f1d1d">-12.0k</text>
+      <!-- FY26 -->
+      <rect x="90" y="170" width="36" height="50" fill="url(#barNeg)"/>
+      <text x="108" y="164" text-anchor="middle" font-size="10" font-weight="700" fill="#7f1d1d">-23.0k</text>
+    </g>
+
+    <!-- Infosys: FY24=-25,994 | FY25 ~flat | FY26 +5,000 mild -->
+    <g transform="translate(190,0)">
+      <text x="60" y="265" text-anchor="middle" font-size="12" font-weight="700" fill="#0f172a">Infosys</text>
+      <rect x="6" y="148" width="36" height="72" fill="url(#barNeg)"/>
+      <text x="24" y="142" text-anchor="middle" font-size="10" fill="#7f1d1d">-26.0k</text>
+      <rect x="48" y="216" width="36" height="6" fill="#94a3b8"/>
+      <text x="66" y="212" text-anchor="middle" font-size="10" fill="#475569">~0</text>
+      <rect x="90" y="205" width="36" height="15" fill="url(#barPos)"/>
+      <text x="108" y="200" text-anchor="middle" font-size="10" fill="#065f46">+5.0k</text>
+    </g>
+
+    <!-- Wipro: -24,516 | +6,500 | +6500 (but slow) -->
+    <g transform="translate(360,0)">
+      <text x="60" y="265" text-anchor="middle" font-size="12" font-weight="700" fill="#0f172a">Wipro</text>
+      <rect x="6" y="152" width="36" height="68" fill="url(#barNeg)"/>
+      <text x="24" y="146" text-anchor="middle" font-size="10" fill="#7f1d1d">-24.5k</text>
+      <rect x="48" y="202" width="36" height="18" fill="url(#barPos)"/>
+      <text x="66" y="196" text-anchor="middle" font-size="10" fill="#065f46">+6.5k</text>
+      <rect x="90" y="195" width="36" height="25" fill="url(#barPos)"/>
+      <text x="108" y="190" text-anchor="middle" font-size="10" fill="#065f46">+~0</text>
+    </g>
+
+    <!-- HCL: +1,537 | -261 | 略增 -->
+    <g transform="translate(530,0)">
+      <text x="60" y="265" text-anchor="middle" font-size="12" font-weight="700" fill="#0f172a">HCLTech</text>
+      <rect x="6" y="216" width="36" height="10" fill="url(#barPos)"/>
+      <text x="24" y="210" text-anchor="middle" font-size="10" fill="#065f46">+1.5k</text>
+      <rect x="48" y="220" width="36" height="3" fill="#94a3b8"/>
+      <text x="66" y="216" text-anchor="middle" font-size="9" fill="#475569">~ -0.3k</text>
+      <rect x="90" y="216" width="36" height="6" fill="url(#barPos)"/>
+      <text x="108" y="210" text-anchor="middle" font-size="10" fill="#065f46">+~0.3k</text>
+    </g>
+
+    <!-- TechM: -6,945 | -795 | unknown -->
+    <g transform="translate(700,0)">
+      <text x="60" y="265" text-anchor="middle" font-size="12" font-weight="700" fill="#0f172a">Tech M</text>
+      <rect x="6" y="201" width="36" height="19" fill="url(#barNeg)"/>
+      <text x="24" y="195" text-anchor="middle" font-size="10" fill="#7f1d1d">-6.9k</text>
+      <rect x="48" y="218" width="36" height="2" fill="#94a3b8"/>
+      <text x="66" y="214" text-anchor="middle" font-size="9" fill="#475569">~-0.8k</text>
+      <rect x="90" y="218" width="36" height="4" fill="#cbd5e1"/>
+      <text x="108" y="214" text-anchor="middle" font-size="9" fill="#475569">n/d</text>
+    </g>
+
+    <!-- bar group subtitle -->
+    <g font-size="10" fill="#64748b" text-anchor="middle">
+      <text x="80" y="290">FY24</text>
+      <text x="250" y="290">FY25</text>
+      <text x="420" y="290">FY26</text>
+    </g>
+
+    <!-- legend -->
+    <g transform="translate(540,0)">
+      <rect x="0" y="80" width="14" height="14" fill="url(#barNeg)"/>
+      <text x="20" y="92" font-size="11" fill="#475569">净减员</text>
+      <rect x="80" y="80" width="14" height="14" fill="url(#barPos)"/>
+      <text x="100" y="92" font-size="11" fill="#475569">净增员</text>
+      <rect x="160" y="80" width="14" height="14" fill="#94a3b8"/>
+      <text x="180" y="92" font-size="11" fill="#475569">近乎持平</text>
+    </g>
+  </g>
+
+  <!-- aggregate callout -->
+  <g transform="translate(110,420)">
+    <rect x="0" y="0" width="820" height="78" rx="8" fill="#fef2f2" stroke="#fecaca"/>
+    <text x="20" y="28" font-size="14" font-weight="700" fill="#7f1d1d">
+      五大 IT 合计：FY24 −69,167 → FY25 +12,718 → FY26 −6,981（财年净增员工数）
+    </text>
+    <text x="20" y="52" font-size="12" fill="#7f1d1d">
+      FY26 前 9 个月合计净增仅 <tspan font-weight="700">+17 名</tspan>（vs 去年同期 17,764 名）— 入口已被"焊死"。
+    </text>
+    <text x="20" y="70" font-size="11" fill="#475569">
+      来源：印度《经济时报》、路透社、NASSCOM、公司财报（FY24/FY25/FY26 多口径汇总）。
+    </text>
+  </g>
+</svg>

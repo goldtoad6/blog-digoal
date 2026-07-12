@@ -1,0 +1,133 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1000 460" font-family="-apple-system, 'PingFang SC', 'Helvetica Neue', Helvetica, Arial, sans-serif">
+  <defs>
+    <linearGradient id="niftyFill" x1="0" y1="0" x2="0" y2="1">
+      <stop offset="0" stop-color="#fca5a5" stop-opacity="0.55"/>
+      <stop offset="1" stop-color="#fee2e2" stop-opacity="0.05"/>
+    </linearGradient>
+    <linearGradient id="bg3" x1="0" y1="0" x2="0" y2="1">
+      <stop offset="0" stop-color="#f8fafc"/>
+      <stop offset="1" stop-color="#eef2f7"/>
+    </linearGradient>
+  </defs>
+
+  <rect width="1000" height="460" fill="url(#bg3)"/>
+
+  <text x="500" y="36" text-anchor="middle" font-size="22" font-weight="700" fill="#0f172a">
+    Nifty IT 指数：AI 时代印度科技股的"做空定价"
+  </text>
+  <text x="500" y="58" text-anchor="middle" font-size="13" fill="#475569">
+    2024-12 高点 46,089 → 2026-06 低点 ~26,270（−43%）；资本市场已经为"AI 替代"做出系统性定价
+  </text>
+
+  <!-- plot area -->
+  <g transform="translate(120,90)">
+    <!-- axes -->
+    <line x1="0" y1="0" x2="0" y2="280" stroke="#0f172a" stroke-width="1"/>
+    <line x1="0" y1="280" x2="800" y2="280" stroke="#0f172a" stroke-width="1"/>
+
+    <!-- grid -->
+    <g stroke="#e2e8f0" stroke-width="0.6">
+      <line x1="0" y1="40" x2="800" y2="40"/>
+      <line x1="0" y1="100" x2="800" y2="100"/>
+      <line x1="0" y1="160" x2="800" y2="160"/>
+      <line x1="0" y1="220" x2="800" y2="220"/>
+    </g>
+
+    <!-- y ticks -->
+    <g font-size="10" fill="#64748b" text-anchor="end">
+      <text x="-6" y="44">50k</text>
+      <text x="-6" y="104">40k</text>
+      <text x="-6" y="164">30k</text>
+      <text x="-6" y="224">20k</text>
+      <text x="-6" y="284">10k</text>
+    </g>
+
+    <!--
+      Quarterly close (approx, NSE Nifty IT)
+      2024-Q4 high 46089 → 2025Q1 40000 → 2025Q2 35000 → 2025Q3 33000 →
+      2025-Q4 32000 → 2026Q1 28000 (Anthropic event Feb) →
+      2026Q2 26270 (Jun low) → 2026-Q3 prelim ~29500 (early recovery)
+    -->
+    <!-- converted to chart coordinates: y = 280 - (val-10000)/40000*280 -->
+    <!-- let's use simple linear: 50000 -> y=20; 10000 -> y=280 ; span 40000 = 260 px → 1px per ~154 -->
+    <g transform="translate(0,0)">
+      <polyline fill="none" stroke="#dc2626" stroke-width="2.4" points="
+        60,5
+        140,55
+        220,90
+        300,105
+        380,112
+        460,140
+        540,160
+        620,135
+      "/>
+      <polygon fill="url(#niftyFill)" points="
+        60,5
+        140,55
+        220,90
+        300,105
+        380,112
+        460,140
+        540,160
+        620,135
+        620,280
+        60,280
+      "/>
+
+      <!-- data point markers -->
+      <g fill="#dc2626">
+        <circle cx="60" cy="5" r="4.5"/>
+        <circle cx="140" cy="55" r="3.5"/>
+        <circle cx="220" cy="90" r="3.5"/>
+        <circle cx="300" cy="105" r="3.5"/>
+        <circle cx="380" cy="112" r="3.5"/>
+        <circle cx="460" cy="140" r="3.5"/>
+        <circle cx="540" cy="160" r="5.5" fill="#7f1d1d"/>
+        <circle cx="620" cy="135" r="4.5"/>
+      </g>
+    </g>
+
+    <!-- x ticks -->
+    <g font-size="10" fill="#64748b" text-anchor="middle">
+      <text x="60" y="300">24Q4</text>
+      <text x="140" y="300">25Q1</text>
+      <text x="220" y="300">25Q2</text>
+      <text x="300" y="300">25Q3</text>
+      <text x="380" y="300">25Q4</text>
+      <text x="460" y="300">26Q1</text>
+      <text x="540" y="300">26Q2</text>
+      <text x="620" y="300">26Q3</text>
+    </g>
+
+    <!-- annotations -->
+    <g font-size="11" fill="#7f1d1d">
+      <rect x="48" y="-12" width="100" height="16" rx="3" fill="#fef2f2" stroke="#fca5a5"/>
+      <text x="98" y="0" text-anchor="middle" font-weight="700">46,089 高点</text>
+
+      <rect x="498" y="166" width="120" height="16" rx="3" fill="#fef2f2" stroke="#fca5a5"/>
+      <text x="558" y="178" text-anchor="middle" font-weight="700">26,270 低点 −43%</text>
+
+      <line x1="558" y1="166" x2="558" y2="160" stroke="#dc2626" stroke-width="1.2"/>
+    </g>
+
+    <!-- event markers -->
+    <g font-size="10" fill="#334155">
+      <line x1="460" y1="0" x2="460" y2="280" stroke="#94a3b8" stroke-dasharray="3,3"/>
+      <text x="465" y="14" font-weight="700">Anthropic 发布 (2026-02)</text>
+
+      <line x1="540" y1="0" x2="540" y2="280" stroke="#94a3b8" stroke-dasharray="3,3"/>
+      <text x="545" y="14" font-weight="700">Oracle 印度裁员 1万 + Accenture −18% 单日</text>
+    </g>
+  </g>
+
+  <!-- takeaway -->
+  <g transform="translate(120,400)">
+    <rect x="0" y="0" width="800" height="42" rx="6" fill="#eef2ff" stroke="#c7d2fe"/>
+    <text x="14" y="18" font-size="12" font-weight="700" fill="#312e81">
+      关键拐点
+    </text>
+    <text x="14" y="34" font-size="11" fill="#312e81">
+      Nifty IT 在 18 个月内回撤 43%，同期外资从印度股市撤离 276 亿美元；这不是"AI 实际冲击"的同义词，但它是"AI 真实冲击"被市场提前定价的证据。
+    </text>
+  </g>
+</svg>

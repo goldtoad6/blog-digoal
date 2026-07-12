@@ -1,0 +1,152 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1200 760" font-family="-apple-system, BlinkMacSystemFont, 'PingFang SC', 'Microsoft YaHei', sans-serif">
+  <!-- 背景 -->
+  <defs>
+    <linearGradient id="bg" x1="0" y1="0" x2="0" y2="1">
+      <stop offset="0%" stop-color="#0f172a"/>
+      <stop offset="100%" stop-color="#1e293b"/>
+    </linearGradient>
+    <linearGradient id="hotGrad" x1="0" y1="0" x2="1" y2="0">
+      <stop offset="0%" stop-color="#fbbf24"/>
+      <stop offset="100%" stop-color="#f59e0b"/>
+    </linearGradient>
+    <linearGradient id="warmGrad" x1="0" y1="0" x2="1" y2="0">
+      <stop offset="0%" stop-color="#fb923c"/>
+      <stop offset="100%" stop-color="#ea580c"/>
+    </linearGradient>
+    <linearGradient id="coolGrad" x1="0" y1="0" x2="1" y2="0">
+      <stop offset="0%" stop-color="#38bdf8"/>
+      <stop offset="100%" stop-color="#0284c7"/>
+    </linearGradient>
+    <linearGradient id="coldGrad" x1="0" y1="0" x2="1" y2="0">
+      <stop offset="0%" stop-color="#94a3b8"/>
+      <stop offset="100%" stop-color="#475569"/>
+    </linearGradient>
+    <filter id="shadow" x="-20%" y="-20%" width="140%" height="140%">
+      <feGaussianBlur in="SourceAlpha" stdDeviation="3"/>
+      <feOffset dx="0" dy="2" result="offsetblur"/>
+      <feComponentTransfer><feFuncA type="linear" slope="0.4"/></feComponentTransfer>
+      <feMerge><feMergeNode/><feMergeNode in="SourceGraphic"/></feMerge>
+    </filter>
+  </defs>
+
+  <rect width="1200" height="760" fill="url(#bg)"/>
+
+  <!-- 标题 -->
+  <text x="600" y="44" text-anchor="middle" font-size="24" font-weight="700" fill="#f1f5f9">AI Agent 生产链利润分布（2026 估算）</text>
+  <text x="600" y="68" text-anchor="middle" font-size="13" fill="#94a3b8">横向: 产业链分层（微笑曲线变体）　|　纵向: 估算利润池规模（美元, 对数刻度）　|　数据: 公司财报 / a16z / Semi Analysis</text>
+
+  <!-- Y 轴（对数刻度示意） -->
+  <line x1="100" y1="120" x2="100" y2="600" stroke="#475569" stroke-width="1.5"/>
+  <text x="60" y="130" text-anchor="middle" font-size="11" fill="#cbd5e1">$1000B+</text>
+  <text x="60" y="220" text-anchor="middle" font-size="11" fill="#cbd5e1">$300B</text>
+  <text x="60" y="310" text-anchor="middle" font-size="11" fill="#cbd5e1">$100B</text>
+  <text x="60" y="400" text-anchor="middle" font-size="11" fill="#cbd5e1">$30B</text>
+  <text x="60" y="490" text-anchor="middle" font-size="11" fill="#cbd5e1">$10B</text>
+  <text x="60" y="580" text-anchor="middle" font-size="11" fill="#cbd5e1">$3B</text>
+  <text x="60" y="610" text-anchor="middle" font-size="10" fill="#94a3b8">利润池</text>
+
+  <!-- 横向网格 -->
+  <g stroke="#334155" stroke-dasharray="3,3" stroke-width="0.5">
+    <line x1="100" y1="120" x2="1150" y2="120"/>
+    <line x1="100" y1="220" x2="1150" y2="220"/>
+    <line x1="100" y1="310" x2="1150" y2="310"/>
+    <line x1="100" y1="400" x2="1150" y2="400"/>
+    <line x1="100" y1="490" x2="1150" y2="490"/>
+    <line x1="100" y1="580" x2="1150" y2="580"/>
+  </g>
+
+  <!-- X 轴 -->
+  <line x1="100" y1="600" x2="1150" y2="600" stroke="#475569" stroke-width="1.5"/>
+
+  <!-- 7 层柱状条 (从左到右: 算力 → 云 → 数据/BaaS → 模型 → 编排 → 框架 → 应用) -->
+  <!-- Layer 1: 算力/芯片 (NVIDIA主导) - 估算利润池 ~$120B (NVIDIA 2025 数据中心毛利估算), bar高度 -->
+  <g filter="url(#shadow)">
+    <rect x="140" y="158" width="120" height="442" rx="6" fill="url(#hotGrad)" opacity="0.95"/>
+    <text x="200" y="148" text-anchor="middle" font-size="12" font-weight="700" fill="#fbbf24">≈ $120B</text>
+    <text x="200" y="625" text-anchor="middle" font-size="13" font-weight="600" fill="#f1f5f9">算力/芯片</text>
+    <text x="200" y="643" text-anchor="middle" font-size="11" fill="#cbd5e1">NVIDIA · TSMC</text>
+    <text x="200" y="659" text-anchor="middle" font-size="10" fill="#94a3b8">毛利率 ~75%</text>
+    <text x="200" y="675" text-anchor="middle" font-size="10" fill="#94a3b8">CR1 ≈ 90%</text>
+  </g>
+
+  <!-- Layer 2: 云基础设施 (AWS/Azure/GCP) -->
+  <g filter="url(#shadow)">
+    <rect x="285" y="178" width="120" height="422" rx="6" fill="url(#hotGrad)" opacity="0.85"/>
+    <text x="345" y="168" text-anchor="middle" font-size="12" font-weight="700" fill="#fbbf24">≈ $90B</text>
+    <text x="345" y="625" text-anchor="middle" font-size="13" font-weight="600" fill="#f1f5f9">云基础设施</text>
+    <text x="345" y="643" text-anchor="middle" font-size="11" fill="#cbd5e1">AWS · Azure · GCP</text>
+    <text x="345" y="659" text-anchor="middle" font-size="10" fill="#94a3b8">营业利润率 35-38%</text>
+    <text x="345" y="675" text-anchor="middle" font-size="10" fill="#94a3b8">CR3 ≈ 65%</text>
+  </g>
+
+  <!-- Layer 3: 数据 / BaaS -->
+  <g filter="url(#shadow)">
+    <rect x="430" y="478" width="120" height="122" rx="6" fill="url(#warmGrad)" opacity="0.85"/>
+    <text x="490" y="468" text-anchor="middle" font-size="12" font-weight="700" fill="#fdba74">≈ $5B</text>
+    <text x="490" y="625" text-anchor="middle" font-size="13" font-weight="600" fill="#f1f5f9">数据 / BaaS</text>
+    <text x="490" y="643" text-anchor="middle" font-size="11" fill="#cbd5e1">Supabase · Firebase</text>
+    <text x="490" y="659" text-anchor="middle" font-size="11" fill="#cbd5e1">Pinecone · MongoDB</text>
+    <text x="490" y="675" text-anchor="middle" font-size="10" fill="#94a3b8">毛利率 50-70%</text>
+    <text x="490" y="691" text-anchor="middle" font-size="10" fill="#94a3b8">CR5 ≈ 55%</text>
+  </g>
+
+  <!-- Layer 4: 基础模型 -->
+  <g filter="url(#shadow)">
+    <rect x="575" y="378" width="120" height="222" rx="6" fill="url(#warmGrad)" opacity="0.95"/>
+    <text x="635" y="368" text-anchor="middle" font-size="12" font-weight="700" fill="#fdba74">≈ $25B*</text>
+    <text x="635" y="625" text-anchor="middle" font-size="13" font-weight="600" fill="#f1f5f9">基础模型</text>
+    <text x="635" y="643" text-anchor="middle" font-size="11" fill="#cbd5e1">OpenAI · Anthropic</text>
+    <text x="635" y="659" text-anchor="middle" font-size="10" fill="#94a3b8">目前亏损中</text>
+    <text x="635" y="675" text-anchor="middle" font-size="10" fill="#94a3b8">CR3 ≈ 80%</text>
+  </g>
+
+  <!-- Layer 5: 编排/中间件 -->
+  <g filter="url(#shadow)">
+    <rect x="720" y="510" width="120" height="90" rx="6" fill="url(#coolGrad)" opacity="0.85"/>
+    <text x="780" y="500" text-anchor="middle" font-size="12" font-weight="700" fill="#7dd3fc">≈ $2B</text>
+    <text x="780" y="625" text-anchor="middle" font-size="13" font-weight="600" fill="#f1f5f9">编排/中间件</text>
+    <text x="780" y="643" text-anchor="middle" font-size="11" fill="#cbd5e1">LangChain · MCP</text>
+    <text x="780" y="659" text-anchor="middle" font-size="11" fill="#cbd5e1">Temporal · Inngest</text>
+    <text x="780" y="675" text-anchor="middle" font-size="10" fill="#94a3b8">多为开源 + 云</text>
+  </g>
+
+  <!-- Layer 6: Agent 框架 -->
+  <g filter="url(#shadow)">
+    <rect x="865" y="535" width="120" height="65" rx="6" fill="url(#coolGrad)" opacity="0.7"/>
+    <text x="925" y="525" text-anchor="middle" font-size="12" font-weight="700" fill="#7dd3fc">≈ $1B</text>
+    <text x="925" y="625" text-anchor="middle" font-size="13" font-weight="600" fill="#f1f5f9">Agent 框架</text>
+    <text x="925" y="643" text-anchor="middle" font-size="11" fill="#cbd5e1">CrewAI · AutoGen</text>
+    <text x="925" y="659" text-anchor="middle" font-size="11" fill="#cbd5e1">多数开源</text>
+  </g>
+
+  <!-- Layer 7: 应用 -->
+  <g filter="url(#shadow)">
+    <rect x="1010" y="418" width="120" height="182" rx="6" fill="url(#coldGrad)" opacity="0.85"/>
+    <text x="1070" y="408" text-anchor="middle" font-size="12" font-weight="700" fill="#cbd5e1">≈ $20B**</text>
+    <text x="1070" y="625" text-anchor="middle" font-size="13" font-weight="600" fill="#f1f5f9">应用</text>
+    <text x="1070" y="643" text-anchor="middle" font-size="11" fill="#cbd5e1">ChatGPT · Copilot</text>
+    <text x="1070" y="659" text-anchor="middle" font-size="11" fill="#cbd5e1">Manus · Devin</text>
+    <text x="1070" y="675" text-anchor="middle" font-size="10" fill="#94a3b8">长尾碎片化</text>
+    <text x="1070" y="691" text-anchor="middle" font-size="10" fill="#94a3b8">CR3 ≈ 35%</text>
+  </g>
+
+  <!-- 微笑曲线 -->
+  <path d="M 140 158 Q 275 130 345 178 Q 490 380 635 378 Q 780 510 925 535 Q 1010 480 1070 418"
+        fill="none" stroke="#fbbf24" stroke-width="2.5" stroke-dasharray="6,4" opacity="0.7"/>
+  <text x="275" y="115" font-size="11" fill="#fbbf24" font-style="italic">← 微笑曲线：利润集中在两端（算力 + 应用），中间低洼 →</text>
+
+  <!-- Higobase / BaaS 标注 -->
+  <g>
+    <rect x="430" y="700" width="120" height="40" rx="4" fill="none" stroke="#fbbf24" stroke-width="2" stroke-dasharray="4,3"/>
+    <text x="490" y="720" text-anchor="middle" font-size="11" font-weight="700" fill="#fbbf24">↑ Higobase 所处层</text>
+    <text x="490" y="734" text-anchor="middle" font-size="10" fill="#cbd5e1">利润池仅 ≈ $5B</text>
+  </g>
+
+  <!-- 注释: 数据来源 -->
+  <g>
+    <text x="100" y="730" font-size="10" fill="#64748b">* 基础模型层为营收估算（Anthropic ARR $44B、OpenAI ARR $20B+），当前未盈利</text>
+    <text x="100" y="745" font-size="10" fill="#64748b">** 应用层含 SaaS 嵌入（Copilot、ChatGPT Enterprise 等），长尾应用利润微薄</text>
+    <text x="700" y="745" font-size="10" fill="#64748b">数据源: 亚马逊财报、Semi Analysis、a16z、Sacra、TechCrunch</text>
+  </g>
+</svg>

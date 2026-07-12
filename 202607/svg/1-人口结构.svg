@@ -1,0 +1,146 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 900 600" font-family="-apple-system, 'Helvetica Neue', Arial, sans-serif">
+  <defs>
+    <linearGradient id="maleGrad" x1="0%" y1="0%" x2="100%" y2="0%">
+      <stop offset="0%" stop-color="#4A7BC8" stop-opacity="0.85"/>
+      <stop offset="100%" stop-color="#4A7BC8" stop-opacity="0.55"/>
+    </linearGradient>
+    <linearGradient id="femaleGrad" x1="0%" y1="0%" x2="100%" y2="0%">
+      <stop offset="0%" stop-color="#D96B7A" stop-opacity="0.55"/>
+      <stop offset="100%" stop-color="#D96B7A" stop-opacity="0.85"/>
+    </linearGradient>
+    <linearGradient id="maleGrad50" x1="0%" y1="0%" x2="100%" y2="0%">
+      <stop offset="0%" stop-color="#4A7BC8" stop-opacity="0.45"/>
+      <stop offset="100%" stop-color="#4A7BC8" stop-opacity="0.25"/>
+    </linearGradient>
+    <linearGradient id="femaleGrad50" x1="0%" y1="0%" x2="100%" y2="0%">
+      <stop offset="0%" stop-color="#D96B7A" stop-opacity="0.25"/>
+      <stop offset="100%" stop-color="#D96B7A" stop-opacity="0.45"/>
+    </linearGradient>
+  </defs>
+
+  <!-- Background -->
+  <rect width="900" height="600" fill="#FAFAF7"/>
+
+  <!-- Title -->
+  <text x="450" y="34" text-anchor="middle" font-size="20" font-weight="700" fill="#1A1A1A">印度人口金字塔：2024 vs 2050</text>
+  <text x="450" y="56" text-anchor="middle" font-size="13" fill="#666">人口红利窗口正在从「少年膨胀」转向「中年最厚」</text>
+
+  <!-- Center axis -->
+  <line x1="450" y1="90" x2="450" y2="540" stroke="#999" stroke-width="1"/>
+
+  <!-- Left side label -->
+  <text x="120" y="80" text-anchor="middle" font-size="12" font-weight="600" fill="#4A7BC8">男性 (Male)</text>
+  <text x="780" y="80" text-anchor="middle" font-size="12" font-weight="600" fill="#D96B7A">女性 (Female)</text>
+
+  <!-- Age groups with width based on millions of people, India 2024 estimates -->
+  <!-- Scale: 1 million = 0.45 px wide on each side -->
+  <!-- 2024: 0-14: ~370M, 15-29: ~350M, 30-44: ~310M, 45-59: ~220M, 60+: ~190M -->
+
+  <!-- 2024 bars (top of pair) -->
+  <!-- 0-14: 370M -->
+  <g>
+    <text x="220" y="115" text-anchor="end" font-size="11" fill="#444">0–14</text>
+    <text x="220" y="130" text-anchor="end" font-size="10" fill="#888">3.70亿</text>
+    <!-- Male -->
+    <rect x="285" y="105" width="148" height="22" fill="url(#maleGrad)"/>
+    <text x="441" y="121" text-anchor="end" font-size="10" fill="#FFF" font-weight="600">185M</text>
+    <!-- Female -->
+    <rect x="455" y="105" width="142" height="22" fill="url(#femaleGrad)"/>
+    <text x="603" y="121" font-size="10" fill="#FFF" font-weight="600">177M</text>
+  </g>
+
+  <!-- 15-29: 350M -->
+  <g>
+    <text x="220" y="160" text-anchor="end" font-size="11" fill="#444">15–29</text>
+    <text x="220" y="175" text-anchor="end" font-size="10" fill="#888">3.50亿</text>
+    <rect x="295" y="150" width="140" height="22" fill="url(#maleGrad)"/>
+    <text x="441" y="166" text-anchor="end" font-size="10" fill="#FFF" font-weight="600">175M</text>
+    <rect x="455" y="150" width="135" height="22" fill="url(#femaleGrad)"/>
+    <text x="596" y="166" font-size="10" fill="#FFF" font-weight="600">169M</text>
+  </g>
+
+  <!-- 30-44: 310M -->
+  <g>
+    <text x="220" y="205" text-anchor="end" font-size="11" fill="#444">30–44</text>
+    <text x="220" y="220" text-anchor="end" font-size="10" fill="#888">3.10亿</text>
+    <rect x="320" y="195" width="124" height="22" fill="url(#maleGrad)"/>
+    <text x="441" y="211" text-anchor="end" font-size="10" fill="#FFF" font-weight="600">155M</text>
+    <rect x="455" y="195" width="119" height="22" fill="url(#femaleGrad)"/>
+    <text x="580" y="211" font-size="10" fill="#FFF" font-weight="600">149M</text>
+  </g>
+
+  <!-- 45-59: 220M -->
+  <g>
+    <text x="220" y="250" text-anchor="end" font-size="11" fill="#444">45–59</text>
+    <text x="220" y="265" text-anchor="end" font-size="10" fill="#888">2.20亿</text>
+    <rect x="358" y="240" width="88" height="22" fill="url(#maleGrad)"/>
+    <text x="441" y="256" text-anchor="end" font-size="10" fill="#FFF" font-weight="600">110M</text>
+    <rect x="455" y="240" width="84" height="22" fill="url(#femaleGrad)"/>
+    <text x="545" y="256" font-size="10" fill="#FFF" font-weight="600">105M</text>
+  </g>
+
+  <!-- 60+: 190M -->
+  <g>
+    <text x="220" y="295" text-anchor="end" font-size="11" fill="#444">60+</text>
+    <text x="220" y="310" text-anchor="end" font-size="10" fill="#888">1.90亿</text>
+    <rect x="378" y="285" width="68" height="22" fill="url(#maleGrad)"/>
+    <text x="441" y="301" text-anchor="end" font-size="10" fill="#FFF" font-weight="600">92M</text>
+    <rect x="455" y="285" width="61" height="22" fill="url(#femaleGrad)"/>
+    <text x="521" y="301" font-size="10" fill="#FFF" font-weight="600">87M</text>
+  </g>
+
+  <!-- 2024 separator -->
+  <line x1="80" y1="335" x2="820" y2="335" stroke="#CCC" stroke-dasharray="4,3"/>
+  <text x="450" y="355" text-anchor="middle" font-size="11" font-weight="600" fill="#888">—— 2050 预测 ——</text>
+
+  <!-- 2050 bars -->
+  <!-- 0-14: 290M (declining) -->
+  <g>
+    <text x="220" y="385" text-anchor="end" font-size="11" fill="#444">0–14</text>
+    <text x="220" y="400" text-anchor="end" font-size="10" fill="#888">2.90亿 ↓</text>
+    <rect x="320" y="375" width="116" height="22" fill="url(#maleGrad50)"/>
+    <text x="441" y="391" text-anchor="end" font-size="10" fill="#FFF" font-weight="600">145M</text>
+    <rect x="455" y="375" width="110" height="22" fill="url(#femaleGrad50)"/>
+    <text x="571" y="391" font-size="10" fill="#FFF" font-weight="600">138M</text>
+  </g>
+
+  <!-- 15-29: 310M (smaller) -->
+  <g>
+    <text x="220" y="430" text-anchor="end" font-size="11" fill="#444">15–29</text>
+    <text x="220" y="445" text-anchor="end" font-size="10" fill="#888">3.10亿</text>
+    <rect x="330" y="420" width="106" height="22" fill="url(#maleGrad50)"/>
+    <text x="441" y="436" text-anchor="end" font-size="10" fill="#FFF" font-weight="600">155M</text>
+    <rect x="455" y="420" width="102" height="22" fill="url(#femaleGrad50)"/>
+    <text x="563" y="436" font-size="10" fill="#FFF" font-weight="600">151M</text>
+  </g>
+
+  <!-- 30-44: 360M (peaks) -->
+  <g>
+    <text x="220" y="475" text-anchor="end" font-size="11" fill="#444">30–44</text>
+    <text x="220" y="490" text-anchor="end" font-size="10" fill="#888">3.60亿 ↑</text>
+    <rect x="280" y="465" width="160" height="22" fill="url(#maleGrad50)"/>
+    <text x="441" y="481" text-anchor="end" font-size="10" fill="#FFF" font-weight="600">180M</text>
+    <rect x="455" y="465" width="156" height="22" fill="url(#femaleGrad50)"/>
+    <text x="617" y="481" font-size="10" fill="#FFF" font-weight="600">175M</text>
+  </g>
+
+  <!-- 45-59: 290M (growing) -->
+  <g>
+    <text x="220" y="520" text-anchor="end" font-size="11" fill="#444">45–59</text>
+    <text x="220" y="535" text-anchor="end" font-size="10" fill="#888">2.90亿 ↑</text>
+    <rect x="318" y="510" width="118" height="22" fill="url(#maleGrad50)"/>
+    <text x="441" y="526" text-anchor="end" font-size="10" fill="#FFF" font-weight="600">145M</text>
+    <rect x="455" y="510" width="115" height="22" fill="url(#femaleGrad50)"/>
+    <text x="576" y="526" font-size="10" fill="#FFF" font-weight="600">142M</text>
+  </g>
+
+  <!-- Annotation -->
+  <text x="700" y="475" font-size="11" fill="#C0464F" font-style="italic">↑ 30–44岁 劳动主力</text>
+  <text x="700" y="492" font-size="11" fill="#C0464F" font-style="italic">2050将达3.6亿峰值</text>
+  <text x="700" y="385" font-size="11" fill="#2E5E9E" font-style="italic">↓ 0–14岁 萎缩</text>
+  <text x="700" y="402" font-size="11" fill="#2E5E9E" font-style="italic">未来劳动力补给变窄</text>
+
+  <!-- Bottom notes -->
+  <text x="80" y="572" font-size="10" fill="#666">数据：UN World Population Prospects 2024（2024年估算）/ 2050为中等生育率情景预测</text>
+  <text x="80" y="588" font-size="10" fill="#666">口径：单位为百万人；条形宽度按各年龄组总人口（含两性合计）成比例缩放</text>
+</svg>

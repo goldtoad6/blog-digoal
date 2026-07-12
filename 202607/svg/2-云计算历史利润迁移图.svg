@@ -1,0 +1,88 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1100 620" font-family="-apple-system, BlinkMacSystemFont, 'PingFang SC', 'Microsoft YaHei', sans-serif">
+  <defs>
+    <linearGradient id="bg2" x1="0" y1="0" x2="0" y2="1">
+      <stop offset="0%" stop-color="#1e1b4b"/>
+      <stop offset="100%" stop-color="#312e81"/>
+    </linearGradient>
+  </defs>
+  <rect width="1100" height="620" fill="url(#bg2)"/>
+  <text x="550" y="42" text-anchor="middle" font-size="22" font-weight="700" fill="#f1f5f9">云计算三层利润迁移: 历史对 AI agent 时代的镜鉴</text>
+  <text x="550" y="64" text-anchor="middle" font-size="12" fill="#c7d2fe">2008-2024 云计算 / 2010-2025 移动 App / 2023-2026 AI Agent — 三段平行对照</text>
+  <!-- 三栏面板 -->
+  <!-- Panel 1: 云计算 -->
+  <g>
+    <rect x="40" y="100" width="320" height="440" rx="10" fill="#1e293b" opacity="0.7"/>
+    <text x="200" y="130" text-anchor="middle" font-size="16" font-weight="700" fill="#fbbf24">云计算 (2008-2024)</text>
+    <text x="70" y="170" font-size="13" font-weight="600" fill="#f1f5f9">IaaS — 利润最高</text>
+    <text x="70" y="188" font-size="11" fill="#cbd5e1">AWS 2025 营业利润 $125B</text>
+    <text x="70" y="204" font-size="11" fill="#cbd5e1">营业利润率 35-38%</text>
+    <text x="70" y="220" font-size="11" fill="#94a3b8">赢家: AWS / Azure / GCP</text>
+    <text x="70" y="260" font-size="13" font-weight="600" fill="#f1f5f9">PaaS / BaaS — 中间低洼</text>
+    <text x="70" y="278" font-size="11" fill="#cbd5e1">Heroku 估值 $85亿卖Salesforce</text>
+    <text x="70" y="294" font-size="11" fill="#cbd5e1">Firebase 被 Google 并购消化</text>
+    <text x="70" y="310" font-size="11" fill="#cbd5e1">Parse 被 Facebook 关停 (2017)</text>
+    <text x="70" y="326" font-size="11" fill="#94a3b8">"中间层被两端夹击"</text>
+    <text x="70" y="360" font-size="13" font-weight="600" fill="#f1f5f9">SaaS — 价值创造最广</text>
+    <text x="70" y="378" font-size="11" fill="#cbd5e1">Salesforce / ServiceNow / Adobe</text>
+    <text x="70" y="394" font-size="11" fill="#cbd5e1">"软件吞噬世界"</text>
+    <text x="70" y="410" font-size="11" fill="#94a3b8">但 2024 后受 AI 冲击估值杀</text>
+    <rect x="70" y="430" width="260" height="90" rx="6" fill="#0f172a" opacity="0.6"/>
+    <text x="80" y="450" font-size="11" font-weight="600" fill="#fbbf24">核心教训:</text>
+    <text x="80" y="470" font-size="11" fill="#cbd5e1">• PaaS / 中间层独立存活很难</text>
+    <text x="80" y="486" font-size="11" fill="#cbd5e1">• BaaS (Firebase) 命运: 被吞并</text>
+    <text x="80" y="502" font-size="11" fill="#cbd5e1">• IaaS 与 SaaS 形成"哑铃"</text>
+    <text x="80" y="518" font-size="11" fill="#fda4af">→ BaaS 在 AI 时代面临同样命运</text>
+  </g>
+  <!-- Panel 2: 移动 App -->
+  <g>
+    <rect x="390" y="100" width="320" height="440" rx="10" fill="#1e293b" opacity="0.7"/>
+    <text x="550" y="130" text-anchor="middle" font-size="16" font-weight="700" fill="#fbbf24">移动 App (2010-2025)</text>
+    <text x="420" y="170" font-size="13" font-weight="600" fill="#f1f5f9">终端 (苹果) — 利润最高</text>
+    <text x="420" y="188" font-size="11" fill="#cbd5e1">iPhone 毛利率 ~50%</text>
+    <text x="420" y="204" font-size="11" fill="#cbd5e1">苹果以 20% 市占赚 80% 行业利润</text>
+    <text x="420" y="220" font-size="11" fill="#94a3b8">赢家: Apple / 高通</text>
+    <text x="420" y="260" font-size="13" font-weight="600" fill="#f1f5f9">BaaS (Firebase 等) — 附庸层</text>
+    <text x="420" y="278" font-size="11" fill="#cbd5e1">Parse 被 Facebook 关停</text>
+    <text x="420" y="294" font-size="11" fill="#cbd5e1">Firebase 沦为 Google 流量入口</text>
+    <text x="420" y="310" font-size="11" fill="#cbd5e1">Supabase / Convex 仅 $100M 量级</text>
+    <text x="420" y="326" font-size="11" fill="#94a3b8">BaaS 利润被压缩到 &lt; 5%</text>
+    <text x="420" y="360" font-size="13" font-weight="600" fill="#f1f5f9">应用 — 头部集中 + 长尾</text>
+    <text x="420" y="378" font-size="11" fill="#cbd5e1">App Store 2025 GMV $1.4T</text>
+    <text x="420" y="394" font-size="11" fill="#cbd5e1">头部 1% 拿走 90% 收入</text>
+    <text x="420" y="410" font-size="11" fill="#94a3b8">90% 交易免佣金</text>
+    <rect x="420" y="430" width="260" height="90" rx="6" fill="#0f172a" opacity="0.6"/>
+    <text x="430" y="450" font-size="11" font-weight="600" fill="#fbbf24">核心教训:</text>
+    <text x="430" y="470" font-size="11" fill="#cbd5e1">• BaaS 始终是"管道的管道"</text>
+    <text x="430" y="486" font-size="11" fill="#cbd5e1">• 利润被 OS + 应用两端吸干</text>
+    <text x="430" y="502" font-size="11" fill="#cbd5e1">• 唯一例外: 被巨头并购退出</text>
+    <text x="430" y="518" font-size="11" fill="#fda4af">→ 中间层价值几乎为零</text>
+  </g>
+  <!-- Panel 3: AI Agent 预测 -->
+  <g>
+    <rect x="740" y="100" width="320" height="440" rx="10" fill="#1e293b" opacity="0.7"/>
+    <text x="900" y="130" text-anchor="middle" font-size="16" font-weight="700" fill="#fbbf24">AI Agent 链 (2023-2026+)</text>
+    <text x="770" y="170" font-size="13" font-weight="600" fill="#f1f5f9">算力 / 云 — 利润当前最高</text>
+    <text x="770" y="188" font-size="11" fill="#cbd5e1">AWS AI 年化收入 $150亿</text>
+    <text x="770" y="204" font-size="11" fill="#cbd5e1">NVIDIA 数据中心毛利 75%+</text>
+    <text x="770" y="220" font-size="11" fill="#94a3b8">赢家: NVIDIA / AWS</text>
+    <text x="770" y="260" font-size="13" font-weight="600" fill="#f1f5f9">BaaS / 数据层 — 中间低洼</text>
+    <text x="770" y="278" font-size="11" fill="#cbd5e1">Supabase 估值 $50亿 (ARR $70M)</text>
+    <text x="770" y="294" font-size="11" fill="#cbd5e1">Pinecone / MongoDB / Weaviate</text>
+    <text x="770" y="310" font-size="11" fill="#cbd5e1">面临 AWS / 模型厂自建挤压</text>
+    <text x="770" y="326" font-size="11" fill="#94a3b8">ARR 倍数低于模型厂 10×</text>
+    <text x="770" y="360" font-size="13" font-weight="600" fill="#f1f5f9">应用 — 头部 + 长尾分化</text>
+    <text x="770" y="378" font-size="11" fill="#cbd5e1">ChatGPT 周活 8 亿</text>
+    <text x="770" y="394" font-size="11" fill="#cbd5e1">a16z Top 100 头部 14 家连续上榜</text>
+    <text x="770" y="410" font-size="11" fill="#94a3b8">"洗牌完成, 行业进入稳态"</text>
+    <rect x="770" y="430" width="260" height="90" rx="6" fill="#0f172a" opacity="0.6"/>
+    <text x="780" y="450" font-size="11" font-weight="600" fill="#fbbf24">关键预测:</text>
+    <text x="780" y="470" font-size="11" fill="#cbd5e1">• BaaS 仍是低洼, $5B 量级</text>
+    <text x="780" y="486" font-size="11" fill="#cbd5e1">• 模型层向 BaaS 渗透 (MCP)</text>
+    <text x="780" y="502" font-size="11" fill="#cbd5e1">• 云厂商自建全栈 (Bedrock)</text>
+    <text x="780" y="518" font-size="11" fill="#fda4af">→ BaaS 独立价值空间有限</text>
+  </g>
+  <!-- 底部结论 -->
+  <text x="550" y="585" text-anchor="middle" font-size="13" fill="#fbbf24" font-weight="600">三段历史一致结论: 中间层 (PaaS / BaaS) 在 IT 价值链中长期处于"低洼" — 这与 higobase 的判断相矛盾</text>
+  <text x="550" y="605" text-anchor="middle" font-size="11" fill="#c7d2fe">数据来源: 亚马逊财报、App Store 经济报告 (Analysis Group)、Semi Analysis、a16z 2026 AI Apps Top 100</text>
+</svg>
