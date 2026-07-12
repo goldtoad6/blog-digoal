@@ -1,0 +1,142 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 960 540" font-family="-apple-system, 'PingFang SC', 'Helvetica Neue', Arial, sans-serif">
+  <defs>
+    <linearGradient id="hot" x1="0" y1="0" x2="0" y2="1">
+      <stop offset="0" stop-color="#ff5252"/><stop offset="1" stop-color="#c62828"/>
+    </linearGradient>
+    <linearGradient id="warm" x1="0" y1="0" x2="0" y2="1">
+      <stop offset="0" stop-color="#ffb74d"/><stop offset="1" stop-color="#ef6c00"/>
+    </linearGradient>
+    <linearGradient id="cool" x1="0" y1="0" x2="0" y2="1">
+      <stop offset="0" stop-color="#81d4fa"/><stop offset="1" stop-color="#1565c0"/>
+    </linearGradient>
+    <linearGradient id="neu" x1="0" y1="0" x2="0" y2="1">
+      <stop offset="0" stop-color="#e0e0e0"/><stop offset="1" stop-color="#9e9e9e"/>
+    </linearGradient>
+  </defs>
+
+  <rect width="960" height="540" fill="#fafafa"/>
+
+  <text x="480" y="34" text-anchor="middle" font-size="22" font-weight="700" fill="#222">能力矩阵：PG (with extensions) vs DuckDB</text>
+  <text x="480" y="58" text-anchor="middle" font-size="13" fill="#666">颜色 = 谁更优。红色 PG 显著占优，黄色 DuckDB 显著占优，蓝色各有胜负，灰 = 平</text>
+
+  <!-- column headers -->
+  <!-- 列布局: 能力维度[左边界15, 宽140, 居中85] | PG列[165, 宽270, 居中300] | DuckDB列[445, 宽270, 居中580] | 判定依据[730, 宽220, 居中840] -->
+  <g font-size="12" font-weight="700" fill="#222">
+    <text x="85" y="92" text-anchor="middle">能力维度</text>
+    <text x="300" y="92" text-anchor="middle" font-size="13">PostgreSQL + 扩展</text>
+    <text x="580" y="92" text-anchor="middle" font-size="13">DuckDB</text>
+    <text x="845" y="92" text-anchor="middle">判定依据</text>
+  </g>
+
+  <!-- Row 1: 高并发 OLTP -->
+  <g transform="translate(0,110)">
+    <text x="85" y="22" text-anchor="middle" font-size="11" fill="#222">高并发 OLTP</text>
+    <rect x="165" y="4" width="270" height="30" rx="4" fill="url(#hot)"/>
+    <text x="300" y="24" text-anchor="middle" font-size="12" font-weight="700" fill="#fff">PG 远胜：进程+MVCC+连接池成熟</text>
+    <rect x="445" y="4" width="270" height="30" rx="4" fill="url(#neu)"/>
+    <text x="580" y="24" text-anchor="middle" font-size="12" fill="#fff">单进程内，并发受限</text>
+    <text x="845" y="24" text-anchor="middle" font-size="10" fill="#333">PG 多 backend；DuckDB 1.x 写入为单写</text>
+  </g>
+
+  <!-- Row 2: 列存 OLAP 性能 -->
+  <g transform="translate(0,146)">
+    <text x="85" y="22" text-anchor="middle" font-size="11" fill="#222">列存 OLAP 性能</text>
+    <rect x="165" y="4" width="270" height="30" rx="4" fill="url(#warm)"/>
+    <text x="300" y="24" text-anchor="middle" font-size="12" font-weight="700" fill="#fff">PG 行存默认差；pg_duckdb 补齐</text>
+    <rect x="445" y="4" width="270" height="30" rx="4" fill="url(#warm)"/>
+    <text x="580" y="24" text-anchor="middle" font-size="12" font-weight="700" fill="#fff">DuckDB 列存+向量化原生强</text>
+    <text x="845" y="24" text-anchor="middle" font-size="10" fill="#333">TPC-H 200GB：DuckDB 与 ClickHouse 同档</text>
+  </g>
+
+  <!-- Row 3: 部署门槛 -->
+  <g transform="translate(0,182)">
+    <text x="85" y="22" text-anchor="middle" font-size="11" fill="#222">部署/启动门槛</text>
+    <rect x="165" y="4" width="270" height="30" rx="4" fill="url(#cool)"/>
+    <text x="300" y="24" text-anchor="middle" font-size="12" font-weight="700" fill="#fff">PG 中等：装包/初始化/启服务</text>
+    <rect x="445" y="4" width="270" height="30" rx="4" fill="url(#warm)"/>
+    <text x="580" y="24" text-anchor="middle" font-size="12" font-weight="700" fill="#fff">DuckDB 极低：import 即用</text>
+    <text x="845" y="24" text-anchor="middle" font-size="10" fill="#333">Pigsty / Docker 一键；DuckDB pip install</text>
+  </g>
+
+  <!-- Row 4: 对象存储 (S3/OSS) -->
+  <g transform="translate(0,218)">
+    <text x="85" y="22" text-anchor="middle" font-size="11" fill="#222">对象存储</text>
+    <rect x="165" y="4" width="270" height="30" rx="4" fill="url(#cool)"/>
+    <text x="300" y="24" text-anchor="middle" font-size="12" font-weight="700" fill="#fff">PG 走 pg_duckdb/lakehouse 包装</text>
+    <rect x="445" y="4" width="270" height="30" rx="4" fill="url(#warm)"/>
+    <text x="580" y="24" text-anchor="middle" font-size="12" font-weight="700" fill="#fff">DuckDB httpfs/iceberg/delta 原生</text>
+    <text x="845" y="24" text-anchor="middle" font-size="10" fill="#333">read_parquet('s3://...') 一行搞定</text>
+  </g>
+
+  <!-- Row 5: AI 向量检索 -->
+  <g transform="translate(0,254)">
+    <text x="85" y="22" text-anchor="middle" font-size="11" fill="#222">AI 向量检索 (RAG)</text>
+    <rect x="165" y="4" width="270" height="30" rx="4" fill="url(#hot)"/>
+    <text x="300" y="24" text-anchor="middle" font-size="12" font-weight="700" fill="#fff">pgvector HNSW 成熟、与事务同边界</text>
+    <rect x="445" y="4" width="270" height="30" rx="4" fill="url(#warm)"/>
+    <text x="580" y="24" text-anchor="middle" font-size="12" font-weight="700" fill="#fff">DuckDB vss 起步晚，与 Arrow/本地契合</text>
+    <text x="845" y="24" text-anchor="middle" font-size="10" fill="#333">pgvector 0.7+ 量化/迭代扫描；vss 仍在迭代</text>
+  </g>
+
+  <!-- Row 6: 地理空间 -->
+  <g transform="translate(0,290)">
+    <text x="85" y="22" text-anchor="middle" font-size="11" fill="#222">地理空间 GIS</text>
+    <rect x="165" y="4" width="270" height="30" rx="4" fill="url(#hot)"/>
+    <text x="300" y="24" text-anchor="middle" font-size="12" font-weight="700" fill="#fff">PostGIS 是事实标准，OGC 完整</text>
+    <rect x="445" y="4" width="270" height="30" rx="4" fill="url(#neu)"/>
+    <text x="580" y="24" text-anchor="middle" font-size="12" fill="#fff">DuckDB spatial 1.5 进入核心类型</text>
+    <text x="845" y="24" text-anchor="middle" font-size="10" fill="#333">DuckDB 1.5 GEOMETRY 内置；功能不及 PostGIS</text>
+  </g>
+
+  <!-- Row 7: 时序 -->
+  <g transform="translate(0,326)">
+    <text x="85" y="22" text-anchor="middle" font-size="11" fill="#222">时序 / IoT</text>
+    <rect x="165" y="4" width="270" height="30" rx="4" fill="url(#hot)"/>
+    <text x="300" y="24" text-anchor="middle" font-size="12" font-weight="700" fill="#fff">TimescaleDB 久经验证</text>
+    <rect x="445" y="4" width="270" height="30" rx="4" fill="url(#cool)"/>
+    <text x="580" y="24" text-anchor="middle" font-size="12" font-weight="700" fill="#fff">DuckDB 暂未原生，靠分区+append</text>
+    <text x="845" y="24" text-anchor="middle" font-size="10" fill="#333">TimescaleDB 已 8 年生产；DuckDB 保留策略弱</text>
+  </g>
+
+  <!-- Row 8: 高可用/复制 -->
+  <g transform="translate(0,362)">
+    <text x="85" y="22" text-anchor="middle" font-size="11" fill="#222">高可用 / 主备复制</text>
+    <rect x="165" y="4" width="270" height="30" rx="4" fill="url(#hot)"/>
+    <text x="300" y="24" text-anchor="middle" font-size="12" font-weight="700" fill="#fff">流复制 + Patroni + pgBackRest</text>
+    <rect x="445" y="4" width="270" height="30" rx="4" fill="url(#neu)"/>
+    <text x="580" y="24" text-anchor="middle" font-size="12" fill="#fff">DuckDB 1.5.3 Quack 协议起步</text>
+    <text x="845" y="24" text-anchor="middle" font-size="10" fill="#333">Quack 协议 2026 秋 GA；生产 HA 缺位</text>
+  </g>
+
+  <!-- Row 9: 单机写吞吐 -->
+  <g transform="translate(0,398)">
+    <text x="85" y="22" text-anchor="middle" font-size="11" fill="#222">单机高速 DML</text>
+    <rect x="165" y="4" width="270" height="30" rx="4" fill="url(#neu)"/>
+    <text x="300" y="24" text-anchor="middle" font-size="12" fill="#fff">COPY 可达，但受 MVCC/索引拖累</text>
+    <rect x="445" y="4" width="270" height="30" rx="4" fill="url(#warm)"/>
+    <text x="580" y="24" text-anchor="middle" font-size="12" font-weight="700" fill="#fff">Arc+DuckDB 18.6M rec/s, P99&lt;4ms</text>
+    <text x="845" y="24" text-anchor="middle" font-size="10" fill="#333">tonybai.com 2026-03；M3 Max 实测</text>
+  </g>
+
+  <!-- Row 10: 本地/边缘 -->
+  <g transform="translate(0,434)">
+    <text x="85" y="22" text-anchor="middle" font-size="11" fill="#222">本地 App / 边缘</text>
+    <rect x="165" y="4" width="270" height="30" rx="4" fill="url(#neu)"/>
+    <text x="300" y="24" text-anchor="middle" font-size="12" fill="#fff">需要服务进程+运维</text>
+    <rect x="445" y="4" width="270" height="30" rx="4" fill="url(#warm)"/>
+    <text x="580" y="24" text-anchor="middle" font-size="12" font-weight="700" fill="#fff">DuckDB 嵌入式，零运维</text>
+    <text x="845" y="24" text-anchor="middle" font-size="10" fill="#333">DuckDB-Wasm 浏览器里都能跑</text>
+  </g>
+
+  <!-- legend -->
+  <g transform="translate(20,490)">
+    <rect x="0" y="0" width="22" height="14" fill="url(#hot)"/>
+    <text x="28" y="12" font-size="11" fill="#222">PG 显著占优</text>
+    <rect x="120" y="0" width="22" height="14" fill="url(#warm)"/>
+    <text x="148" y="12" font-size="11" fill="#222">DuckDB 显著占优</text>
+    <rect x="280" y="0" width="22" height="14" fill="url(#cool)"/>
+    <text x="308" y="12" font-size="11" fill="#222">各有胜负 / 互补</text>
+    <rect x="430" y="0" width="22" height="14" fill="url(#neu)"/>
+    <text x="458" y="12" font-size="11" fill="#222">暂未拉出差距</text>
+  </g>
+</svg>

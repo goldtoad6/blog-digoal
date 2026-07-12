@@ -1,0 +1,225 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1080 760" font-family="-apple-system, 'PingFang SC', 'Helvetica Neue', Arial, sans-serif">
+  <defs>
+    <linearGradient id="bg" x1="0" y1="0" x2="0" y2="1">
+      <stop offset="0%" stop-color="#0f172a"/>
+      <stop offset="100%" stop-color="#1e293b"/>
+    </linearGradient>
+    <linearGradient id="pg" x1="0" y1="0" x2="1" y2="0">
+      <stop offset="0%" stop-color="#336791"/>
+      <stop offset="100%" stop-color="#1e4a6e"/>
+    </linearGradient>
+    <linearGradient id="duck" x1="0" y1="0" x2="1" y2="0">
+      <stop offset="0%" stop-color="#fff000"/>
+      <stop offset="100%" stop-color="#f5b800"/>
+    </linearGradient>
+    <linearGradient id="bridge" x1="0" y1="0" x2="1" y2="0">
+      <stop offset="0%" stop-color="#336791"/>
+      <stop offset="50%" stop-color="#94a3b8"/>
+      <stop offset="100%" stop-color="#f5b800"/>
+    </linearGradient>
+    <filter id="glow" x="-20%" y="-20%" width="140%" height="140%">
+      <feGaussianBlur stdDeviation="3" result="blur"/>
+      <feMerge><feMergeNode in="blur"/><feMergeNode in="SourceGraphic"/></feMerge>
+    </filter>
+    <marker id="arrow" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="6" markerHeight="6" orient="auto-start-reverse">
+      <path d="M0,0 L10,5 L0,10 Z" fill="#cbd5e1"/>
+    </marker>
+  </defs>
+
+  <!-- Background -->
+  <rect width="1080" height="760" fill="url(#bg)"/>
+
+  <!-- Title -->
+  <text x="540" y="42" text-anchor="middle" fill="#f8fafc" font-size="24" font-weight="700">PG 系 vs DuckDB 系：未来 3-5 年数据库格局攻防图</text>
+  <text x="540" y="66" text-anchor="middle" fill="#94a3b8" font-size="13">扩展万能主义（C/S 范式） vs 嵌入式原生主义（Local-First 范式）</text>
+
+  <!-- LEFT: PG Empire -->
+  <g transform="translate(40,100)">
+    <rect x="0" y="0" width="340" height="600" rx="14" fill="#0b1e33" stroke="url(#pg)" stroke-width="2"/>
+    <text x="170" y="32" text-anchor="middle" fill="#7fb6dd" font-size="16" font-weight="700">PostgreSQL 帝国</text>
+    <text x="170" y="50" text-anchor="middle" fill="#64748b" font-size="11">30 年积累 · SQL 标准 · 扩展机制 · C/S 范式</text>
+
+    <!-- Core -->
+    <rect x="100" y="70" width="140" height="46" rx="8" fill="url(#pg)" filter="url(#glow)"/>
+    <text x="170" y="98" text-anchor="middle" fill="#fff" font-size="14" font-weight="700">PostgreSQL Core</text>
+
+    <!-- Extensions -->
+    <g font-size="11" fill="#e2e8f0">
+      <rect x="20" y="140" width="86" height="32" rx="6" fill="#1e3a5f" stroke="#5b8db8"/>
+      <text x="63" y="161" text-anchor="middle">pgvector</text>
+      <rect x="115" y="140" width="86" height="32" rx="6" fill="#1e3a5f" stroke="#5b8db8"/>
+      <text x="158" y="161" text-anchor="middle">PostGIS</text>
+      <rect x="210" y="140" width="86" height="32" rx="6" fill="#1e3a5f" stroke="#5b8db8"/>
+      <text x="253" y="161" text-anchor="middle">Timescale</text>
+
+      <rect x="20" y="180" width="86" height="32" rx="6" fill="#1e3a5f" stroke="#5b8db8"/>
+      <text x="63" y="201" text-anchor="middle">Citus</text>
+      <rect x="115" y="180" width="86" height="32" rx="6" fill="#1e3a5f" stroke="#5b8db8"/>
+      <text x="158" y="201" text-anchor="middle">AGE（图）</text>
+      <rect x="210" y="180" width="86" height="32" rx="6" fill="#facc15" stroke="#fbbf24" stroke-width="2"/>
+      <text x="253" y="201" text-anchor="middle" fill="#1e293b" font-weight="700">pg_duckdb ★</text>
+    </g>
+
+    <!-- Cloud arms -->
+    <text x="170" y="240" text-anchor="middle" fill="#64748b" font-size="11">—— 云原生变体（$100B+ 估值生态） ——</text>
+    <g font-size="11" fill="#e2e8f0">
+      <rect x="20" y="256" width="86" height="46" rx="6" fill="#0c3a5e" stroke="#60a5fa"/>
+      <text x="63" y="277" text-anchor="middle" font-weight="700">Supabase</text>
+      <text x="63" y="293" text-anchor="middle" fill="#94a3b8" font-size="9">$5B / ARR $70M</text>
+
+      <rect x="115" y="256" width="86" height="46" rx="6" fill="#0c3a5e" stroke="#60a5fa"/>
+      <text x="158" y="277" text-anchor="middle" font-weight="700">Neon</text>
+      <text x="158" y="293" text-anchor="middle" fill="#94a3b8" font-size="9">Serverless PG</text>
+
+      <rect x="210" y="256" width="100" height="46" rx="6" fill="#0c3a5e" stroke="#60a5fa"/>
+      <text x="260" y="277" text-anchor="middle" font-weight="700">Timescale Cloud</text>
+      <text x="260" y="293" text-anchor="middle" fill="#94a3b8" font-size="9">时序 SaaS</text>
+    </g>
+
+    <!-- Internal PG 18 + AI -->
+    <rect x="20" y="320" width="290" height="50" rx="8" fill="#08263f" stroke="#3b82f6"/>
+    <text x="32" y="340" fill="#93c5fd" font-size="11" font-weight="700">PG 18 (2025-09) · 原生异步 I/O + 向量</text>
+    <text x="32" y="358" fill="#cbd5e1" font-size="10">OpenAI 8 亿用户 ChatGPT 主库 = 1 PG 主 + 50 只读副本</text>
+
+    <!-- Strengths -->
+    <g font-size="11" fill="#cbd5e1">
+      <text x="20" y="396" fill="#7fb6dd" font-weight="700">护城河</text>
+      <text x="20" y="416">• SQL 兼容性 + ACID 硬指标</text>
+      <text x="20" y="434">• OLTP + HTAP 主战场</text>
+      <text x="20" y="452">• 企业部署惯性 + 30 年生态</text>
+      <text x="20" y="470">• 扩展机制是真正的"瑞士军刀"</text>
+
+      <text x="20" y="500" fill="#f87171" font-weight="700">短板</text>
+      <text x="20" y="520">• OLAP 全表扫慢（PG 也承认）</text>
+      <text x="20" y="538">• 运维门槛高（参数 200+）</text>
+      <text x="20" y="556">• 多模态要靠拼装，单进程不可嵌入</text>
+    </g>
+  </g>
+
+  <!-- RIGHT: DuckDB Ecosystem -->
+  <g transform="translate(700,100)">
+    <rect x="0" y="0" width="340" height="600" rx="14" fill="#1c1708" stroke="url(#duck)" stroke-width="2"/>
+    <text x="170" y="32" text-anchor="middle" fill="#fde047" font-size="16" font-weight="700">DuckDB 生态</text>
+    <text x="170" y="50" text-anchor="middle" fill="#a8a29e" font-size="11">CWI 2018 · MIT 永久开源 · 嵌入式 · Arrow 原生</text>
+
+    <!-- Core -->
+    <rect x="100" y="70" width="140" height="46" rx="8" fill="url(#duck)" filter="url(#glow)"/>
+    <text x="170" y="98" text-anchor="middle" fill="#1e293b" font-size="14" font-weight="700">DuckDB In-Process</text>
+
+    <!-- Engine pieces -->
+    <g font-size="11" fill="#e2e8f0">
+      <rect x="20" y="140" width="86" height="32" rx="6" fill="#3d2e08" stroke="#fbbf24"/>
+      <text x="63" y="161" text-anchor="middle">向量化引擎</text>
+      <rect x="115" y="140" width="86" height="32" rx="6" fill="#3d2e08" stroke="#fbbf24"/>
+      <text x="158" y="161" text-anchor="middle">MVCC 事务</text>
+      <rect x="210" y="140" width="86" height="32" rx="6" fill="#3d2e08" stroke="#fbbf24"/>
+      <text x="253" y="161" text-anchor="middle">Parquet/Arrow</text>
+
+      <rect x="20" y="180" width="86" height="32" rx="6" fill="#3d2e08" stroke="#fbbf24"/>
+      <text x="63" y="201" text-anchor="middle">Iceberg 扩展</text>
+      <rect x="115" y="180" width="86" height="32" rx="6" fill="#3d2e08" stroke="#fbbf24"/>
+      <text x="158" y="201" text-anchor="middle">DuckLake v1.0</text>
+      <rect x="210" y="180" width="86" height="32" rx="6" fill="#3d2e08" stroke="#fbbf24"/>
+      <text x="253" y="201" text-anchor="middle">DuckDB-Wasm</text>
+    </g>
+
+    <!-- Cloud arm -->
+    <text x="170" y="240" text-anchor="middle" fill="#a8a29e" font-size="11">—— 云原生 + 工具链 ——</text>
+    <g font-size="11" fill="#e2e8f0">
+      <rect x="20" y="256" width="86" height="46" rx="6" fill="#1e1e0a" stroke="#facc15"/>
+      <text x="63" y="277" text-anchor="middle" font-weight="700">MotherDuck</text>
+      <text x="63" y="293" text-anchor="middle" fill="#a8a29e" font-size="9">Cloud DW</text>
+
+      <rect x="115" y="256" width="86" height="46" rx="6" fill="#1e1e0a" stroke="#facc15"/>
+      <text x="158" y="277" text-anchor="middle" font-weight="700">dbt-duckdb</text>
+      <text x="158" y="293" text-anchor="middle" fill="#a8a29e" font-size="9">本地 ELT</text>
+
+      <rect x="210" y="256" width="100" height="46" rx="6" fill="#1e1e0a" stroke="#facc15"/>
+      <text x="260" y="277" text-anchor="middle" font-weight="700">Fivetran 接入</text>
+      <text x="260" y="293" text-anchor="middle" fill="#a8a29e" font-size="9">企业管道</text>
+    </g>
+
+    <!-- Local-first / AI -->
+    <rect x="20" y="320" width="290" height="50" rx="8" fill="#2a2008" stroke="#facc15"/>
+    <text x="32" y="340" fill="#fde047" font-size="11" font-weight="700">Quack 协议 (2026-05) · C/S 范式扩展</text>
+    <text x="32" y="358" fill="#cbd5e1" font-size="10">1.4 LTS (Andium) 加密 + MERGE；1.5 列存加密</text>
+
+    <!-- Strengths -->
+    <g font-size="11" fill="#cbd5e1">
+      <text x="20" y="396" fill="#fde047" font-weight="700">护城河</text>
+      <text x="20" y="416">• OLAP 单机世界级（ClickBench 领先）</text>
+      <text x="20" y="434">• 嵌入式 + 零运维 + 库形式分发</text>
+      <text x="20" y="452">• Arrow 生态天然适配 AI/ML</text>
+      <text x="20" y="470">• 30 万行 C++ 引擎，1.0+ 稳定性承诺</text>
+
+      <text x="20" y="500" fill="#f87171" font-weight="700">短板</text>
+      <text x="20" y="520">• 单机内存限制（无原生分布式）</text>
+      <text x="20" y="538">• OLTP 高并发写入弱</text>
+      <text x="20" y="556">• 商业化公司（MotherDuck）体量小</text>
+    </g>
+  </g>
+
+  <!-- MIDDLE: Bridge zone -->
+  <g transform="translate(380,100)">
+    <rect x="0" y="0" width="320" height="600" rx="14" fill="#1a1f2e" stroke="#475569" stroke-width="1.5" stroke-dasharray="6,4"/>
+    <text x="160" y="32" text-anchor="middle" fill="#e2e8f0" font-size="16" font-weight="700">中间地带 · 真正的战场</text>
+    <text x="160" y="50" text-anchor="middle" fill="#94a3b8" font-size="11">AI / 数据湖 / 嵌入式分析 / Lakehouse</text>
+
+    <!-- Bridge line -->
+    <line x1="20" y1="74" x2="300" y2="74" stroke="url(#bridge)" stroke-width="3"/>
+    <text x="160" y="68" text-anchor="middle" fill="#cbd5e1" font-size="11" font-weight="700">pg_duckdb —— 双向渗透的最关键节点</text>
+
+    <!-- Scenarios -->
+    <g font-size="11" fill="#e2e8f0">
+      <!-- AI RAG -->
+      <rect x="20" y="90" width="280" height="60" rx="8" fill="#0f172a" stroke="#60a5fa"/>
+      <text x="32" y="110" font-weight="700" fill="#93c5fd">AI Agent + 小数据</text>
+      <text x="32" y="128" fill="#cbd5e1">本地 Parquet + 向量 + LLM 直连</text>
+      <text x="32" y="144" fill="#94a3b8" font-size="10">→ DuckDB-Wasm / MotherDuck Flights 抢位</text>
+
+      <!-- Lakehouse -->
+      <rect x="20" y="160" width="280" height="60" rx="8" fill="#0f172a" stroke="#60a5fa"/>
+      <text x="32" y="180" font-weight="700" fill="#93c5fd">Lakehouse / 数据湖</text>
+      <text x="32" y="198" fill="#cbd5e1">Iceberg 已成事实标准；DuckLake v1.0 跟进</text>
+      <text x="32" y="214" fill="#94a3b8" font-size="10">→ Snowflake Polaris vs MotherDuck + DuckLake</text>
+
+      <!-- OLAP pushdown -->
+      <rect x="20" y="230" width="280" height="60" rx="8" fill="#0f172a" stroke="#60a5fa"/>
+      <text x="32" y="250" font-weight="700" fill="#93c5fd">OLAP 下推到 PG 进程内</text>
+      <text x="32" y="268" fill="#cbd5e1">pg_duckdb v1.1.1（2025-12）· 列存 + 双执行</text>
+      <text x="32" y="284" fill="#94a3b8" font-size="10">→ PG 保住"一库"承诺，避免用户外逃</text>
+
+      <!-- Hybrid HTAP -->
+      <rect x="20" y="300" width="280" height="60" rx="8" fill="#0f172a" stroke="#60a5fa"/>
+      <text x="32" y="320" font-weight="700" fill="#93c5fd">HTAP / 实时分析</text>
+      <text x="32" y="338" fill="#cbd5e1">OLTP 走 PG / Neon，OLAP 走 DuckDB 引擎</text>
+      <text x="32" y="354" fill="#94a3b8" font-size="10">→ 架构共识 = 两个引擎，不是一个</text>
+
+      <!-- Local-first -->
+      <rect x="20" y="370" width="280" height="60" rx="8" fill="#0f172a" stroke="#60a5fa"/>
+      <text x="32" y="390" font-weight="700" fill="#93c5fd">Local-First / 端侧智能</text>
+      <text x="32" y="408" fill="#cbd5e1">Ink &amp; Switch 2019 → Calm Tech 回归</text>
+      <text x="32" y="424" fill="#94a3b8" font-size="10">→ 嵌入式范式的根本哲学支撑</text>
+
+      <!-- Defense -->
+      <rect x="20" y="440" width="280" height="50" rx="8" fill="#1f1206" stroke="#f59e0b"/>
+      <text x="32" y="460" font-weight="700" fill="#fbbf24">PG 的反吃招数</text>
+      <text x="32" y="476" fill="#fde68a" font-size="10">pg_duckdb 收编 + PG 18 向量 + Citus 分布式</text>
+
+      <!-- Counterattack -->
+      <rect x="20" y="500" width="280" height="50" rx="8" fill="#1f1a06" stroke="#facc15"/>
+      <text x="32" y="520" font-weight="700" fill="#facc15">DuckDB 的扩张招数</text>
+      <text x="32" y="536" fill="#fef3c7" font-size="10">Quack 协议 + MotherDuck Flights + DuckLake</text>
+    </g>
+
+    <!-- Bottom conclusion -->
+    <text x="160" y="582" text-anchor="middle" fill="#fff" font-size="13" font-weight="700">三年后判断：</text>
+    <text x="160" y="598" text-anchor="middle" fill="#fff" font-size="11">不是谁吃掉谁，而是两个引擎分层共生</text>
+  </g>
+
+  <!-- Bottom timeline -->
+  <g transform="translate(40,720)">
+    <text x="500" y="14" text-anchor="middle" fill="#94a3b8" font-size="11">图例：蓝色 = PG 系；黄色 = DuckDB 系；中间灰区 = 真正争夺的场景</text>
+  </g>
+</svg>

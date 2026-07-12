@@ -1,0 +1,168 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1200 760" font-family="-apple-system, 'Segoe UI', Roboto, sans-serif">
+  <defs>
+    <linearGradient id="gradPg" x1="0" y1="0" x2="0" y2="1">
+      <stop offset="0%" stop-color="#336791"/>
+      <stop offset="100%" stop-color="#1e3f5e"/>
+    </linearGradient>
+    <linearGradient id="gradDuck" x1="0" y1="0" x2="0" y2="1">
+      <stop offset="0%" stop-color="#FFF000"/>
+      <stop offset="100%" stop-color="#d4c800"/>
+    </linearGradient>
+    <linearGradient id="gradBoth" x1="0" y1="0" x2="0" y2="1">
+      <stop offset="0%" stop-color="#7c5cff"/>
+      <stop offset="100%" stop-color="#5340c9"/>
+    </linearGradient>
+    <filter id="shadow"><feDropShadow dx="0" dy="2" stdDeviation="3" flood-opacity="0.18"/></filter>
+  </defs>
+
+  <rect width="1200" height="760" fill="#fafbfc"/>
+
+  <text x="600" y="38" text-anchor="middle" font-size="22" font-weight="700" fill="#1a1a2e">AI 数据工作负载七类形态 与 嵌入式 vs 服务式 DB 适配矩阵</text>
+  <text x="600" y="62" text-anchor="middle" font-size="13" fill="#666">前置判断:工作负载是否需要"多客户端共享可变状态+长事务+多模检索"</text>
+
+  <g font-size="12" fill="#1a1a2e">
+    <!-- Column header -->
+    <text x="220" y="100" text-anchor="middle" font-weight="700" fill="#444">AI 工作负载类型</text>
+    <text x="540" y="100" text-anchor="middle" font-weight="700" fill="#336791">PostgreSQL + 扩展 (PG)</text>
+    <text x="850" y="100" text-anchor="middle" font-weight="700" fill="#a68b00">DuckDB / 嵌入式 OLAP</text>
+    <text x="1090" y="100" text-anchor="middle" font-weight="700" fill="#444">结论</text>
+
+    <!-- Row 1: RAG 元数据+ 向量检索 -->
+    <g transform="translate(0,120)">
+      <rect x="20" y="0" width="400" height="70" rx="6" fill="#fff" stroke="#dde1e7"/>
+      <text x="40" y="25" font-weight="700">1. 在线 RAG 检索服务</text>
+      <text x="40" y="46" fill="#555">多租户/高并发/HNSW+ BM25 混合/事务一致性</text>
+      <text x="40" y="62" fill="#888" font-size="11">例如: Notion AI、Replit Ghostwriter</text>
+      <rect x="430" y="0" width="220" height="70" rx="6" fill="url(#gradPg)" filter="url(#shadow)"/>
+      <text x="540" y="28" text-anchor="middle" fill="#fff" font-weight="700">高度适合</text>
+      <text x="540" y="50" text-anchor="middle" fill="#fff" font-size="11">pgvector + HNSW</text>
+      <text x="540" y="65" text-anchor="middle" fill="#fff" font-size="11">+ pgvectorscale/DiskANN</text>
+      <rect x="660" y="0" width="180" height="70" rx="6" fill="#f5f0a0" stroke="#d4c800"/>
+      <text x="750" y="28" text-anchor="middle" fill="#7a6f00" font-weight="700">辅助 (离线构建)</text>
+      <text x="750" y="50" text-anchor="middle" fill="#7a6f00" font-size="11">DuckDB 算 embedding</text>
+      <text x="750" y="65" text-anchor="middle" fill="#7a6f00" font-size="11">再写回 PG</text>
+      <text x="1090" y="35" text-anchor="middle" font-size="20" fill="#336791">PG 主场</text>
+    </g>
+
+    <!-- Row 2: RAG 数据准备 (ETL) -->
+    <g transform="translate(0,200)">
+      <rect x="20" y="0" width="400" height="70" rx="6" fill="#fff" stroke="#dde1e7"/>
+      <text x="40" y="25" font-weight="700">2. RAG 数据准备 ETL</text>
+      <text x="40" y="46" fill="#555">文档清洗 / chunk / 向量化 / Parquet 写入</text>
+      <text x="40" y="62" fill="#888" font-size="11">Million+ 文档, 一次写、多次读</text>
+      <rect x="430" y="0" width="220" height="70" rx="6" fill="#f5f0a0" stroke="#d4c800"/>
+      <text x="540" y="28" text-anchor="middle" fill="#7a6f00" font-weight="700">高度适合</text>
+      <text x="540" y="50" text-anchor="middle" fill="#7a6f00" font-size="11">直接读 S3/Parquet</text>
+      <text x="540" y="65" text-anchor="middle" fill="#7a6f00" font-size="11">原生向量化 + SQL</text>
+      <rect x="660" y="0" width="180" height="70" rx="6" fill="url(#gradPg)" filter="url(#shadow)"/>
+      <text x="750" y="28" text-anchor="middle" fill="#fff" font-weight="700">可行 (但低效)</text>
+      <text x="750" y="50" text-anchor="middle" fill="#fff" font-size="11">需 staging 表 + ETL</text>
+      <text x="750" y="65" text-anchor="middle" fill="#fff" font-size="11">server 资源浪费</text>
+      <text x="1090" y="35" text-anchor="middle" font-size="20" fill="#a68b00">DuckDB 主场</text>
+    </g>
+
+    <!-- Row 3: 特征工程 / 训练数据 -->
+    <g transform="translate(0,280)">
+      <rect x="20" y="0" width="400" height="70" rx="6" fill="#fff" stroke="#dde1e7"/>
+      <text x="40" y="25" font-weight="700">3. 训练数据 / 特征工程</text>
+      <text x="40" y="46" fill="#555">大表 join / window / UDF / 写 Parquet / 喂 PyTorch</text>
+      <text x="40" y="62" fill="#888" font-size="11">DataFrame + SQL + Iceberg/Delta</text>
+      <rect x="430" y="0" width="220" height="70" rx="6" fill="#f5f0a0" stroke="#d4c800"/>
+      <text x="540" y="28" text-anchor="middle" fill="#7a6f00" font-weight="700">高度适合</text>
+      <text x="540" y="50" text-anchor="middle" fill="#7a6f00" font-size="11">直接 Polars/DuckDB</text>
+      <text x="540" y="65" text-anchor="middle" fill="#7a6f00" font-size="11">Iceberg REST + 紧凑存储</text>
+      <rect x="660" y="0" width="180" height="70" rx="6" fill="#f3f0fa" stroke="#7c5cff"/>
+      <text x="750" y="28" text-anchor="middle" fill="#5340c9" font-weight="700">不适配</text>
+      <text x="750" y="50" text-anchor="middle" fill="#5340c9" font-size="11">单机 server 跑 T 级别</text>
+      <text x="750" y="65" text-anchor="middle" fill="#5340c9" font-size="11">JOIN 容易 OOM</text>
+      <text x="1090" y="35" text-anchor="middle" font-size="20" fill="#a68b00">DuckDB 主场</text>
+    </g>
+
+    <!-- Row 4: 推理日志 / 可观测性 -->
+    <g transform="translate(0,360)">
+      <rect x="20" y="0" width="400" height="70" rx="6" fill="#fff" stroke="#dde1e7"/>
+      <text x="40" y="25" font-weight="700">4. LLM 推理日志与可观测性</text>
+      <text x="40" y="46" fill="#555">多租户 append-only / 实时聚合 / 成本分摊</text>
+      <text x="40" y="62" fill="#888" font-size="11">高写入吞吐 + 时间窗口查询</text>
+      <rect x="430" y="0" width="220" height="70" rx="6" fill="url(#gradPg)" filter="url(#shadow)"/>
+      <text x="540" y="28" text-anchor="middle" fill="#fff" font-weight="700">适合 (Timescale 模式)</text>
+      <text x="540" y="50" text-anchor="middle" fill="#fff" font-size="11">TimescaleDB hypertable</text>
+      <text x="540" y="65" text-anchor="middle" fill="#fff" font-size="11">chunk 自动归档</text>
+      <rect x="660" y="0" width="180" height="70" rx="6" fill="#f5f0a0" stroke="#d4c800"/>
+      <text x="750" y="28" text-anchor="middle" fill="#7a6f00" font-weight="700">仅离线分析</text>
+      <text x="750" y="50" text-anchor="middle" fill="#7a6f00" font-size="11">本地日志文件 ad-hoc</text>
+      <text x="750" y="65" text-anchor="middle" fill="#7a6f00" font-size="11">非多客户端</text>
+      <text x="1090" y="35" text-anchor="middle" font-size="20" fill="#336791">PG 主场</text>
+    </g>
+
+    <!-- Row 5: Agent 记忆 -->
+    <g transform="translate(0,440)">
+      <rect x="20" y="0" width="400" height="70" rx="6" fill="#fff" stroke="#dde1e7"/>
+      <text x="40" y="25" font-weight="700">5. Agent 长期记忆 + KV 上下文</text>
+      <text x="40" y="46" fill="#555">每会话状态/工具结果/跨会话检索</text>
+      <text x="40" y="62" fill="#888" font-size="11">要求强一致、单次 RTT、低延迟</text>
+      <rect x="430" y="0" width="220" height="70" rx="6" fill="url(#gradPg)" filter="url(#shadow)"/>
+      <text x="540" y="28" text-anchor="middle" fill="#fff" font-weight="700">适合</text>
+      <text x="540" y="50" text-anchor="middle" fill="#fff" font-size="11">事务 + JSONB + 向量同库</text>
+      <text x="540" y="65" text-anchor="middle" fill="#fff" font-size="11">pgvector 单跳 RTT</text>
+      <rect x="660" y="0" width="180" height="70" rx="6" fill="#f3f0fa" stroke="#7c5cff"/>
+      <text x="750" y="28" text-anchor="middle" fill="#5340c9" font-weight="700">弱项</text>
+      <text x="750" y="50" text-anchor="middle" fill="#5340c9" font-size="11">嵌入式 + 单进程</text>
+      <text x="750" y="65" text-anchor="middle" fill="#5340c9" font-size="11">难做多 Agent 共享</text>
+      <text x="1090" y="35" text-anchor="middle" font-size="20" fill="#336791">PG 主场</text>
+    </g>
+
+    <!-- Row 6: Edge AI / On-device -->
+    <g transform="translate(0,520)">
+      <rect x="20" y="0" width="400" height="70" rx="6" fill="#fff" stroke="#dde1e7"/>
+      <text x="40" y="25" font-weight="700">6. Edge / On-device LLM 数据层</text>
+      <text x="40" y="46" fill="#555">本地知识库 / KV cache / 离线可用 / 隐私优先</text>
+      <text x="40" y="62" fill="#888" font-size="11">无 server, 不联网, 文件即数据库</text>
+      <rect x="430" y="0" width="220" height="70" rx="6" fill="#f3f0fa" stroke="#7c5cff"/>
+      <text x="540" y="28" text-anchor="middle" fill="#5340c9" font-weight="700">部署门槛高</text>
+      <text x="540" y="50" text-anchor="middle" fill="#5340c9" font-size="11">需打包 PG + 扩展</text>
+      <text x="540" y="65" text-anchor="middle" fill="#5340c9" font-size="11">SQLite 单文件已更轻</text>
+      <rect x="660" y="0" width="180" height="70" rx="6" fill="url(#gradDuck)" filter="url(#shadow)"/>
+      <text x="750" y="28" text-anchor="middle" fill="#1a1a2e" font-weight="700">高度适合</text>
+      <text x="750" y="50" text-anchor="middle" fill="#1a1a2e" font-size="11">in-process, 单文件</text>
+      <text x="750" y="65" text-anchor="middle" fill="#1a1a2e" font-size="11">DuckLake 可下沉 S3</text>
+      <text x="1090" y="35" text-anchor="middle" font-size="20" fill="#a68b00">DuckDB 主场</text>
+    </g>
+
+    <!-- Row 7: 单租户 SaaS 内嵌 -->
+    <g transform="translate(0,600)">
+      <rect x="20" y="0" width="400" height="70" rx="6" fill="#fff" stroke="#dde1e7"/>
+      <text x="40" y="25" font-weight="700">7. 单租户 SaaS / Agent 进程内</text>
+      <text x="40" y="46" fill="#555">一家客户一份数据, 与 application 同进程</text>
+      <text x="40" y="62" fill="#888" font-size="11">故障域天然隔离, 无外部依赖</text>
+      <rect x="430" y="0" width="220" height="70" rx="6" fill="url(#gradPg)" filter="url(#shadow)"/>
+      <text x="540" y="28" text-anchor="middle" fill="#fff" font-weight="700">可行 (PG-as-a-Service)</text>
+      <text x="540" y="50" text-anchor="middle" fill="#fff" font-size="11">Neon / Supabase / AlloyDB</text>
+      <text x="540" y="65" text-anchor="middle" fill="#fff" font-size="11">承担 OLTP 负担</text>
+      <rect x="660" y="0" width="180" height="70" rx="6" fill="url(#gradDuck)" filter="url(#shadow)"/>
+      <text x="750" y="28" text-anchor="middle" fill="#1a1a2e" font-weight="700">同样适合</text>
+      <text x="750" y="50" text-anchor="middle" fill="#1a1a2e" font-size="11">单租户内嵌极简</text>
+      <text x="750" y="65" text-anchor="middle" fill="#1a1a2e" font-size="11">OLTP 弱项需补</text>
+      <text x="1090" y="35" text-anchor="middle" font-size="20" fill="#5340c9">视场景</text>
+    </g>
+
+    <!-- Legend -->
+    <g transform="translate(20,700)">
+      <rect x="0" y="0" width="220" height="40" rx="4" fill="#fff" stroke="#dde1e7"/>
+      <rect x="10" y="10" width="20" height="20" fill="url(#gradPg)" rx="2"/>
+      <text x="40" y="25" fill="#1a1a2e" font-size="12">PostgreSQL 主场</text>
+      <rect x="120" y="10" width="20" height="20" fill="url(#gradDuck)" rx="2"/>
+      <text x="150" y="25" fill="#1a1a2e" font-size="12">DuckDB 主场</text>
+    </g>
+    <g transform="translate(260,700)">
+      <rect x="0" y="0" width="280" height="40" rx="4" fill="#fff" stroke="#dde1e7"/>
+      <rect x="10" y="10" width="20" height="20" fill="#f3f0fa" stroke="#7c5cff" rx="2"/>
+      <text x="40" y="25" fill="#1a1a2e" font-size="12">双方均不优 / 边界场景</text>
+      <rect x="170" y="10" width="20" height="20" fill="#f5f0a0" stroke="#d4c800" rx="2"/>
+      <text x="200" y="25" fill="#1a1a2e" font-size="12">辅助 / 离线</text>
+    </g>
+    <g transform="translate(560,700)">
+      <text x="0" y="25" fill="#888" font-size="11">出处依据: pgvector/DiskANN 性能数据(阿里云 2026)、Timescale pgvectorscale、MotherDuck Flights (2026-06)</text>
+    </g>
+  </g>
+</svg>

@@ -1,0 +1,160 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1200 720" font-family="-apple-system, 'Segoe UI', Roboto, sans-serif">
+  <defs>
+    <linearGradient id="svcBg" x1="0" y1="0" x2="0" y2="1">
+      <stop offset="0%" stop-color="#eef3fa"/>
+      <stop offset="100%" stop-color="#dbe6f4"/>
+    </linearGradient>
+    <linearGradient id="edgeBg" x1="0" y1="0" x2="0" y2="1">
+      <stop offset="0%" stop-color="#fffce0"/>
+      <stop offset="100%" stop-color="#f6efb0"/>
+    </linearGradient>
+  </defs>
+
+  <rect width="1200" height="720" fill="#fafbfc"/>
+
+  <text x="600" y="36" text-anchor="middle" font-size="22" font-weight="700" fill="#1a1a2e">"PG 是不是足够" vs "嵌入式 DuckDB 真存算分离" — 真实图景</text>
+  <text x="600" y="58" text-anchor="middle" font-size="13" fill="#666">两层共存才是 AI 时代基础设施终态, 谁都不是万能解</text>
+
+  <!-- Layer 1: 在线服务层 (PG) -->
+  <g transform="translate(60,90)">
+    <rect x="0" y="0" width="1080" height="160" rx="10" fill="url(#svcBg)" stroke="#336791" stroke-width="2"/>
+    <text x="20" y="30" font-size="16" font-weight="700" fill="#336791">在线服务层 — PostgreSQL + 扩展 一库多用</text>
+    <text x="20" y="50" font-size="11" fill="#555">多客户端共享状态 / 强事务 / 向量检索 / JSONB / 时序 / GIS / 图</text>
+
+    <!-- ext boxes -->
+    <g font-size="11" fill="#1a1a2e">
+      <rect x="20" y="65" width="150" height="80" rx="6" fill="#fff" stroke="#336791"/>
+      <text x="95" y="85" text-anchor="middle" font-weight="700">pgvector</text>
+      <text x="95" y="103" text-anchor="middle" fill="#555">HNSW / IVFFlat</text>
+      <text x="95" y="120" text-anchor="middle" fill="#555">半精度 + 二进制</text>
+      <text x="95" y="137" text-anchor="middle" fill="#888">在线 RAG 核心</text>
+
+      <rect x="180" y="65" width="150" height="80" rx="6" fill="#fff" stroke="#336791"/>
+      <text x="255" y="85" text-anchor="middle" font-weight="700">pgvectorscale</text>
+      <text x="255" y="103" text-anchor="middle" fill="#555">DiskANN 索引</text>
+      <text x="255" y="120" text-anchor="middle" fill="#555">StreamingDiskANN</text>
+      <text x="255" y="137" text-anchor="middle" fill="#888">十亿级向量</text>
+
+      <rect x="340" y="65" width="150" height="80" rx="6" fill="#fff" stroke="#336791"/>
+      <text x="415" y="85" text-anchor="middle" font-weight="700">TimescaleDB</text>
+      <text x="415" y="103" text-anchor="middle" fill="#555">hypertable/chunk</text>
+      <text x="415" y="120" text-anchor="middle" fill="#555">LLM 推理日志</text>
+      <text x="415" y="137" text-anchor="middle" fill="#888">append-only</text>
+
+      <rect x="500" y="65" width="120" height="80" rx="6" fill="#fff" stroke="#336791"/>
+      <text x="560" y="85" text-anchor="middle" font-weight="700">PostGIS</text>
+      <text x="560" y="103" text-anchor="middle" fill="#555">地理空间</text>
+      <text x="560" y="120" text-anchor="middle" fill="#555">机器人/IoT</text>
+      <text x="560" y="137" text-anchor="middle" fill="#888">Geo-AI</text>
+
+      <rect x="630" y="65" width="120" height="80" rx="6" fill="#fff" stroke="#336791"/>
+      <text x="690" y="85" text-anchor="middle" font-weight="700">AGE</text>
+      <text x="690" y="103" text-anchor="middle" fill="#555">图数据库</text>
+      <text x="690" y="120" text-anchor="middle" fill="#555">Cypher</text>
+      <text x="690" y="137" text-anchor="middle" fill="#888">知识图谱</text>
+
+      <rect x="760" y="65" width="120" height="80" rx="6" fill="#fff" stroke="#336791"/>
+      <text x="820" y="85" text-anchor="middle" font-weight="700">Citus</text>
+      <text x="820" y="103" text-anchor="middle" fill="#555">分布式</text>
+      <text x="820" y="120" text-anchor="middle" fill="#555">分片</text>
+      <text x="820" y="137" text-anchor="middle" fill="#888">横向扩展</text>
+
+      <rect x="890" y="65" width="170" height="80" rx="6" fill="#336791"/>
+      <text x="975" y="85" text-anchor="middle" font-weight="700" fill="#fff">pg_duckdb (2024)</text>
+      <text x="975" y="103" text-anchor="middle" fill="#fff">PG 内嵌 DuckDB</text>
+      <text x="975" y="120" text-anchor="middle" fill="#fff">OLAP 加速</text>
+      <text x="975" y="137" text-anchor="middle" fill="#cfd9e3">两端融合</text>
+    </g>
+  </g>
+
+  <!-- Arrow between layers -->
+  <g>
+    <path d="M 600 260 L 600 310" stroke="#888" stroke-width="2" marker-end="url(#arrow)" fill="none"/>
+    <defs>
+      <marker id="arrow" viewBox="0 -5 10 10" refX="8" refY="0" markerWidth="6" markerHeight="6" orient="auto">
+        <path d="M 0 -5 L 10 0 L 0 5 z" fill="#888"/>
+      </marker>
+    </defs>
+    <text x="615" y="290" font-size="11" fill="#555">数据交换: COPY + Iceberg/Parquet 落 S3</text>
+  </g>
+
+  <!-- Layer 2: 数据工程层 (DuckDB) -->
+  <g transform="translate(60,320)">
+    <rect x="0" y="0" width="1080" height="200" rx="10" fill="url(#edgeBg)" stroke="#a68b00" stroke-width="2"/>
+    <text x="20" y="30" font-size="16" font-weight="700" fill="#7a6f00">数据工程层 — DuckDB / MotherDuck / DuckLake</text>
+    <text x="20" y="50" font-size="11" fill="#555">in-process / 向量化 / 列存 / 真·对象存储 / Polars 友好</text>
+
+    <g font-size="11" fill="#1a1a2e">
+      <rect x="20" y="65" width="200" height="120" rx="6" fill="#fff" stroke="#d4c800"/>
+      <text x="120" y="85" text-anchor="middle" font-weight="700">DuckDB Core</text>
+      <text x="120" y="103" text-anchor="middle" fill="#555">嵌入式 OLAP 引擎</text>
+      <text x="120" y="120" text-anchor="middle" fill="#555">SQL + DataFrame</text>
+      <text x="120" y="137" text-anchor="middle" fill="#555">直接读 S3/Parquet</text>
+      <text x="120" y="160" text-anchor="middle" fill="#7a6f00">Python / Node / Wasm</text>
+      <text x="120" y="177" text-anchor="middle" fill="#888">无 server 进程</text>
+
+      <rect x="240" y="65" width="170" height="120" rx="6" fill="#fff" stroke="#d4c800"/>
+      <text x="325" y="85" text-anchor="middle" font-weight="700">DuckLake / Iceberg</text>
+      <text x="325" y="103" text-anchor="middle" fill="#555">Lakehouse v1.0 2026</text>
+      <text x="325" y="120" text-anchor="middle" fill="#555">REST Catalog</text>
+      <text x="325" y="137" text-anchor="middle" fill="#555">真·存算分离</text>
+      <text x="325" y="160" text-anchor="middle" fill="#7a6f00">S3 / OSS / 本地</text>
+      <text x="325" y="177" text-anchor="middle" fill="#888">compact 友好</text>
+
+      <rect x="430" y="65" width="170" height="120" rx="6" fill="#fff" stroke="#d4c800"/>
+      <text x="515" y="85" text-anchor="middle" font-weight="700">VSS / vindex</text>
+      <text x="515" y="103" text-anchor="middle" fill="#555">HNSW + IVF</text>
+      <text x="515" y="120" text-anchor="middle" fill="#555">DiskANN / SPANN</text>
+      <text x="515" y="137" text-anchor="middle" fill="#555">+ RaBitQ / PQ</text>
+      <text x="515" y="160" text-anchor="middle" fill="#7a6f00">本地向量检索</text>
+      <text x="515" y="177" text-anchor="middle" fill="#888">实验/成熟中</text>
+
+      <rect x="620" y="65" width="170" height="120" rx="6" fill="#fff" stroke="#d4c800"/>
+      <text x="705" y="85" text-anchor="middle" font-weight="700">MotherDuck</text>
+      <text x="705" y="103" text-anchor="middle" fill="#555">云端 Hypertenancy</text>
+      <text x="705" y="120" text-anchor="middle" fill="#555">MCP Server for AI</text>
+      <text x="705" y="137" text-anchor="middle" fill="#555">Flights (NL→ETL)</text>
+      <text x="705" y="160" text-anchor="middle" fill="#7a6f00">AI Agent 友好</text>
+      <text x="705" y="177" text-anchor="middle" fill="#888">2026-06</text>
+
+      <rect x="810" y="65" width="250" height="120" rx="6" fill="#fff" stroke="#d4c800"/>
+      <text x="935" y="85" text-anchor="middle" font-weight="700">与 AI 工具链整合</text>
+      <text x="935" y="103" text-anchor="middle" fill="#555">LangChain DuckDBLoader</text>
+      <text x="935" y="120" text-anchor="middle" fill="#555">EmbedAnything / Polars</text>
+      <text x="935" y="137" text-anchor="middle" fill="#555">MLX / LLM cache</text>
+      <text x="935" y="160" text-anchor="middle" fill="#7a6f00">MLOps 嵌入式 DB</text>
+      <text x="935" y="177" text-anchor="middle" fill="#888">+ Hugging Face 数据集</text>
+    </g>
+  </g>
+
+  <!-- Bottom: 卡位判定 -->
+  <g transform="translate(60,540)">
+    <text x="540" y="20" text-anchor="middle" font-size="16" font-weight="700" fill="#1a1a2e">DuckDB 卡位判定 — 真精准的三条边界 + 三条反转边界</text>
+
+    <g font-size="11" fill="#1a1a2e">
+      <rect x="20" y="40" width="345" height="120" rx="6" fill="#eaffd8" stroke="#5fa83a" stroke-width="1.5"/>
+      <text x="40" y="60" font-weight="700" fill="#3a6f24">真精准 — DuckDB 卡位精准的场景</text>
+      <text x="40" y="80" fill="#3a6f24">① 单进程 ML pipeline, 数据科学家 notebook</text>
+      <text x="40" y="98" fill="#3a6f24">② Edge / 本地 LLM 知识库, 文件即数据库</text>
+      <text x="40" y="116" fill="#3a6f24">③ RAG 离线 ETL, 列存读 S3 Parquet 直接喂</text>
+      <text x="40" y="134" fill="#3a6f24">④ Agent 进程内 ad-hoc 数据探索</text>
+      <text x="40" y="152" fill="#888">证伪指标: 单进程内 SQL 列存加速 &gt; 5× PG</text>
+
+      <rect x="380" y="40" width="345" height="120" rx="6" fill="#ffe2e2" stroke="#c84a4a" stroke-width="1.5"/>
+      <text x="400" y="60" font-weight="700" fill="#8c2a2a">被高估 — DuckDB 卡不住的场景</text>
+      <text x="400" y="80" fill="#8c2a2a">① 多客户端高并发 + 强一致 (OLTP 心)</text>
+      <text x="400" y="98" fill="#8c2a2a">② 十亿级向量在线 ANN + JOIN 业务数据</text>
+      <text x="400" y="116" fill="#8c2a2a">③ RAG 元数据 + 事务更新 + 多模检索一体</text>
+      <text x="400" y="134" fill="#8c2a2a">④ 多 Agent 共享可变状态的实时记忆</text>
+      <text x="400" y="152" fill="#888">证伪指标: 出现 RTT &gt; 50ms 或需外部锁服务</text>
+
+      <rect x="740" y="40" width="345" height="120" rx="6" fill="#e8eafd" stroke="#5340c9" stroke-width="1.5"/>
+      <text x="760" y="60" font-weight="700" fill="#3a2f7a">融合路径 — pg_duckdb 已被生产</text>
+      <text x="760" y="80" fill="#3a2f7a">PG 提供 OLTP + 元数据</text>
+      <text x="760" y="98" fill="#3a2f7a">内嵌 DuckDB 提供 OLAP</text>
+      <text x="760" y="116" fill="#3a2f7a">共享一份数据, 无 ETL</text>
+      <text x="760" y="134" fill="#3a2f7a">→ "PG is enough" 与"DuckDB 精准" 同时为真</text>
+      <text x="760" y="152" fill="#888">两边各占一个生态位, 不是互斥</text>
+    </g>
+  </g>
+</svg>

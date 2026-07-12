@@ -1,0 +1,122 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 960 560" font-family="-apple-system, 'PingFang SC', 'Helvetica Neue', Arial, sans-serif">
+  <defs>
+    <linearGradient id="pgProc" x1="0" y1="0" x2="0" y2="1">
+      <stop offset="0" stop-color="#336791"/><stop offset="1" stop-color="#1f3f5b"/>
+    </linearGradient>
+    <linearGradient id="ddProc" x1="0" y1="0" x2="0" y2="1">
+      <stop offset="0" stop-color="#fff000"/><stop offset="1" stop-color="#ffb000"/>
+    </linearGradient>
+    <marker id="arr" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="8" markerHeight="8" orient="auto">
+      <path d="M0,0 L10,5 L0,10 z" fill="#444"/>
+    </marker>
+    <marker id="arrW" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="8" markerHeight="8" orient="auto">
+      <path d="M0,0 L10,5 L0,10 z" fill="#fff"/>
+    </marker>
+  </defs>
+
+  <rect width="960" height="560" fill="#fafafa"/>
+
+  <!-- title -->
+  <text x="480" y="36" text-anchor="middle" font-size="22" font-weight="700" fill="#222">PostgreSQL vs DuckDB：进程拓扑与数据路径</text>
+  <text x="480" y="60" text-anchor="middle" font-size="13" fill="#666">左边 Client/Server 跨进程边界，右边 In-Process 同地址空间</text>
+
+  <!-- ==================== PostgreSQL ==================== -->
+  <g transform="translate(20,90)">
+    <rect x="0" y="0" width="440" height="430" rx="10" fill="#fff" stroke="#cfd8e3"/>
+    <text x="20" y="28" font-size="16" font-weight="700" fill="#336791">PostgreSQL · Client-Server</text>
+
+    <!-- App clients -->
+    <rect x="20" y="50" width="120" height="36" rx="6" fill="#eef3f8" stroke="#9bb6cf"/>
+    <text x="80" y="73" text-anchor="middle" font-size="12">App A</text>
+    <rect x="160" y="50" width="120" height="36" rx="6" fill="#eef3f8" stroke="#9bb6cf"/>
+    <text x="220" y="73" text-anchor="middle" font-size="12">App B</text>
+    <rect x="300" y="50" width="120" height="36" rx="6" fill="#eef3f8" stroke="#9bb6cf"/>
+    <text x="360" y="73" text-anchor="middle" font-size="12">psql / Driver</text>
+
+    <!-- arrow to PG -->
+    <line x1="80" y1="86" x2="80" y2="120" stroke="#444" marker-end="url(#arr)"/>
+    <line x1="220" y1="86" x2="220" y2="120" stroke="#444" marker-end="url(#arr)"/>
+    <line x1="360" y1="86" x2="360" y2="120" stroke="#444" marker-end="url(#arr)"/>
+    <text x="225" y="108" text-anchor="middle" font-size="11" fill="#666">libpq / TCP · wire protocol · 序列化</text>
+
+    <!-- PG box -->
+    <rect x="20" y="120" width="400" height="190" rx="8" fill="url(#pgProc)" stroke="#1f3f5b"/>
+    <text x="220" y="142" text-anchor="middle" font-size="13" font-weight="700" fill="#fff">postmaster + per-connection backend</text>
+
+    <!-- sub blocks -->
+    <g font-size="11" fill="#fff">
+      <rect x="32" y="155" width="86" height="50" rx="4" fill="rgba(255,255,255,0.18)" stroke="rgba(255,255,255,0.4)"/>
+      <text x="75" y="178" text-anchor="middle">Parser /</text><text x="75" y="194" text-anchor="middle">Planner</text>
+
+      <rect x="126" y="155" width="86" height="50" rx="4" fill="rgba(255,255,255,0.18)" stroke="rgba(255,255,255,0.4)"/>
+      <text x="169" y="178" text-anchor="middle">Executor</text><text x="169" y="194" text-anchor="middle">(火山模型)</text>
+
+      <rect x="220" y="155" width="86" height="50" rx="4" fill="rgba(255,255,255,0.18)" stroke="rgba(255,255,255,0.4)"/>
+      <text x="263" y="178" text-anchor="middle">Heap</text><text x="263" y="194" text-anchor="middle">+ WAL</text>
+
+      <rect x="314" y="155" width="94" height="50" rx="4" fill="rgba(255,255,255,0.18)" stroke="rgba(255,255,255,0.4)"/>
+      <text x="361" y="178" text-anchor="middle">Ext: pgvector /</text><text x="361" y="194" text-anchor="middle">postgis / duckdb</text>
+
+      <rect x="32" y="215" width="376" height="42" rx="4" fill="rgba(0,0,0,0.2)" stroke="rgba(255,255,255,0.3)"/>
+      <text x="220" y="232" text-anchor="middle">Shared Buffers · Lock Mgr · CLOG · autovacuum · bgwriter</text>
+      <text x="220" y="248" text-anchor="middle" font-size="10" fill="#cfd8e3">每个连接一个 backend 进程，跨进程共享内存</text>
+    </g>
+
+    <!-- disk -->
+    <line x1="220" y1="270" x2="220" y2="310" stroke="rgba(255,255,255,0.4)" stroke-width="2" marker-end="url(#arrW)"/>
+    <rect x="20" y="312" width="400" height="48" rx="6" fill="#1a2c3d" stroke="#0d1822"/>
+    <text x="220" y="334" text-anchor="middle" font-size="12" font-weight="700" fill="#fff">$PGDATA · base/ + WAL + 多文件</text>
+    <text x="220" y="352" text-anchor="middle" font-size="11" fill="#cfd8e3">表/索引/TOAST 各自独立文件；默认 8KB 页</text>
+
+    <!-- foot -->
+    <text x="20" y="390" font-size="11" fill="#444">典型门槛：postmaster + port + 用户/认证 + 表空间 + 调参</text>
+    <text x="20" y="408" font-size="11" fill="#444">典型优势：成熟并发、强扩展、客户端无关、热备/HA</text>
+  </g>
+
+  <!-- ==================== DuckDB ==================== -->
+  <g transform="translate(500,90)">
+    <rect x="0" y="0" width="440" height="430" rx="10" fill="#fff" stroke="#e6c800"/>
+    <text x="20" y="28" font-size="16" font-weight="700" fill="#a07000">DuckDB · In-Process Embedded</text>
+
+    <!-- one app box -->
+    <rect x="20" y="50" width="400" height="240" rx="8" fill="url(#ddProc)" stroke="#b08000"/>
+    <text x="220" y="74" text-anchor="middle" font-size="14" font-weight="700" fill="#222">你的 App 进程（Python / R / Go / Node / CLI）</text>
+
+    <g font-size="11" fill="#222">
+      <rect x="36" y="90" width="110" height="44" rx="4" fill="rgba(255,255,255,0.6)" stroke="#b08000"/>
+      <text x="91" y="110" text-anchor="middle">Parser</text><text x="91" y="124" text-anchor="middle">(PG 方言)</text>
+
+      <rect x="154" y="90" width="110" height="44" rx="4" fill="rgba(255,255,255,0.6)" stroke="#b08000"/>
+      <text x="209" y="110" text-anchor="middle">Optimizer</text><text x="209" y="124" text-anchor="middle">(代价+规则)</text>
+
+      <rect x="272" y="90" width="132" height="44" rx="4" fill="rgba(255,255,255,0.6)" stroke="#b08000"/>
+      <text x="338" y="110" text-anchor="middle">向量化执行</text><text x="338" y="124" text-anchor="middle">+ SIMD</text>
+
+      <rect x="36" y="142" width="368" height="44" rx="4" fill="rgba(255,255,255,0.7)" stroke="#b08000"/>
+      <text x="220" y="160" text-anchor="middle">MVCC (HyPer 风格，内存 undo buffer) + 列存 RowGroup</text>
+      <text x="220" y="178" text-anchor="middle" font-size="10">事务版本不落盘；用 Appender 直接灌数据</text>
+
+      <rect x="36" y="194" width="368" height="44" rx="4" fill="rgba(255,255,255,0.7)" stroke="#b08000"/>
+      <text x="220" y="212" text-anchor="middle">Extension：vss / httpfs / iceberg / delta / spatial / postgres_scanner</text>
+      <text x="220" y="230" text-anchor="middle" font-size="10">C++ ABI + Arrow 接口 · 共享同一进程地址空间</text>
+
+      <rect x="36" y="246" width="368" height="36" rx="4" fill="rgba(0,0,0,0.15)" stroke="#b08000"/>
+      <text x="220" y="270" text-anchor="middle">零 wire / 零 socket · 函数调用直接传 Arrow buffer</text>
+    </g>
+
+    <!-- disk single file -->
+    <line x1="220" y1="290" x2="220" y2="312" stroke="#444" marker-end="url(#arr)"/>
+    <rect x="20" y="314" width="400" height="46" rx="6" fill="#fff8d6" stroke="#b08000"/>
+    <text x="220" y="335" text-anchor="middle" font-size="12" font-weight="700" fill="#222">单一 *.duckdb 文件 + 可选 *.duckdb.wal</text>
+    <text x="220" y="352" text-anchor="middle" font-size="11" fill="#444">RowGroup × 列向量 · 自适应压缩 · min/max zonemap</text>
+
+    <text x="20" y="390" font-size="11" fill="#444">典型门槛：pip install duckdb · import duckdb · 完事</text>
+    <text x="20" y="408" font-size="11" fill="#444">典型优势：列存 OLAP、零拷贝 Arrow、原生 Parquet/对象存储</text>
+  </g>
+
+  <!-- ==================== Bottom: merge ==================== -->
+  <g transform="translate(20,532)">
+    <text x="0" y="0" font-size="12" fill="#222">两者并非互斥：pg_duckdb 把 DuckDB 嵌入到 PG backend 里，分析查询经 Custom Scan 走 DuckDB 引擎。</text>
+    <text x="0" y="16" font-size="11" fill="#666">来源：DuckDB 官方架构介绍（duckdb.org, 2026）；pg_duckdb GitHub README（github.com/duckdb/pg_duckdb, 2026-04）</text>
+  </g>
+</svg>
