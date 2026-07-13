@@ -1,0 +1,69 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1100 720" font-family="-apple-system, 'PingFang SC', 'Microsoft YaHei', sans-serif">
+  <defs>
+    <linearGradient id="bg" x1="0" y1="0" x2="1" y2="1">
+      <stop offset="0" stop-color="#0b1220"/>
+      <stop offset="1" stop-color="#1a2540"/>
+    </linearGradient>
+    <linearGradient id="cash" x1="0" y1="0" x2="1" y2="0">
+      <stop offset="0" stop-color="#16a34a"/>
+      <stop offset="1" stop-color="#22d3ee"/>
+    </linearGradient>
+    <linearGradient id="growth" x1="0" y1="0" x2="1" y2="0">
+      <stop offset="0" stop-color="#f59e0b"/>
+      <stop offset="1" stop-color="#ef4444"/>
+    </linearGradient>
+    <linearGradient id="neck" x1="0" y1="0" x2="1" y2="0">
+      <stop offset="0" stop-color="#a78bfa"/>
+      <stop offset="1" stop-color="#f472b6"/>
+    </linearGradient>
+    <linearGradient id="core" x1="0" y1="0" x2="1" y2="0">
+      <stop offset="0" stop-color="#38bdf8"/>
+      <stop offset="1" stop-color="#818cf8"/>
+    </linearGradient>
+  </defs>
+  <rect width="1100" height="720" fill="url(#bg)"/>
+  <text x="40" y="50" fill="#f8fafc" font-size="26" font-weight="700">华为六块业务的"三层现金流"画像（2024 营收口径）</text>
+  <text x="40" y="78" fill="#94a3b8" font-size="13">数据源：华为 2024 年年度报告（2025-03-31 发布，KPMG 审计）</text>
+
+  <!-- Cash cow -->
+  <rect x="40" y="110" width="510" height="170" rx="14" fill="#0f172a" stroke="url(#cash)" stroke-width="2"/>
+  <text x="60" y="140" fill="#22d3ee" font-size="14" font-weight="700">第 1 类 · 现金奶牛  ▌  ICT 基础设施 + 终端</text>
+  <text x="60" y="170" fill="#f8fafc" font-size="14">· 运营商 5G/5G-A：全球份额 31%（Dell'Oro 2025H1），非北美 40%</text>
+  <text x="60" y="194" fill="#f8fafc" font-size="14">· 终端（手机/PC/平板/可穿戴）：2025 中国出货 4670 万台，重夺第一（IDC）</text>
+  <text x="60" y="218" fill="#f8fafc" font-size="14">· 合计 7089 亿元，占总营收 82.2%；增速温和但利润稳定</text>
+  <text x="60" y="252" fill="#22d3ee" font-size="13">护城河：技术专利 15 万件 + 端到端方案 + 鸿蒙生态壁垒</text>
+
+  <!-- Growth -->
+  <rect x="570" y="110" width="490" height="170" rx="14" fill="#0f172a" stroke="url(#growth)" stroke-width="2"/>
+  <text x="590" y="140" fill="#f59e0b" font-size="14" font-weight="700">第 2 类 · 成长期烧钱 → 已过拐点  ▌  终端 / 智能汽车 / 数字能源</text>
+  <text x="590" y="170" fill="#f8fafc" font-size="14">· 智能汽车（引望）：营收 264 亿（+474.4%），首次盈利，估值 1150 亿</text>
+  <text x="590" y="194" fill="#f8fafc" font-size="14">· 数字能源：687 亿（+24.4%），光储+超充+数据中心能源三轮驱动</text>
+  <text x="590" y="218" fill="#f8fafc" font-size="14">· 鸿蒙智行 2024 交付 43 万辆，问界 M9 蝉联 50 万+ 销冠</text>
+  <text x="590" y="252" fill="#f59e0b" font-size="13">护城河：政策红利 + 国产替代刚需 + AI 算电协同</text>
+
+  <!-- Neck pinch -->
+  <rect x="40" y="300" width="510" height="170" rx="14" fill="#0f172a" stroke="url(#neck)" stroke-width="2"/>
+  <text x="60" y="330" fill="#f472b6" font-size="14" font-weight="700">第 3 类 · 战略亏损换生态  ▌  华为云（独立口径 385 亿，跨分 688 亿）</text>
+  <text x="60" y="360" fill="#f8fafc" font-size="14">· 2024 中国云市场份额 19%-20%，稳居第二（Canalys 2024Q4）</text>
+  <text x="60" y="384" fill="#f8fafc" font-size="14">· 增速 8.5%，与 22% 集团增速明显背离，落后于阿里 33%、字节火山</text>
+  <text x="60" y="408" fill="#f8fafc" font-size="14">· 2024 启动架构调整，聚焦"3+2+1"（通/智算/存储 + AI PaaS/数据库 + 安全）</text>
+  <text x="60" y="442" fill="#f472b6" font-size="13">护城河：昇腾算力 + 盘古大模型 + 政企关系，但短板是 C 端生态</text>
+
+  <!-- Core -->
+  <rect x="570" y="300" width="490" height="170" rx="14" fill="#0f172a" stroke="url(#core)" stroke-width="2"/>
+  <text x="590" y="330" fill="#38bdf8" font-size="14" font-weight="700">第 4 类 · 护城河底层（不在年报独立列示）  ▌  海思 + 鸿蒙 + 专利</text>
+  <text x="590" y="360" fill="#f8fafc" font-size="14">· 海思麒麟 9020：SMIC N+2 工艺，跑分对标骁龙 8 Gen2，国产化率 95%</text>
+  <text x="590" y="384" fill="#f8fafc" font-size="14">· 昇腾 910B/C：单卡 H100 的 38%-60%，但 384 超节点集群反超 GB200 NVL72</text>
+  <text x="590" y="408" fill="#f8fafc" font-size="14">· 鸿蒙 HarmonyOS 5/6：装机 7000 万+，国内份额 18%，超越 iOS</text>
+  <text x="590" y="442" fill="#38bdf8" font-size="13">护城河：自有 IP 核 + 编译器 + EDA 替代路径 → "去美化"成色是估值关键</text>
+
+  <!-- Footer comparison -->
+  <rect x="40" y="500" width="1020" height="180" rx="14" fill="#0b1220" stroke="#334155" stroke-width="1"/>
+  <text x="60" y="528" fill="#e2e8f0" font-size="15" font-weight="700">"如果上市"画像标签的推导</text>
+  <text x="60" y="558" fill="#f8fafc" font-size="14">· 硬件底座 ≈ 思科 + 爱立信 + 诺基亚（通信设备 + 全球份额 31%）</text>
+  <text x="60" y="582" fill="#f8fafc" font-size="14">· 终端品牌力 ≈ 苹果中国区 + 三星折叠屏（2025 中国第一 + 折叠屏 70%+）</text>
+  <text x="60" y="606" fill="#f8fafc" font-size="14">· AI 算力 ≈ 缩小版英伟达（昇腾集群对位 GB200，但生态仍弱于 CUDA）</text>
+  <text x="60" y="630" fill="#f8fafc" font-size="14">· 云 + 汽车 ≈ 阿里云 + 博世（中国混合云第一 + 引望对位博世智驾）</text>
+  <text x="60" y="658" fill="#22d3ee" font-size="14" font-weight="700">▌ 综合标签：中国版"三星 + 思科 + 苹果 + 英伟达 + 博世"的去美化合成体</text>
+</svg>

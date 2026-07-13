@@ -1,0 +1,163 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1280 920" font-family="-apple-system,'PingFang SC','Microsoft YaHei',sans-serif">
+  <!-- Background -->
+  <rect width="1280" height="920" fill="#fafafa"/>
+  <!-- Title -->
+  <text x="640" y="38" text-anchor="middle" font-size="22" font-weight="700" fill="#1a1a1a">如果华为上市：估值路径与折扣拆解</text>
+  <text x="640" y="62" text-anchor="middle" font-size="13" fill="#666">基准：2024年营收8621亿、净利626亿、研发1797亿（华为2024年报）</text>
+
+  <!-- Base business value -->
+  <rect x="60" y="100" width="220" height="80" rx="6" fill="#1f4e79"/>
+  <text x="170" y="128" text-anchor="middle" font-size="13" fill="#fff" font-weight="600">业务内在价值</text>
+  <text x="170" y="150" text-anchor="middle" font-size="11" fill="#fff">思科 + 小米 + 高通 拆分对标</text>
+  <text x="170" y="170" text-anchor="middle" font-size="14" fill="#fff" font-weight="700">约 5000 亿美元</text>
+
+  <!-- Branch lines -->
+  <line x1="280" y1="140" x2="430" y2="140" stroke="#999" stroke-width="2"/>
+  <line x1="430" y1="140" x2="430" y2="100" stroke="#999" stroke-width="2"/>
+  <line x1="430" y1="140" x2="430" y2="200" stroke="#999" stroke-width="2"/>
+  <line x1="430" y1="140" x2="430" y2="300" stroke="#999" stroke-width="2"/>
+  <line x1="430" y1="140" x2="430" y2="400" stroke="#999" stroke-width="2"/>
+
+  <!-- A-share path -->
+  <g>
+    <rect x="430" y="80" width="220" height="80" rx="6" fill="#c00000"/>
+    <text x="540" y="106" text-anchor="middle" font-size="13" fill="#fff" font-weight="600">A 股科创板</text>
+    <text x="540" y="128" text-anchor="middle" font-size="10" fill="#fff">流动性溢价 / 国产替代叙事</text>
+    <text x="540" y="148" text-anchor="middle" font-size="14" fill="#fff" font-weight="700">PE 80-150x  ●  4.5-7.5万亿</text>
+  </g>
+  <!-- HK main -->
+  <g>
+    <rect x="430" y="180" width="220" height="80" rx="6" fill="#385723"/>
+    <text x="540" y="206" text-anchor="middle" font-size="13" fill="#fff" font-weight="600">港股主要上市</text>
+    <text x="540" y="228" text-anchor="middle" font-size="10" fill="#fff">南向资金 / 国际机构混合</text>
+    <text x="540" y="248" text-anchor="middle" font-size="14" fill="#fff" font-weight="700">PE 25-40x  ●  1.7-2.7万亿</text>
+  </g>
+  <!-- HK secondary -->
+  <g>
+    <rect x="430" y="280" width="220" height="80" rx="6" fill="#7f6000"/>
+    <text x="540" y="306" text-anchor="middle" font-size="13" fill="#fff" font-weight="600">港股二次上市</text>
+    <text x="540" y="328" text-anchor="middle" font-size="10" fill="#fff">仅限合格海外发行人，不适用</text>
+    <text x="540" y="348" text-anchor="middle" font-size="13" fill="#fff" font-weight="700">路径关闭</text>
+  </g>
+  <!-- US path -->
+  <g>
+    <rect x="430" y="380" width="220" height="80" rx="6" fill="#404040"/>
+    <text x="540" y="406" text-anchor="middle" font-size="13" fill="#fff" font-weight="600">美股直接上市</text>
+    <text x="540" y="428" text-anchor="middle" font-size="10" fill="#fff">HFCAA + Entity List 双锁</text>
+    <text x="540" y="448" text-anchor="middle" font-size="13" fill="#fff" font-weight="700">路径关闭</text>
+  </g>
+
+  <!-- Vertical connector for arrow -->
+  <line x1="650" y1="120" x2="780" y2="120" stroke="#999" stroke-width="2"/>
+
+  <!-- Central valuation summary -->
+  <rect x="780" y="80" width="220" height="380" rx="8" fill="#fff" stroke="#333" stroke-width="2"/>
+  <text x="890" y="108" text-anchor="middle" font-size="14" font-weight="700" fill="#1a1a1a">估值模型（中枢）</text>
+  <line x1="800" y1="120" x2="980" y2="120" stroke="#ddd"/>
+
+  <text x="800" y="142" font-size="11" fill="#666">2024 净利：</text>
+  <text x="970" y="142" font-size="11" font-weight="600" text-anchor="end" fill="#1a1a1a">626 亿 RMB ≈ 87 亿美元</text>
+
+  <text x="800" y="166" font-size="11" fill="#666">2025E 净利：</text>
+  <text x="970" y="166" font-size="11" font-weight="600" text-anchor="end" fill="#1a1a1a">680 亿 RMB ≈ 95 亿美元</text>
+
+  <text x="800" y="190" font-size="11" fill="#666">A 股可比 PE：</text>
+  <text x="970" y="190" font-size="11" font-weight="600" text-anchor="end" fill="#c00000">80 - 150 倍</text>
+
+  <text x="800" y="214" font-size="11" fill="#666">港股可比 PE：</text>
+  <text x="970" y="214" font-size="11" font-weight="600" text-anchor="end" fill="#385723">25 - 40 倍</text>
+
+  <text x="800" y="238" font-size="11" fill="#666">美国制裁折价：</text>
+  <text x="970" y="238" font-size="11" font-weight="600" text-anchor="end" fill="#c00000">-30% ~ -50%</text>
+
+  <text x="800" y="262" font-size="11" fill="#666">流动性/控股折价：</text>
+  <text x="970" y="262" font-size="11" font-weight="600" text-anchor="end" fill="#c00000">-15% ~ -25%</text>
+
+  <line x1="800" y1="278" x2="980" y2="278" stroke="#ddd"/>
+  <text x="800" y="300" font-size="11" font-weight="600" fill="#1a1a1a">A 股情景：</text>
+  <text x="970" y="300" font-size="13" font-weight="700" text-anchor="end" fill="#c00000">7000 - 13000 亿$</text>
+
+  <text x="800" y="324" font-size="11" font-weight="600" fill="#1a1a1a">港股情景：</text>
+  <text x="970" y="324" font-size="13" font-weight="700" text-anchor="end" fill="#385723">2200 - 3800 亿$</text>
+
+  <text x="800" y="348" font-size="11" font-weight="600" fill="#1a1a1a">合理中枢：</text>
+  <text x="970" y="348" font-size="13" font-weight="700" text-anchor="end" fill="#1a1a1a">3000 - 5000 亿$</text>
+
+  <line x1="800" y1="364" x2="980" y2="364" stroke="#ddd"/>
+  <text x="800" y="388" font-size="10" fill="#666">注：倪光南 2019 估值 1.3 万亿$</text>
+  <text x="800" y="404" font-size="10" fill="#666">属极端乐观，参考意义有限</text>
+  <text x="800" y="424" font-size="10" fill="#666">美国制裁后，业务实际受损约</text>
+  <text x="800" y="440" font-size="10" fill="#666">20-30%，对应估值应打 7 折</text>
+
+  <!-- Comparables table area -->
+  <line x1="60" y1="520" x2="1220" y2="520" stroke="#333" stroke-width="1.5"/>
+  <text x="640" y="548" text-anchor="middle" font-size="16" font-weight="700" fill="#1a1a1a">同类型案例对标</text>
+
+  <!-- Table headers -->
+  <rect x="60" y="568" width="1160" height="32" fill="#1f4e79"/>
+  <text x="80" y="588" font-size="12" font-weight="600" fill="#fff">公司</text>
+  <text x="240" y="588" font-size="12" font-weight="600" fill="#fff">上市地 / 方式</text>
+  <text x="420" y="588" font-size="12" font-weight="600" fill="#fff">时间</text>
+  <text x="500" y="588" font-size="12" font-weight="600" fill="#fff">发行价 / 首日表现</text>
+  <text x="780" y="588" font-size="12" font-weight="600" fill="#fff">制裁/特殊影响</text>
+  <text x="990" y="588" font-size="12" font-weight="600" fill="#fff">当前市值 / 表现</text>
+
+  <!-- Row 1: SMIC -->
+  <rect x="60" y="600" width="1160" height="40" fill="#fff"/>
+  <text x="80" y="625" font-size="12" fill="#1a1a1a">中芯国际 (688981)</text>
+  <text x="240" y="625" font-size="11" fill="#333">A 股科创板 / 港股 981</text>
+  <text x="420" y="625" font-size="11" fill="#333">2020.07</text>
+  <text x="500" y="625" font-size="11" fill="#333">A 股 27.46 元 → 当日涨 201%</text>
+  <text x="780" y="625" font-size="11" fill="#c00000">被列 Entity List</text>
+  <text x="990" y="625" font-size="11" fill="#385723">A/H 价差 3.6x (AH 撕裂)</text>
+
+  <!-- Row 2: Cambricon -->
+  <rect x="60" y="640" width="1160" height="40" fill="#f5f5f5"/>
+  <text x="80" y="665" font-size="12" fill="#1a1a1a">寒武纪 (688256)</text>
+  <text x="240" y="665" font-size="11" fill="#333">A 股科创板 AI 芯片第一股</text>
+  <text x="420" y="665" font-size="11" fill="#333">2020.07</text>
+  <text x="500" y="665" font-size="11" fill="#333">64.39 元 → 当日涨 288%</text>
+  <text x="780" y="665" font-size="11" fill="#666">无制裁，仅披露关联交易</text>
+  <text x="990" y="665" font-size="11" fill="#385723">峰值 3000 亿 / 持续亏损</text>
+
+  <!-- Row 3: Hygon -->
+  <rect x="60" y="680" width="1160" height="40" fill="#fff"/>
+  <text x="80" y="705" font-size="12" fill="#1a1a1a">海光信息 (688041)</text>
+  <text x="240" y="705" font-size="11" fill="#333">A 股科创板 / 拟吸并中科曙光</text>
+  <text x="420" y="705" font-size="11" fill="#333">2022.08</text>
+  <text x="500" y="705" font-size="11" fill="#333">上市即估值 900 亿+</text>
+  <text x="780" y="705" font-size="11" fill="#c00000">基于 AMD Zen，制裁阴影</text>
+  <text x="990" y="705" font-size="11" fill="#385723">现 3000 亿+，2025 整合中科曙光</text>
+
+  <!-- Row 4: Loongson -->
+  <rect x="60" y="720" width="1160" height="40" fill="#f5f5f5"/>
+  <text x="80" y="745" font-size="12" fill="#1a1a1a">龙芯中科 (688047)</text>
+  <text x="240" y="745" font-size="11" fill="#333">A 股科创板 国产 CPU 第一股</text>
+  <text x="420" y="745" font-size="11" fill="#333">2022.06</text>
+  <text x="500" y="745" font-size="11" fill="#333">60.06 元 → 当日涨 48%</text>
+  <text x="780" y="745" font-size="11" fill="#c00000">自主指令集，对抗 MIPS / x86</text>
+  <text x="990" y="745" font-size="11" fill="#666">市值 350 亿，业绩波动</text>
+
+  <!-- Row 5: SenseTime -->
+  <rect x="60" y="760" width="1160" height="40" fill="#fff"/>
+  <text x="80" y="785" font-size="12" fill="#1a1a1a">商汤-W (00020)</text>
+  <text x="240" y="785" font-size="11" fill="#333">港股 IPO（被迫延期）</text>
+  <text x="420" y="785" font-size="11" fill="#333">2021.12</text>
+  <text x="500" y="785" font-size="11" fill="#333">3.85 港元（区间下限）</text>
+  <text x="780" y="785" font-size="11" fill="#c00000">IPO 当日被列军工复合体清单</text>
+  <text x="990" y="785" font-size="11" fill="#c00000">市值峰值 3200 亿 → 现 ~600 亿，缩水 80%</text>
+
+  <!-- Row 6: Arm -->
+  <rect x="60" y="800" width="1160" height="40" fill="#f5f5f5"/>
+  <text x="80" y="825" font-size="12" fill="#1a1a1a">Arm Holdings (ARM)</text>
+  <text x="240" y="825" font-size="11" fill="#333">纳斯达克 / 软银分拆</text>
+  <text x="420" y="825" font-size="11" fill="#333">2023.09</text>
+  <text x="500" y="825" font-size="11" fill="#333">51 美元 → 当日涨 25%</text>
+  <text x="780" y="825" font-size="11" fill="#666">无制裁，但客户制裁影响业务</text>
+  <text x="990" y="825" font-size="11" fill="#385723">现 1500 - 1700 亿美元</text>
+
+  <!-- Footer -->
+  <text x="60" y="880" font-size="11" fill="#666">数据来源：华为 2024/2025 年报；上交所披露；港交所 HKEX 19C/18C 规则；SEC HFCAA；公司公告；2026.07 截至</text>
+  <text x="60" y="898" font-size="11" fill="#666">注：AH 价差以中芯 2024.10 数据呈现；寒武纪 / 商汤市值数据为 2024-2026 年期间最高 / 当前值</text>
+</svg>

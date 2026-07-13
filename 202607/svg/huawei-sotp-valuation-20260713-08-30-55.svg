@@ -1,0 +1,154 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1100 720" font-family="PingFang SC, Hiragino Sans GB, Microsoft YaHei, sans-serif">
+  <defs>
+    <linearGradient id="bg" x1="0" y1="0" x2="0" y2="1">
+      <stop offset="0" stop-color="#fafbfc"/>
+      <stop offset="1" stop-color="#eef2f7"/>
+    </linearGradient>
+    <linearGradient id="bar1" x1="0" y1="0" x2="0" y2="1">
+      <stop offset="0" stop-color="#1f6feb"/>
+      <stop offset="1" stop-color="#0d419d"/>
+    </linearGradient>
+    <linearGradient id="bar2" x1="0" y1="0" x2="0" y2="1">
+      <stop offset="0" stop-color="#8957e5"/>
+      <stop offset="1" stop-color="#5a32a3"/>
+    </linearGradient>
+    <linearGradient id="bar3" x1="0" y1="0" x2="0" y2="1">
+      <stop offset="0" stop-color="#cf222e"/>
+      <stop offset="1" stop-color="#9c1f28"/>
+    </linearGradient>
+    <linearGradient id="bar4" x1="0" y1="0" x2="0" y2="1">
+      <stop offset="0" stop-color="#1f883d"/>
+      <stop offset="1" stop-color="#116329"/>
+    </linearGradient>
+    <linearGradient id="bar5" x1="0" y1="0" x2="0" y2="1">
+      <stop offset="0" stop-color="#fb8500"/>
+      <stop offset="1" stop-color="#bc4c00"/>
+    </linearGradient>
+    <linearGradient id="bar6" x1="0" y1="0" x2="0" y2="1">
+      <stop offset="0" stop-color="#6e7781"/>
+      <stop offset="1" stop-color="#424a53"/>
+    </linearGradient>
+    <linearGradient id="bar7" x1="0" y1="0" x2="0" y2="1">
+      <stop offset="0" stop-color="#0969da"/>
+      <stop offset="1" stop-color="#033d8b"/>
+    </linearGradient>
+  </defs>
+
+  <!-- 背景 -->
+  <rect width="1100" height="720" fill="url(#bg)"/>
+
+  <!-- 标题 -->
+  <text x="40" y="46" font-size="22" font-weight="700" fill="#0d1117">华为分业务 SOTP 估值瀑布（2024 基准年）</text>
+  <text x="40" y="72" font-size="13" fill="#57606a">单位：亿元人民币 ｜ 数据来源：华为 2024 年报、可比公司估值中位数、银河证券对车 BU 估值报告</text>
+
+  <!-- Y 轴 -->
+  <line x1="80" y1="110" x2="80" y2="600" stroke="#8c959f" stroke-width="1"/>
+  <line x1="80" y1="600" x2="1060" y2="600" stroke="#8c959f" stroke-width="1"/>
+
+  <!-- 网格线 + Y 轴标签 (0/2000/4000/6000/8000 亿元) -->
+  <g stroke="#d0d7de" stroke-dasharray="3,3" stroke-width="0.8">
+    <line x1="80" y1="520" x2="1060" y2="520"/>
+    <line x1="80" y1="440" x2="1060" y2="440"/>
+    <line x1="80" y1="360" x2="1060" y2="360"/>
+    <line x1="80" y1="280" x2="1060" y2="280"/>
+    <line x1="80" y1="200" x2="1060" y2="200"/>
+    <line x1="80" y1="120" x2="1060" y2="120"/>
+  </g>
+  <g font-size="11" fill="#57606a" text-anchor="end">
+    <text x="74" y="604">0</text>
+    <text x="74" y="524">2000</text>
+    <text x="74" y="444">4000</text>
+    <text x="74" y="364">6000</text>
+    <text x="74" y="284">8000</text>
+    <text x="74" y="204">10000</text>
+    <text x="74" y="124">12000</text>
+  </g>
+
+  <!-- 柱状图：每条业务估值（亿元） -->
+  <!-- 比例尺: 1 单位 = 0.04 px/亿 (12000亿 -> 480px height)  -->
+  <!-- 起点 y=600 -->
+
+  <!-- ICT 基础设施 4800 -->
+  <rect x="110" y="408" width="90" height="192" fill="url(#bar1)" rx="3"/>
+  <text x="155" y="398" text-anchor="middle" font-size="13" font-weight="700" fill="#0d1117">4,800</text>
+  <text x="155" y="625" text-anchor="middle" font-size="12" fill="#24292f" font-weight="600">ICT 基础设施</text>
+  <text x="155" y="641" text-anchor="middle" font-size="10" fill="#57606a">PE 13×｜思科/中兴对标</text>
+
+  <!-- 终端 4340 -->
+  <rect x="220" y="426" width="90" height="174" fill="url(#bar2)" rx="3"/>
+  <text x="265" y="416" text-anchor="middle" font-size="13" font-weight="700" fill="#0d1117">4,340</text>
+  <text x="265" y="625" text-anchor="middle" font-size="12" fill="#24292f" font-weight="600">终端业务</text>
+  <text x="265" y="641" text-anchor="middle" font-size="10" fill="#57606a">PE 16×｜苹果/小米对标</text>
+
+  <!-- 云计算 2310 -->
+  <rect x="330" y="508" width="90" height="92" fill="url(#bar3)" rx="3"/>
+  <text x="375" y="498" text-anchor="middle" font-size="13" font-weight="700" fill="#0d1117">2,310</text>
+  <text x="375" y="625" text-anchor="middle" font-size="12" fill="#24292f" font-weight="600">华为云</text>
+  <text x="375" y="641" text-anchor="middle" font-size="10" fill="#57606a">PS 6×｜阿里云对标</text>
+
+  <!-- 数字能源 715 -->
+  <rect x="440" y="571" width="90" height="29" fill="url(#bar4)" rx="3"/>
+  <text x="485" y="561" text-anchor="middle" font-size="13" font-weight="700" fill="#0d1117">715</text>
+  <text x="485" y="625" text-anchor="middle" font-size="12" fill="#24292f" font-weight="600">数字能源</text>
+  <text x="485" y="641" text-anchor="middle" font-size="10" fill="#57606a">PE 13×｜阳光电源对标</text>
+
+  <!-- 车 BU 1150 -->
+  <rect x="550" y="554" width="90" height="46" fill="url(#bar5)" rx="3"/>
+  <text x="595" y="544" text-anchor="middle" font-size="13" font-weight="700" fill="#0d1117">1,150</text>
+  <text x="595" y="625" text-anchor="middle" font-size="12" fill="#24292f" font-weight="600">智能汽车（引望）</text>
+  <text x="595" y="641" text-anchor="middle" font-size="10" fill="#57606a">PE 34×｜银河证券估值</text>
+
+  <!-- 其他 250 -->
+  <rect x="660" y="590" width="90" height="10" fill="url(#bar6)" rx="3"/>
+  <text x="705" y="580" text-anchor="middle" font-size="13" font-weight="700" fill="#0d1117">250</text>
+  <text x="705" y="625" text-anchor="middle" font-size="12" fill="#24292f" font-weight="600">其他业务</text>
+  <text x="705" y="641" text-anchor="middle" font-size="10" fill="#57606a">保守估算</text>
+
+  <!-- 海思 1000 -->
+  <rect x="770" y="560" width="90" height="40" fill="url(#bar7)" rx="3"/>
+  <text x="815" y="550" text-anchor="middle" font-size="13" font-weight="700" fill="#0d1117">1,000</text>
+  <text x="815" y="625" text-anchor="middle" font-size="12" fill="#24292f" font-weight="600">海思半导体</text>
+  <text x="815" y="641" text-anchor="middle" font-size="10" fill="#57606a">战略价值估算</text>
+
+  <!-- 品牌/协同溢价 1500 -->
+  <rect x="880" y="540" width="90" height="60" fill="#6e7781" rx="3"/>
+  <text x="925" y="530" text-anchor="middle" font-size="13" font-weight="700" fill="#0d1117">1,500</text>
+  <text x="925" y="625" text-anchor="middle" font-size="12" fill="#24292f" font-weight="600">品牌+协同溢价</text>
+  <text x="925" y="641" text-anchor="middle" font-size="10" fill="#57606a">Brand Finance 锚定</text>
+
+  <!-- 总估值虚线 + 标签 -->
+  <line x1="80" y1="288" x2="1060" y2="288" stroke="#cf222e" stroke-width="1.5" stroke-dasharray="6,4"/>
+  <rect x="970" y="270" width="80" height="32" fill="#cf222e" rx="4"/>
+  <text x="1010" y="291" text-anchor="middle" font-size="13" font-weight="700" fill="#ffffff">16,065 亿</text>
+
+  <!-- 区间框 -->
+  <rect x="78" y="240" x2="1062" y2="240" stroke="#1f883d" stroke-width="0" />
+  <line x1="78" y1="240" x2="1062" y2="240" stroke="#1f883d" stroke-width="1.2" stroke-dasharray="4,4"/>
+  <rect x="78" y="216" width="6" height="24" fill="#1f883d"/>
+  <rect x="1056" y="216" width="6" height="24" fill="#1f883d"/>
+  <text x="84" y="212" font-size="11" fill="#1f883d" font-weight="700">区间下限 13,000 亿</text>
+  <text x="1050" y="212" text-anchor="end" font-size="11" fill="#1f883d" font-weight="700">区间上限 19,000 亿</text>
+
+  <!-- 底部图例 -->
+  <g font-size="11" fill="#24292f">
+    <rect x="40" y="668" width="14" height="14" fill="url(#bar1)" rx="2"/>
+    <text x="60" y="680">ICT 基础设施</text>
+    <rect x="180" y="668" width="14" height="14" fill="url(#bar2)" rx="2"/>
+    <text x="200" y="680">终端业务</text>
+    <rect x="300" y="668" width="14" height="14" fill="url(#bar3)" rx="2"/>
+    <text x="320" y="680">华为云</text>
+    <rect x="400" y="668" width="14" height="14" fill="url(#bar4)" rx="2"/>
+    <text x="420" y="680">数字能源</text>
+    <rect x="510" y="668" width="14" height="14" fill="url(#bar5)" rx="2"/>
+    <text x="530" y="680">智能汽车</text>
+    <rect x="620" y="668" width="14" height="14" fill="url(#bar6)" rx="2"/>
+    <text x="640" y="680">其他</text>
+    <rect x="690" y="668" width="14" height="14" fill="url(#bar7)" rx="2"/>
+    <text x="710" y="680">海思</text>
+    <rect x="770" y="668" width="14" height="14" fill="#6e7781" rx="2"/>
+    <text x="790" y="680">品牌协同</text>
+    <line x1="900" y1="675" x2="930" y2="675" stroke="#cf222e" stroke-width="2" stroke-dasharray="6,4"/>
+    <text x="936" y="680">SOTP 中枢</text>
+  </g>
+</svg>
