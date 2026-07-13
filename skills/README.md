@@ -1,3 +1,8 @@
+# 注意
+当前目录中的 skills 已搬迁到 https://github.com/digoal/skills 项目进行维护.   
+  
+此处不再更新.  
+  
 **这些 skill 的生成方式参考** : [《如何创建 SKILL》](../202604/20260421_02.md)  
   
 ## skill 介绍
