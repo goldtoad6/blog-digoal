@@ -1,0 +1,84 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 900 720" font-family="-apple-system, 'SF Pro Display', sans-serif">
+  <defs>
+    <linearGradient id="cloudGrad" x1="0%" y1="0%" x2="0%" y2="100%">
+      <stop offset="0%" style="stop-color:#0a84ff;stop-opacity:0.9"/>
+      <stop offset="100%" style="stop-color:#0050b3;stop-opacity:0.9"/>
+    </linearGradient>
+    <linearGradient id="modelGrad" x1="0%" y1="0%" x2="0%" y2="100%">
+      <stop offset="0%" style="stop-color:#bf5af2;stop-opacity:0.85"/>
+      <stop offset="100%" style="stop-color:#8944ab;stop-opacity:0.85"/>
+    </linearGradient>
+    <linearGradient id="sysGrad" x1="0%" y1="0%" x2="0%" y2="100%">
+      <stop offset="0%" style="stop-color:#ff9f0a;stop-opacity:0.85"/>
+      <stop offset="100%" style="stop-color:#c97a00;stop-opacity:0.85"/>
+    </linearGradient>
+    <linearGradient id="appGrad" x1="0%" y1="0%" x2="0%" y2="100%">
+      <stop offset="0%" style="stop-color:#30d158;stop-opacity:0.85"/>
+      <stop offset="100%" style="stop-color:#1f8a3a;stop-opacity:0.85"/>
+    </linearGradient>
+    <linearGradient id="userGrad" x1="0%" y1="0%" x2="0%" y2="100%">
+      <stop offset="0%" style="stop-color:#ffd60a;stop-opacity:0.85"/>
+      <stop offset="100%" style="stop-color:#b88a00;stop-opacity:0.85"/>
+    </linearGradient>
+    <marker id="arrowUp" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="6" markerHeight="6" orient="auto">
+      <path d="M 0 0 L 10 5 L 0 10 z" fill="#666"/>
+    </marker>
+    <marker id="arrowDown" viewBox="0 0 10 10" refX="1" refY="5" markerWidth="6" markerHeight="6" orient="auto">
+      <path d="M 10 0 L 0 5 L 10 10 z" fill="#666"/>
+    </marker>
+  </defs>
+
+  <!-- Title -->
+  <text x="450" y="35" text-anchor="middle" font-size="22" font-weight="700" fill="#1d1d1f">Apple Intelligence in macOS · 能力分层地图</text>
+  <text x="450" y="58" text-anchor="middle" font-size="13" fill="#666">从云端到用户的 5 层架构（macOS 15 Sequoia 起）</text>
+
+  <!-- L5 Cloud -->
+  <rect x="60" y="80" width="780" height="80" rx="10" fill="url(#cloudGrad)"/>
+  <text x="80" y="108" font-size="14" font-weight="700" fill="white">L5 · 云端层（Private Cloud Compute）</text>
+  <text x="80" y="128" font-size="11" fill="white" opacity="0.95">Apple Silicon 服务器集群 · 端到端可审计 · 服务器不持久化 · 公开源代码 + VRE · 漏洞悬赏 $1M</text>
+  <text x="80" y="146" font-size="11" fill="white" opacity="0.95">仅在端侧能力不足时上行；目标请求不可被 Apple 读取</text>
+
+  <line x1="450" y1="160" x2="450" y2="178" stroke="#666" stroke-width="2" marker-end="url(#arrowDown)"/>
+  <text x="465" y="172" font-size="10" fill="#666">仅在必要时上行</text>
+
+  <!-- L4 Model -->
+  <rect x="60" y="190" width="780" height="80" rx="10" fill="url(#modelGrad)"/>
+  <text x="80" y="218" font-size="14" font-weight="700" fill="white">L4 · 模型层（Foundation Models framework）</text>
+  <text x="80" y="238" font-size="11" fill="white" opacity="0.95">Swift API: SystemLanguageModel · @Generable 引导生成 · Tool Calling · Streaming</text>
+  <text x="80" y="256" font-size="11" fill="white" opacity="0.95">同时绑定端侧 (AFM-on-device ~3B) 与 PCC (AFM-server) · 抽象路由 · Apple Silicon only</text>
+
+  <line x1="450" y1="270" x2="450" y2="288" stroke="#666" stroke-width="2" marker-end="url(#arrowDown)"/>
+
+  <!-- L3 System -->
+  <rect x="60" y="300" width="780" height="80" rx="10" fill="url(#sysGrad)"/>
+  <text x="80" y="328" font-size="14" font-weight="700" fill="white">L3 · 系统层（OS 内置服务）</text>
+  <text x="80" y="348" font-size="11" fill="white" opacity="0.95">App Intents（应用意图注册与发现）· Writing Tools · Image Playground · Siri</text>
+  <text x="80" y="366" font-size="11" fill="white" opacity="0.95">Intelligence 索引（本地语义检索）· Spotlight 集成</text>
+
+  <line x1="450" y1="380" x2="450" y2="398" stroke="#666" stroke-width="2" marker-end="url(#arrowDown)"/>
+
+  <!-- L2 Apps -->
+  <rect x="60" y="410" width="780" height="80" rx="10" fill="url(#appGrad)"/>
+  <text x="80" y="438" font-size="14" font-weight="700" fill="white">L2 · 应用层（开发者应用）</text>
+  <text x="80" y="458" font-size="11" fill="white" opacity="0.95">第三方 App 通过 Foundation Models 调用端侧 / PCC 模型</text>
+  <text x="80" y="476" font-size="11" fill="white" opacity="0.95">通过 App Intents 暴露功能给 Shortcuts / Siri · 通过 ExternalProvider 调用 ChatGPT</text>
+
+  <line x1="450" y1="490" x2="450" y2="508" stroke="#666" stroke-width="2" marker-end="url(#arrowDown)"/>
+
+  <!-- L1 User -->
+  <rect x="60" y="520" width="780" height="110" rx="10" fill="url(#userGrad)"/>
+  <text x="80" y="548" font-size="14" font-weight="700" fill="#1d1d1f">L1 · 用户层（终端用户与自动化）</text>
+  <text x="80" y="568" font-size="11" fill="#1d1d1f">入口：Spotlight · Siri · 邮件/备忘录 Writing Tools · Image Playground App</text>
+  <text x="80" y="586" font-size="11" fill="#1d1d1f">CLI 工具：</text>
+  <text x="100" y="604" font-size="10" fill="#1d1d1f">  · shortcuts run &lt;Name&gt;  ── 把 LLM 驱动的 Shortcut 接入 shell / CI / cron</text>
+  <text x="100" y="620" font-size="10" fill="#1d1d1f">  · osascript                   ── OSA 层跨进程控制（与 LLM 间接协同）</text>
+
+  <!-- Bottom note -->
+  <text x="450" y="675" text-anchor="middle" font-size="11" fill="#666" font-style="italic">
+    关键判断：Apple 把 LLM 埋成 macOS 的"系统能力（OS capability）"，而非"应用"——与 CoreLocation / CoreML 同级
+  </text>
+  <text x="450" y="695" text-anchor="middle" font-size="11" fill="#666" font-style="italic">
+    来源：Apple Newsroom 2024-09-09 · Apple Security Research Blog 2024-10-24 · Foundation Models framework 文档
+  </text>
+</svg>

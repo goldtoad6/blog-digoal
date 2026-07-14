@@ -1,0 +1,185 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1240 880" font-family="-apple-system, 'SF Pro Text', 'Helvetica Neue', sans-serif">
+  <defs>
+    <linearGradient id="bg" x1="0" y1="0" x2="0" y2="1">
+      <stop offset="0%" stop-color="#0f172a"/>
+      <stop offset="100%" stop-color="#020617"/>
+    </linearGradient>
+    <linearGradient id="appleLayer" x1="0" y1="0" x2="0" y2="1">
+      <stop offset="0%" stop-color="#1d4ed8"/>
+      <stop offset="100%" stop-color="#0e7490"/>
+    </linearGradient>
+    <linearGradient id="aiLayer" x1="0" y1="0" x2="0" y2="1">
+      <stop offset="0%" stop-color="#7c3aed"/>
+      <stop offset="100%" stop-color="#c026d3"/>
+    </linearGradient>
+    <linearGradient id="bridgeLayer" x1="0" y1="0" x2="0" y2="1">
+      <stop offset="0%" stop-color="#16a34a"/>
+      <stop offset="100%" stop-color="#0d9488"/>
+    </linearGradient>
+    <linearGradient id="thirdLayer" x1="0" y1="0" x2="0" y2="1">
+      <stop offset="0%" stop-color="#f59e0b"/>
+      <stop offset="100%" stop-color="#ea580c"/>
+    </linearGradient>
+    <filter id="soft" x="-10%" y="-10%" width="120%" height="120%">
+      <feGaussianBlur stdDeviation="1.5"/>
+    </filter>
+  </defs>
+
+  <rect width="1240" height="880" fill="url(#bg)"/>
+  <text x="40" y="44" fill="#e2e8f0" font-size="22" font-weight="700">macOS Sequoia / Tahoe 命令行工具的 AI 可编排性分层地图</text>
+  <text x="40" y="68" fill="#94a3b8" font-size="13">从最底层的 shell 工具,到 Apple 官方 fm CLI / Python SDK,再到第三方 Ollama / mlx-lm / llm 的边界</text>
+
+  <!-- L1: Apple Native AI Layer -->
+  <rect x="40" y="100" width="1160" height="170" rx="14" fill="url(#aiLayer)" opacity="0.95"/>
+  <text x="60" y="128" fill="#fff" font-size="15" font-weight="700">L1 · Apple 原生 AI 接口层 (macOS 26 Tahoe+)</text>
+  <text x="60" y="146" fill="#f5d0fe" font-size="11">Foundation Models framework + Apple Intelligence 后端</text>
+
+  <g font-family="ui-monospace, 'SF Mono', Menlo, monospace" font-size="12">
+    <rect x="60" y="158" width="220" height="92" rx="8" fill="#1e1b4b" stroke="#a78bfa"/>
+    <text x="74" y="180" fill="#fff" font-weight="700">fm run &lt;prompt&gt;</text>
+    <text x="74" y="198" fill="#c4b5fd">单次推理 / -i / -o json</text>
+    <text x="74" y="216" fill="#c4b5fd">stdin / stdout 管道</text>
+    <text x="74" y="234" fill="#c4b5fd">macOS 27 内置</text>
+
+    <rect x="290" y="158" width="220" height="92" rx="8" fill="#1e1b4b" stroke="#a78bfa"/>
+    <text x="304" y="180" fill="#fff" font-weight="700">fm chat</text>
+    <text x="304" y="198" fill="#c4b5fd">交互多轮 / 模型切换</text>
+    <text x="304" y="216" fill="#c4b5fd">本地 ↔ PCC 云端</text>
+    <text x="304" y="234" fill="#c4b5fd">图文多模态输入</text>
+
+    <rect x="520" y="158" width="220" height="92" rx="8" fill="#1e1b4b" stroke="#a78bfa"/>
+    <text x="534" y="180" fill="#fff" font-weight="700">FoundationModels.framework</text>
+    <text x="534" y="198" fill="#c4b5fd">Swift 原生 API</text>
+    <text x="534" y="216" fill="#c4b5fd">@Generable 引导生成</text>
+    <text x="534" y="234" fill="#c4b5fd">3B 模型 / 2-bit / 8K ctx</text>
+
+    <rect x="750" y="158" width="220" height="92" rx="8" fill="#1e1b4b" stroke="#a78bfa"/>
+    <text x="764" y="180" fill="#fff" font-weight="700">Python SDK</text>
+    <text x="764" y="198" fill="#c4b5fd">import apple_fm_sdk as fm</text>
+    <text x="764" y="216" fill="#c4b5fd">pip 一行安装</text>
+    <text x="764" y="234" fill="#c4b5fd">SystemLanguageModel()</text>
+
+    <rect x="980" y="158" width="220" height="92" rx="8" fill="#1e1b4b" stroke="#a78bfa"/>
+    <text x="994" y="180" fill="#fff" font-weight="700">App Intents</text>
+    <text x="994" y="198" fill="#c4b5fd">Siri AI / Shortcuts 桥</text>
+    <text x="994" y="216" fill="#c4b5fd">Spotlight 语义索引</text>
+    <text x="994" y="234" fill="#c4b5fd">跨 App 自然语言</text>
+  </g>
+
+  <!-- L2: Bridge / Glue Layer (Apple's automation bus) -->
+  <rect x="40" y="290" width="1160" height="190" rx="14" fill="url(#bridgeLayer)" opacity="0.95"/>
+  <text x="60" y="318" fill="#fff" font-size="15" font-weight="700">L2 · 苹果官方自动化总线层 (可被 L1 编排)</text>
+  <text x="60" y="336" fill="#bbf7d0" font-size="11">Shortcuts / AppleScript / URL Schemes — 系统级胶水,所有 LLM 调用都要穿过它</text>
+
+  <g font-family="ui-monospace, 'SF Mono', Menlo, monospace" font-size="12">
+    <rect x="60" y="350" width="220" height="112" rx="8" fill="#052e16" stroke="#86efac"/>
+    <text x="74" y="372" fill="#fff" font-weight="700">shortcuts CLI</text>
+    <text x="74" y="390" fill="#bbf7d0">list / run / view</text>
+    <text x="74" y="408" fill="#bbf7d0">-i input / -o output</text>
+    <text x="74" y="426" fill="#bbf7d0">短指令 × AI 动作组合</text>
+    <text x="74" y="444" fill="#bbf7d0">macOS 12 起</text>
+
+    <rect x="290" y="350" width="220" height="112" rx="8" fill="#052e16" stroke="#86efac"/>
+    <text x="304" y="372" fill="#fff" font-weight="700">osascript</text>
+    <text x="304" y="390" fill="#bbf7d0">AppleScript 运行时</text>
+    <text x="304" y="408" fill="#bbf7d0">tell application "..."</text>
+    <text x="304" y="426" fill="#bbf7d0">System Events GUI 自动化</text>
+    <text x="304" y="444" fill="#bbf7d0">JXA (JavaScript) 同样支持</text>
+
+    <rect x="520" y="350" width="220" height="112" rx="8" fill="#052e16" stroke="#86efac"/>
+    <text x="534" y="372" fill="#fff" font-weight="700">defaults</text>
+    <text x="534" y="390" fill="#bbf7d0">读写 plist 配置</text>
+    <text x="534" y="408" fill="#bbf7d0">读写系统/应用偏好</text>
+    <text x="534" y="426" fill="#bbf7d0">常用隐藏开关</text>
+    <text x="534" y="444" fill="#bbf7d0">需重启或发送 signal</text>
+
+    <rect x="750" y="350" width="220" height="112" rx="8" fill="#052e16" stroke="#86efac"/>
+    <text x="764" y="372" fill="#fff" font-weight="700">afplay / screencapture</text>
+    <text x="764" y="390" fill="#bbf7d0">音频播放与录制</text>
+    <text x="764" y="408" fill="#bbf7d0">screencapture -i / -c</text>
+    <text x="764" y="426" fill="#bbf7d0">可作为 LLM 输入输出</text>
+    <text x="764" y="444" fill="#bbf7d0">脚本化 GUI 截图</text>
+
+    <rect x="980" y="350" width="220" height="112" rx="8" fill="#052e16" stroke="#86efac"/>
+    <text x="994" y="372" fill="#fff" font-weight="700">sips / mdls</text>
+    <text x="994" y="390" fill="#bbf7d0">图像元数据 / 转换</text>
+    <text x="994" y="408" fill="#bbf7d0">mdls Spotlight 元数据</text>
+    <text x="994" y="426" fill="#bbf7d0">可喂给 Vision/VLM</text>
+    <text x="994" y="444" fill="#bbf7d0">零 Python 依赖</text>
+  </g>
+
+  <!-- L3: Classic Unix + Apple Native Layer -->
+  <rect x="40" y="500" width="1160" height="130" rx="14" fill="url(#appleLayer)" opacity="0.85"/>
+  <text x="60" y="528" fill="#fff" font-size="15" font-weight="700">L3 · 经典系统工具层 (shell 原语 / 内容操作)</text>
+  <text x="60" y="546" fill="#bfdbfe" font-size="11">所有 LLM 调用的输入输出管道与文本处理基础</text>
+
+  <g font-family="ui-monospace, 'SF Mono', Menlo, monospace" font-size="12">
+    <rect x="60" y="558" width="200" height="60" rx="8" fill="#0c1f3f" stroke="#60a5fa"/>
+    <text x="74" y="580" fill="#fff" font-weight="700">shell 原语</text>
+    <text x="74" y="598" fill="#bfdbfe">grep / awk / sed / jq</text>
+    <text x="74" y="612" fill="#bfdbfe">pipe / redirect / heredoc</text>
+
+    <rect x="270" y="558" width="200" height="60" rx="8" fill="#0c1f3f" stroke="#60a5fa"/>
+    <text x="284" y="580" fill="#fff" font-weight="700">系统信息</text>
+    <text x="284" y="598" fill="#bfdbfe">sysctl / system_profiler</text>
+    <text x="284" y="612" fill="#bfdbfe">sw_vers / uname</text>
+
+    <rect x="480" y="558" width="200" height="60" rx="8" fill="#0c1f3f" stroke="#60a5fa"/>
+    <text x="494" y="580" fill="#fff" font-weight="700">网络/进程</text>
+    <text x="494" y="598" fill="#bfdbfe">curl / lsof / ps</text>
+    <text x="494" y="612" fill="#bfdbfe">ssh / launchctl</text>
+
+    <rect x="690" y="558" width="200" height="60" rx="8" fill="#0c1f3f" stroke="#60a5fa"/>
+    <text x="704" y="580" fill="#fff" font-weight="700">脚本语言</text>
+    <text x="704" y="598" fill="#bfdbfe">Swift Script / Python 3</text>
+    <text x="704" y="612" fill="#bfdbfe">Bash / Zsh</text>
+
+    <rect x="900" y="558" width="300" height="60" rx="8" fill="#0c1f3f" stroke="#60a5fa"/>
+    <text x="914" y="580" fill="#fff" font-weight="700">"fm run" 调用链路</text>
+    <text x="914" y="598" fill="#bfdbfe">psql 数据 → fm run "生成 SQL 解释" → 写回 docs</text>
+    <text x="914" y="612" fill="#bfdbfe">完全 Unix 风格,适合管道化</text>
+  </g>
+
+  <!-- L4: Third-party layer -->
+  <rect x="40" y="650" width="1160" height="200" rx="14" fill="url(#thirdLayer)" opacity="0.92"/>
+  <text x="60" y="678" fill="#fff" font-size="15" font-weight="700">L4 · 第三方 CLI 工具层 (与 Apple 原生并存的扩展生态)</text>
+  <text x="60" y="696" fill="#fed7aa" font-size="11">填补"苹果未提供的能力"——多模型路由 / 远程云端 / Hugging Face 生态</text>
+
+  <g font-family="ui-monospace, 'SF Mono', Menlo, monospace" font-size="12">
+    <rect x="60" y="710" width="220" height="124" rx="8" fill="#3f1d05" stroke="#fdba74"/>
+    <text x="74" y="732" fill="#fff" font-weight="700">apfel (Arthur-Ficial)</text>
+    <text x="74" y="750" fill="#fed7aa">直接包装 Foundation Models</text>
+    <text x="74" y="768" fill="#fed7aa">CLI + Chat + OpenAI API</text>
+    <text x="74" y="786" fill="#fed7aa">:11434 端口,改 base_url</text>
+    <text x="74" y="804" fill="#fed7aa">MIT,Swift 6.3,550+ 测试</text>
+
+    <rect x="290" y="710" width="220" height="124" rx="8" fill="#3f1d05" stroke="#fdba74"/>
+    <text x="304" y="732" fill="#fff" font-weight="700">afm / maclocal-api</text>
+    <text x="304" y="750" fill="#fed7aa">scouzi1966 出品</text>
+    <text x="304" y="768" fill="#fed7aa">Foundation + MLX 双引擎</text>
+    <text x="304" y="786" fill="#fed7aa">OpenAI 兼容聚合端点</text>
+    <text x="304" y="804" fill="#fed7aa">brew install scouzi1966/afm/afm</text>
+
+    <rect x="520" y="710" width="220" height="124" rx="8" fill="#3f1d05" stroke="#fdba74"/>
+    <text x="534" y="732" fill="#fff" font-weight="700">ollama</text>
+    <text x="534" y="750" fill="#fed7aa">0.19+ 已切换 MLX 后端</text>
+    <text x="534" y="768" fill="#fed7aa">GGUF 跨厂商模型库</text>
+    <text x="534" y="786" fill="#fed7aa">本地服务 / REST 兼容</text>
+    <text x="534" y="804" fill="#fed7aa">Qwen3.5 35B 实测 decode ↑93%</text>
+
+    <rect x="750" y="710" width="220" height="124" rx="8" fill="#3f1d05" stroke="#fdba74"/>
+    <text x="764" y="732" fill="#fff" font-weight="700">mlx-lm</text>
+    <text x="764" y="750" fill="#fed7aa">Apple 官方 MLX 团队</text>
+    <text x="764" y="768" fill="#fed7aa">python -m mlx_lm.generate</text>
+    <text x="764" y="786" fill="#fed7aa">LoRA / QLoRA 微调</text>
+    <text x="764" y="804" fill="#fed7aa">统一内存最优解</text>
+
+    <rect x="980" y="710" width="220" height="124" rx="8" fill="#3f1d05" stroke="#fdba74"/>
+    <text x="994" y="732" fill="#fff" font-weight="700">llm (Simon Willison)</text>
+    <text x="994" y="750" fill="#fed7aa">CLI 通用编排器</text>
+    <text x="994" y="768" fill="#fed7aa">llm-mlx / llm-gguf 插件</text>
+    <text x="994" y="786" fill="#fed7aa">多模型路由 + 日志</text>
+    <text x="994" y="804" fill="#fed7aa">brew install llm</text>
+  </g>
+</svg>
