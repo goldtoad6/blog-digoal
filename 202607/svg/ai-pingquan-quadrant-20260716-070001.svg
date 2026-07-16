@@ -1,0 +1,149 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1200 800" font-family="-apple-system, 'Helvetica Neue', 'PingFang SC', 'Microsoft YaHei', sans-serif">
+  <defs>
+    <linearGradient id="bg" x1="0" y1="0" x2="0" y2="1">
+      <stop offset="0%" stop-color="#f7f9fc"/>
+      <stop offset="100%" stop-color="#eef3f9"/>
+    </linearGradient>
+    <linearGradient id="waterline" x1="0" y1="0" x2="0" y2="1">
+      <stop offset="0%" stop-color="#9fc5e8" stop-opacity="0.15"/>
+      <stop offset="100%" stop-color="#3a6ea5" stop-opacity="0.35"/>
+    </linearGradient>
+    <filter id="shadow" x="-20%" y="-20%" width="140%" height="140%">
+      <feGaussianBlur in="SourceAlpha" stdDeviation="3"/>
+      <feOffset dx="0" dy="2" result="off"/>
+      <feComponentTransfer><feFuncA type="linear" slope="0.3"/></feComponentTransfer>
+      <feMerge><feMergeNode/><feMergeNode in="SourceGraphic"/></feMerge>
+    </filter>
+    <marker id="arrow" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="6" markerHeight="6" orient="auto-start-reverse">
+      <path d="M 0 0 L 10 5 L 0 10 z" fill="#3a6ea5"/>
+    </marker>
+  </defs>
+
+  <!-- Background -->
+  <rect width="1200" height="800" fill="url(#bg)"/>
+
+  <!-- Title -->
+  <text x="600" y="50" text-anchor="middle" font-size="26" font-weight="700" fill="#1a2a44">冰山之上：AI 平权四要素的「商品化」坐标</text>
+  <text x="600" y="78" text-anchor="middle" font-size="14" fill="#5a6a82">纵轴 = 平权程度  ｜  横轴 = 准入门槛  ｜  数据截至 2026-Q1</text>
+
+  <!-- Plot area: x:120..1080, y:120..640 -->
+  <g transform="translate(120,120)">
+    <!-- Quadrant background fills -->
+    <rect x="0" y="0" width="480" height="260" fill="#e8f4ea" opacity="0.55"/>     <!-- Top-left: 平权高、门槛低 -->
+    <rect x="480" y="0" width="480" height="260" fill="#fdf3e0" opacity="0.55"/>   <!-- Top-right: 平权高、门槛高 -->
+    <rect x="0" y="260" width="480" height="260" fill="#eaeef5" opacity="0.45"/>   <!-- Bottom-left: 平权低、门槛低 -->
+    <rect x="480" y="260" width="480" height="260" fill="#f5e6e6" opacity="0.55"/> <!-- Bottom-right: 平权低、门槛高 -->
+
+    <!-- Quadrant labels -->
+    <text x="20" y="30" font-size="13" fill="#2d5a3d" font-weight="600">A · 充裕商品区</text>
+    <text x="20" y="48" font-size="11" fill="#4a6b58">钱多钱少都够用 · AI 平权已到位</text>
+
+    <text x="500" y="30" font-size="13" fill="#7a5b1a" font-weight="600">B · 平权但有壁垒</text>
+    <text x="500" y="48" font-size="11" fill="#8a6e3a">能力普及，但最高水平仍被少数把持</text>
+
+    <text x="20" y="500" font-size="13" fill="#5a5a72" font-weight="600">C · 廉价但稀缺</text>
+    <text x="20" y="518" font-size="11" fill="#6e6e84">门槛低，但高质量供给仍少</text>
+
+    <text x="500" y="500" font-size="13" fill="#7a3a3a" font-weight="600">D · 双重稀缺区</text>
+    <text x="500" y="518" font-size="11" fill="#8a4a4a">高门槛 + 低平权 = 真正的瓶颈</text>
+
+    <!-- Axes -->
+    <line x1="0" y1="520" x2="960" y2="520" stroke="#1a2a44" stroke-width="1.5"/>
+    <line x1="480" y1="0" x2="480" y2="520" stroke="#1a2a44" stroke-width="1.5" stroke-dasharray="4,4"/>
+
+    <!-- Grid lines -->
+    <g stroke="#cdd6e0" stroke-width="0.5" stroke-dasharray="2,3">
+      <line x1="0" y1="130" x2="960" y2="130"/>
+      <line x1="0" y1="260" x2="960" y2="260"/>
+      <line x1="0" y1="390" x2="960" y2="390"/>
+      <line x1="240" y1="0" x2="240" y2="520"/>
+      <line x1="720" y1="0" x2="720" y2="520"/>
+    </g>
+
+    <!-- Axis labels -->
+    <text x="480" y="555" text-anchor="middle" font-size="14" fill="#1a2a44" font-weight="600">准入门槛 →</text>
+    <text x="-50" y="260" text-anchor="middle" font-size="14" fill="#1a2a44" font-weight="600" transform="rotate(-90,-50,260)">平权 / 商品化程度 →</text>
+
+    <text x="480" y="565" text-anchor="middle" font-size="10" fill="#7a8a9a">低 ············· 高</text>
+    <text x="-50" y="265" text-anchor="middle" font-size="10" fill="#7a8a9a" transform="rotate(-90,-50,265)">低 ········ 高</text>
+
+    <!-- Annotation: waterline metaphor -->
+    <rect x="0" y="0" width="960" height="520" fill="url(#waterline)" opacity="0.0"/>
+
+    <!-- ④ Problems: hardest claim -->
+    <g filter="url(#shadow)">
+      <circle cx="800" cy="430" r="22" fill="#c84a4a" stroke="#7a2222" stroke-width="2"/>
+      <text x="800" y="436" text-anchor="middle" font-size="16" font-weight="700" fill="#fff">④</text>
+    </g>
+    <text x="828" y="420" font-size="14" font-weight="700" fill="#7a2222">「问题」</text>
+    <text x="828" y="438" font-size="11" fill="#4a3a3a">AI 能生成候选问题，但「好问题」的</text>
+    <text x="828" y="453" font-size="11" fill="#4a3a3a">识别与判断仍属人类（D 区）</text>
+    <text x="828" y="468" font-size="10" font-style="italic" fill="#7a3a3a">AlphaFold 3、Sakana AI Scientist 仅在窄域成立</text>
+
+    <!-- ③ Knowledge -->
+    <g filter="url(#shadow)">
+      <circle cx="180" cy="120" r="22" fill="#3a9d5d" stroke="#1f5d35" stroke-width="2"/>
+      <text x="180" y="126" text-anchor="middle" font-size="16" font-weight="700" fill="#fff">③</text>
+    </g>
+    <text x="50" y="100" font-size="14" font-weight="700" fill="#1f5d35">「知识」</text>
+    <text x="50" y="118" font-size="11" fill="#2a4a3a">显性知识已近 A 区：Khanmigo、Elicit、arXiv</text>
+    <text x="50" y="133" font-size="11" fill="#2a4a3a">把 1.25 亿篇论文、千万级课程送到指尖</text>
+    <text x="50" y="148" font-size="10" font-style="italic" fill="#1f5d35">但隐性 / 情境化知识仍是 B 区</text>
+
+    <!-- ② Models -->
+    <g filter="url(#shadow)">
+      <circle cx="430" cy="160" r="22" fill="#e09a3a" stroke="#7a4a10" stroke-width="2"/>
+      <text x="430" y="166" text-anchor="middle" font-size="16" font-weight="700" fill="#fff">②</text>
+    </g>
+    <text x="460" y="150" font-size="14" font-weight="700" fill="#7a4a10">「模型」</text>
+    <text x="460" y="168" font-size="11" fill="#5a4a2a">Llama-405B / DeepSeek-V3 / Qwen 追上</text>
+    <text x="460" y="183" font-size="11" fill="#5a4a2a">GPT-4，但 GPT-5 / Claude 4 / o3 仍领先</text>
+    <text x="460" y="198" font-size="10" font-style="italic" fill="#7a4a10">95% 场景够用、5% 仍要花钱买</text>
+
+    <!-- ① Compute -->
+    <g filter="url(#shadow)">
+      <circle cx="360" cy="370" r="22" fill="#3a6ea5" stroke="#1a3a5a" stroke-width="2"/>
+      <text x="360" y="376" text-anchor="middle" font-size="16" font-weight="700" fill="#fff">①</text>
+    </g>
+    <text x="50" y="360" font-size="14" font-weight="700" fill="#1a3a5a">「算力」</text>
+    <text x="50" y="378" font-size="11" fill="#2a4a6a">推理算力已入 A 区（GPT-3.5 等效推理</text>
+    <text x="50" y="393" font-size="11" fill="#2a4a6a">2 年内降价 280×）</text>
+    <text x="50" y="408" font-size="11" fill="#2a4a6a">但**前沿训练算力**仍是 D 区</text>
+    <text x="50" y="423" font-size="10" font-style="italic" fill="#1a3a5a">H100 1 年合约价 2024 跌 50%、2026 又涨 40%</text>
+
+    <!-- Trajectory arrows showing movement -->
+    <g stroke="#7a8a9a" stroke-width="1" stroke-dasharray="3,3" fill="none" opacity="0.7">
+      <!-- ① Compute: 2023 → 2026 -->
+      <path d="M 600 470 Q 480 420 360 370" marker-end="url(#arrow)"/>
+      <text x="490" y="438" font-size="10" fill="#5a6a82">2023 H100 缺货 → 2024 跌 50% → 2026 又涨</text>
+
+      <!-- ② Models: closing gap -->
+      <path d="M 720 320 Q 580 240 430 160" marker-end="url(#arrow)"/>
+      <text x="600" y="248" font-size="10" fill="#5a6a82">开闭源差距 8pp → ~0pp</text>
+
+      <!-- ③ Knowledge: stable in A -->
+      <path d="M 280 200 Q 230 160 180 120" marker-end="url(#arrow)"/>
+      <text x="195" y="172" font-size="10" fill="#5a6a82">持续下沉</text>
+    </g>
+
+    <!-- Center crosshair -->
+    <g stroke="#1a2a44" stroke-width="1" opacity="0.4">
+      <line x1="470" y1="250" x2="490" y2="270"/>
+      <line x1="490" y1="250" x2="470" y2="270"/>
+    </g>
+    <text x="495" y="245" font-size="10" fill="#3a4a5a">原点</text>
+  </g>
+
+  <!-- Legend / data notes -->
+  <g transform="translate(120, 690)">
+    <text x="0" y="0" font-size="12" font-weight="700" fill="#1a2a44">数据点说明：</text>
+    <text x="0" y="20" font-size="11" fill="#3a4a5a">① 算力：Stanford AI Index 2025 报告 GPT-3.5 等效推理 2 年跌 280×；H100 1 年合约价 2024.10→2026.03 反弹 40%。</text>
+    <text x="0" y="38" font-size="11" fill="#3a4a5a">② 模型：Llama-3.1-405B / DeepSeek-V3（$5.5M / 2000 卡）/ Qwen2.5 在 MMLU 等基准追上 GPT-4；前沿仍受供应商节奏限制。</text>
+    <text x="0" y="56" font-size="11" fill="#3a4a5a">③ 知识：Khan Academy 1.2 亿注册用户；Elicit 接入 1.25 亿论文；arXiv 月增 1.5 万+ 预印本。</text>
+    <text x="0" y="74" font-size="11" fill="#3a4a5a">④ 问题：Sakana AI Scientist v2 通过 ICLR 工作坊审稿；AlphaFold 3 仅在生物分子结构域成立；「好问题」的判断仍属人类。</text>
+  </g>
+
+  <!-- Footer -->
+  <text x="600" y="785" text-anchor="middle" font-size="10" fill="#7a8a9a">制图：DIGOAL · 数据来源见正文引用 · 2026-07-16</text>
+</svg>

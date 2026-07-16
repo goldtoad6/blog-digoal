@@ -1,0 +1,121 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="1400" height="1000" viewBox="0 0 1400 1000" role="img" aria-labelledby="title desc">
+  <title id="title">AI时代的冰山模型扩展图</title>
+  <desc id="desc">水面之上是可规模化、可复制、可交易且可被人工智能增强的资源：算力、模型、知识和问题求解。水面之下是多维的人类条件：心力、愿力、肉身性、关系与信任、审美与意义、道德责任、偶然性与运气、制度与权力结构。心力与愿力是核心但不是全部。</desc>
+  <style>
+    :root { color-scheme: light dark; }
+    .bg { fill: #F8FAFC; }
+    .ink { fill: #172033; }
+    .muted { fill: #475569; }
+    .line { stroke: #94A3B8; }
+    .water { fill: #DBEAFE; stroke: #1D4ED8; }
+    .above { fill: #E0F2FE; stroke: #0369A1; }
+    .below { fill: #FFF7ED; stroke: #B45309; }
+    .heart { fill: #F3E8FF; stroke: #7C3AED; }
+    .will { fill: #ECFDF5; stroke: #047857; }
+    .body { fill: #FFE4E6; stroke: #BE123C; }
+    .relation { fill: #ECFDF5; stroke: #166534; }
+    .aesthetic { fill: #F5F3FF; stroke: #6D28D9; }
+    .ethic { fill: #FFF7ED; stroke: #B45309; }
+    .chance { fill: #EFF6FF; stroke: #1D4ED8; }
+    .power { fill: #FDF2F8; stroke: #BE123C; }
+    text { font-family: -apple-system, BlinkMacSystemFont, "PingFang SC", "Microsoft YaHei", "Noto Sans CJK SC", sans-serif; }
+    .title { font-size: 34px; font-weight: 800; }
+    .subtitle { font-size: 17px; }
+    .section { font-size: 22px; font-weight: 800; }
+    .label { font-size: 20px; font-weight: 750; }
+    .small { font-size: 15px; }
+    .tiny { font-size: 13px; }
+    .card { stroke-width: 2.5; }
+    .dash { stroke-dasharray: 8 7; stroke-width: 2; fill: none; }
+    .ice { fill: #F1F5F9; stroke: #64748B; stroke-width: 3; }
+    .iceShade { fill: #CBD5E1; opacity: .72; }
+    @media (prefers-color-scheme: dark) {
+      .bg { fill: #1a1a19; }
+      .ink { fill: #F8FAFC; }
+      .muted { fill: #CBD5E1; }
+      .line { stroke: #64748B; }
+      .water { fill: #172554; stroke: #3B82F6; }
+      .above { fill: #082F49; stroke: #0284C7; }
+      .below { fill: #431407; stroke: #D97706; }
+      .heart { fill: #2E1065; stroke: #8B5CF6; }
+      .will { fill: #022C22; stroke: #059669; }
+      .body { fill: #4C0519; stroke: #E11D48; }
+      .relation { fill: #052E16; stroke: #15803D; }
+      .aesthetic { fill: #2E1065; stroke: #7C3AED; }
+      .ethic { fill: #431407; stroke: #D97706; }
+      .chance { fill: #172554; stroke: #3B82F6; }
+      .power { fill: #4C0519; stroke: #E11D48; }
+      .ice { fill: #334155; stroke: #94A3B8; }
+      .iceShade { fill: #64748B; opacity: .75; }
+    }
+  </style>
+  <rect class="bg" x="0" y="0" width="1400" height="1000"/>
+  <text class="ink title" x="70" y="70">AI时代的“冰山模型”扩展</text>
+  <text class="muted subtitle" x="72" y="103">可获得性上升，不等于价值、意义与控制权被平等分配</text>
+
+  <!-- water and surface -->
+  <path class="water" d="M40 270 Q180 248 320 270 T600 270 T880 270 T1160 270 T1360 270 L1360 930 L40 930 Z" opacity=".8"/>
+  <line x1="40" y1="270" x2="1360" y2="270" stroke="#1D4ED8" stroke-width="5"/>
+  <text class="ink section" x="70" y="180">冰山之上｜可复制、可规模化、可交易、可被AI增强</text>
+  <text class="muted small" x="70" y="211">注意：可获得 ≠ 免费；可复制 ≠ 已被公平分配；可回答 ≠ 已被理解或负责</text>
+
+  <!-- above cards -->
+  <g class="card above">
+    <rect x="70" y="225" width="270" height="90" rx="16"/>
+    <rect x="370" y="225" width="270" height="90" rx="16"/>
+    <rect x="670" y="225" width="270" height="90" rx="16"/>
+    <rect x="970" y="225" width="270" height="90" rx="16"/>
+  </g>
+  <g class="ink" text-anchor="middle">
+    <text class="label" x="205" y="265">算力</text><text class="small" x="205" y="290">芯片、能源、云基础设施</text>
+    <text class="label" x="505" y="265">模型</text><text class="small" x="505" y="290">参数、工具链、代理系统</text>
+    <text class="label" x="805" y="265">知识</text><text class="small" x="805" y="290">文本、数据、可检索的解释</text>
+    <text class="label" x="1105" y="265">问题求解</text><text class="small" x="1105" y="290">预测、生成、优化、自动化</text>
+  </g>
+
+  <!-- iceberg -->
+  <path class="ice" d="M520 315 L880 315 L940 355 L1010 410 L1080 480 L1150 560 L1225 640 L1290 735 L1330 850 L70 850 L125 750 L210 675 L300 590 L380 515 L450 430 L500 355 Z"/>
+  <path class="iceShade" d="M520 315 L880 315 L940 355 L1010 410 L1080 480 L1150 560 L1225 640 L1290 735 L1330 850 L800 850 L760 750 L720 660 L690 560 L650 460 L600 370 Z"/>
+  <line class="dash" x1="500" y1="355" x2="930" y2="355" stroke="#64748B"/>
+  <text class="muted tiny" x="965" y="360">可见的输出与不可见的条件</text>
+
+  <text class="ink section" x="70" y="410">冰山之下｜不能由个人意志单独决定的多维条件</text>
+
+  <!-- lower dimension cards -->
+  <g class="card">
+    <rect class="heart" x="90" y="455" width="270" height="100" rx="16"/>
+    <rect class="will" x="390" y="455" width="270" height="100" rx="16"/>
+    <rect class="body" x="690" y="455" width="270" height="100" rx="16"/>
+    <rect class="relation" x="990" y="455" width="270" height="100" rx="16"/>
+    <rect class="aesthetic" x="90" y="585" width="270" height="100" rx="16"/>
+    <rect class="ethic" x="390" y="585" width="270" height="100" rx="16"/>
+    <rect class="chance" x="690" y="585" width="270" height="100" rx="16"/>
+    <rect class="power" x="990" y="585" width="270" height="100" rx="16"/>
+  </g>
+  <g class="ink" text-anchor="middle">
+    <text class="label" x="225" y="495">心力</text><text class="small" x="225" y="521">注意、情绪、身体能量</text><text class="tiny" x="225" y="542">易受睡眠、年龄、照护影响</text>
+    <text class="label" x="525" y="495">愿力</text><text class="small" x="525" y="521">承诺、自我约束、行动</text><text class="tiny" x="525" y="542">既是训练，也是制度产物</text>
+    <text class="label" x="825" y="495">肉身性</text><text class="small" x="825" y="521">疼痛、脆弱、感官、死亡</text><text class="tiny" x="825" y="542">不是可任意上传的附件</text>
+    <text class="label" x="1125" y="495">关系与信任</text><text class="small" x="1125" y="521">承认、互惠、在场、附近</text><text class="tiny" x="1125" y="542">AI可模拟，难替代共同生活</text>
+    <text class="label" x="225" y="625">审美与意义</text><text class="small" x="225" y="651">品味、叙事、值得为何</text><text class="tiny" x="225" y="672">不是“生成得像”就等于有意义</text>
+    <text class="label" x="525" y="625">道德责任</text><text class="small" x="525" y="651">谁承担后果、向谁解释</text><text class="tiny" x="525" y="672">责任不能外包给概率分布</text>
+    <text class="label" x="825" y="625">偶然性与运气</text><text class="small" x="825" y="651">出生、时机、灾害、他人选择</text><text class="tiny" x="825" y="672">能力不等于结果的全部来源</text>
+    <text class="label" x="1125" y="625">制度与权力结构</text><text class="small" x="1125" y="651">所有权、议价权、规则、分配</text><text class="tiny" x="1125" y="672">决定谁能接近并获益于AI</text>
+  </g>
+
+  <!-- central relation and annotations -->
+  <path d="M525 555 C560 610 620 700 700 735" class="dash" stroke="#7C3AED"/>
+  <path d="M225 555 C350 640 500 710 700 735" class="dash" stroke="#7C3AED"/>
+  <circle cx="700" cy="735" r="46" fill="#172033" stroke="#F8FAFC" stroke-width="4"/>
+  <text x="700" y="728" fill="#F8FAFC" text-anchor="middle" class="small" font-weight="800">心力 × 愿力</text>
+  <text x="700" y="749" fill="#F8FAFC" text-anchor="middle" class="tiny">重要，但非穷尽</text>
+
+  <g transform="translate(90,745)">
+    <rect width="1170" height="73" rx="15" fill="none" stroke="#64748B" stroke-width="2" stroke-dasharray="7 6"/>
+    <text class="ink small" x="25" y="29" font-weight="800">读图规则</text>
+    <text class="muted tiny" x="25" y="53">“之下”不是神秘本质，而是关系、身体、制度和偶然性共同构成的约束与可能性；它们会反过来塑造“之上”的技术用途。</text>
+  </g>
+
+  <text class="muted tiny" x="70" y="885">图示立场：反对把“人之为人”简化为单一内在品质，也反对把AI的可用性误写成普遍平权。</text>
+  <text class="muted tiny" x="70" y="910">来源线索：Deutsch (2011)；Cowen (2013)；Lanier &amp; Weyl (2018)；Acemoglu &amp; Johnson (2023)；Mazzucato (2018)；项飙（2019/2022）；徐贲（2011/2014/2016）。</text>
+</svg>

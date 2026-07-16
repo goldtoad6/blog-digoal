@@ -1,0 +1,84 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 900 620" font-family="'PingFang SC','Helvetica Neue',Arial,sans-serif">
+  <defs>
+    <linearGradient id="bg" x1="0" y1="0" x2="0" y2="1">
+      <stop offset="0%" stop-color="#f7f8fb"/>
+      <stop offset="100%" stop-color="#e9eef5"/>
+    </linearGradient>
+    <linearGradient id="exec" x1="0" y1="0" x2="1" y2="1">
+      <stop offset="0%" stop-color="#5b8def"/>
+      <stop offset="100%" stop-color="#3b6fd6"/>
+    </linearGradient>
+    <linearGradient id="att" x1="0" y1="0" x2="1" y2="1">
+      <stop offset="0%" stop-color="#f5a623"/>
+      <stop offset="100%" stop-color="#e07f12"/>
+    </linearGradient>
+    <linearGradient id="mot" x1="0" y1="0" x2="1" y2="1">
+      <stop offset="0%" stop-color="#34c38f"/>
+      <stop offset="100%" stop-color="#1f9d6c"/>
+    </linearGradient>
+  </defs>
+
+  <rect width="900" height="620" fill="url(#bg)"/>
+
+  <text x="450" y="40" text-anchor="middle" font-size="22" font-weight="700" fill="#1f2a44">「心力」的神经科学解构</text>
+  <text x="450" y="65" text-anchor="middle" font-size="13" fill="#56627a">俗语「心力」 ≈ 执行功能 + 注意力资源 + 动机能量（三个可分离成分）</text>
+
+  <!-- 三主成分卡片 -->
+  <g transform="translate(60,100)">
+    <rect width="240" height="170" rx="14" fill="url(#exec)" opacity="0.95"/>
+    <text x="20" y="35" font-size="18" font-weight="700" fill="#fff">① 执行功能</text>
+    <text x="20" y="60" font-size="12" fill="#e8efff">Executive Function</text>
+    <text x="20" y="88" font-size="13" fill="#fff">· 抑制 / 工作记忆 / 灵活切换</text>
+    <text x="20" y="110" font-size="13" fill="#fff">· 神经底物：前额叶皮层（DLPFC）</text>
+    <text x="20" y="132" font-size="13" fill="#fff">· 神经递质：多巴胺 D1（倒U型）</text>
+    <text x="20" y="154" font-size="13" fill="#fff">· 关键读物：Miller &amp; Cohen 2001</text>
+  </g>
+
+  <g transform="translate(330,100)">
+    <rect width="240" height="170" rx="14" fill="url(#att)" opacity="0.95"/>
+    <text x="20" y="35" font-size="18" font-weight="700" fill="#fff">② 注意力资源</text>
+    <text x="20" y="60" font-size="12" fill="#fff5e6">Attentional Resource</text>
+    <text x="20" y="88" font-size="13" fill="#fff">· 选择性 / 持续性 / 分配注意</text>
+    <text x="20" y="110" font-size="13" fill="#fff">· 神经底物：前扣带、顶叶网络</text>
+    <text x="20" y="132" font-size="13" fill="#fff">· 易受睡眠剥夺与代谢干扰</text>
+    <text x="20" y="154" font-size="13" fill="#fff">· 关键读物：Killgore 2010</text>
+  </g>
+
+  <g transform="translate(600,100)">
+    <rect width="240" height="170" rx="14" fill="url(#mot)" opacity="0.95"/>
+    <text x="20" y="35" font-size="18" font-weight="700" fill="#fff">③ 动机能量</text>
+    <text x="20" y="60" font-size="12" fill="#e6f7f0">Motivational Energy</text>
+    <text x="20" y="88" font-size="13" fill="#fff">· 目标维持 / 努力成本权衡</text>
+    <text x="20" y="110" font-size="13" fill="#fff">· 神经底物：腹侧纹状体、OFC</text>
+    <text x="20" y="132" font-size="13" fill="#fff">· 神经递质：多巴胺（奖励预测误差）</text>
+    <text x="20" y="154" font-size="13" fill="#fff">· 关键读物：Cools &amp; D'Esposito 2011</text>
+  </g>
+
+  <!-- 下方影响因素 -->
+  <g transform="translate(60,300)">
+    <rect width="780" height="100" rx="12" fill="#ffffff" stroke="#cdd5e0" stroke-width="1.5"/>
+    <text x="20" y="28" font-size="15" font-weight="700" fill="#1f2a44">共享影响因素（让三类成分共振）</text>
+    <g font-size="13" fill="#3a4660">
+      <text x="20" y="55">· 睡眠剥夺 → DLPFC 失活、注意漂移、动机下降</text>
+      <text x="20" y="78">· 高强度认知工作 6h+ → 前额叶谷氨酸累积、决策冲动化（Wiehler 2022）</text>
+      <text x="400" y="55">· 有氧运动 → BDNF 升高、海马与 PFC 灰质增加</text>
+      <text x="400" y="78">· 冥想训练 → 前额叶皮层厚度增加、杏仁核反应钝化</text>
+    </g>
+  </g>
+
+  <!-- 争议提示 -->
+  <g transform="translate(60,420)">
+    <rect width="780" height="160" rx="12" fill="#fff7e6" stroke="#e8b86b" stroke-width="1.5"/>
+    <text x="20" y="28" font-size="15" font-weight="700" fill="#7a4d00">⚠ 警惕「心力=单一资源」的隐喻</text>
+    <g font-size="13" fill="#3a2a00">
+      <text x="20" y="58">· 「自我损耗（ego depletion）」主张意志力像肌肉会疲劳；</text>
+      <text x="40" y="78">  Hagger 多实验室预注册 2016：效应 d=0.06（接近 0，倾向支持零假设）；</text>
+      <text x="40" y="98">  Dang 多实验室预注册 2020：效应 d=0.10（小但显著）；结论仍在争议。</text>
+      <text x="20" y="123">· 「血糖消耗」机制：曾流行，因复制失败与混淆动机因素（Iodice 等）而退场。</text>
+      <text x="20" y="143">· 现主流：动机、价值评估、机会成本权衡（决策模型）比「资源池」更贴证据。</text>
+    </g>
+  </g>
+
+  <text x="450" y="605" text-anchor="middle" font-size="11" fill="#7a8597">说明：本图为概念性分解图，非数据图表。三个成分在神经解剖上重叠、行为上相关，但不可还原为单一标量。</text>
+</svg>
