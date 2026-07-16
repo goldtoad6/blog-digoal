@@ -1,0 +1,140 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1000 660" font-family="-apple-system,BlinkMacSystemFont,Segoe UI,Helvetica,Arial,sans-serif">
+  <defs>
+    <linearGradient id="bg" x1="0" y1="0" x2="0" y2="1">
+      <stop offset="0" stop-color="#0F172A"/>
+      <stop offset="1" stop-color="#1E293B"/>
+    </linearGradient>
+    <radialGradient id="core" cx="0.5" cy="0.5" r="0.7">
+      <stop offset="0" stop-color="#FDE68A"/>
+      <stop offset="0.55" stop-color="#F59E0B"/>
+      <stop offset="1" stop-color="#B45309"/>
+    </radialGradient>
+    <radialGradient id="ring1" cx="0.5" cy="0.5" r="0.6">
+      <stop offset="0" stop-color="#FCA5A5"/>
+      <stop offset="1" stop-color="#DC2626"/>
+    </radialGradient>
+    <radialGradient id="ring2" cx="0.5" cy="0.5" r="0.6">
+      <stop offset="0" stop-color="#FBA74C"/>
+      <stop offset="1" stop-color="#C2410C"/>
+    </radialGradient>
+    <radialGradient id="ring3" cx="0.5" cy="0.5" r="0.6">
+      <stop offset="0" stop-color="#86EFAC"/>
+      <stop offset="1" stop-color="#15803D"/>
+    </radialGradient>
+    <radialGradient id="ring4" cx="0.5" cy="0.5" r="0.6">
+      <stop offset="0" stop-color="#93C5FD"/>
+      <stop offset="1" stop-color="#1D4ED8"/>
+    </radialGradient>
+    <radialGradient id="ring5" cx="0.5" cy="0.5" r="0.6">
+      <stop offset="0" stop-color="#C4B5FD"/>
+      <stop offset="1" stop-color="#6D28D9"/>
+    </radialGradient>
+  </defs>
+  <rect width="1000" height="660" fill="url(#bg)"/>
+  <text x="500" y="40" fill="#F8FAFC" font-size="22" font-weight="700" text-anchor="middle">Google 护城河结构图(2026年7月快照)</text>
+  <text x="500" y="64" fill="#94A3B8" font-size="13" text-anchor="middle">内层最厚、最不易复制;外层最易受冲击;红色箭头标注 2024-2026 反垄断/AI 冲击方向</text>
+
+  <g transform="translate(500,345)">
+    <circle r="270" fill="url(#ring5)" fill-opacity="0.55"/>
+    <circle r="225" fill="url(#ring4)" fill-opacity="0.55"/>
+    <circle r="180" fill="url(#ring3)" fill-opacity="0.55"/>
+    <circle r="135" fill="url(#ring2)" fill-opacity="0.55"/>
+    <circle r="90"  fill="url(#ring1)" fill-opacity="0.65"/>
+    <circle r="55"  fill="url(#core)"/>
+
+    <g fill="#0F172A" font-weight="700" font-size="12" text-anchor="middle">
+      <text y="-4">搜索广告</text>
+      <text y="10">+ 苹果默认费</text>
+      <text y="24">~200亿$/年</text>
+    </g>
+
+    <g fill="#FFF7ED" font-weight="700" font-size="12" text-anchor="middle">
+      <text x="0" y="-150">Chrome 浏览器</text>
+      <text x="0" y="-134">桌面 72% / 手机 68%</text>
+    </g>
+    <g fill="#FFF7ED" font-weight="700" font-size="12" text-anchor="middle">
+      <text x="0" y="142">Android OS</text>
+      <text x="0" y="158">全球 70%+ 移动 OS</text>
+    </g>
+    <g fill="#FFF7ED" font-weight="700" font-size="12" text-anchor="middle">
+      <text x="-160" y="-30">YouTube</text>
+      <text x="-160" y="-14">27亿 MAU</text>
+    </g>
+    <g fill="#FFF7ED" font-weight="700" font-size="12" text-anchor="middle">
+      <text x="160" y="-30">Workspace</text>
+      <text x="160" y="-14">3.5亿付费</text>
+    </g>
+
+    <g fill="#F0FDF4" font-weight="700" font-size="12" text-anchor="middle">
+      <text x="-205" y="-90">Google Cloud</text>
+      <text x="-205" y="-74">Q1'26 200亿$</text>
+      <text x="-205" y="-58">+63% YoY</text>
+    </g>
+    <g fill="#F0FDF4" font-weight="700" font-size="12" text-anchor="middle">
+      <text x="205" y="-90">TPU + 数据中心</text>
+      <text x="205" y="-74">1800-1900亿$</text>
+      <text x="205" y="-58">2026 资本开支</text>
+    </g>
+    <g fill="#F0FDF4" font-weight="700" font-size="12" text-anchor="middle">
+      <text x="-205" y="90">Gmail/Maps/</text>
+      <text x="-205" y="106">Drive/Photos</text>
+      <text x="-205" y="122">5款 30亿+ 用户</text>
+    </g>
+    <g fill="#F0FDF4" font-weight="700" font-size="12" text-anchor="middle">
+      <text x="205" y="90">Gemini 模型族</text>
+      <text x="205" y="106">9亿 App MAU</text>
+      <text x="205" y="122">160亿 tokens/分钟</text>
+    </g>
+
+    <g fill="#FAF5FF" font-weight="700" font-size="12" text-anchor="middle">
+      <text x="0" y="-225">全球分发网络</text>
+      <text x="0" y="-209">13款 10亿+ 产品</text>
+    </g>
+    <g fill="#FAF5FF" font-weight="700" font-size="12" text-anchor="middle">
+      <text x="0" y="225">数据飞轮 + 算力</text>
+      <text x="0" y="241">每天 140亿次搜索</text>
+    </g>
+
+    <!-- 冲击批注:安置在四角,箭头指向内层,文字留足边距 -->
+    <g stroke="#F87171" stroke-width="2.5" fill="#F87171">
+      <line x1="230" y1="-210" x2="120" y2="-95"/>
+      <polygon points="120,-95 133,-96 126,-108"/>
+      <text x="245" y="-214" fill="#FCA5A5" font-size="12" stroke="none" text-anchor="start">DOJ 反垄断</text>
+      <text x="245" y="-198" fill="#FCA5A5" font-size="12" stroke="none" text-anchor="start">禁排他 / 共享数据</text>
+    </g>
+    <g stroke="#F87171" stroke-width="2.5" fill="#F87171">
+      <line x1="230" y1="210" x2="120" y2="95"/>
+      <polygon points="120,95 133,96 126,108"/>
+      <text x="245" y="210" fill="#FCA5A5" font-size="12" stroke="none" text-anchor="start">组织臃肿</text>
+      <text x="245" y="226" fill="#FCA5A5" font-size="12" stroke="none" text-anchor="start">约 19.4 万员工</text>
+    </g>
+    <g stroke="#F87171" stroke-width="2.5" fill="#F87171">
+      <line x1="-230" y1="-210" x2="-120" y2="-95"/>
+      <polygon points="-120,-95 -133,-96 -126,-108"/>
+      <text x="-245" y="-214" fill="#FCA5A5" font-size="12" stroke="none" text-anchor="end">创新者窘境</text>
+      <text x="-245" y="-198" fill="#FCA5A5" font-size="12" stroke="none" text-anchor="end">自我革命成本高</text>
+    </g>
+    <g stroke="#F87171" stroke-width="2.5" fill="#F87171">
+      <line x1="-230" y1="210" x2="-120" y2="95"/>
+      <polygon points="-120,95 -133,96 -126,108"/>
+      <text x="-245" y="210" fill="#FCA5A5" font-size="12" stroke="none" text-anchor="end">ChatGPT / Perplexity</text>
+      <text x="-245" y="226" fill="#FCA5A5" font-size="12" stroke="none" text-anchor="end">侵蚀 0-click</text>
+    </g>
+  </g>
+
+  <g transform="translate(60,640)" fill="#E2E8F0" font-size="12">
+    <circle cx="10" cy="0" r="7" fill="url(#core)"/>
+    <text x="22" y="4">第1层(现金牛)</text>
+    <circle cx="140" cy="0" r="7" fill="url(#ring1)"/>
+    <text x="152" y="4">第2层(分发霸权)</text>
+    <circle cx="285" cy="0" r="7" fill="url(#ring3)"/>
+    <text x="297" y="4">第3层(云+AI基础设施)</text>
+    <circle cx="460" cy="0" r="7" fill="url(#ring4)"/>
+    <text x="472" y="4">第4层(应用矩阵)</text>
+    <circle cx="620" cy="0" r="7" fill="url(#ring5)"/>
+    <text x="632" y="4">第5层(全球网络效应)</text>
+    <line x1="800" y1="0" x2="830" y2="0" stroke="#F87171" stroke-width="2"/>
+    <text x="836" y="4" fill="#FCA5A5">外部冲击</text>
+  </g>
+</svg>
