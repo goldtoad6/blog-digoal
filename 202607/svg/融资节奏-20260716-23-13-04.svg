@@ -1,0 +1,185 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1400 800" font-family="PingFang SC, Microsoft YaHei, sans-serif">
+  <defs>
+    <linearGradient id="bg2" x1="0" y1="0" x2="0" y2="1">
+      <stop offset="0%" stop-color="#0c0a1f"/>
+      <stop offset="100%" stop-color="#1e1b3a"/>
+    </linearGradient>
+    <linearGradient id="lineG" x1="0" y1="0" x2="1" y2="0">
+      <stop offset="0%" stop-color="#3b82f6"/>
+      <stop offset="33%" stop-color="#f59e0b"/>
+      <stop offset="66%" stop-color="#ec4899"/>
+      <stop offset="100%" stop-color="#10b981"/>
+    </linearGradient>
+    <radialGradient id="pulse" cx="50%" cy="50%" r="50%">
+      <stop offset="0%" stop-color="#f59e0b" stop-opacity="0.4"/>
+      <stop offset="100%" stop-color="#f59e0b" stop-opacity="0"/>
+    </radialGradient>
+  </defs>
+
+  <rect width="1400" height="800" fill="url(#bg2)"/>
+
+  <!-- Title -->
+  <text x="700" y="40" font-size="26" font-weight="700" fill="#f8fafc" text-anchor="middle">谐云 12 个月融资节奏 + 上市路径图</text>
+  <text x="700" y="68" font-size="13" fill="#94a3b8" text-anchor="middle">从 B+ 轮到港股 18C 上市 · 2026 Q3 - 2028 Q3</text>
+
+  <!-- Main Timeline -->
+  <line x1="100" y1="200" x2="1300" y2="200" stroke="#334155" stroke-width="2"/>
+
+  <!-- Timeline labels -->
+  <text x="100" y="170" font-size="11" fill="#64748b" text-anchor="middle">2026 Q3</text>
+  <text x="320" y="170" font-size="11" fill="#64748b" text-anchor="middle">2026 Q4</text>
+  <text x="540" y="170" font-size="11" fill="#64748b" text-anchor="middle">2027 Q1</text>
+  <text x="760" y="170" font-size="11" fill="#64748b" text-anchor="middle">2027 Q2</text>
+  <text x="980" y="170" font-size="11" fill="#64748b" text-anchor="middle">2027 Q3</text>
+  <text x="1200" y="170" font-size="11" fill="#64748b" text-anchor="middle">2028 Q3</text>
+
+  <!-- Milestones -->
+  <!-- Q3 2026: 事业部成立 -->
+  <circle cx="100" cy="200" r="10" fill="#3b82f6"/>
+  <circle cx="100" cy="200" r="20" fill="#3b82f6" opacity="0.3"/>
+  <line x1="100" y1="210" x2="100" y2="280" stroke="#3b82f6" stroke-width="1" stroke-dasharray="3,3"/>
+  <g transform="translate(40, 290)">
+    <rect x="0" y="0" width="120" height="80" fill="#1e293b" stroke="#3b82f6" stroke-width="1" rx="6"/>
+    <text x="60" y="22" font-size="12" font-weight="700" fill="#3b82f6" text-anchor="middle">AI 事业部成立</text>
+    <text x="60" y="42" font-size="10" fill="#cbd5e1" text-anchor="middle">2026.7-8</text>
+    <text x="60" y="58" font-size="10" fill="#94a3b8" text-anchor="middle">一号位到岗</text>
+    <text x="60" y="72" font-size="10" fill="#94a3b8" text-anchor="middle">8-12 人就位</text>
+  </g>
+
+  <!-- Q4 2026: B+ 轮融资启动 -->
+  <circle cx="320" cy="200" r="14" fill="#f59e0b"/>
+  <circle cx="320" cy="200" r="28" fill="url(#pulse)"/>
+  <line x1="320" y1="180" x2="320" y2="120" stroke="#f59e0b" stroke-width="1" stroke-dasharray="3,3"/>
+  <g transform="translate(250, 60)">
+    <rect x="0" y="0" width="140" height="50" fill="#451a03" stroke="#f59e0b" stroke-width="2" rx="6"/>
+    <text x="70" y="22" font-size="13" font-weight="700" fill="#fbbf24" text-anchor="middle">B+ 轮融资启动</text>
+    <text x="70" y="40" font-size="10" fill="#fde68a" text-anchor="middle">5-10 亿元 · 估值 30-50 亿</text>
+  </g>
+  <line x1="320" y1="210" x2="320" y2="280" stroke="#f59e0b" stroke-width="1" stroke-dasharray="3,3"/>
+  <g transform="translate(260, 290)">
+    <rect x="0" y="0" width="120" height="80" fill="#1e293b" stroke="#f59e0b" stroke-width="1" rx="6"/>
+    <text x="60" y="22" font-size="12" font-weight="700" fill="#f59e0b" text-anchor="middle">1-2 标杆 PoC</text>
+    <text x="60" y="42" font-size="10" fill="#cbd5e1" text-anchor="middle">2026.11</text>
+    <text x="60" y="58" font-size="10" fill="#94a3b8" text-anchor="middle">金融/能源</text>
+    <text x="60" y="72" font-size="10" fill="#94a3b8" text-anchor="middle">TS 拿 2-3 份</text>
+  </g>
+
+  <!-- Q1 2027: 客户规模化 -->
+  <circle cx="540" cy="200" r="10" fill="#ec4899"/>
+  <line x1="540" y1="210" x2="540" y2="280" stroke="#ec4899" stroke-width="1" stroke-dasharray="3,3"/>
+  <g transform="translate(480, 290)">
+    <rect x="0" y="0" width="120" height="80" fill="#1e293b" stroke="#ec4899" stroke-width="1" rx="6"/>
+    <text x="60" y="22" font-size="12" font-weight="700" fill="#ec4899" text-anchor="middle">规模复制</text>
+    <text x="60" y="42" font-size="10" fill="#cbd5e1" text-anchor="middle">2027.1-3</text>
+    <text x="60" y="58" font-size="10" fill="#94a3b8" text-anchor="middle">新签 15 家</text>
+    <text x="60" y="72" font-size="10" fill="#94a3b8" text-anchor="middle">招聘完成 80%</text>
+  </g>
+
+  <!-- Q2 2027: 18C 启动 -->
+  <circle cx="760" cy="200" r="14" fill="#10b981"/>
+  <circle cx="760" cy="200" r="28" fill="#10b981" opacity="0.2"/>
+  <line x1="760" y1="180" x2="760" y2="120" stroke="#10b981" stroke-width="1" stroke-dasharray="3,3"/>
+  <g transform="translate(690, 60)">
+    <rect x="0" y="0" width="140" height="50" fill="#064e3b" stroke="#10b981" stroke-width="2" rx="6"/>
+    <text x="70" y="22" font-size="13" font-weight="700" fill="#34d399" text-anchor="middle">18C 上市筹备</text>
+    <text x="70" y="40" font-size="10" fill="#a7f3d0" text-anchor="middle">保荐人签约</text>
+  </g>
+  <line x1="760" y1="210" x2="760" y2="280" stroke="#10b981" stroke-width="1" stroke-dasharray="3,3"/>
+  <g transform="translate(700, 290)">
+    <rect x="0" y="0" width="120" height="80" fill="#1e293b" stroke="#10b981" stroke-width="1" rx="6"/>
+    <text x="60" y="22" font-size="12" font-weight="700" fill="#10b981" text-anchor="middle">营收占比 25%</text>
+    <text x="60" y="42" font-size="10" fill="#cbd5e1" text-anchor="middle">2027.4-6</text>
+    <text x="60" y="58" font-size="10" fill="#94a3b8" text-anchor="middle">战略并购</text>
+    <text x="60" y="72" font-size="10" fill="#94a3b8" text-anchor="middle">品牌出圈</text>
+  </g>
+
+  <!-- Q3 2027: Pre-IPO -->
+  <circle cx="980" cy="200" r="12" fill="#8b5cf6"/>
+  <line x1="980" y1="210" x2="980" y2="280" stroke="#8b5cf6" stroke-width="1" stroke-dasharray="3,3"/>
+  <g transform="translate(920, 290)">
+    <rect x="0" y="0" width="120" height="80" fill="#1e293b" stroke="#8b5cf6" stroke-width="1" rx="6"/>
+    <text x="60" y="22" font-size="12" font-weight="700" fill="#8b5cf6" text-anchor="middle">Pre-IPO 轮</text>
+    <text x="60" y="42" font-size="10" fill="#cbd5e1" text-anchor="middle">2027.7-9</text>
+    <text x="60" y="58" font-size="10" fill="#94a3b8" text-anchor="middle">5-10 亿元</text>
+    <text x="60" y="72" font-size="10" fill="#94a3b8" text-anchor="middle">估值 80-150 亿</text>
+  </g>
+
+  <!-- 2028 Q3: 挂牌 -->
+  <circle cx="1200" cy="200" r="16" fill="#ef4444"/>
+  <circle cx="1200" cy="200" r="32" fill="#ef4444" opacity="0.25"/>
+  <line x1="1200" y1="180" x2="1200" y2="120" stroke="#ef4444" stroke-width="1" stroke-dasharray="3,3"/>
+  <g transform="translate(1130, 60)">
+    <rect x="0" y="0" width="140" height="50" fill="#450a0a" stroke="#ef4444" stroke-width="2" rx="6"/>
+    <text x="70" y="22" font-size="13" font-weight="700" fill="#fca5a5" text-anchor="middle">18C 挂牌</text>
+    <text x="70" y="40" font-size="10" fill="#fecaca" text-anchor="middle">2028 Q2-Q3</text>
+  </g>
+
+  <!-- Reference lines -->
+  <line x1="100" y1="400" x2="1300" y2="400" stroke="#1e293b" stroke-width="1"/>
+  <text x="100" y="425" font-size="13" font-weight="600" fill="#94a3b8">行业基准 · AI Infra 公司 18 个月估值翻倍节奏</text>
+
+  <!-- Reference companies -->
+  <g transform="translate(80, 445)">
+    <text x="0" y="0" font-size="12" font-weight="600" fill="#cbd5e1">公司</text>
+    <text x="160" y="0" font-size="12" font-weight="600" fill="#cbd5e1">时间</text>
+    <text x="320" y="0" font-size="12" font-weight="600" fill="#cbd5e1">估值变化</text>
+    <text x="600" y="0" font-size="12" font-weight="600" fill="#cbd5e1">关键节奏</text>
+  </g>
+
+  <line x1="80" y1="455" x2="1320" y2="455" stroke="#334155" stroke-width="1"/>
+
+  <!-- Fireworks AI row -->
+  <g transform="translate(80, 470)">
+    <text x="0" y="15" font-size="11" fill="#e2e8f0">Fireworks AI</text>
+    <text x="160" y="15" font-size="11" fill="#94a3b8">2024→2026</text>
+    <text x="320" y="15" font-size="11" fill="#fbbf24" font-weight="600">5.52 亿 → 40 亿 → 150 亿 美元</text>
+    <text x="600" y="15" font-size="11" fill="#64748b">4 个月 3.75 倍</text>
+  </g>
+
+  <!-- 潞晨科技 row -->
+  <g transform="translate(80, 500)">
+    <text x="0" y="15" font-size="11" fill="#e2e8f0">潞晨科技</text>
+    <text x="160" y="15" font-size="11" fill="#94a3b8">2024→2026</text>
+    <text x="320" y="15" font-size="11" fill="#fbbf24" font-weight="600">A++ 数亿 → B 数亿</text>
+    <text x="600" y="15" font-size="11" fill="#64748b">估值 40 倍跳涨</text>
+  </g>
+
+  <!-- 硅基流动 row -->
+  <g transform="translate(80, 530)">
+    <text x="0" y="15" font-size="11" fill="#e2e8f0">硅基流动</text>
+    <text x="160" y="15" font-size="11" fill="#94a3b8">2024→2026</text>
+    <text x="320" y="15" font-size="11" fill="#fbbf24" font-weight="600">5000 万 → 数亿 → 20 亿+ 元</text>
+    <text x="600" y="15" font-size="11" fill="#64748b">阿里云领投 A</text>
+  </g>
+
+  <!-- 九章云极 row -->
+  <g transform="translate(80, 560)">
+    <text x="0" y="15" font-size="11" fill="#e2e8f0">九章云极</text>
+    <text x="160" y="15" font-size="11" fill="#94a3b8">2021→2025</text>
+    <text x="320" y="15" font-size="11" fill="#fbbf24" font-weight="600">3 亿(C) → 18 轮累计 → 估 330 亿</text>
+    <text x="600" y="15" font-size="11" fill="#64748b">9×PS / 北京 AI 国资领投</text>
+  </g>
+
+  <!-- DeepSeek row -->
+  <g transform="translate(80, 590)">
+    <text x="0" y="15" font-size="11" fill="#e2e8f0">DeepSeek</text>
+    <text x="160" y="15" font-size="11" fill="#94a3b8">2026.5</text>
+    <text x="320" y="15" font-size="11" fill="#fbbf24" font-weight="600">首轮 700 亿 / 估值 500 亿美元</text>
+    <text x="600" y="15" font-size="11" fill="#64748b">国内 AI Infra 估值锚</text>
+  </g>
+
+  <!-- 红线提示 -->
+  <g transform="translate(80, 640)">
+    <rect x="0" y="0" width="1240" height="130" fill="#7f1d1d" opacity="0.2" stroke="#ef4444" stroke-width="1" rx="6"/>
+    <text x="20" y="25" font-size="13" font-weight="700" fill="#fca5a5">⚠ 红线 / 黑天鹅</text>
+
+    <text x="20" y="55" font-size="11" fill="#fecaca">① 美股 AI 板块单季回撤 &gt; 30% → 融资窗口关闭，立即切回"现金为王"</text>
+    <text x="20" y="75" font-size="11" fill="#fecaca">② 阿里明确要求谐云放弃港股 / 同业竞争冲突 → 启动股权重组</text>
+    <text x="20" y="95" font-size="11" fill="#fecaca">③ 18C 已上市公司首日破发率 57%（云迹教训）→ 估值预期调降至 8×PS 以下</text>
+    <text x="20" y="115" font-size="11" fill="#fecaca">④ Q1 2027 老业务 ARR 续约率 &lt; 80% → 立刻冻结新业务招聘</text>
+  </g>
+
+  <!-- Footer -->
+  <text x="700" y="788" font-size="10" fill="#475569" text-anchor="middle">数据：港交所 18C 政策 / Omdia / 投资界 / 蓝鲸新闻 / 智东西 / 央广网 ｜ Generated 2026-07-16</text>
+</svg>

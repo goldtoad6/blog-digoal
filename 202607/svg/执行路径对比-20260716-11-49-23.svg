@@ -1,0 +1,165 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="1280" height="760" viewBox="0 0 1280 760" role="img" aria-labelledby="title desc">
+  <title id="title">MotherDuck、Snowflake MPP 与 Databricks Spark 的执行路径对比</title>
+  <desc id="desc">MotherDuck 的单个查询在一个 Duckling 中完成，平台通过增加独立 Duckling 扩展工作负载；Snowflake 和 Databricks 会把一个大查询拆给多个工作节点，并在节点间交换数据。</desc>
+  <defs>
+    <marker id="arrow-blue" markerWidth="8" markerHeight="8" refX="7" refY="4" orient="auto">
+      <path d="M0,0 L8,4 L0,8 Z" fill="#2a78d6"/>
+    </marker>
+    <marker id="arrow-aqua" markerWidth="8" markerHeight="8" refX="7" refY="4" orient="auto">
+      <path d="M0,0 L8,4 L0,8 Z" fill="#1baf7a"/>
+    </marker>
+    <marker id="arrow-yellow" markerWidth="8" markerHeight="8" refX="7" refY="4" orient="auto">
+      <path d="M0,0 L8,4 L0,8 Z" fill="#eda100"/>
+    </marker>
+    <style>
+      text { font-family: system-ui, -apple-system, "Segoe UI", "PingFang SC", "Microsoft YaHei", sans-serif; fill: #0b0b0b; }
+      .muted { fill: #52514e; }
+      .small { font-size: 14px; }
+      .body { font-size: 16px; }
+      .label { font-size: 15px; font-weight: 650; }
+      .panel-title { font-size: 23px; font-weight: 750; }
+      .node { fill: #ffffff; stroke: #c3c2b7; stroke-width: 1; }
+      .storage { fill: #f0efec; stroke: #c3c2b7; stroke-width: 1; }
+      .hairline { stroke: #e1e0d9; stroke-width: 1; }
+    </style>
+  </defs>
+
+  <rect width="1280" height="760" fill="#fcfcfb"/>
+  <text x="54" y="54" font-size="30" font-weight="780">同样叫“分布式”，拆分对象并不相同</text>
+  <text x="54" y="84" class="muted body">看一条 SQL 到底是在一台机器里跑完，还是被切成任务分给多台机器。</text>
+
+  <g transform="translate(832,38)">
+    <circle cx="0" cy="0" r="6" fill="#2a78d6"/><text x="13" y="5" class="small">MotherDuck</text>
+    <circle cx="112" cy="0" r="6" fill="#1baf7a"/><text x="125" y="5" class="small">Snowflake</text>
+    <circle cx="223" cy="0" r="6" fill="#eda100"/><text x="236" y="5" class="small">Databricks</text>
+  </g>
+
+  <!-- MotherDuck -->
+  <g transform="translate(42,118)">
+    <rect width="382" height="508" rx="18" fill="#f4f8fd" stroke="#9ec5f4"/>
+    <rect width="382" height="7" rx="4" fill="#2a78d6"/>
+    <text x="24" y="43" class="panel-title">MotherDuck</text>
+    <text x="24" y="68" class="muted small">工作负载级分布</text>
+
+    <rect x="24" y="92" width="76" height="42" rx="8" class="node"/>
+    <text x="62" y="118" text-anchor="middle" class="label">一条 SQL</text>
+    <line x1="101" y1="113" x2="143" y2="113" stroke="#2a78d6" stroke-width="2" marker-end="url(#arrow-blue)"/>
+    <rect x="147" y="86" width="126" height="54" rx="10" fill="#cde2fb" stroke="#2a78d6"/>
+    <text x="210" y="108" text-anchor="middle" class="label">一个 Duckling</text>
+    <text x="210" y="128" text-anchor="middle" class="small muted">单机多核执行</text>
+    <line x1="274" y1="113" x2="321" y2="113" stroke="#2a78d6" stroke-width="2" marker-end="url(#arrow-blue)"/>
+    <rect x="325" y="92" width="34" height="42" rx="8" class="node"/>
+    <text x="342" y="118" text-anchor="middle" class="small">结果</text>
+
+    <rect x="96" y="166" width="228" height="44" rx="9" class="storage"/>
+    <text x="210" y="193" text-anchor="middle" class="body">对象存储 / DuckLake</text>
+    <line x1="210" y1="141" x2="210" y2="164" stroke="#2a78d6" stroke-width="2" marker-end="url(#arrow-blue)"/>
+
+    <line x1="24" y1="238" x2="358" y2="238" class="hairline"/>
+    <text x="24" y="271" class="label">平台怎么横向扩？</text>
+    <text x="24" y="294" class="muted small">不是拆这一条查询，而是并排承接更多租户。</text>
+
+    <g transform="translate(24,320)">
+      <rect width="96" height="58" rx="10" fill="#ffffff" stroke="#2a78d6"/>
+      <circle cx="17" cy="18" r="5" fill="#2a78d6"/>
+      <text x="30" y="23" class="small">租户 A</text>
+      <text x="48" y="45" text-anchor="middle" class="small muted">Duckling A</text>
+    </g>
+    <g transform="translate(143,320)">
+      <rect width="96" height="58" rx="10" fill="#ffffff" stroke="#2a78d6"/>
+      <circle cx="17" cy="18" r="5" fill="#2a78d6"/>
+      <text x="30" y="23" class="small">租户 B</text>
+      <text x="48" y="45" text-anchor="middle" class="small muted">Duckling B</text>
+    </g>
+    <g transform="translate(262,320)">
+      <rect width="96" height="58" rx="10" fill="#ffffff" stroke="#2a78d6"/>
+      <circle cx="17" cy="18" r="5" fill="#2a78d6"/>
+      <text x="30" y="23" class="small">Agent C</text>
+      <text x="48" y="45" text-anchor="middle" class="small muted">Duckling C</text>
+    </g>
+
+    <rect x="24" y="408" width="334" height="72" rx="12" fill="#e7f1fc"/>
+    <text x="42" y="435" class="label">收益</text>
+    <text x="42" y="459" class="small">少协调、少 shuffle；租户间容易隔离</text>
+  </g>
+
+  <!-- Snowflake -->
+  <g transform="translate(449,118)">
+    <rect width="382" height="508" rx="18" fill="#f2faf7" stroke="#9ad9c2"/>
+    <rect width="382" height="7" rx="4" fill="#1baf7a"/>
+    <text x="24" y="43" class="panel-title">Snowflake MPP</text>
+    <text x="24" y="68" class="muted small">查询内部并行</text>
+
+    <rect x="24" y="92" width="76" height="42" rx="8" class="node"/>
+    <text x="62" y="118" text-anchor="middle" class="label">一条 SQL</text>
+    <line x1="101" y1="113" x2="137" y2="113" stroke="#1baf7a" stroke-width="2" marker-end="url(#arrow-aqua)"/>
+    <rect x="141" y="92" width="98" height="42" rx="8" fill="#d9f3e9" stroke="#1baf7a"/>
+    <text x="190" y="118" text-anchor="middle" class="small">优化与调度</text>
+
+    <g transform="translate(26,178)">
+      <rect width="86" height="50" rx="9" class="node"/><text x="43" y="30" text-anchor="middle" class="small">Worker 1</text>
+      <rect x="123" width="86" height="50" rx="9" class="node"/><text x="166" y="30" text-anchor="middle" class="small">Worker 2</text>
+      <rect x="246" width="86" height="50" rx="9" class="node"/><text x="289" y="30" text-anchor="middle" class="small">Worker N</text>
+      <line x1="88" y1="25" x2="121" y2="25" stroke="#1baf7a" stroke-width="2" marker-end="url(#arrow-aqua)"/>
+      <line x1="211" y1="25" x2="244" y2="25" stroke="#1baf7a" stroke-width="2" marker-end="url(#arrow-aqua)"/>
+      <text x="166" y="75" text-anchor="middle" class="small muted">shuffle / broadcast</text>
+    </g>
+
+    <path d="M190 135 V158 H69 V176 M190 158 H192 V176 M190 158 H315 V176" fill="none" stroke="#1baf7a" stroke-width="2" marker-end="url(#arrow-aqua)"/>
+    <rect x="74" y="286" width="234" height="44" rx="9" class="storage"/>
+    <text x="191" y="313" text-anchor="middle" class="body">共享对象存储</text>
+    <path d="M69 229 V263 H191 V284 M192 229 V284 M315 229 V263 H191" fill="none" stroke="#1baf7a" stroke-width="2"/>
+
+    <line x1="24" y1="358" x2="358" y2="358" class="hairline"/>
+    <text x="24" y="391" class="label">扩展杠杆</text>
+    <text x="24" y="416" class="small">放大 warehouse 加速单查询；</text>
+    <text x="24" y="439" class="small">多 cluster 主要承接更多并发。</text>
+
+    <rect x="24" y="454" width="334" height="30" rx="9" fill="#dff5ed"/>
+    <text x="191" y="475" text-anchor="middle" class="small">适合大查询、共享缓存、成熟治理</text>
+  </g>
+
+  <!-- Databricks -->
+  <g transform="translate(856,118)">
+    <rect width="382" height="508" rx="18" fill="#fffaf0" stroke="#f3cf7b"/>
+    <rect width="382" height="7" rx="4" fill="#eda100"/>
+    <text x="24" y="43" class="panel-title">Databricks Spark</text>
+    <text x="24" y="68" class="muted small">DAG / Stage 级分布</text>
+
+    <rect x="24" y="92" width="76" height="42" rx="8" class="node"/>
+    <text x="62" y="118" text-anchor="middle" class="label">SQL / Job</text>
+    <line x1="101" y1="113" x2="137" y2="113" stroke="#eda100" stroke-width="2" marker-end="url(#arrow-yellow)"/>
+    <rect x="141" y="92" width="98" height="42" rx="8" fill="#fff0c7" stroke="#eda100"/>
+    <text x="190" y="118" text-anchor="middle" class="small">Driver / DAG</text>
+
+    <g transform="translate(24,172)">
+      <text x="0" y="14" class="small muted">Stage 1</text>
+      <rect x="66" width="78" height="40" rx="8" class="node"/><text x="105" y="25" text-anchor="middle" class="small">Task 1</text>
+      <rect x="158" width="78" height="40" rx="8" class="node"/><text x="197" y="25" text-anchor="middle" class="small">Task 2</text>
+      <rect x="250" width="78" height="40" rx="8" class="node"/><text x="289" y="25" text-anchor="middle" class="small">Task N</text>
+      <line x1="105" y1="42" x2="105" y2="82" stroke="#eda100" stroke-width="2"/>
+      <line x1="197" y1="42" x2="197" y2="82" stroke="#eda100" stroke-width="2"/>
+      <line x1="289" y1="42" x2="289" y2="82" stroke="#eda100" stroke-width="2"/>
+      <text x="0" y="101" class="small muted">Shuffle</text>
+      <line x1="66" y1="84" x2="328" y2="84" stroke="#eda100" stroke-width="2" marker-end="url(#arrow-yellow)"/>
+      <text x="0" y="153" class="small muted">Stage 2</text>
+      <rect x="112" y="128" width="94" height="40" rx="8" class="node"/><text x="159" y="153" text-anchor="middle" class="small">聚合任务</text>
+      <rect x="220" y="128" width="94" height="40" rx="8" class="node"/><text x="267" y="153" text-anchor="middle" class="small">写出任务</text>
+      <path d="M197 86 V113 H159 V126 M197 113 H267 V126" fill="none" stroke="#eda100" stroke-width="2" marker-end="url(#arrow-yellow)"/>
+    </g>
+
+    <path d="M190 135 V153 H129 V170 M190 153 H221 V170 M190 153 H313 V170" fill="none" stroke="#eda100" stroke-width="2" marker-end="url(#arrow-yellow)"/>
+
+    <line x1="24" y1="370" x2="358" y2="370" class="hairline"/>
+    <text x="24" y="403" class="label">扩展杠杆</text>
+    <text x="24" y="428" class="small">增加 executors，把长作业拆成多个 stage；</text>
+    <text x="24" y="451" class="small">用 lineage 与重试承接长跑批。</text>
+
+    <rect x="24" y="466" width="334" height="30" rx="9" fill="#fff1cc"/>
+    <text x="191" y="487" text-anchor="middle" class="small">适合大规模 ETL、重 shuffle、ML 流水线</text>
+  </g>
+
+  <rect x="42" y="650" width="1196" height="74" rx="16" fill="#f0efec"/>
+  <text x="66" y="681" font-size="18" font-weight="750">一句话看懂</text>
+  <text x="66" y="706" class="body">MotherDuck 横向扩的是“同时有多少个独立工作负载”；MPP / Spark 横向扩的是“一条查询内部有多少台机器一起干活”。</text>
+</svg>

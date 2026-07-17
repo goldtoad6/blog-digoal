@@ -1,0 +1,259 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1600 1100" font-family="PingFang SC, Microsoft YaHei, Helvetica, Arial, sans-serif">
+  <!-- 背景 -->
+  <rect width="1600" height="1100" fill="#FAFBFC"/>
+  <defs>
+    <marker id="arrow" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="6" markerHeight="6" orient="auto-start-reverse">
+      <path d="M0,0 L10,5 L0,10 z" fill="#5C6B7A"/>
+    </marker>
+    <marker id="arrowRed" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="6" markerHeight="6" orient="auto-start-reverse">
+      <path d="M0,0 L10,5 L0,10 z" fill="#C0392B"/>
+    </marker>
+    <marker id="arrowGreen" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="6" markerHeight="6" orient="auto-start-reverse">
+      <path d="M0,0 L10,5 L0,10 z" fill="#27AE60"/>
+    </marker>
+  </defs>
+
+  <!-- 标题 -->
+  <text x="800" y="40" text-anchor="middle" font-size="26" font-weight="700" fill="#1F2937">谐云科技 AI Infra 生态地图（2026 Q3 视图）</text>
+  <text x="800" y="66" text-anchor="middle" font-size="14" fill="#5C6B7A">战略目标：在自己定义的战场歼灭敌人——12 个月内拿下金融/能源/制造的 AI Infra 标杆，建立事实标准</text>
+
+  <!-- 谐云核心节点（中心） -->
+  <g>
+    <circle cx="800" cy="560" r="78" fill="#1F2937"/>
+    <circle cx="800" cy="560" r="68" fill="#374151"/>
+    <text x="800" y="552" text-anchor="middle" font-size="22" font-weight="700" fill="#FFFFFF">谐云 AI Infra</text>
+    <text x="800" y="578" text-anchor="middle" font-size="12" fill="#D1D5DB">LLM 推理 + Agent 算力底座</text>
+  </g>
+
+  <!-- 四象限标题 -->
+  <text x="400" y="120" text-anchor="middle" font-size="18" font-weight="700" fill="#0F766E">上游：算力 / 模型 / 数据供给方</text>
+  <text x="1200" y="120" text-anchor="middle" font-size="18" font-weight="700" fill="#7C2D12">下游：分销 / 集成 / 云市场</text>
+  <text x="400" y="900" text-anchor="middle" font-size="18" font-weight="700" fill="#6D28D9">平层：竞合 + 开源社区</text>
+  <text x="1200" y="900" text-anchor="middle" font-size="18" font-weight="700" fill="#92400E">标准 / 监管 / 联盟</text>
+
+  <!-- ===== 上游 象限 ===== -->
+  <!-- GPU 厂商 -->
+  <g>
+    <rect x="60" y="160" width="280" height="240" rx="10" fill="#F0FDFA" stroke="#0F766E" stroke-width="1.5"/>
+    <text x="200" y="185" text-anchor="middle" font-size="14" font-weight="700" fill="#0F766E">GPU / AI 芯片</text>
+    <!-- 节点 -->
+    <g>
+      <rect x="80" y="200" width="240" height="32" rx="6" fill="#FFFFFF" stroke="#0F766E"/>
+      <text x="200" y="221" text-anchor="middle" font-size="13">华为 昇腾（910B / 910C）</text>
+    </g>
+    <g>
+      <rect x="80" y="240" width="240" height="32" rx="6" fill="#FFFFFF" stroke="#0F766E"/>
+      <text x="200" y="261" text-anchor="middle" font-size="13">寒武纪 / 摩尔线程 / 沐曦</text>
+    </g>
+    <g>
+      <rect x="80" y="280" width="240" height="32" rx="6" fill="#FFFFFF" stroke="#0F766E"/>
+      <text x="200" y="301" text-anchor="middle" font-size="13">壁仞 / 燧原 / 天数智芯</text>
+    </g>
+    <g>
+      <rect x="80" y="320" width="240" height="32" rx="6" fill="#FFFFFF" stroke="#0F766E"/>
+      <text x="200" y="341" text-anchor="middle" font-size="13">NVIDIA（保留非信创场景）</text>
+    </g>
+    <text x="80" y="380" font-size="11" fill="#475569">撬动：抽象统一调度层，</text>
+    <text x="80" y="394" font-size="11" fill="#475569">做"异构池化"的事实接口</text>
+  </g>
+
+  <!-- LLM 模型厂商 -->
+  <g>
+    <rect x="360" y="160" width="280" height="240" rx="10" fill="#F0FDFA" stroke="#0F766E" stroke-width="1.5"/>
+    <text x="500" y="185" text-anchor="middle" font-size="14" font-weight="700" fill="#0F766E">LLM 模型厂商</text>
+    <g>
+      <rect x="380" y="200" width="240" height="32" rx="6" fill="#FFFFFF" stroke="#0F766E"/>
+      <text x="500" y="221" text-anchor="middle" font-size="13">通义 / 混元（阿里 / 腾讯云）</text>
+    </g>
+    <g>
+      <rect x="380" y="240" width="240" height="32" rx="6" fill="#FFFFFF" stroke="#0F766E"/>
+      <text x="500" y="261" text-anchor="middle" font-size="13">智谱 GLM / 百川 / 月之暗面</text>
+    </g>
+    <g>
+      <rect x="380" y="280" width="240" height="32" rx="6" fill="#FFFFFF" stroke="#0F766E"/>
+      <text x="500" y="301" text-anchor="middle" font-size="13">DeepSeek / Qwen / Llama</text>
+    </g>
+    <g>
+      <rect x="380" y="320" width="240" height="32" rx="6" fill="#FFFFFF" stroke="#0F766E"/>
+      <text x="500" y="341" text-anchor="middle" font-size="13">盘古 5.0（华为云）</text>
+    </g>
+    <text x="380" y="380" font-size="11" fill="#475569">撬动：做"模型路由 + 推理加速"</text>
+    <text x="380" y="394" font-size="11" fill="#475569">中立的算力平面，不绑定任一家</text>
+  </g>
+
+  <!-- 数据 / 工具 -->
+  <g>
+    <rect x="660" y="160" width="280" height="160" rx="10" fill="#F0FDFA" stroke="#0F766E" stroke-width="1.5"/>
+    <text x="800" y="185" text-anchor="middle" font-size="14" font-weight="700" fill="#0F766E">数据 / 工具供给</text>
+    <g>
+      <rect x="680" y="200" width="240" height="32" rx="6" fill="#FFFFFF" stroke="#0F766E"/>
+      <text x="800" y="221" text-anchor="middle" font-size="13">向量库（Milvus / 腾讯 VectorDB）</text>
+    </g>
+    <g>
+      <rect x="680" y="240" width="240" height="32" rx="6" fill="#FFFFFF" stroke="#0F766E"/>
+      <text x="800" y="261" text-anchor="middle" font-size="13">数据标注 / 合成数据厂商</text>
+    </g>
+    <g>
+      <rect x="680" y="280" width="240" height="32" rx="6" fill="#FFFFFF" stroke="#0F766E"/>
+      <text x="800" y="301" text-anchor="middle" font-size="13">可观测 / Tracing（SkyWalking）</text>
+    </g>
+  </g>
+
+  <!-- ===== 下游 象限 ===== -->
+  <!-- SI 集成商 -->
+  <g>
+    <rect x="960" y="160" width="280" height="240" rx="10" fill="#FFF7ED" stroke="#7C2D12" stroke-width="1.5"/>
+    <text x="1100" y="185" text-anchor="middle" font-size="14" font-weight="700" fill="#7C2D12">SI 集成商 / 分销</text>
+    <g>
+      <rect x="980" y="200" width="240" height="32" rx="6" fill="#FFFFFF" stroke="#7C2D12"/>
+      <text x="1100" y="221" text-anchor="middle" font-size="13">神州数码（华为总代）</text>
+    </g>
+    <g>
+      <rect x="980" y="240" width="240" height="32" rx="6" fill="#FFFFFF" stroke="#7C2D12"/>
+      <text x="1100" y="261" text-anchor="middle" font-size="13">中软国际 / 东软集团</text>
+    </g>
+    <g>
+      <rect x="980" y="280" width="240" height="32" rx="6" fill="#FFFFFF" stroke="#7C2D12"/>
+      <text x="1100" y="301" text-anchor="middle" font-size="13">神州信息（金融 IT 龙头）</text>
+    </g>
+    <g>
+      <rect x="980" y="320" width="240" height="32" rx="6" fill="#FFFFFF" stroke="#7C2D12"/>
+      <text x="1100" y="341" text-anchor="middle" font-size="13">中科曙光 / 浪潮 / 新华三</text>
+    </g>
+    <text x="980" y="380" font-size="11" fill="#475569">撬动：把 AI Infra 打包进</text>
+    <text x="980" y="394" font-size="11" fill="#475569">SI 的"信创解决方案"清单</text>
+  </g>
+
+  <!-- 云市场 / 平台分销 -->
+  <g>
+    <rect x="1260" y="160" width="280" height="240" rx="10" fill="#FFF7ED" stroke="#7C2D12" stroke-width="1.5"/>
+    <text x="1400" y="185" text-anchor="middle" font-size="14" font-weight="700" fill="#7C2D12">云市场 / 平台分销</text>
+    <g>
+      <rect x="1280" y="200" width="240" height="32" rx="6" fill="#FFFFFF" stroke="#7C2D12"/>
+      <text x="1400" y="221" text-anchor="middle" font-size="13">阿里云 PAI 灵骏 + 百炼</text>
+    </g>
+    <g>
+      <rect x="1280" y="240" width="240" height="32" rx="6" fill="#FFFFFF" stroke="#7C2D12"/>
+      <text x="1400" y="261" text-anchor="middle" font-size="13">华为云 Stack + 盘古联创</text>
+    </g>
+    <g>
+      <rect x="1280" y="280" width="240" height="32" rx="6" fill="#FFFFFF" stroke="#7C2D12"/>
+      <text x="1400" y="301" text-anchor="middle" font-size="13">腾讯云 TI 平台</text>
+    </g>
+    <g>
+      <rect x="1280" y="320" width="240" height="32" rx="6" fill="#FFFFFF" stroke="#7C2D12"/>
+      <text x="1400" y="341" text-anchor="middle" font-size="13">移动云 / 天翼云（运营商云）</text>
+    </g>
+    <text x="1280" y="380" font-size="11" fill="#475569">撬动：上架云市场，让客户</text>
+    <text x="1280" y="394" font-size="11" fill="#475569">在"既有云预算"内买到谐云</text>
+  </g>
+
+  <!-- ===== 平层 象限 ===== -->
+  <!-- 竞合 -->
+  <g>
+    <rect x="60" y="700" width="340" height="200" rx="10" fill="#F5F3FF" stroke="#6D28D9" stroke-width="1.5"/>
+    <text x="230" y="725" text-anchor="middle" font-size="14" font-weight="700" fill="#6D28D9">竞合厂商（要盯的对手）</text>
+    <g>
+      <rect x="80" y="740" width="300" height="32" rx="6" fill="#FFFFFF" stroke="#6D28D9"/>
+      <text x="230" y="761" text-anchor="middle" font-size="13">博云 AIOS / 青云 QingStor AI</text>
+    </g>
+    <g>
+      <rect x="80" y="780" width="300" height="32" rx="6" fill="#FFFFFF" stroke="#6D28D9"/>
+      <text x="230" y="801" text-anchor="middle" font-size="13">第四范式 / 潞晨 / SiliconFlow</text>
+    </g>
+    <g>
+      <rect x="80" y="820" width="300" height="32" rx="6" fill="#FFFFFF" stroke="#6D28D9"/>
+      <text x="230" y="841" text-anchor="middle" font-size="13">ZStack 智塔 / 云轴科技</text>
+    </g>
+    <text x="80" y="876" font-size="11" fill="#475569">打法：博云路径已验证——存量转化 + 增量蓝海</text>
+  </g>
+
+  <!-- 开源社区 -->
+  <g>
+    <rect x="420" y="700" width="340" height="200" rx="10" fill="#F5F3FF" stroke="#6D28D9" stroke-width="1.5"/>
+    <text x="590" y="725" text-anchor="middle" font-size="14" font-weight="700" fill="#6D28D9">开源社区 / 基金会</text>
+    <g>
+      <rect x="440" y="740" width="300" height="32" rx="6" fill="#FFFFFF" stroke="#6D28D9"/>
+      <text x="590" y="761" text-anchor="middle" font-size="13">CNCF（K8s / KubeRay）</text>
+    </g>
+    <g>
+      <rect x="440" y="780" width="300" height="32" rx="6" fill="#FFFFFF" stroke="#6D28D9"/>
+      <text x="590" y="801" text-anchor="middle" font-size="13">LF AI &amp; Data / KubeEdge</text>
+    </g>
+    <g>
+      <rect x="440" y="820" width="300" height="32" rx="6" fill="#FFFFFF" stroke="#6D28D9"/>
+      <text x="590" y="841" text-anchor="middle" font-size="13">openEuler / openAnolis</text>
+    </g>
+    <text x="440" y="876" font-size="11" fill="#475569">撬动：保持 CNCF 核心成员身份，</text>
+    <text x="440" y="888" font-size="11" fill="#475569">开源 GPU 池化层（参考博云 2026 计划）</text>
+  </g>
+
+  <!-- ===== 标准 / 监管 象限 ===== -->
+  <g>
+    <rect x="960" y="700" width="580" height="200" rx="10" fill="#FFFBEB" stroke="#92400E" stroke-width="1.5"/>
+    <text x="1250" y="725" text-anchor="middle" font-size="14" font-weight="700" fill="#92400E">标准 / 监管 / 联盟（决定能不能进入采购清单）</text>
+    <g>
+      <rect x="980" y="740" width="540" height="32" rx="6" fill="#FFFFFF" stroke="#92400E"/>
+      <text x="1250" y="761" text-anchor="middle" font-size="13">中国信通院《大模型应用平台选型测试》《AI Infra 评估体系》</text>
+    </g>
+    <g>
+      <rect x="980" y="780" width="540" height="32" rx="6" fill="#FFFFFF" stroke="#92400E"/>
+      <text x="1250" y="801" text-anchor="middle" font-size="13">AIIA（中国人工智能产业发展联盟）/ AI 产业联盟</text>
+    </g>
+    <g>
+      <rect x="980" y="820" width="540" height="32" rx="6" fill="#FFFFFF" stroke="#92400E"/>
+      <text x="1250" y="841" text-anchor="middle" font-size="13">国资委"央企 AI+"行动 / 金融信创试点（人民银行 + 证监会）</text>
+    </g>
+    <text x="980" y="876" font-size="11" fill="#475569">撬动：主动送测 + 入围选型清单，是进入央国企采购的硬通货</text>
+  </g>
+
+  <!-- ===== 连接线（合作 / 撬动） ===== -->
+  <!-- 谐云 → 上游（绿色实线：合作） -->
+  <line x1="800" y1="482" x2="200" y2="400" stroke="#27AE60" stroke-width="2" stroke-dasharray="6,4" marker-end="url(#arrowGreen)"/>
+  <line x1="800" y1="482" x2="500" y2="400" stroke="#27AE60" stroke-width="2" stroke-dasharray="6,4" marker-end="url(#arrowGreen)"/>
+  <line x1="800" y1="482" x2="800" y2="320" stroke="#27AE60" stroke-width="2" stroke-dasharray="6,4" marker-end="url(#arrowGreen)"/>
+
+  <!-- 谐云 → 下游（橙色实线：分销） -->
+  <line x1="800" y1="482" x2="1100" y2="400" stroke="#EA580C" stroke-width="2" marker-end="url(#arrow)"/>
+  <line x1="800" y1="482" x2="1400" y2="400" stroke="#EA580C" stroke-width="2" marker-end="url(#arrow)"/>
+
+  <!-- 谐云 → 平层（紫色虚线：竞合/共建） -->
+  <line x1="800" y1="638" x2="230" y2="700" stroke="#6D28D9" stroke-width="2" stroke-dasharray="2,3" marker-end="url(#arrow)"/>
+  <line x1="800" y1="638" x2="590" y2="700" stroke="#6D28D9" stroke-width="2" stroke-dasharray="2,3" marker-end="url(#arrow)"/>
+
+  <!-- 谐云 → 标准（棕色虚线：合规背书） -->
+  <line x1="800" y1="638" x2="1250" y2="700" stroke="#92400E" stroke-width="2" stroke-dasharray="2,3" marker-end="url(#arrow)"/>
+
+  <!-- 阿里特别高亮：从股东/合作方 → 同时是潜在对手 -->
+  <g>
+    <rect x="1260" y="430" width="280" height="100" rx="10" fill="#FEE2E2" stroke="#C0392B" stroke-width="2"/>
+    <text x="1400" y="455" text-anchor="middle" font-size="14" font-weight="700" fill="#C0392B">阿里云（特殊节点）</text>
+    <text x="1400" y="478" text-anchor="middle" font-size="11" fill="#7F1D1D">股东 + 合作方 + 潜在对手</text>
+    <text x="1400" y="498" text-anchor="middle" font-size="11" fill="#7F1D1D">灵骏 / 百炼 / 通义 全栈覆盖</text>
+    <text x="1400" y="518" text-anchor="middle" font-size="11" fill="#7F1D1D">策略：用市场+达摩院；防客户被吞</text>
+  </g>
+  <line x1="878" y1="560" x2="1260" y2="480" stroke="#C0392B" stroke-width="2.5" marker-end="url(#arrowRed)"/>
+
+  <!-- 底部图例 -->
+  <g>
+    <rect x="60" y="950" width="1480" height="120" rx="10" fill="#F3F4F6"/>
+    <text x="80" y="978" font-size="14" font-weight="700" fill="#1F2937">图例 / 优先级判定</text>
+    <!-- 优先级 -->
+    <g>
+      <circle cx="100" cy="1010" r="8" fill="#C0392B"/>
+      <text x="120" y="1015" font-size="13" fill="#1F2937">P0 必做（合作 = 生死线）</text>
+      <circle cx="380" cy="1010" r="8" fill="#27AE60"/>
+      <text x="400" y="1015" font-size="13" fill="#1F2937">P1 应做（异构 + 多模型路线）</text>
+      <circle cx="700" cy="1010" r="8" fill="#EA580C"/>
+      <text x="720" y="1015" font-size="13" fill="#1F2937">P2 该做（云市场分销）</text>
+      <circle cx="1020" cy="1010" r="8" fill="#6D28D9"/>
+      <text x="1040" y="1015" font-size="13" fill="#1F2937">P3 选择做（开源 / 竞合）</text>
+      <circle cx="1320" cy="1010" r="8" fill="#92400E"/>
+      <text x="1340" y="1015" font-size="13" fill="#1F2937">P4 该做（标准送测）</text>
+    </g>
+    <!-- 关键判断 -->
+    <text x="80" y="1045" font-size="12" fill="#374151">核心判断：谐云 = 异构池化 + 中立推理平面，对阿里云是补全而非替代。不能让任何一家云厂独家代理 AI Infra。</text>
+    <text x="80" y="1062" font-size="12" fill="#374151">红线：单客户合同里"算力 + 平台 + 模型"三选一不能让云厂独占；客户名单不能交给阿里云 BD 共享。</text>
+  </g>
+</svg>
