@@ -1,0 +1,169 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 960 620" role="img" aria-label="Gemini 3.5 Pro upgrade-difficulty radar across seven dimensions">
+  <title>Gemini 3.5 Pro 升级难度雷达</title>
+  <desc>对比 Gemini 2.5 Pro 与 3.5 Pro 在 7 个技术 / 组织维度的相对成熟度；外环为目标值，内环为 2.5 Pro 基线，阴影区域为缺口。</desc>
+
+  <defs>
+    <!-- brand-neutral palette, light/dark friendly -->
+    <style>
+      .bg     { fill: #FAFAF7; }
+      .ink    { fill: #1F2933; }
+      .muted  { fill: #52606D; font: 500 13px "Inter","Source Han Sans SC","Helvetica",sans-serif; }
+      .title  { fill: #1F2933; font: 700 20px "Inter","Source Han Sans SC","Helvetica",sans-serif; }
+      .subtle { fill: #7B8794; font: 400 12px "Inter","Source Han Sans SC","Helvetica",sans-serif; }
+      .axis   { stroke: #CBD2D9; stroke-width: 1; }
+      .grid   { stroke: #E4E7EB; stroke-width: 1; fill: none; }
+      .spoke  { stroke: #CBD2D9; stroke-width: 1; }
+      .label  { fill: #1F2933; font: 600 13px "Inter","Source Han Sans SC","Helvetica",sans-serif; }
+      .legend-label { fill: #1F2933; font: 500 12px "Inter","Source Han Sans SC","Helvetica",sans-serif; }
+      .tick   { fill: #52606D; font: 400 11px "Inter",sans-serif; }
+    </style>
+
+    <radialGradient id="gapGradient" cx="50%" cy="50%" r="55%">
+      <stop offset="0%"  stop-color="#F4A261" stop-opacity="0.30"/>
+      <stop offset="100%" stop-color="#E76F51" stop-opacity="0.20"/>
+    </radialGradient>
+  </defs>
+
+  <rect class="bg" width="960" height="620"/>
+
+  <!-- Title block -->
+  <text class="title"  x="40" y="40">Gemini 3.5 Pro · 升级难度雷达</text>
+  <text class="subtle" x="40" y="60">7 个维度上的 2.5 Pro 基线 vs 3.5 Pro 目标值（0–10 分制；阴影为缺口）</text>
+  <text class="subtle" x="40" y="78">数据点为作者基于已公开信源给出的工程难度评估，非基准跑分</text>
+
+  <!-- Legend -->
+  <g transform="translate(630,32)">
+    <rect x="0"   y="6" width="14" height="14" fill="#4A6FA5" opacity="0.85"/>
+    <text class="legend-label" x="22" y="17">3.5 Pro 目标成熟度</text>
+    <rect x="0"   y="30" width="14" height="14" fill="#9CB4D8" opacity="0.85"/>
+    <text class="legend-label" x="22" y="41">2.5 Pro 当前基线</text>
+    <rect x="160" y="6"  width="14" height="14" fill="url(#gapGradient)"/>
+    <text class="legend-label" x="182" y="17">升级缺口（难产来源）</text>
+    <text class="subtle" x="0" y="68">数值越大 = 该维度升级代价越高。</text>
+  </g>
+
+  <!-- Radar geometry: 7 axes, center (300,360), max radius 200 -->
+  <g transform="translate(300,360)">
+    <!-- Concentric rings (grid) -->
+    <circle class="grid" r="40"  />
+    <circle class="grid" r="80"  />
+    <circle class="grid" r="120" />
+    <circle class="grid" r="160" />
+    <circle class="grid" r="200" />
+
+    <!-- Spokes -->
+    <g class="spoke">
+      <!-- 7 axes, top=0 -->
+      <line x1="0" y1="0" x2="0"       y2="-200" />
+      <line x1="0" y1="0" x2="190"     y2="-62"  />
+      <line x1="0" y1="0" x2="117"     y2="161"  />
+      <line x1="0" y1="0" x2="-117"    y2="161"  />
+      <line x1="0" y1="0" x2="-190"    y2="-62"  />
+      <line x1="0" y1="0" x2="-62"     y2="-190" />
+      <line x1="0" y1="0" x2="62"      y2="-190" />
+    </g>
+
+    <!-- Tick labels (0-10) -->
+    <g class="tick">
+      <text x="3"   y="-38"  >2</text>
+      <text x="3"   y="-78"  >4</text>
+      <text x="3"   y="-118" >6</text>
+      <text x="3"   y="-158" >8</text>
+      <text x="3"   y="-198" >10</text>
+    </g>
+
+    <!-- Axis labels (Chinese, with English gloss) -->
+    <g class="label" text-anchor="middle">
+      <!-- top: 预训练 scaling -->
+      <text x="0" y="-218">预训练 Scaling</text>
+      <text class="muted" x="0" y="-202">(pretraining scaling wall)</text>
+      <!-- top-right: RLVR -->
+      <text x="208" y="-50">后训练 / RLVR</text>
+      <text class="muted" x="208" y="-34">(reasoning post-train)</text>
+      <!-- right-bottom: 多模态 -->
+      <text x="140" y="190">原生多模态</text>
+      <text class="muted" x="140" y="206">(native multimodal arch)</text>
+      <!-- left-bottom: 长上下文 -->
+      <text x="-140" y="190">长上下文推理</text>
+      <text class="muted" x="-140" y="206">(long-context reasoning)</text>
+      <!-- left-top: 数据 -->
+      <text x="-208" y="-50">训练数据 / 合成</text>
+      <text class="muted" x="-208" y="-34">(data &amp; synthesis)</text>
+      <!-- top-left: 算力 -->
+      <text x="-90"  y="-205">TPU 算力</text>
+      <text class="muted" x="-90"  y="-189">(inference compute)</text>
+      <!-- top-near: Responsible AI -->
+      <text x="90" y="-205">Responsible AI</text>
+      <text class="muted" x="90" y="-189">(safety / red-team)</text>
+    </g>
+
+    <!-- 2.5 Pro baseline polygon (lower, lighter) -->
+    <!-- baseline values (0-10, scale to 0-200 radius):
+         axis 0 (top)             7
+         axis 1 (top-right)       6
+         axis 2 (right-bottom)    4
+         axis 3 (left-bottom)     7
+         axis 4 (left-top)        5
+         axis 5 (top-near-left)   6
+         axis 6 (top-near-right)  8
+    -->
+    <polygon
+      points="0,-140  114,-37  47,64  -47,64  -114,-37  -37,-114  37,-114"
+      fill="#9CB4D8" fill-opacity="0.65" stroke="#5B7CB2" stroke-width="2"/>
+
+    <!-- 3.5 Pro target polygon (outer, darker) -->
+    <!-- target values:
+         axis 0  9   (scale = 180)
+         axis 1  9   (171,-56)
+         axis 2  8   (94, 130)
+         axis 3  8   (-94,130)
+         axis 4  8   (-152,-50)
+         axis 5  8   (-50,-152)
+         axis 6 10   (50,-152)  -> actually using 10 gives r=200 already at y=-190
+    -->
+    <polygon
+      points="0,-180  171,-56  94,130  -94,130  -152,-50  -50,-152  50,-152"
+      fill="#4A6FA5" fill-opacity="0.45" stroke="#2D4A77" stroke-width="2.5"/>
+
+    <!-- Gap area (between target and baseline on each axis) -->
+    <polygon
+      points="0,-180  171,-56  94,130  -94,130  -152,-50  -50,-152  50,-152
+              50,-152  -50,-152  -152,-50  -94,130  94,130  171,-56  0,-180"
+      fill="url(#gapGradient)" stroke="#E76F51" stroke-width="0"/>
+
+    <!-- Data point markers (target) -->
+    <g fill="#2D4A77">
+      <circle cx="0"     cy="-180" r="3.5"/>
+      <circle cx="171"   cy="-56"  r="3.5"/>
+      <circle cx="94"    cy="130"  r="3.5"/>
+      <circle cx="-94"   cy="130"  r="3.5"/>
+      <circle cx="-152"  cy="-50"  r="3.5"/>
+      <circle cx="-50"   cy="-152" r="3.5"/>
+      <circle cx="50"    cy="-152" r="3.5"/>
+    </g>
+    <!-- Data point markers (baseline) -->
+    <g fill="#5B7CB2">
+      <circle cx="0"     cy="-140" r="3"/>
+      <circle cx="114"   cy="-37"  r="3"/>
+      <circle cx="47"    cy="64"   r="3"/>
+      <circle cx="-47"   cy="64"   r="3"/>
+      <circle cx="-114"  cy="-37"  r="3"/>
+      <circle cx="-37"   cy="-114" r="3"/>
+      <circle cx="37"    cy="-114" r="3"/>
+    </g>
+  </g>
+
+  <!-- Annotation panel on the right -->
+  <g transform="translate(620,120)">
+    <text class="title" x="0" y="0" font-size="16">解读要点</text>
+
+    <text class="muted" x="0" y="26">1. 顶部缺口最大：scaling 不再给红利 → 必须靠 test-time compute / RLVR 撑能力。</text>
+    <text class="muted" x="0" y="66">2. 多模态轴缺口中等：Pro 与 Omni / Flash 三档 SKU 抢同一底座。</text>
+    <text class="muted" x="0" y="106">3. 长上下文缺口宽：NoLiMa 等独立基准已经把"1M ≠ 1M reasoning"戳穿。</text>
+    <text class="muted" x="0" y="146">4. 数据缺口中等偏大：合成数据是必要项，但 model collapse 风险要靠工程化解。</text>
+    <text class="muted" x="0" y="186">5. TPU 与 Responsible AI 缺口看似小，但前者是产能硬约束、后者是发布"心理成本"。</text>
+  </g>
+
+  <!-- Footnote -->
+  <text class="subtle" x="40" y="600">信源：DeepMind 官方博客 2026-05；The Information 关于 Hassabis scaling 撞墙访谈；Capdeville &amp; Shaw, NoLiMa, HF 2025；Shumailov et al., Nature 2024 (model collapse)。</text>
+</svg>
