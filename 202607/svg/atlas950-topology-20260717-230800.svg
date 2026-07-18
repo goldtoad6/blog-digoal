@@ -1,0 +1,210 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1200 760" font-family="-apple-system, 'PingFang SC', 'Microsoft YaHei', sans-serif">
+  <defs>
+    <linearGradient id="g1" x1="0" y1="0" x2="1" y2="0">
+      <stop offset="0" stop-color="#cfe2ff"/>
+      <stop offset="1" stop-color="#9ec5fe"/>
+    </linearGradient>
+    <linearGradient id="g2" x1="0" y1="0" x2="1" y2="0">
+      <stop offset="0" stop-color="#d1e7dd"/>
+      <stop offset="1" stop-color="#a3cfbb"/>
+    </linearGradient>
+    <linearGradient id="g3" x1="0" y1="0" x2="1" y2="0">
+      <stop offset="0" stop-color="#f8d7da"/>
+      <stop offset="1" stop-color="#f1aeb5"/>
+    </linearGradient>
+    <marker id="arr" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="6" markerHeight="6" orient="auto">
+      <path d="M0,0 L10,5 L0,10 z" fill="#6c757d"/>
+    </marker>
+  </defs>
+  <rect width="1200" height="760" fill="#fafafa"/>
+  <text x="600" y="36" text-anchor="middle" font-size="22" font-weight="700" fill="#212529">Atlas 950 SuperPoD — 拓扑与算力层级</text>
+  <text x="600" y="60" text-anchor="middle" font-size="13" fill="#6c757d">UB-Mesh 直连全互联 + 灵衢 2.0 全光协议 / Scale-Up × Scale-Out</text>
+
+  <!-- Scale-up left block -->
+  <g>
+    <rect x="40" y="100" width="540" height="560" rx="14" fill="url(#g1)" stroke="#3a86ff" stroke-width="1.5" opacity="0.55"/>
+    <text x="310" y="130" text-anchor="middle" font-size="16" font-weight="700" fill="#0b3d91">Scale-Up 域（单 SuperPoD 内）</text>
+    <text x="310" y="152" text-anchor="middle" font-size="12" fill="#0b3d91">8192 卡 Ascend 950DT · 灵衢 2.0 · UB-Mesh 全互联</text>
+
+    <!-- 8 cabinets (64 cards each) -->
+    <g id="cabinets">
+      <!-- row 1 -->
+      <g transform="translate(80,180)">
+        <rect width="110" height="100" rx="8" fill="#fff" stroke="#3a86ff"/>
+        <text x="55" y="30" text-anchor="middle" font-size="12" font-weight="600" fill="#0b3d91">机柜 #1</text>
+        <text x="55" y="50" text-anchor="middle" font-size="11" fill="#495057">64 卡</text>
+        <text x="55" y="68" text-anchor="middle" font-size="10" fill="#6c757d">2 TB/s × 64</text>
+        <circle cx="20" cy="86" r="3" fill="#3a86ff"/>
+        <circle cx="40" cy="86" r="3" fill="#3a86ff"/>
+        <circle cx="60" cy="86" r="3" fill="#3a86ff"/>
+        <circle cx="80" cy="86" r="3" fill="#3a86ff"/>
+        <circle cx="100" cy="86" r="3" fill="#3a86ff"/>
+      </g>
+      <g transform="translate(200,180)">
+        <rect width="110" height="100" rx="8" fill="#fff" stroke="#3a86ff"/>
+        <text x="55" y="30" text-anchor="middle" font-size="12" font-weight="600" fill="#0b3d91">机柜 #2</text>
+        <text x="55" y="50" text-anchor="middle" font-size="11" fill="#495057">64 卡</text>
+        <text x="55" y="68" text-anchor="middle" font-size="10" fill="#6c757d">2 TB/s × 64</text>
+        <circle cx="20" cy="86" r="3" fill="#3a86ff"/>
+        <circle cx="40" cy="86" r="3" fill="#3a86ff"/>
+        <circle cx="60" cy="86" r="3" fill="#3a86ff"/>
+        <circle cx="80" cy="86" r="3" fill="#3a86ff"/>
+        <circle cx="100" cy="86" r="3" fill="#3a86ff"/>
+      </g>
+      <g transform="translate(320,180)">
+        <rect width="110" height="100" rx="8" fill="#fff" stroke="#3a86ff"/>
+        <text x="55" y="30" text-anchor="middle" font-size="12" font-weight="600" fill="#0b3d91">机柜 #3</text>
+        <text x="55" y="50" text-anchor="middle" font-size="11" fill="#495057">64 卡</text>
+        <text x="55" y="68" text-anchor="middle" font-size="10" fill="#6c757d">2 TB/s × 64</text>
+        <circle cx="20" cy="86" r="3" fill="#3a86ff"/>
+        <circle cx="40" cy="86" r="3" fill="#3a86ff"/>
+        <circle cx="60" cy="86" r="3" fill="#3a86ff"/>
+        <circle cx="80" cy="86" r="3" fill="#3a86ff"/>
+        <circle cx="100" cy="86" r="3" fill="#3a86ff"/>
+      </g>
+      <g transform="translate(440,180)">
+        <rect width="110" height="100" rx="8" fill="#fff" stroke="#3a86ff"/>
+        <text x="55" y="30" text-anchor="middle" font-size="12" font-weight="600" fill="#0b3d91">机柜 #4</text>
+        <text x="55" y="50" text-anchor="middle" font-size="11" fill="#495057">64 卡</text>
+        <text x="55" y="68" text-anchor="middle" font-size="10" fill="#6c757d">2 TB/s × 64</text>
+        <circle cx="20" cy="86" r="3" fill="#3a86ff"/>
+        <circle cx="40" cy="86" r="3" fill="#3a86ff"/>
+        <circle cx="60" cy="86" r="3" fill="#3a86ff"/>
+        <circle cx="80" cy="86" r="3" fill="#3a86ff"/>
+        <circle cx="100" cy="86" r="3" fill="#3a86ff"/>
+      </g>
+      <!-- row 2 -->
+      <g transform="translate(80,310)">
+        <rect width="110" height="100" rx="8" fill="#fff" stroke="#3a86ff"/>
+        <text x="55" y="30" text-anchor="middle" font-size="12" font-weight="600" fill="#0b3d91">机柜 #5</text>
+        <text x="55" y="50" text-anchor="middle" font-size="11" fill="#495057">64 卡</text>
+        <text x="55" y="68" text-anchor="middle" font-size="10" fill="#6c757d">2 TB/s × 64</text>
+        <circle cx="20" cy="86" r="3" fill="#3a86ff"/>
+        <circle cx="40" cy="86" r="3" fill="#3a86ff"/>
+        <circle cx="60" cy="86" r="3" fill="#3a86ff"/>
+        <circle cx="80" cy="86" r="3" fill="#3a86ff"/>
+        <circle cx="100" cy="86" r="3" fill="#3a86ff"/>
+      </g>
+      <g transform="translate(200,310)">
+        <rect width="110" height="100" rx="8" fill="#fff" stroke="#3a86ff"/>
+        <text x="55" y="30" text-anchor="middle" font-size="12" font-weight="600" fill="#0b3d91">机柜 #6</text>
+        <text x="55" y="50" text-anchor="middle" font-size="11" fill="#495057">64 卡</text>
+        <text x="55" y="68" text-anchor="middle" font-size="10" fill="#6c757d">2 TB/s × 64</text>
+        <circle cx="20" cy="86" r="3" fill="#3a86ff"/>
+        <circle cx="40" cy="86" r="3" fill="#3a86ff"/>
+        <circle cx="60" cy="86" r="3" fill="#3a86ff"/>
+        <circle cx="80" cy="86" r="3" fill="#3a86ff"/>
+        <circle cx="100" cy="86" r="3" fill="#3a86ff"/>
+      </g>
+      <g transform="translate(320,310)">
+        <rect width="110" height="100" rx="8" fill="#fff" stroke="#3a86ff"/>
+        <text x="55" y="30" text-anchor="middle" font-size="12" font-weight="600" fill="#0b3d91">机柜 #7</text>
+        <text x="55" y="50" text-anchor="middle" font-size="11" fill="#495057">64 卡</text>
+        <text x="55" y="68" text-anchor="middle" font-size="10" fill="#6c757d">2 TB/s × 64</text>
+        <circle cx="20" cy="86" r="3" fill="#3a86ff"/>
+        <circle cx="40" cy="86" r="3" fill="#3a86ff"/>
+        <circle cx="60" cy="86" r="3" fill="#3a86ff"/>
+        <circle cx="80" cy="86" r="3" fill="#3a86ff"/>
+        <circle cx="100" cy="86" r="3" fill="#3a86ff"/>
+      </g>
+      <g transform="translate(440,310)">
+        <rect width="110" height="100" rx="8" fill="#fff" stroke="#3a86ff"/>
+        <text x="55" y="30" text-anchor="middle" font-size="12" font-weight="600" fill="#0b3d91">机柜 #8</text>
+        <text x="55" y="50" text-anchor="middle" font-size="11" fill="#495057">64 卡</text>
+        <text x="55" y="68" text-anchor="middle" font-size="10" fill="#6c757d">2 TB/s × 64</text>
+        <circle cx="20" cy="86" r="3" fill="#3a86ff"/>
+        <circle cx="40" cy="86" r="3" fill="#3a86ff"/>
+        <circle cx="60" cy="86" r="3" fill="#3a86ff"/>
+        <circle cx="80" cy="86" r="3" fill="#3a86ff"/>
+        <circle cx="100" cy="86" r="3" fill="#3a86ff"/>
+      </g>
+    </g>
+
+    <!-- Aggregate metrics -->
+    <g transform="translate(80,450)">
+      <rect width="470" height="180" rx="10" fill="#eef5ff" stroke="#3a86ff"/>
+      <text x="235" y="26" text-anchor="middle" font-size="13" font-weight="700" fill="#0b3d91">单 SuperPoD 聚合指标</text>
+      <line x1="20" y1="40" x2="450" y2="40" stroke="#3a86ff" stroke-width="0.5"/>
+      <g font-size="12" fill="#212529">
+        <text x="20" y="64">NPU 卡数</text><text x="450" y="64" text-anchor="end" font-weight="600">8 192 × Ascend 950DT</text>
+        <text x="20" y="88">FP8 算力</text><text x="450" y="88" text-anchor="end" font-weight="600">8 EFLOPS</text>
+        <text x="20" y="112">FP4 算力</text><text x="450" y="112" text-anchor="end" font-weight="600">16 EFLOPS</text>
+        <text x="20" y="136">总显存</text><text x="450" y="136" text-anchor="end" font-weight="600">1152 TB（HBM 等效）</text>
+        <text x="20" y="160">Scale-Up 互联带宽</text><text x="450" y="160" text-anchor="end" font-weight="600">16.3 PB/s（单跳 200 ns）</text>
+      </g>
+    </g>
+  </g>
+
+  <!-- Scale-out right block -->
+  <g>
+    <rect x="620" y="100" width="540" height="560" rx="14" fill="url(#g3)" stroke="#d6336c" stroke-width="1.5" opacity="0.5"/>
+    <text x="890" y="130" text-anchor="middle" font-size="16" font-weight="700" fill="#842029">Scale-Out 域（SuperPoD 之间）</text>
+    <text x="890" y="152" text-anchor="middle" font-size="12" fill="#842029">RoCE / 华为 CE 系列交换机 · 星型 / 胖树</text>
+
+    <!-- SuperPoD blocks -->
+    <g transform="translate(640,180)">
+      <rect width="120" height="80" rx="8" fill="#fff" stroke="#d6336c"/>
+      <text x="60" y="26" text-anchor="middle" font-size="12" font-weight="700" fill="#842029">SuperPoD #1</text>
+      <text x="60" y="46" text-anchor="middle" font-size="10" fill="#495057">8 192 卡</text>
+      <text x="60" y="62" text-anchor="middle" font-size="10" fill="#6c757d">8 EFLOPS FP8</text>
+    </g>
+    <g transform="translate(780,180)">
+      <rect width="120" height="80" rx="8" fill="#fff" stroke="#d6336c"/>
+      <text x="60" y="26" text-anchor="middle" font-size="12" font-weight="700" fill="#842029">SuperPoD #2</text>
+      <text x="60" y="46" text-anchor="middle" font-size="10" fill="#495057">8 192 卡</text>
+      <text x="60" y="62" text-anchor="middle" font-size="10" fill="#6c757d">8 EFLOPS FP8</text>
+    </g>
+    <g transform="translate(920,180)">
+      <rect width="120" height="80" rx="8" fill="#fff" stroke="#d6336c"/>
+      <text x="60" y="26" text-anchor="middle" font-size="12" font-weight="700" fill="#842029">SuperPoD #3</text>
+      <text x="60" y="46" text-anchor="middle" font-size="10" fill="#495057">8 192 卡</text>
+      <text x="60" y="62" text-anchor="middle" font-size="10" fill="#6c757d">8 EFLOPS FP8</text>
+    </g>
+    <g transform="translate(1060,180)">
+      <rect width="80" height="80" rx="8" fill="#fff" stroke="#d6336c"/>
+      <text x="40" y="26" text-anchor="middle" font-size="12" font-weight="700" fill="#842029">…</text>
+      <text x="40" y="46" text-anchor="middle" font-size="10" fill="#495057">×64</text>
+      <text x="40" y="62" text-anchor="middle" font-size="10" fill="#6c757d">个 PoD</text>
+    </g>
+
+    <!-- arrows between -->
+    <line x1="760" y1="220" x2="780" y2="220" stroke="#6c757d" stroke-width="1.5" marker-end="url(#arr)"/>
+    <line x1="900" y1="220" x2="920" y2="220" stroke="#6c757d" stroke-width="1.5" marker-end="url(#arr)"/>
+    <line x1="1040" y1="220" x2="1060" y2="220" stroke="#6c757d" stroke-width="1.5" marker-end="url(#arr)"/>
+
+    <text x="890" y="295" text-anchor="middle" font-size="11" fill="#842029">⌄ 64 个 SuperPoD = Atlas 950 SuperCluster</text>
+
+    <g transform="translate(640,310)">
+      <rect width="500" height="80" rx="8" fill="#fde2e7" stroke="#d6336c"/>
+      <text x="250" y="28" text-anchor="middle" font-size="13" font-weight="700" fill="#842029">Atlas 950 SuperCluster（2026 Q4 上市）</text>
+      <text x="250" y="50" text-anchor="middle" font-size="11" fill="#495057">524 288 卡 · 524 EFLOPS FP8 · 1+ ZFLOPS FP4</text>
+      <text x="250" y="68" text-anchor="middle" font-size="10" fill="#6c757d">百万卡级 AI 工厂，瞄准万亿 / 数十万亿参数 MoE</text>
+    </g>
+
+    <!-- Notes -->
+    <g transform="translate(640,420)">
+      <rect width="500" height="210" rx="10" fill="#fff5f6" stroke="#d6336c"/>
+      <text x="20" y="28" font-size="13" font-weight="700" fill="#842029">域内 vs 域间的本质差异</text>
+      <line x1="20" y1="40" x2="480" y2="40" stroke="#d6336c" stroke-width="0.5"/>
+      <g font-size="11" fill="#212529">
+        <text x="20" y="64">• Scale-Up：UB-Mesh 直连拓扑，单跳 200 ns，共享内存语义；</text>
+        <text x="20" y="84">• 通信带宽与卡数呈亚线性增长（同 NVLink 中心交换的</text>
+        <text x="35" y="100">  超线性扩展不同），故可支撑 8K+ 卡规模；</text>
+        <text x="20" y="122">• Scale-Out：标准 RoCE / 以太网，时延 5–10 μs 级别，</text>
+        <text x="20" y="142">  走集合通信库（HCCL 等）跨域通信；</text>
+        <text x="20" y="162">• 关键设计取舍：MoE 训练把专家路由放在 Scale-Up 域内，</text>
+        <text x="35" y="178">  跨域只同步少量梯度，规避域间带宽瓶颈；</text>
+        <text x="20" y="198">• UB 2.0 统一协议消除端口协议转换，光模块 MAC 交织</text>
+        <text x="35" y="214">  冗余 → 整机 MTBF 声称提升 100×。</text>
+      </g>
+    </g>
+  </g>
+
+  <!-- bottom legend -->
+  <g transform="translate(40,680)">
+    <rect width="1120" height="60" rx="10" fill="#fff" stroke="#adb5bd"/>
+    <text x="20" y="24" font-size="12" font-weight="700" fill="#212529">数据出处：</text>
+    <text x="20" y="44" font-size="11" fill="#495057">华为全联接大会 2025（徐直军发布，2025-09-18） · 华为 HotChips 2025 UB-Mesh 论文（2025-09） · 财联社 / 新浪财经报道（2025-Q3） · 汇正财经 / 智东西分析（2026-Q1） · 华为 MWC 2026 张熙伟发布（2026-03）。</text>
+  </g>
+</svg>
