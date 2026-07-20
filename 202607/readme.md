@@ -2,6 +2,7 @@
   
 ### 文章列表  
 ----  
+##### 20260720_02.md   [《AI论文解读 | QwenPaw-Data: Bridging Facts, Methodology, and Execution for Autonomous Enterprise Data Analytics》](20260720_02.md)  
 ##### 20260720_01.md   [《德说-第523期, 谷歌还要不要拼命做Gemini? 阿里云还要不要死磕Qwen?》](20260720_01.md)  
 ##### 20260718_02.md   [《谷歌 Gemini 3.5 Pro “难产”事件分析》](20260718_02.md)  
 ##### 20260718_01.md   [《华为韬定律赢了: Atlas 950 SuperPoD 站上世界之巅》](20260718_01.md)  
