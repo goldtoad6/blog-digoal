@@ -113,6 +113,7 @@ digoal's|PostgreSQL|文章|归类
   
 ### 六、所有文档如下  
 ----  
+##### 202607/20260720_03.md   [《如何自建人脸识别大模型》](202607/20260720_03.md)  
 ##### 202607/20260720_02.md   [《AI论文解读 | QwenPaw-Data: Bridging Facts, Methodology, and Execution for Autonomous Enterprise Data Analytics》](202607/20260720_02.md)  
 ##### 202607/20260720_01.md   [《德说-第523期, 谷歌还要不要拼命做Gemini? 阿里云还要不要死磕Qwen?》](202607/20260720_01.md)  
 ##### 202607/20260718_02.md   [《谷歌 Gemini 3.5 Pro “难产”事件分析》](202607/20260718_02.md)  
