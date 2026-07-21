@@ -1,0 +1,51 @@
+<svg viewBox="0 0 900 560" xmlns="http://www.w3.org/2000/svg" font-family="'PingFang SC','Microsoft YaHei',sans-serif">
+  <rect x="0" y="0" width="900" height="560" fill="#fafaf8"/>
+  <text x="450" y="42" text-anchor="middle" font-size="24" font-weight="700" fill="#222">四层"地基"，四种变化速度</text>
+  <text x="450" y="68" text-anchor="middle" font-size="14" fill="#777">越靠上，AI平权得越快；越靠下，越值得人类投入精力</text>
+
+  <!-- Layer 1: 算力/模型 -->
+  <g>
+    <polygon points="150,100 750,100 700,168 200,168" fill="#e8734a" opacity="0.88"/>
+    <text x="450" y="128" text-anchor="middle" font-size="18" font-weight="600" fill="#fff">算力 · 模型</text>
+    <text x="450" y="152" text-anchor="middle" font-size="13" fill="#fff">变化周期：6–18 个月 · AI 平权最彻底</text>
+  </g>
+
+  <!-- Layer 2: 陈述性知识 -->
+  <g>
+    <polygon points="200,178 700,178 655,246 245,246" fill="#e9a13c" opacity="0.9"/>
+    <text x="450" y="206" text-anchor="middle" font-size="18" font-weight="600" fill="#fff">陈述性知识 · 案例</text>
+    <text x="450" y="230" text-anchor="middle" font-size="13" fill="#fff">变化周期：以周计 · 复制成本趋近于零</text>
+  </g>
+
+  <!-- Layer 3: 方法论/框架 -->
+  <g>
+    <polygon points="245,256 655,256 610,324 290,324" fill="#3d8b7d" opacity="0.9"/>
+    <text x="450" y="284" text-anchor="middle" font-size="18" font-weight="600" fill="#fff">方法论 · 思维框架</text>
+    <text x="450" y="308" text-anchor="middle" font-size="13" fill="#fff">变化周期：季度级 · 混沌等机构最主要的卖点</text>
+  </g>
+
+  <!-- Layer 4: 学科公理/定律 -->
+  <g>
+    <polygon points="290,334 610,334 555,410 345,410" fill="#2e5266" opacity="0.95"/>
+    <text x="450" y="366" text-anchor="middle" font-size="18" font-weight="700" fill="#fff">学科公理 · 基本定律</text>
+    <text x="450" y="390" text-anchor="middle" font-size="13" fill="#fff">变化周期：十年～百年 · 目前AI只会"应用"，很难"推翻重来"</text>
+  </g>
+
+  <!-- 人字标 -->
+  <g>
+    <polygon points="345,420 555,420 500,478 400,478" fill="#8a5cc7" opacity="0.92"/>
+    <text x="450" y="452" text-anchor="middle" font-size="16" font-weight="700" fill="#fff">行动力 · 心力 · 愿力</text>
+    <text x="450" y="470" text-anchor="middle" font-size="12" fill="#fff">依附在人身上，AI暂时无法替人"担责"</text>
+  </g>
+
+  <!-- Arrow -->
+  <line x1="70" y1="110" x2="70" y2="470" stroke="#999" stroke-width="2" marker-end="url(#arrow)"/>
+  <defs>
+    <marker id="arrow" markerWidth="10" markerHeight="10" refX="5" refY="5" orient="auto">
+      <path d="M0,0 L10,5 L0,10 Z" fill="#999"/>
+    </marker>
+  </defs>
+  <text x="45" y="290" text-anchor="middle" font-size="13" fill="#666" transform="rotate(-90 45 290)">AI 平权速度：快 → 慢</text>
+
+  <text x="450" y="520" text-anchor="middle" font-size="12" fill="#999">示意图，非精确比例；变化周期为经验性归纳，不同学科/领域会有差异</text>
+</svg>
