@@ -2,6 +2,7 @@
   
 ### 文章列表  
 ----  
+##### 20260722_01.md   [《德说-第525期, 测完之后, 谷歌还是王者》](20260722_01.md)  
 ##### 20260721_01.md   [《德说-第524期, 混沌大学的地基松动了, 我们与 AI 到底如何共处?》](20260721_01.md)  
 ##### 20260720_03.md   [《如何自建人脸识别大模型》](20260720_03.md)  
 ##### 20260720_02.md   [《AI论文解读 | QwenPaw-Data: Bridging Facts, Methodology, and Execution for Autonomous Enterprise Data Analytics》](20260720_02.md)  
