@@ -1,0 +1,153 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 960 680" font-family="-apple-system, BlinkMacSystemFont, 'Segoe UI', 'PingFang SC', 'Hiragino Sans GB', 'Microsoft YaHei', sans-serif">
+  <defs>
+    <!-- Arrow markers -->
+    <marker id="arrow-red" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="8" markerHeight="8" orient="auto">
+      <path d="M0,0 L10,5 L0,10 z" fill="#dc2626"/>
+    </marker>
+    <marker id="arrow-blue" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="8" markerHeight="8" orient="auto">
+      <path d="M0,0 L10,5 L0,10 z" fill="#2563eb"/>
+    </marker>
+    <marker id="arrow-gray" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="7" markerHeight="7" orient="auto">
+      <path d="M0,0 L10,5 L0,10 z" fill="#64748b"/>
+    </marker>
+
+    <!-- Soft shadow -->
+    <filter id="softShadow" x="-20%" y="-20%" width="140%" height="140%">
+      <feGaussianBlur in="SourceAlpha" stdDeviation="2"/>
+      <feOffset dx="0" dy="1" result="offsetblur"/>
+      <feComponentTransfer><feFuncA type="linear" slope="0.18"/></feComponentTransfer>
+      <feMerge><feMergeNode/><feMergeNode in="SourceGraphic"/></feMerge>
+    </filter>
+  </defs>
+
+  <!-- Background -->
+  <rect width="960" height="680" fill="#f8fafc"/>
+
+  <!-- Title -->
+  <text x="480" y="36" text-anchor="middle" font-size="22" font-weight="700" fill="#0f172a">SKILL 填满之后：Agent 生产落地的五重摩擦</text>
+  <text x="480" y="58" text-anchor="middle" font-size="13" fill="#475569">从"能力不足"到"做得稳、查得到、改得动、回得来"的范式跃迁</text>
+
+  <!-- ============================================ -->
+  <!-- 水面之上：SKILL 库                         -->
+  <!-- ============================================ -->
+  <g transform="translate(60, 82)">
+    <!-- SKILL box -->
+    <rect x="280" y="0" width="280" height="36" rx="6" fill="#bbf7d0" stroke="#16a34a" stroke-width="1.5" filter="url(#softShadow)"/>
+    <text x="420" y="23" text-anchor="middle" font-size="14" font-weight="600" fill="#14532d">SKILL 库 / 能力封装</text>
+  </g>
+
+  <!-- SKILL subtext -->
+  <text x="480" y="132" text-anchor="middle" font-size="11" fill="#15803d">功能维度齐全：领域 × 角色 × 场景 × 模块</text>
+
+  <!-- ============================================ -->
+  <!-- 水面线 + 标注                              -->
+  <!-- ============================================ -->
+  <text x="480" y="156" text-anchor="middle" font-size="13" font-weight="600" fill="#1a2f47">↑ 水面之上：已填平的显性短板（SKILL 库已完备）</text>
+  <line x1="60" y1="164" x2="900" y2="164" stroke="#3a5a7a" stroke-width="2" stroke-dasharray="8 4"/>
+  <text x="480" y="182" text-anchor="middle" font-size="12" fill="#64748b">━━━━━━━━ 水　面 ━━━━━━━━</text>
+
+  <!-- ============================================ -->
+  <!-- 水面之下：五重瓶颈                        -->
+  <!-- ============================================ -->
+  <g transform="translate(60, 200)">
+
+    <!-- Row 1: ① ② ③ ④ -->
+    <g filter="url(#softShadow)">
+      <!-- 1. Evaluation -->
+      <rect x="0" y="0" width="170" height="80" rx="8" fill="#fee2e2" stroke="#dc2626" stroke-width="1.5"/>
+      <text x="85" y="24" text-anchor="middle" font-size="14" font-weight="700" fill="#991b1b">① 评估难</text>
+      <text x="85" y="46" text-anchor="middle" font-size="10.5" fill="#7f1d1d">基准封闭 vs 真实开放</text>
+      <text x="85" y="64" text-anchor="middle" font-size="10" fill="#7f1d1d">74% 仍依赖人工评估</text>
+
+      <!-- 2. Debugging -->
+      <rect x="185" y="0" width="170" height="80" rx="8" fill="#fed7aa" stroke="#ea580c" stroke-width="1.5"/>
+      <text x="270" y="24" text-anchor="middle" font-size="14" font-weight="700" fill="#9a3412">② 调试难</text>
+      <text x="270" y="46" text-anchor="middle" font-size="10.5" fill="#7c2d12">多步 + 工具 + 外部状态</text>
+      <text x="270" y="64" text-anchor="middle" font-size="10" fill="#7c2d12">"哪一步走偏"难回溯</text>
+
+      <!-- 3. Long-horizon consistency -->
+      <rect x="370" y="0" width="170" height="80" rx="8" fill="#fef08a" stroke="#ca8a04" stroke-width="1.5"/>
+      <text x="455" y="24" text-anchor="middle" font-size="14" font-weight="700" fill="#854d0e">③ 长程一致性</text>
+      <text x="455" y="46" text-anchor="middle" font-size="10.5" fill="#713f12">误差雪球 + 上下文溃烂</text>
+      <text x="455" y="64" text-anchor="middle" font-size="10" fill="#713f12">10 步累积仅 ~60%</text>
+
+      <!-- 4. Observability -->
+      <rect x="555" y="0" width="170" height="80" rx="8" fill="#bfdbfe" stroke="#2563eb" stroke-width="1.5"/>
+      <text x="640" y="24" text-anchor="middle" font-size="14" font-weight="700" fill="#1e3a8a">④ 可观测性缺口</text>
+      <text x="640" y="46" text-anchor="middle" font-size="10.5" fill="#1e40af">"思考过程"不可 grep</text>
+      <text x="640" y="64" text-anchor="middle" font-size="10" fill="#1e40af">30%+ 时间在 debug</text>
+    </g>
+
+    <!-- Arrow chain ①→②→③→④ -->
+    <path d="M 170 40 L 180 40" fill="none" stroke="#dc2626" stroke-width="1.5" marker-end="url(#arrow-red)"/>
+    <path d="M 355 40 L 365 40" fill="none" stroke="#ea580c" stroke-width="1.5" marker-end="url(#arrow-red)"/>
+    <path d="M 540 40 L 550 40" fill="none" stroke="#ca8a04" stroke-width="1.5" marker-end="url(#arrow-red)"/>
+
+    <!-- Row 2: ⑤ + 正向反馈环 + 95% -->
+    <g filter="url(#softShadow)">
+      <!-- 5. Data flywheel -->
+      <rect x="185" y="104" width="170" height="80" rx="8" fill="#ddd6fe" stroke="#7c3aed" stroke-width="1.5"/>
+      <text x="270" y="128" text-anchor="middle" font-size="14" font-weight="700" fill="#4c1d95">⑤ 数据闭环难</text>
+      <text x="270" y="150" text-anchor="middle" font-size="10.5" fill="#5b21b6">失败→归因→SKILL/Prompt</text>
+      <text x="270" y="168" text-anchor="middle" font-size="10" fill="#5b21b6">93% 卡在 POC→生产</text>
+
+      <!-- Central outcome -->
+      <rect x="370" y="104" width="170" height="80" rx="8" fill="#e2e8f0" stroke="#475569" stroke-width="1.5"/>
+      <text x="455" y="128" text-anchor="middle" font-size="13" font-weight="700" fill="#1e293b">正向反馈环</text>
+      <text x="455" y="150" text-anchor="middle" font-size="10.5" fill="#334155">五环互锁、单点修复</text>
+      <text x="455" y="168" text-anchor="middle" font-size="10" fill="#334155">收益有限</text>
+
+      <!-- 95% fail stat -->
+      <rect x="555" y="104" width="170" height="80" rx="8" fill="#fecaca" stroke="#b91c1c" stroke-width="1.5"/>
+      <text x="640" y="126" text-anchor="middle" font-size="20" font-weight="800" fill="#7f1d1d">95%</text>
+      <text x="640" y="146" text-anchor="middle" font-size="10.5" fill="#991b1b">企业 AI 项目</text>
+      <text x="640" y="164" text-anchor="middle" font-size="10.5" fill="#991b1b">未获商业回报</text>
+      <text x="640" y="180" text-anchor="middle" font-size="9" fill="#7f1d1d">（MIT NANDA 2025）</text>
+    </g>
+
+    <!-- Arrow from ④ down to ⑤ (via feedback loop) -->
+    <path d="M 640 80 Q 640 95 640 100" fill="none" stroke="#2563eb" stroke-width="1.5" marker-end="url(#arrow-blue)"/>
+
+    <!-- Arrow ⑤ → 正向反馈环 -->
+    <path d="M 355 144 L 365 144" fill="none" stroke="#7c3aed" stroke-width="1.5" marker-end="url(#arrow-red)"/>
+
+    <!-- Arrow 正向反馈环 → 95% -->
+    <path d="M 540 144 L 550 144" fill="none" stroke="#475569" stroke-width="1.5" marker-end="url(#arrow-gray)"/>
+
+    <!-- 循环箭头：95% → ①（回到评估） -->
+    <path d="M 725 144 Q 800 144 800 220 Q 800 260 725 260 Q 640 260 640 240 L 85 240 Q 10 240 10 180 Q 10 144 85 144" fill="none" stroke="#b91c1c" stroke-width="1.5" stroke-dasharray="5 3" marker-end="url(#arrow-red)"/>
+    <text x="420" y="268" text-anchor="middle" font-size="9" fill="#b91c1c" font-style="italic">失败案例回流 → 补充评估基准</text>
+
+  </g>
+
+  <!-- ============================================ -->
+  <!-- 底部：解法 — Harness Engineering          -->
+  <!-- ============================================ -->
+  <g transform="translate(60, 498)">
+    <rect x="0" y="0" width="840" height="108" rx="10" fill="#ecfdf5" stroke="#059669" stroke-width="2" filter="url(#softShadow)"/>
+    <text x="420" y="26" text-anchor="middle" font-size="16" font-weight="700" fill="#065f46">解法：Harness Engineering —— 把模型关进可控、可复用、可验收的工程系统</text>
+
+    <g font-size="11.5" fill="#064e3b">
+      <text x="40" y="52" font-weight="600">① 评估管线</text>
+      <text x="40" y="68" fill="#475569">回放集 + LLM-as-judge</text>
+
+      <text x="210" y="52" font-weight="600">② 可观测性</text>
+      <text x="210" y="68" fill="#475569">step-level trace + token diff</text>
+
+      <text x="390" y="52" font-weight="600">③ Harness 层</text>
+      <text x="390" y="68" fill="#475569">Checkpoint / 回滚 / Compaction</text>
+
+      <text x="570" y="52" font-weight="600">④ 数据闭环</text>
+      <text x="570" y="68" fill="#475569">失败→归因→SKILL 更新</text>
+
+      <text x="730" y="52" font-weight="600">⑤ 长程一致性</text>
+      <text x="730" y="68" fill="#475569">Plan-and-Act / Replanning</text>
+    </g>
+
+    <text x="420" y="94" text-anchor="middle" font-size="11" fill="#065f46" font-style="italic">OpenAI Codex · Anthropic Sonnet 4.5 · Google Gemini（Addy Osmani）2026 集体押注</text>
+  </g>
+
+  <!-- Footer data source -->
+  <text x="480" y="668" text-anchor="middle" font-size="9.5" fill="#94a3b8">数据来源：MIT NANDA 2025 · UC Berkeley MAP（arXiv:2512.04123, ICML 2026）· SWE-bench Mobile · Anthropic TAU-bench · AWS MEET 2026</text>
+</svg>

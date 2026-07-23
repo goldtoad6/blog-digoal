@@ -1,0 +1,110 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 900 620" font-family="-apple-system, 'Helvetica Neue', 'PingFang SC', sans-serif">
+  <defs>
+    <linearGradient id="water" x1="0" y1="0" x2="0" y2="1">
+      <stop offset="0%" stop-color="#cfe6f5"/>
+      <stop offset="100%" stop-color="#a8cce6"/>
+    </linearGradient>
+    <linearGradient id="ice" x1="0" y1="0" x2="0" y2="1">
+      <stop offset="0%" stop-color="#ffffff"/>
+      <stop offset="100%" stop-color="#dceaf3"/>
+    </linearGradient>
+    <linearGradient id="deep" x1="0" y1="0" x2="0" y2="1">
+      <stop offset="0%" stop-color="#3a5a7a"/>
+      <stop offset="100%" stop-color="#1a2f47"/>
+    </linearGradient>
+    <marker id="arr" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="6" markerHeight="6" orient="auto-start-reverse">
+      <path d="M0,0 L10,5 L0,10 z" fill="#333"/>
+    </marker>
+  </defs>
+
+  <!-- Background -->
+  <rect width="900" height="620" fill="#f5f7fa"/>
+
+  <!-- Sky -->
+  <rect x="0" y="0" width="900" height="180" fill="#eaf2f8"/>
+
+  <!-- Title -->
+  <text x="450" y="38" text-anchor="middle" font-size="22" font-weight="700" fill="#1a2f47">SKILL 填满之后:水面之下才是真正的战场</text>
+  <text x="450" y="62" text-anchor="middle" font-size="13" fill="#5a6f85">The Iceberg Model of AI Agent Production Friction</text>
+
+  <!-- Water surface line -->
+  <line x1="60" y1="180" x2="840" y2="180" stroke="#7ba7c9" stroke-width="1.5" stroke-dasharray="6 4"/>
+  <text x="855" y="184" font-size="11" fill="#5a6f85">技术叙事的水位线</text>
+
+  <!-- Above water: SKILL tip -->
+  <g>
+    <path d="M 360 180 L 380 130 L 420 110 L 460 100 L 500 110 L 530 130 L 540 180 Z" fill="url(#ice)" stroke="#7ba7c9" stroke-width="1.5"/>
+    <text x="450" y="148" text-anchor="middle" font-size="13" font-weight="600" fill="#1a2f47">SKILL 库</text>
+    <text x="450" y="166" text-anchor="middle" font-size="11" fill="#5a6f85">填满 · 完备 · 可演示</text>
+
+    <!-- Callout to right -->
+    <line x1="540" y1="140" x2="660" y2="100" stroke="#888" stroke-width="1" marker-end="url(#arr)"/>
+    <rect x="660" y="78" width="200" height="48" rx="6" fill="#ffffff" stroke="#c5d4e0"/>
+    <text x="760" y="96" text-anchor="middle" font-size="11" fill="#3a5a7a">技术团队交付完毕</text>
+    <text x="760" y="113" text-anchor="middle" font-size="10" fill="#7b8fa3">"再加几个 skill 就好了"不再成立</text>
+  </g>
+
+  <!-- Below water: iceberg body with five layers -->
+  <g>
+    <!-- Iceberg body shape (under water) -->
+    <path d="M 200 180 L 250 240 L 240 320 L 280 410 L 320 480 L 360 540 L 450 580 L 540 540 L 580 480 L 620 410 L 660 320 L 650 240 L 700 180 Z" fill="url(#ice)" stroke="#7ba7c9" stroke-width="1.5" opacity="0.95"/>
+  </g>
+
+  <!-- Five layers with labels on the right -->
+  <g font-size="12" fill="#1a2f47">
+    <!-- Layer 1: Trust -->
+    <rect x="240" y="190" width="380" height="56" fill="#f4f8fb" stroke="#9bb8cd"/>
+    <text x="258" y="212" font-weight="700" fill="#1a2f47">① 信任建立</text>
+    <text x="258" y="232" font-size="10.5" fill="#3a5a7a">员工心理抵触 + 客户不信任 + 一次翻车全盘崩塌</text>
+
+    <!-- Layer 2: Process -->
+    <rect x="240" y="250" width="380" height="56" fill="#e9f1f8" stroke="#9bb8cd"/>
+    <text x="258" y="272" font-weight="700" fill="#1a2f47">② 流程再造</text>
+    <text x="258" y="292" font-size="10.5" fill="#3a5a7a">签字 / 复核 / 交接失语,部门墙被 Agent 瞬间穿透</text>
+
+    <!-- Layer 3: Role -->
+    <rect x="240" y="310" width="380" height="56" fill="#dde8f3" stroke="#9bb8cd"/>
+    <text x="258" y="332" font-weight="700" fill="#1a2f47">③ 岗位重构</text>
+    <text x="258" y="352" font-size="10.5" fill="#3a5a7a">中层挤压 + 新增"数字岗位" + 岗位职责不重写就乱</text>
+
+    <!-- Layer 4: Accountability -->
+    <rect x="240" y="370" width="380" height="56" fill="#cfdcec" stroke="#9bb8cd"/>
+    <text x="258" y="392" font-weight="700" fill="#1a2f47">④ 责任归属</text>
+    <text x="258" y="412" font-size="10.5" fill="#3a5a7a">Air Canada 案:公司对 Agent 输出全责;内部谁背锅?</text>
+
+    <!-- Layer 5: Decision rights -->
+    <rect x="240" y="430" width="380" height="56" fill="#bccfe1" stroke="#9bb8cd"/>
+    <text x="258" y="452" font-weight="700" fill="#1a2f47">⑤ 决策权让渡</text>
+    <text x="258" y="472" font-size="10.5" fill="#3a5a7a">治理问题:哪些决策能交给 Agent?授权-监控-追责-回收</text>
+  </g>
+
+  <!-- Bottom deep water zone -->
+  <rect x="0" y="500" width="900" height="120" fill="url(#deep)" opacity="0.85"/>
+  <text x="450" y="540" text-anchor="middle" font-size="14" font-weight="700" fill="#ffffff">每一层都在放大下一层</text>
+  <text x="450" y="562" text-anchor="middle" font-size="11" fill="#cfe0ec">信任不建立 → 流程推不动 → 岗位重构没人配合 → 责任无人认 → 决策权不敢让</text>
+  <text x="450" y="586" text-anchor="middle" font-size="11" fill="#cfe0ec">结论:必须有一人(或一个虚拟角色)同时盯这五件事——幕僚长的角色被指数级放大</text>
+
+  <!-- Bottom left: data anchor -->
+  <g transform="translate(40, 200)">
+    <rect width="180" height="270" rx="8" fill="#ffffff" stroke="#c5d4e0"/>
+    <text x="14" y="22" font-size="11" font-weight="700" fill="#1a2f47">关键数据锚点</text>
+    <line x1="14" y1="28" x2="166" y2="28" stroke="#c5d4e0"/>
+    <text x="14" y="48" font-size="10" fill="#3a5a7a">· 88% 企业用 AI</text>
+    <text x="14" y="63" font-size="10" fill="#3a5a7a">  仅 39% 拿到价值</text>
+    <text x="14" y="78" font-size="9" fill="#7b8fa3">  麦肯锡 2025</text>
+
+    <text x="14" y="100" font-size="10" fill="#3a5a7a">· 30% GenAI 项目</text>
+    <text x="14" y="115" font-size="10" fill="#3a5a7a">  将在 2025 年底前放弃</text>
+    <text x="14" y="130" font-size="9" fill="#7b8fa3">  Gartner 2024</text>
+
+    <text x="14" y="152" font-size="10" fill="#3a5a7a">· 78.2% 职场人用 AI</text>
+    <text x="14" y="167" font-size="10" fill="#3a5a7a">  38.2% 仍经常验证</text>
+    <text x="14" y="182" font-size="9" fill="#7b8fa3">  智联 2025</text>
+
+    <text x="14" y="204" font-size="10" fill="#3a5a7a">· 99% 部署 AI 企业</text>
+    <text x="14" y="219" font-size="10" fill="#3a5a7a">  已遭财务损失</text>
+    <text x="14" y="234" font-size="9" fill="#7b8fa3">  均值 $4.4M / EY</text>
+
+    <text x="14" y="256" font-size="10" font-style="italic" fill="#5a6f85">→ 反差指向组织软摩擦</text>
+  </g>
+</svg>

@@ -1,0 +1,148 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1200 900" font-family="-apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif">
+  <!-- Background -->
+  <rect width="1200" height="900" fill="#f8f9fb"/>
+
+  <!-- Title -->
+  <text x="600" y="40" text-anchor="middle" font-size="24" font-weight="700" fill="#1a1d29">SKILL 填满之后:Agent 在生产落地的 5 条拦路虎</text>
+  <text x="600" y="68" text-anchor="middle" font-size="14" fill="#6b7280">SRE 视角 · 每个拦路虎都有「前置条件 → 结论 → 边界 → 证伪手段」</text>
+
+  <!-- Top: SKILL 库填满 -->
+  <rect x="400" y="100" width="400" height="70" rx="10" fill="#10b981" opacity="0.15" stroke="#10b981" stroke-width="2"/>
+  <text x="600" y="135" text-anchor="middle" font-size="16" font-weight="600" fill="#065f46">SKILL 库已填满</text>
+  <text x="600" y="156" text-anchor="middle" font-size="12" fill="#065f46">"能做什么" 已齐全</text>
+
+  <!-- Arrow down -->
+  <line x1="600" y1="170" x2="600" y2="200" stroke="#6b7280" stroke-width="2" marker-end="url(#arrow)"/>
+  <defs>
+    <marker id="arrow" viewBox="0 0 10 10" refX="8" refY="5" markerWidth="6" markerHeight="6" orient="auto">
+      <path d="M 0 0 L 10 5 L 0 10 z" fill="#6b7280"/>
+    </marker>
+  </defs>
+
+  <!-- Middle: 4 horizontal barriers -->
+  <!-- 1. 成本失控 -->
+  <g transform="translate(60, 230)">
+    <rect x="0" y="0" width="240" height="200" rx="12" fill="#fef2f2" stroke="#dc2626" stroke-width="2"/>
+    <circle cx="30" cy="30" r="20" fill="#dc2626"/>
+    <text x="30" y="36" text-anchor="middle" font-size="18" font-weight="700" fill="white">¥</text>
+    <text x="120" y="36" text-anchor="middle" font-size="15" font-weight="700" fill="#7f1d1d">成本失控</text>
+    <line x1="20" y1="60" x2="220" y2="60" stroke="#fecaca" stroke-width="1"/>
+
+    <text x="20" y="85" font-size="11" fill="#1f2937" font-weight="600">证据:</text>
+    <text x="20" y="103" font-size="10" fill="#374151">• 米哈游:13h 烧 200 万元</text>
+    <text x="20" y="120" font-size="10" fill="#374151">• Uber:4 个月烧完全年预算</text>
+    <text x="20" y="137" font-size="10" fill="#374151">• Anthropic:1 个月 5 亿美元</text>
+    <text x="20" y="154" font-size="10" fill="#374151">• Gartner:92% 项目超支 3 倍</text>
+
+    <text x="20" y="178" font-size="10" fill="#7f1d1d" font-style="italic">Agent 单任务 = 普通 5-30×</text>
+    <text x="20" y="192" font-size="10" fill="#7f1d1d" font-style="italic">对治:CAPO + 三层限流</text>
+  </g>
+
+  <!-- 2. SLO 失效 -->
+  <g transform="translate(330, 230)">
+    <rect x="0" y="0" width="240" height="200" rx="12" fill="#fef3c7" stroke="#d97706" stroke-width="2"/>
+    <circle cx="30" cy="30" r="20" fill="#d97706"/>
+    <text x="30" y="36" text-anchor="middle" font-size="16" font-weight="700" fill="white">99.9</text>
+    <text x="120" y="36" text-anchor="middle" font-size="15" font-weight="700" fill="#78350f">SLO / 错误预算失效</text>
+    <line x1="20" y1="60" x2="220" y2="60" stroke="#fde68a" stroke-width="1"/>
+
+    <text x="20" y="85" font-size="11" fill="#1f2937" font-weight="600">证据:</text>
+    <text x="20" y="103" font-size="10" fill="#374151">• pass@k 已不够,要 pass^k</text>
+    <text x="20" y="120" font-size="10" fill="#374151">• 需 6 维 SLI(Safety/Cache/...)</text>
+    <text x="20" y="137" font-size="10" fill="#374151">• MS Agent Governance Toolkit</text>
+    <text x="20" y="154" font-size="10" fill="#374151">• 微软用传统 SRE 模式重做</text>
+
+    <text x="20" y="178" font-size="10" fill="#78350f" font-style="italic">输出非确定 → 99.9% 没意义</text>
+    <text x="20" y="192" font-size="10" fill="#78350f" font-style="italic">对治:业务结果接受率</text>
+  </g>
+
+  <!-- 3. 可观测性黑盒 -->
+  <g transform="translate(600, 230)">
+    <rect x="0" y="0" width="240" height="200" rx="12" fill="#eef2ff" stroke="#4f46e5" stroke-width="2"/>
+    <circle cx="30" cy="30" r="20" fill="#4f46e5"/>
+    <text x="30" y="36" text-anchor="middle" font-size="16" font-weight="700" fill="white">🔍</text>
+    <text x="120" y="36" text-anchor="middle" font-size="15" font-weight="700" fill="#312e81">语义黑盒 / Trace 断层</text>
+    <line x1="20" y1="60" x2="220" y2="60" stroke="#c7d2fe" stroke-width="1"/>
+
+    <text x="20" y="85" font-size="11" fill="#1f2937" font-weight="600">证据:</text>
+    <text x="20" y="103" font-size="10" fill="#374151">• LangSmith/Datadog 仅"试验"级</text>
+    <text x="20" y="120" font-size="10" fill="#374151">• MCP 91 工具吃 46k token</text>
+    <text x="20" y="137" font-size="10" fill="#374151">• 传统 APM 对 LLM span 失明</text>
+    <text x="20" y="154" font-size="10" fill="#374151">• 决策不可重放</text>
+
+    <text x="20" y="178" font-size="10" fill="#312e81" font-style="italic">决策空间连续且高维</text>
+    <text x="20" y="192" font-size="10" fill="#312e81" font-style="italic">对治:trace_id 强制串联</text>
+  </g>
+
+  <!-- 4. 灾难边界模糊 -->
+  <g transform="translate(870, 230)">
+    <rect x="0" y="0" width="240" height="200" rx="12" fill="#fce7f3" stroke="#be185d" stroke-width="2"/>
+    <circle cx="30" cy="30" r="20" fill="#be185d"/>
+    <text x="30" y="36" text-anchor="middle" font-size="18" font-weight="700" fill="white">!</text>
+    <text x="120" y="36" text-anchor="middle" font-size="15" font-weight="700" fill="#831843">Blast Radius 模糊</text>
+    <line x1="20" y1="60" x2="220" y2="60" stroke="#fbcfe8" stroke-width="1"/>
+
+    <text x="20" y="85" font-size="11" fill="#1f2937" font-weight="600">证据:</text>
+    <text x="20" y="103" font-size="10" fill="#374151">• PocketOS:AI 9 秒删库</text>
+    <text x="20" y="120" font-size="10" fill="#374151">• AI 改 340 文件 / 删 2.8 万行</text>
+    <text x="20" y="137" font-size="10" fill="#374151">• 操作"合法"但行为不"合理"</text>
+    <text x="20" y="154" font-size="10" fill="#374151">• 决策链粒度爆炸</text>
+
+    <text x="20" y="178" font-size="10" fill="#831843" font-style="italic">一段 prompt → 全系统</text>
+    <text x="20" y="192" font-size="10" fill="#831843" font-style="italic">对治:最小权限 + 影子模式</text>
+  </g>
+
+  <!-- Bottom: security -->
+  <g transform="translate(400, 480)">
+    <rect x="0" y="0" width="400" height="120" rx="12" fill="#fef2f2" stroke="#991b1b" stroke-width="2"/>
+    <circle cx="30" cy="30" r="20" fill="#991b1b"/>
+    <text x="30" y="36" text-anchor="middle" font-size="18" font-weight="700" fill="white">⚠</text>
+    <text x="240" y="36" text-anchor="middle" font-size="16" font-weight="700" fill="#7f1d1d">安全姿态根本改变</text>
+    <text x="240" y="54" text-anchor="middle" font-size="12" fill="#7f1d1d">Prompt Injection = 代码执行</text>
+    <line x1="30" y1="70" x2="370" y2="70" stroke="#fecaca" stroke-width="1"/>
+
+    <text x="30" y="92" font-size="11" fill="#1f2937" font-weight="600">证据:</text>
+    <text x="80" y="92" font-size="11" fill="#374151">OWASP LLM #1 · EchoLeak CVE-2025-32711 · CVE-2025-53773 (CVSS 9.6)</text>
+    <text x="30" y="110" font-size="11" fill="#1f2937" font-weight="600">2025:</text>
+    <text x="80" y="110" font-size="11" fill="#374151">16,200 起 AI 安全事件(YoY +49%) · 自复制 prompt 感染 80%+ 成功</text>
+  </g>
+
+  <!-- Common root cause -->
+  <g transform="translate(80, 650)">
+    <rect x="0" y="0" width="1040" height="120" rx="12" fill="#1f2937" stroke="#000" stroke-width="2"/>
+    <text x="520" y="35" text-anchor="middle" font-size="16" font-weight="700" fill="white">共同前置条件(也是为什么传统 SRE 工具箱整体失灵)</text>
+    <line x1="80" y1="50" x2="960" y2="50" stroke="#4b5563" stroke-width="1"/>
+
+    <g transform="translate(100, 70)">
+      <rect x="0" y="0" width="200" height="40" rx="6" fill="#374151"/>
+      <text x="100" y="25" text-anchor="middle" font-size="12" fill="white">输出非确定</text>
+    </g>
+    <g transform="translate(320, 70)">
+      <rect x="0" y="0" width="200" height="40" rx="6" fill="#374151"/>
+      <text x="100" y="25" text-anchor="middle" font-size="12" fill="white">成本随调用链非线性</text>
+    </g>
+    <g transform="translate(540, 70)">
+      <rect x="0" y="0" width="200" height="40" rx="6" fill="#374151"/>
+      <text x="100" y="25" text-anchor="middle" font-size="12" fill="white">状态跨域分散</text>
+    </g>
+    <g transform="translate(760, 70)">
+      <rect x="0" y="0" width="200" height="40" rx="6" fill="#374151"/>
+      <text x="100" y="25" text-anchor="middle" font-size="12" fill="white">操作"合法"但行为不"合理"</text>
+    </g>
+  </g>
+
+  <!-- Footer: the punch line -->
+  <g transform="translate(80, 800)">
+    <rect x="0" y="0" width="1040" height="60" rx="10" fill="#fef9c3" stroke="#ca8a04" stroke-width="2"/>
+    <text x="520" y="25" text-anchor="middle" font-size="14" font-weight="700" fill="#713f12">一句话给老板:</text>
+    <text x="520" y="48" text-anchor="middle" font-size="13" fill="#713f12">SKILL 填满是入场券,真正的拦路虎是「成本/SLO/可观测性/安全/变更」5 条 SRE 主线在 Agent 形态下的失灵与重构</text>
+  </g>
+
+  <!-- Connector lines from SKILL box to barriers -->
+  <line x1="450" y1="170" x2="180" y2="230" stroke="#10b981" stroke-width="1" stroke-dasharray="3,3" opacity="0.5"/>
+  <line x1="520" y1="170" x2="450" y2="230" stroke="#10b981" stroke-width="1" stroke-dasharray="3,3" opacity="0.5"/>
+  <line x1="600" y1="170" x2="720" y2="230" stroke="#10b981" stroke-width="1" stroke-dasharray="3,3" opacity="0.5"/>
+  <line x1="720" y1="170" x2="990" y2="230" stroke="#10b981" stroke-width="1" stroke-dasharray="3,3" opacity="0.5"/>
+  <line x1="600" y1="170" x2="600" y2="480" stroke="#10b981" stroke-width="1" stroke-dasharray="3,3" opacity="0.5"/>
+</svg>
