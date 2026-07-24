@@ -46,40 +46,7 @@ $$C(t) = C_0 \cdot \gamma^{(t - t_0)}$$
 
 #### 2. 可视化图示：Boehm 成本曲线与现代敏捷/Agent 校验平坦化
 
-<svg viewBox="0 0 600 300" width="100%" height="auto" xmlns="http://www.w3.org/2000/svg">
-  <!-- Background Grid & Axes -->
-  <rect width="600" height="300" fill="#f8f9fa" rx="8" />
-  <line x1="60" y1="250" x2="560" y2="250" stroke="#6c757d" stroke-width="2" />
-  <line x1="60" y1="30" x2="60" y2="250" stroke="#6c757d" stroke-width="2" />
-  
-  <!-- Axis Labels -->
-  <text x="310" y="285" font-size="12" fill="#495057" text-anchor="middle" font-weight="bold">生命周期阶段 (Lifecycle Stage)</text>
-  <text x="25" y="140" font-size="12" fill="#495057" text-anchor="middle" transform="rotate(-90 25,140)" font-weight="bold">修复/变更成本 (Cost)</text>
-
-  <!-- Stage Tick Marks & Text -->
-  <text x="80" y="268" font-size="11" fill="#495057" text-anchor="middle">1.需求/规划</text>
-  <text x="190" y="268" font-size="11" fill="#495057" text-anchor="middle">2.架构设计</text>
-  <text x="300" y="268" font-size="11" fill="#495057" text-anchor="middle">3.编码/生成</text>
-  <text x="410" y="268" font-size="11" fill="#495057" text-anchor="middle">4.集成测试</text>
-  <text x="520" y="268" font-size="11" fill="#495057" text-anchor="middle">5.生产上线</text>
-
-  <!-- Curve 1: Traditional Boehm Exponential Curve (Red) -->
-  <path d="M 80,240 Q 300,230 410,160 T 530,40" fill="none" stroke="#dc3545" stroke-width="3.5" />
-  
-  <!-- Curve 2: Shift-Left & Modern CI/CD Agent Flattened Curve (Green) -->
-  <path d="M 80,242 C 200,235 350,210 530,170" fill="none" stroke="#198754" stroke-width="3" stroke-dasharray="6,4" />
-
-  <!-- Points & Highlights -->
-  <circle cx="530" cy="40" r="5" fill="#dc3545" />
-  <text x="525" y="28" font-size="11" fill="#dc3545" font-weight="bold" text-anchor="end">传统 Boehm 指数曲线 (高达 100x-1000x)</text>
-
-  <circle cx="530" cy="170" r="5" fill="#198754" />
-  <text x="540" y="165" font-size="11" fill="#198754" font-weight="bold">左移校验/平坦化曲线 (Flattened Curve)</text>
-
-  <!-- Key Annotations -->
-  <line x1="80" y1="240" x2="80" y2="40" stroke="#adb5bd" stroke-width="1" stroke-dasharray="2,2" />
-  <text x="90" y="60" font-size="11" fill="#0d6efd" font-weight="bold">🎯 左移拦截区 (Shift-Left Zone)</text>
-</svg>
+![pic](boehms_cost_curve_01.svg)  
 
 #### 3. 错误级联的放大机制流程
 
@@ -127,11 +94,11 @@ flowchart TD
 
 ```mermaid
 graph LR
-    subgraph 传统软件工程 (Software Engineering)
+    subgraph 传统软件工程["传统软件工程 (Software Engineering)"]
         S1[需求分析] --> S2[架构设计] --> S3[代码编写] --> S4[集成测试] --> S5[生产部署]
     end
 
-    subgraph LLM Multi-Agent 编排 Pipeline
+    subgraph LLM多Agent编排["LLM Multi-Agent 编排 Pipeline"]
         A1[Requirement Clarifier Agent] --> A2[Architecture Planning Agent] --> A3[Code/Tool Call Agent] --> A4[Execution & Sandbox Agent] --> A5[Production Environment Action]
     end
 
@@ -151,7 +118,7 @@ graph LR
 
 ### 适用边界（假设再探）
 
-Boehm 变更成本曲线并不是在所有场景下都呈现极其陡峭的指数形态。现代敏捷开发（Agile）与微服务架构在一定程度上**平坦化（Flattened）**了曲线。
+Boehm 变更成本曲线并不是在所有场景下都呈现极其陡峭的指数形态。现代敏捷开发（Agile）与微服务架构在一定程度上**平坦化（Flattened）** 了曲线。
 
 | 维度 | 传统瀑布架构 / 单体应用 | 现代敏捷 / 微服务 / CI-CD | 物理/写操作 Multi-Agent Pipeline | 无副作用纯文本 Agent Pipeline |
 | :--- | :--- | :--- | :--- | :--- |
