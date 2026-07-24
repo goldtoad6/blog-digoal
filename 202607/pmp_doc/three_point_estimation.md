@@ -31,7 +31,7 @@
 *   **假设 2：最可能值 $M$ 是概率密度曲线的众数（Mode）**  
     $M$ 对应概率最高的峰值点，但概率曲线可能向乐观端或悲观端偏斜（Skewed）。
 *   **假设 3：端点 $O$ 与 $P$ 位于分布的极端分位数**  
-    乐观估计 $O$ 与悲观估计 $P$ 分别代表了大约 $1\%$ 或 $0.1\%$ 的极小概率边界，两者之间的跨度涵盖了约 $6$ 个标准差（$6\sigma$）的范围。
+    乐观估计 $O$ 与悲观估计 $P$ 分别代表了大约 $1\%$ 或 $0.1\%$ 的极小概率边界，两者之间的跨度涵盖了约 $6$ 个标准差（ $6\sigma$ ）的范围。
 *   **假设 4：各子任务间保持相互独立（Independence）**  
     在计算多任务组合时，假设各个子任务的风险与时间波动彼此无强耦合关系（利用中心极限定理进行标准差叠加）。
 
@@ -54,7 +54,7 @@ $$E = \frac{O + 4M + P}{6}$$
 
 #### 2. 标准差 $\sigma$ 与方差 $\sigma^2$ 的推导
 
-假定乐观估计 $O$（$99.9\%$ 顺畅）到悲观估计 $P$（$99.9\%$ 阻碍）覆盖了统计学上 $6$ 个标准差的置信区间（即从 $-3\sigma$ 到 $+3\sigma$）：
+假定乐观估计 $O$（ $99.9\%$ 顺畅）到悲观估计 $P$（ $99.9\%$ 阻碍）覆盖了统计学上 $6$ 个标准差的置信区间（即从 $-3\sigma$ 到 $+3\sigma$）：
 
 $$P - O = 6\sigma \implies \sigma = \frac{P - O}{6}$$
 
@@ -71,55 +71,13 @@ $$\sigma^2 = \left(\frac{P - O}{6}\right)^2$$
 
 下面的 SVG 图示展现了三点估算的贝塔概率分布曲线、各核心参数位置以及 $6\sigma$ 置信区间：
 
-<svg viewBox="0 0 600 300" width="100%" xmlns="http://www.w3.org/2000/svg">
-  <rect width="600" height="300" fill="#0f172a" rx="12"/>
-  
-  <!-- Grid lines -->
-  <line x1="60" y1="240" x2="540" y2="240" stroke="#334155" stroke-width="2"/>
-  <line x1="60" y1="60" x2="60" y2="240" stroke="#334155" stroke-width="1" stroke-dasharray="4"/>
-  
-  <!-- Beta curve path -->
-  <path d="M 80 240 Q 140 230 180 140 T 260 70 Q 340 100 420 190 T 520 240" fill="none" stroke="#38bdf8" stroke-width="3"/>
-  <path d="M 80 240 Q 140 230 180 140 T 260 70 Q 340 100 420 190 T 520 240 L 520 240 L 80 240 Z" fill="#0284c7" fill-opacity="0.15"/>
-
-  <!-- Vertical lines for O, M, E, P -->
-  <!-- O: Optimistic -->
-  <line x1="100" y1="230" x2="100" y2="245" stroke="#22c55e" stroke-width="2"/>
-  <circle cx="100" cy="235" r="4" fill="#22c55e"/>
-  <text x="100" y="265" fill="#22c55e" font-size="12" font-weight="bold" text-anchor="middle">O (乐观)</text>
-  
-  <!-- M: Most Likely -->
-  <line x1="260" y1="70" x2="260" y2="240" stroke="#f59e0b" stroke-width="2" stroke-dasharray="3,3"/>
-  <circle cx="260" cy="70" r="5" fill="#f59e0b"/>
-  <text x="260" y="55" fill="#f59e0b" font-size="13" font-weight="bold" text-anchor="middle">M (最可能 - 峰值)</text>
-  
-  <!-- E: Expected -->
-  <line x1="300" y1="90" x2="300" y2="240" stroke="#ec4899" stroke-width="2"/>
-  <circle cx="300" cy="90" r="5" fill="#ec4899"/>
-  <text x="300" y="265" fill="#ec4899" font-size="13" font-weight="bold" text-anchor="middle">E (期望值)</text>
-  
-  <!-- P: Pessimistic -->
-  <line x1="500" y1="225" x2="500" y2="245" stroke="#ef4444" stroke-width="2"/>
-  <circle cx="500" cy="230" r="4" fill="#ef4444"/>
-  <text x="500" y="265" fill="#ef4444" font-size="12" font-weight="bold" text-anchor="middle">P (悲观)</text>
-
-  <!-- Formula Callout -->
-  <rect x="360" y="120" width="210" height="65" fill="#1e293b" stroke="#475569" stroke-width="1" rx="6"/>
-  <text x="370" y="142" fill="#f8fafc" font-size="12" font-family="monospace">E = (O + 4M + P) / 6</text>
-  <text x="370" y="165" fill="#94a3b8" font-size="12" font-family="monospace">σ = (P - O) / 6</text>
-
-  <!-- Std Dev arrow -->
-  <line x1="100" y1="210" x2="500" y2="210" stroke="#94a3b8" stroke-width="1.5" marker-end="url(#arrow)" marker-start="url(#arrow)"/>
-  <text x="300" y="205" fill="#cbd5e1" font-size="11" text-anchor="middle">跨度大约为 6σ (包含 99.73% 概率)</text>
-
-  <text x="20" y="30" fill="#f1f5f9" font-size="14" font-weight="bold">三点估算（PERT）概率分布与估算点</text>
-</svg>
+![pic](three_point_estimation_01.svg)  
 
 ---
 
 ### 直觉理解
 
-你可以把三点估算想象成**“周五早高峰开车赶往机场”**：
+你可以把三点估算想象成 **“周五早高峰开车赶往机场”** ：
 
 *   **乐观估计 $O = 30$ 分钟**：路上一个红灯都没遇到，一路绿灯，完全不堵车。
 *   **最可能估计 $M = 45$ 分钟**：平时打车走这条路，通常红绿灯和车流情况下的标准耗时。
@@ -215,7 +173,7 @@ $$\sigma = \frac{35 - 5}{6} = 5.0 \text{ 秒}$$
 
 **编排策略应用**：
 *   **基础预估**：编排器按 $E = 14.67$ 秒计算下游 Agent 的排队时间；
-*   **超时熔断阈值（Hard Timeout）**：为了确保 $99.73\%$（$3\sigma$）的任务顺利完成同时拦截异常，设置熔断线为 $E + 3\sigma = 14.67 + 15 = 29.67 \text{ 秒}$。一旦超过约 30 秒无响应，立即触发 Agent 重置或降级处理。
+*   **超时熔断阈值（Hard Timeout）**：为了确保 $99.73\%$（ $3\sigma$ ）的任务顺利完成同时拦截异常，设置熔断线为 $E + 3\sigma = 14.67 + 15 = 29.67 \text{ 秒}$。一旦超过约 30 秒无响应，立即触发 Agent 重置或降级处理。
 
 ---
 
@@ -231,7 +189,7 @@ $$E = \frac{1000 + 4 \times 3500 + 12000}{6} = \frac{27000}{6} = 4,500 \text{ To
 $$\sigma = \frac{12000 - 1000}{6} \approx 1,833 \text{ Tokens}$$
 
 当编排器并发运行 100 个 Agent 实例时：
-*   **期望总消耗**：$100 \times 4500 = 450,000$ Tokens
+*   **期望总消耗**： $100 \times 4500 = 450,000$ Tokens
 *   **标准差叠加**（独立随机变量方差相加）：
     $$\sigma_{total} = \sqrt{100 \times (1833)^2} = 10 \times 1833 = 18,330 \text{ Tokens}$$
 *   **配额预留**：编排器向 LLM API 供应商预留容量时，只需准备 $450,000 + 2 \times 18,330 \approx 486,660$ Tokens，即可达到 $95\%$ 的无卡顿运行保障，大幅优于直接按悲观值预留的 $1,200,000$ Tokens（节省了 $60\%$ 的资金占用）。
@@ -267,7 +225,7 @@ $$\sigma = \frac{12000 - 1000}{6} \approx 1,833 \text{ Tokens}$$
 *   **场景**：在一个具备自主工具调用（Tool Use）能力的 Agent 编排系统中，设计了一个能够自动修改代码并运行测试的 Loop Agent。
 *   **错误做法**：开发人员根据经验评估 $O=10s, M=30s, P=120s$，算出期望 $E=41.7s, \sigma=18.3s$。据此设置了超时限制为 $E + 3\sigma = 96.6s$。
 *   **致命后果**：在生产环境中，Agent 遇到了一个边缘 Case，触发了正则表达式死循环，或者在两个工具之间互相调用死锁。持续消耗 LLM Token 并挂起系统进程。
-*   **原因分析**：在存在死循环可能性的系统中，悲观情况 $P$ 实际上是无穷大（$\infty$）。贝塔分布假设 $P$ 为有界极端概率，导致算出的 $E$ 和 $\sigma$ 完全失效。**防护措施**：必须在编排器层面设置死指令层面的硬性 Step 限制（如 `max_steps=10`），先强制约束边界，再使用三点估算。
+*   **原因分析**：在存在死循环可能性的系统中，悲观情况 $P$ 实际上是无穷大（ $\infty$ ）。贝塔分布假设 $P$ 为有界极端概率，导致算出的 $E$ 和 $\sigma$ 完全失效。**防护措施**：必须在编排器层面设置死指令层面的硬性 Step 限制（如 `max_steps=10`），先强制约束边界，再使用三点估算。
 
 ---
 
