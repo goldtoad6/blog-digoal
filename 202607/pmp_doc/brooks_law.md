@@ -71,69 +71,7 @@ $$C = \frac{n(n - 1)}{2} = O(n^2)$$
 
 下面直观地展示了节点增加对系统通信拓扑的剧烈冲击：
 
-<svg viewBox="0 0 600 300" width="100%" xmlns="http://www.w3.org/2000/svg">
-  <rect width="600" height="300" fill="#f8fafc" rx="8"/>
-  
-  <!-- Left Side: n=3 -->
-  <g transform="translate(40, 20)">
-    <text x="110" y="30" font-family="sans-serif" font-size="16" font-weight="bold" fill="#334155" text-anchor="middle">低协同开销 (n = 3, C = 3)</text>
-    
-    <!-- Lines -->
-    <line x1="110" y1="70" x2="60" y2="170" stroke="#3b82f6" stroke-width="2"/>
-    <line x1="110" y1="70" x2="160" y2="170" stroke="#3b82f6" stroke-width="2"/>
-    <line x1="60" y1="170" x2="160" y2="170" stroke="#3b82f6" stroke-width="2"/>
-    
-    <!-- Nodes -->
-    <circle cx="110" cy="70" r="22" fill="#93c5fd" stroke="#1d4ed8" stroke-width="2"/>
-    <text x="110" y="75" font-family="sans-serif" font-size="12" fill="#1e3a8a" text-anchor="middle">A1</text>
-    
-    <circle cx="60" cy="170" r="22" fill="#93c5fd" stroke="#1d4ed8" stroke-width="2"/>
-    <text x="60" y="175" font-family="sans-serif" font-size="12" fill="#1e3a8a" text-anchor="middle">A2</text>
-    
-    <circle cx="160" cy="170" r="22" fill="#93c5fd" stroke="#1d4ed8" stroke-width="2"/>
-    <text x="160" y="175" font-family="sans-serif" font-size="12" fill="#1e3a8a" text-anchor="middle">A3</text>
-    
-    <text x="110" y="230" font-family="sans-serif" font-size="13" fill="#64748b" text-anchor="middle">通信高效，链路极少</text>
-  </g>
-
-  <!-- Divider Line -->
-  <line x1="280" y1="40" x2="280" y2="260" stroke="#cbd5e1" stroke-width="2" stroke-dasharray="4"/>
-
-  <!-- Right Side: n=6 -->
-  <g transform="translate(310, 20)">
-    <text x="130" y="30" font-family="sans-serif" font-size="16" font-weight="bold" fill="#dc2626" text-anchor="middle">高协同灾难 (n = 6, C = 15)</text>
-    
-    <!-- Lines (15 total links) -->
-    <!-- Outer Ring -->
-    <line x1="130" y1="60" x2="210" y2="100" stroke="#ef4444" stroke-width="1.5" opacity="0.6"/>
-    <line x1="210" y1="100" x2="210" y2="180" stroke="#ef4444" stroke-width="1.5" opacity="0.6"/>
-    <line x1="210" y1="180" x2="130" y2="220" stroke="#ef4444" stroke-width="1.5" opacity="0.6"/>
-    <line x1="130" y1="220" x2="50" y2="180" stroke="#ef4444" stroke-width="1.5" opacity="0.6"/>
-    <line x1="50" y1="180" x2="50" y2="100" stroke="#ef4444" stroke-width="1.5" opacity="0.6"/>
-    <line x1="50" y1="100" x2="130" y2="60" stroke="#ef4444" stroke-width="1.5" opacity="0.6"/>
-    
-    <!-- Cross Inner Links -->
-    <line x1="130" y1="60" x2="210" y2="180" stroke="#ef4444" stroke-width="1.5" opacity="0.6"/>
-    <line x1="130" y1="60" x2="130" y2="220" stroke="#ef4444" stroke-width="1.5" opacity="0.6"/>
-    <line x1="130" y1="60" x2="50" y2="180" stroke="#ef4444" stroke-width="1.5" opacity="0.6"/>
-    <line x1="50" y1="100" x2="210" y2="100" stroke="#ef4444" stroke-width="1.5" opacity="0.6"/>
-    <line x1="50" y1="100" x2="210" y2="180" stroke="#ef4444" stroke-width="1.5" opacity="0.6"/>
-    <line x1="50" y1="100" x2="130" y2="220" stroke="#ef4444" stroke-width="1.5" opacity="0.6"/>
-    <line x1="210" y1="100" x2="50" y2="180" stroke="#ef4444" stroke-width="1.5" opacity="0.6"/>
-    <line x1="210" y1="100" x2="130" y2="220" stroke="#ef4444" stroke-width="1.5" opacity="0.6"/>
-    <line x1="50" y1="180" x2="210" y2="180" stroke="#ef4444" stroke-width="1.5" opacity="0.6"/>
-
-    <!-- Nodes -->
-    <circle cx="130" cy="60" r="18" fill="#fca5a5" stroke="#b91c1c" stroke-width="2"/>
-    <circle cx="210" cy="100" r="18" fill="#fca5a5" stroke="#b91c1c" stroke-width="2"/>
-    <circle cx="210" cy="180" r="18" fill="#fca5a5" stroke="#b91c1c" stroke-width="2"/>
-    <circle cx="130" cy="220" r="18" fill="#fca5a5" stroke="#b91c1c" stroke-width="2"/>
-    <circle cx="50" cy="180" r="18" fill="#fca5a5" stroke="#b91c1c" stroke-width="2"/>
-    <circle cx="50" cy="100" r="18" fill="#fca5a5" stroke="#b91c1c" stroke-width="2"/>
-    
-    <text x="130" y="255" font-family="sans-serif" font-size="13" fill="#dc2626" text-anchor="middle">链路数爆炸，协同瓶颈激增</text>
-  </g>
-</svg>
+![pic](brooks_law_01.svg)  
 
 当多节点协同开销（Communication + Overhead）超过新节点带来的算力边际增量时，系统的总产出曲线会产生拐点，陷入**负收益区间**。
 
@@ -258,7 +196,7 @@ graph LR
 ## 💡 思考：值得深究的问题
 
 1. **Context Window 与布鲁克斯法则**：在 LLM Agent 编排中，如果未来模型的 Context Window 达到无限大且 Token 成本趋近于零，布鲁克斯法则在 Agent 系统中会消失吗？为什么？（提示：思考 Attention 机制的 $O(N^2)$ 计算复杂度与 Prompt 信息污染/迷失问题）。
-2. ** Agent 拓扑剪枝**：在动态 Agent 架构（如 Dynamic Multi-Agent Swarm）中，如何设计一套定量指标（如通信 Token 比率、串行依赖度），在检测到系统触发“布鲁克斯陷阱”时自动进行节点收缩（Scale In）与拓扑降级？
+2. **Agent 拓扑剪枝**：在动态 Agent 架构（如 Dynamic Multi-Agent Swarm）中，如何设计一套定量指标（如通信 Token 比率、串行依赖度），在检测到系统触发“布鲁克斯陷阱”时自动进行节点收缩（Scale In）与拓扑降级？
 3. **粒度权衡（Granularity Dilemma）**：Agent 编排中“单 Agent 充当全能巨石（Monolithic Prompt）”与“拆分为数十个微型 Agent（Micro-Agents）”各自的风险是什么？如何在提示词过载与通信开销爆炸之间找到最佳均衡点？
 4. **反布鲁克斯架构设计**：如何利用“记忆隔离（Memory Isolation）”和“单向消息队列（Asynchronous Event-Driven Bus）”将多 Agent 系统的沟通开销从 $O(n^2)$ 强制降低到 $O(n)$？
 
