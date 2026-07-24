@@ -148,7 +148,10 @@ graph LR
     A4 -->|映射为| B4
 ```
 
-通过实时监控 Agent 节点的 $$CPI_{\text{agent}} = \frac{\text{EV}_{\text{validated}}}{\text{AC}_{\text{token\_cost}}}$$  
+通过实时监控 Agent 节点的 
+$$
+CPI_{\text{agent}} = \frac{\text{EV}_{\text{validated}}}{\text{AC}_{\text{token\_cost}}}
+$$
 - 当 $CPI_{\text{agent}} < 0.5$ 时，编排器能立即判定该 Agent 正处于“低效幻觉”状态，自动触发**熔断**、**切换 Prompt 策略**、**降级模型**或**转交 Peer Agent**。
 
 ### 适用边界（假设再探）
