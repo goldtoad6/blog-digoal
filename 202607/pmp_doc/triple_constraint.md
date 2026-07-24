@@ -12,49 +12,9 @@
 20 世纪 50 年代，随着现代工程复杂度的爆发（如阿波罗登月计划、大型国防与计算工程），人们急需一种科学的框架来指导资源调配。1969 年，项目管理学者 **马丁·巴恩斯（Dr. Martin Barnes）** 在其演讲中首次提出了著名的**“铁三角”（Iron Triangle）**模型。
 
 巴恩斯发现：决策者总是存在“既要、又要、还要”的幻觉——既想要庞大的功能范围，又要求极短的工期，还只给微薄的预算。铁三角的提出，实际上是用一种直观的几何规律告诫所有人：**项目管理不是魔法，三大变量相互锚定，改变任意一方，必然强迫其他变量做出牺牲。**
-
-```xml
-<svg viewBox="0 0 600 300" xmlns="http://www.w3.org/2000/svg">
-  <!-- 背景底板 -->
-  <rect width="600" height="300" rx="12" fill="#f8fafc" stroke="#cbd5e1" stroke-width="1.5"/>
   
-  <!-- 铁三角主多边形 -->
-  <polygon points="300,45 130,245 470,245" fill="rgba(59, 130, 246, 0.06)" stroke="#2563eb" stroke-width="3" stroke-linejoin="round"/>
-
-  <!-- 中心约束连线 -->
-  <line x1="300" y1="45" x2="300" y2="160" stroke="#94a3b8" stroke-width="1.5" stroke-dasharray="4,4"/>
-  <line x1="130" y1="245" x2="270" y2="175" stroke="#94a3b8" stroke-width="1.5" stroke-dasharray="4,4"/>
-  <line x1="470" y1="245" x2="330" y2="175" stroke="#94a3b8" stroke-width="1.5" stroke-dasharray="4,4"/>
-
-  <!-- 顶点 1：范围 (Scope) -->
-  <g transform="translate(300, 45)">
-    <circle r="22" fill="#3b82f6" stroke="#1d4ed8" stroke-width="2"/>
-    <text x="0" y="5" font-size="13" font-weight="bold" fill="#ffffff" text-anchor="middle">范围</text>
-    <text x="0" y="-30" font-size="14" font-weight="bold" fill="#1e293b" text-anchor="middle">Scope (任务复杂度/深度)</text>
-  </g>
-
-  <!-- 顶点 2：时间 (Time) -->
-  <g transform="translate(130, 245)">
-    <circle r="22" fill="#10b981" stroke="#047857" stroke-width="2"/>
-    <text x="0" y="5" font-size="13" font-weight="bold" fill="#ffffff" text-anchor="middle">时间</text>
-    <text x="-5" y="40" font-size="14" font-weight="bold" fill="#1e293b" text-anchor="middle">Time (响应延迟/工期)</text>
-  </g>
-
-  <!-- 顶点 3：成本 (Cost) -->
-  <g transform="translate(470, 245)">
-    <circle r="22" fill="#8b5cf6" stroke="#6d28d9" stroke-width="2"/>
-    <text x="0" y="5" font-size="13" font-weight="bold" fill="#ffffff" text-anchor="middle">成本</text>
-    <text x="5" y="40" font-size="14" font-weight="bold" fill="#1e293b" text-anchor="middle">Cost (Token/算力/资金)</text>
-  </g>
-
-  <!-- 中心：质量 (Quality) -->
-  <g transform="translate(300, 168)">
-    <rect x="-50" y="-18" width="100" height="36" rx="18" fill="#ef4444" stroke="#b91c1c" stroke-width="2"/>
-    <text x="0" y="5" font-size="14" font-weight="bold" fill="#ffffff" text-anchor="middle">🎯 质量 Quality</text>
-  </g>
-</svg>
-```
-
+![pic](triple_constraint_01.svg)
+  
 ---
 
 ### 核心假设
