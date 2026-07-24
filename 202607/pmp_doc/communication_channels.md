@@ -168,7 +168,7 @@ flowchart TD
 ```mermaid
 graph TD
     User([User Prompt]) --> Manager[Manager Agent / Orchestrator]
-    subgraph Specialist Agents [Specialist Cluster - O(n)]
+    subgraph Specialist_Agents[Specialist Cluster - O n]
         Manager <--> Architect[Architect Agent]
         Manager <--> Coder[Coder Agent]
         Manager <--> QA[QA Agent]
@@ -176,6 +176,8 @@ graph TD
     end
     Architect -.->|Artifact: Architecture Document| Memory[(Global Context Memory)]
     Coder -.->|Artifact: Code Snippets| Memory
+    QA -.->|Artifact: Test Results| Memory
+    Designer -.->|Artifact: UI Mockups| Memory
 ```
 
 #### 2. Agent 编排：黑板模式（Blackboard Pattern）与状态共享总线
