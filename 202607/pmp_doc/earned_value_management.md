@@ -128,14 +128,14 @@ flowchart TD
 
 ```mermaid
 graph LR
-    subgraph 传统项目管理 (PMO)
+    subgraph 传统项目管理["传统项目管理 (PMO)"]
         A1[工程工作包 WBS]
         A2[项目资金预算 BAC]
         A3[里程碑交付物]
         A4[实际财务报销单]
     end
 
-    subgraph LLM Agent 编排系统 (Orchestrator)
+    subgraph LLMAgent编排["LLM Agent 编排系统 (Orchestrator)"]
         B1[Agent 任务节点 / 子目标]
         B2[Token 与 API 费用上限]
         B3[通过 Unit Test / Validator 的结果]

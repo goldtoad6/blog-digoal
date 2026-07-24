@@ -1,0 +1,50 @@
+<svg viewBox="0 0 600 300" xmlns="http://www.w3.org/2000/svg" style="background-color: #fafafa; font-family: sans-serif;">
+  <!-- Grid Lines -->
+  <line x1="60" y1="40" x2="60" y2="250" stroke="#ccc" stroke-width="1.5" />
+  <line x1="60" y1="250" x2="560" y2="250" stroke="#ccc" stroke-width="1.5" />
+  <line x1="60" y1="180" x2="560" y2="180" stroke="#eee" stroke-width="1" stroke-dasharray="4" />
+  <line x1="60" y1="110" x2="560" y2="110" stroke="#eee" stroke-width="1" stroke-dasharray="4" />
+  
+  <!-- Current Time Line -->
+  <line x1="320" y1="40" x2="320" y2="250" stroke="#94a3b8" stroke-width="1.5" stroke-dasharray="4" />
+  <text x="325" y="55" font-size="11" fill="#64748b" font-weight="bold">当前检查点 (Status Date)</text>
+
+  <!-- Curves -->
+  <!-- PV: Planned Value -->
+  <path d="M 60 250 Q 200 230 320 140 T 520 60" fill="none" stroke="#2563eb" stroke-width="2.5" />
+  <!-- AC: Actual Cost -->
+  <path d="M 60 250 Q 180 200 320 100" fill="none" stroke="#ef4444" stroke-width="2.5" />
+  <!-- EV: Earned Value -->
+  <path d="M 60 250 Q 200 240 320 180" fill="none" stroke="#10b981" stroke-width="2.5" />
+
+  <!-- EAC Projection -->
+  <path d="M 320 100 Q 420 50 540 20" fill="none" stroke="#ef4444" stroke-width="1.5" stroke-dasharray="3" />
+
+  <!-- Dots at status date -->
+  <circle cx="320" cy="140" r="4" fill="#2563eb" />
+  <circle cx="320" cy="100" r="4" fill="#ef4444" />
+  <circle cx="320" cy="180" r="4" fill="#10b981" />
+
+  <!-- Annotations / Deviations -->
+  <!-- CV: EV - AC -->
+  <line x1="330" y1="100" x2="330" y2="180" stroke="#dc2626" stroke-width="1.5" />
+  <text x="338" y="145" font-size="11" fill="#dc2626" font-weight="bold">CV = EV - AC (成本超支)</text>
+
+  <!-- SV: EV - PV -->
+  <line x1="310" y1="140" x2="310" y2="180" stroke="#d97706" stroke-width="1.5" />
+  <text x="210" y="165" font-size="11" fill="#d97706" font-weight="bold">SV = EV - PV (进度落后)</text>
+
+  <!-- Legend -->
+  <rect x="70" y="20" width="12" height="12" fill="#2563eb" rx="2" />
+  <text x="88" y="31" font-size="11" fill="#334155">PV (计划值)</text>
+  
+  <rect x="170" y="20" width="12" height="12" fill="#10b981" rx="2" />
+  <text x="188" y="31" font-size="11" fill="#334155">EV (挣值)</text>
+  
+  <rect x="250" y="20" width="12" height="12" fill="#ef4444" rx="2" />
+  <text x="268" y="31" font-size="11" fill="#334155">AC (实际成本)</text>
+
+  <!-- Axis Labels -->
+  <text x="520" y="270" font-size="11" fill="#64748b">时间 / 阶段</text>
+  <text x="15" y="45" font-size="11" fill="#64748b">价值 / Token 费用</text>
+</svg>
