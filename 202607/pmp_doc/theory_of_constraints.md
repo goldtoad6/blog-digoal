@@ -9,10 +9,10 @@
 
 20 世纪 70 年代末至 80 年代初，全球制造业正陷入一场关于“局部效率”的迷思。企业管理者们疯狂地追求每个车间、每台机器、每个工人的“高利用率”（100% 稼动率），以为只要每个环节都在不停地干活，工厂的整体效益就会翻倍。然而现实却极其残酷：仓库里堆满了半成品（WIP, Work in Process），订单交付周期不断拉长，工厂资金链濒临断裂。
 
-正在此时，以色列物理学家**埃利·高德拉特博士（Eliyahu M. Goldratt）**跨界走进了企业管理领域。作为一名受过严苛自然科学训练的物理学家，高德拉特用极其理性的眼光审视工厂运营，提出了一个惊人的发现：**工厂不是一堆孤立机器的集合，而是一条一环扣一环的链条。**
+正在此时，以色列物理学家**埃利·高德拉特博士（Eliyahu M. Goldratt）** 跨界走进了企业管理领域。作为一名受过严苛自然科学训练的物理学家，高德拉特用极其理性的眼光审视工厂运营，提出了一个惊人的发现：**工厂不是一堆孤立机器的集合，而是一条一环扣一环的链条。**
 
 他在 1984 年出版的经典管理小说《目标》（*The Goal*）中，讲述了一个有温度的故事：
-厂长亚历克斯（Alex Rogo）面临工厂即将被关停的危机。在一次带领童子军徒步（Hiking）的活动中，亚历克斯发现队伍总是拉得很长。跑得最快的人在前面闲逛，而走得最慢的小孩——**赫比（Herbie）**却被远远甩在后面。亚历克斯意识到：**整支队伍到达终点的时间，完全取决于赫比的脚步速度。** 前面的孩子跑得再快，除了拉大队伍间距（制造“半成品堆积”）之外，对让整支队伍更快到达终点没有任何帮助！
+厂长亚历克斯（Alex Rogo）面临工厂即将被关停的危机。在一次带领童子军徒步（Hiking）的活动中，亚历克斯发现队伍总是拉得很长。跑得最快的人在前面闲逛，而走得最慢的小孩——**赫比（Herbie）** 却被远远甩在后面。亚历克斯意识到：**整支队伍到达终点的时间，完全取决于赫比的脚步速度。** 前面的孩子跑得再快，除了拉大队伍间距（制造“半成品堆积”）之外，对让整支队伍更快到达终点没有任何帮助！
 
 高德拉特把赫比包里沉重的食物分担给其他孩子（打破约束），并让赫比走在队伍最前面领队（服从约束），整支队伍顿时紧凑且迅速地到达了终点。这一直观深刻的洞察，演变成了改变全球工业界与 IT 架构设计的思想体系——**约束理论（Theory of Constraints, TOC）**。
 
@@ -50,7 +50,7 @@ $$T_{sys} = \min(R_1, R_2, \dots, R_n)$$
 
 设最慢的节点为 $k$，即 $R_k = \min_i(R_i)$，节点 $k$ 即为系统的**瓶颈（Constraint）**。
 
-若上游节点 $j$（其中 $j < k$）以其最大能力 $R_j$（$R_j > R_k$）盲目全速生产，则在节点 $k$ 前产生的任务积压速率为：
+若上游节点 $j$（其中 $j < k$）以其最大能力 $R_j$（ $R_j > R_k$ ）盲目全速生产，则在节点 $k$ 前产生的任务积压速率为：
 
 $$\Delta W = R_j - R_k > 0$$
 
@@ -64,46 +64,7 @@ $$D_{sys} = \frac{W_{total}}{T_{sys}} = \sum_{i=1}^{n} \frac{W_i}{R_k}$$
 
 以下 SVG 图清晰展示了在一个 Agent 编排流水线中，上游并发过高而瓶颈 Agent 处理不及时导致内存/队列爆满的典型场景：
 
-<svg viewBox="0 0 600 300" width="100%" height="100%" xmlns="http://www.w3.org/2000/svg">
-  <!-- Background -->
-  <rect x="0" y="0" width="600" height="300" fill="#f8fafc" rx="8"/>
-  
-  <!-- Flow lines -->
-  <path d="M 50 150 L 150 150" stroke="#94a3b8" stroke-width="4" stroke-dasharray="5 5"/>
-  <path d="M 270 150 L 350 150" stroke="#94a3b8" stroke-width="4"/>
-  <path d="M 450 150 L 550 150" stroke="#94a3b8" stroke-width="4"/>
-
-  <!-- Node 1: Fast Agent -->
-  <rect x="50" y="100" width="100" height="100" rx="10" fill="#3b82f6" opacity="0.9"/>
-  <text x="100" y="145" fill="#ffffff" font-size="14" font-weight="bold" text-anchor="middle">Retrieval Agent</text>
-  <text x="100" y="165" fill="#e0f2fe" font-size="12" text-anchor="middle">速率: 100 req/s</text>
-  <text x="100" y="185" fill="#93c5fd" font-size="10" text-anchor="middle">(非瓶颈节点)</text>
-
-  <!-- Queue Buffer (Overflow Warning) -->
-  <rect x="175" y="80" width="70" height="140" rx="6" fill="#fef2f2" stroke="#ef4444" stroke-width="2" stroke-dasharray="3 3"/>
-  <text x="210" y="100" fill="#dc2626" font-size="11" font-weight="bold" text-anchor="middle">积压 Buffer</text>
-  <!-- Queue Items -->
-  <rect x="185" y="115" width="50" height="15" rx="3" fill="#fca5a5"/>
-  <rect x="185" y="135" width="50" height="15" rx="3" fill="#fca5a5"/>
-  <rect x="185" y="155" width="50" height="15" rx="3" fill="#fca5a5"/>
-  <rect x="185" y="175" width="50" height="15" rx="3" fill="#ef4444"/>
-  <text x="210" y="205" fill="#dc2626" font-size="10" text-anchor="middle">⚠️ 队列爆满</text>
-
-  <!-- Node 2: Constraint Agent -->
-  <rect x="330" y="100" width="120" height="100" rx="10" fill="#ef4444"/>
-  <text x="390" y="140" fill="#ffffff" font-size="14" font-weight="bold" text-anchor="middle">Reasoning LLM</text>
-  <text x="390" y="160" fill="#fee2e2" font-size="12" text-anchor="middle">速率: 5 req/s</text>
-  <text x="390" y="180" fill="#fef08a" font-size="11" font-weight="bold" text-anchor="middle">🚨 系统瓶颈 (Constraint)</text>
-
-  <!-- Output Node -->
-  <rect x="490" y="115" width="80" height="70" rx="10" fill="#10b981"/>
-  <text x="530" y="150" fill="#ffffff" font-size="13" font-weight="bold" text-anchor="middle">最终输出</text>
-  <text x="530" y="170" fill="#d1fae5" font-size="11" text-anchor="middle">吞吐: 5 req/s</text>
-
-  <!-- Annotations -->
-  <text x="300" y="40" fill="#1e293b" font-size="15" font-weight="bold" text-anchor="middle">TOC 瓶颈视角：系统总吞吐量取决于最慢节点</text>
-  <text x="300" y="265" fill="#64748b" font-size="12" text-anchor="middle">盲目提升上游 Retrieval 速度，只会加速 Buffer 溢出与内存/Token 浪费</text>
-</svg>
+![pic](theory_of_constraints_01.svg)  
 
 #### 3. 持续改善的 5 大聚焦步骤（Five Focusing Steps）
 
