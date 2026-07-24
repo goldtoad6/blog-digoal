@@ -9,7 +9,7 @@
 
 在 20 世纪 60 年代，IBM 正在研发创时代的 Operating System/360（OS/360）操作系统。这是计算机史上最大规模的软件工程项目之一，数千名工程师投入其中，预算一再超支，进度严重滞后。
 
-项目负责人**弗雷德里克·布鲁克斯（Frederick P. Brooks Jr.）**为了赶进度，采取了最直觉的做法：**向项目组疯狂增派程序员**。
+项目负责人**弗雷德里克·布鲁克斯（Frederick P. Brooks Jr.）** 为了赶进度，采取了最直觉的做法：**向项目组疯狂增派程序员**。
 
 然而，令人震惊的现象发生了——**加入的人手越多，项目的进度反而拖延得越厉害**。
 
@@ -67,82 +67,7 @@ $$C_{n+1} = C_n + n$$
 
 下面的图示直观展示了**全网状拓扑（Mesh）的通道爆炸**与**星型拓扑（Hub-Spoke）的拓扑收敛**：
 
-<svg viewBox="0 0 600 300" width="100%" height="100%" xmlns="http://www.w3.org/2000/svg" style="background-color: #f9fafb; border-radius: 8px; border: 1px solid #e5e7eb;">
-  <!-- Left Side: Fully Connected Mesh -->
-  <g transform="translate(0, 0)">
-    <text x="150" y="30" text-anchor="middle" font-weight="bold" font-size="15" fill="#1f2937">全连接拓扑 (Mesh): C = n(n-1)/2</text>
-    <text x="150" y="50" text-anchor="middle" font-size="12" fill="#ef4444">n = 6 点 ➔ 15 条通道 (O(n²))</text>
-    
-    <!-- Lines for Mesh -->
-    <line x1="150" y1="80" x2="215" y2="120" stroke="#fca5a5" stroke-width="1.5"/>
-    <line x1="150" y1="80" x2="215" y2="195" stroke="#fca5a5" stroke-width="1.5"/>
-    <line x1="150" y1="80" x2="150" y2="235" stroke="#fca5a5" stroke-width="1.5"/>
-    <line x1="150" y1="80" x2="85" y2="195" stroke="#fca5a5" stroke-width="1.5"/>
-    <line x1="150" y1="80" x2="85" y2="120" stroke="#fca5a5" stroke-width="1.5"/>
-    
-    <line x1="215" y1="120" x2="215" y2="195" stroke="#fca5a5" stroke-width="1.5"/>
-    <line x1="215" y1="120" x2="150" y2="235" stroke="#fca5a5" stroke-width="1.5"/>
-    <line x1="215" y1="120" x2="85" y2="195" stroke="#fca5a5" stroke-width="1.5"/>
-    <line x1="215" y1="120" x2="85" y2="120" stroke="#fca5a5" stroke-width="1.5"/>
-
-    <line x1="215" y1="195" x2="150" y2="235" stroke="#fca5a5" stroke-width="1.5"/>
-    <line x1="215" y1="195" x2="85" y2="195" stroke="#fca5a5" stroke-width="1.5"/>
-    <line x1="215" y1="195" x2="85" y2="120" stroke="#fca5a5" stroke-width="1.5"/>
-
-    <line x1="150" y1="235" x2="85" y2="195" stroke="#fca5a5" stroke-width="1.5"/>
-    <line x1="150" y1="235" x2="85" y2="120" stroke="#fca5a5" stroke-width="1.5"/>
-
-    <line x1="85" y1="195" x2="85" y2="120" stroke="#fca5a5" stroke-width="1.5"/>
-
-    <!-- Nodes -->
-    <circle cx="150" cy="80" r="16" fill="#ef4444" />
-    <circle cx="215" cy="120" r="16" fill="#ef4444" />
-    <circle cx="215" cy="195" r="16" fill="#ef4444" />
-    <circle cx="150" cy="235" r="16" fill="#ef4444" />
-    <circle cx="85" cy="195" r="16" fill="#ef4444" />
-    <circle cx="85" cy="120" r="16" fill="#ef4444" />
-
-    <text x="150" y="85" text-anchor="middle" font-size="11" fill="#ffffff" font-weight="bold">A1</text>
-    <text x="215" y="125" text-anchor="middle" font-size="11" fill="#ffffff" font-weight="bold">A2</text>
-    <text x="215" y="200" text-anchor="middle" font-size="11" fill="#ffffff" font-weight="bold">A3</text>
-    <text x="150" y="240" text-anchor="middle" font-size="11" fill="#ffffff" font-weight="bold">A4</text>
-    <text x="85" y="200" text-anchor="middle" font-size="11" fill="#ffffff" font-weight="bold">A5</text>
-    <text x="85" y="125" text-anchor="middle" font-size="11" fill="#ffffff" font-weight="bold">A6</text>
-  </g>
-
-  <!-- Divider line -->
-  <line x1="300" y1="20" x2="300" y2="280" stroke="#d1d5db" stroke-dasharray="4" stroke-width="1.5"/>
-
-  <!-- Right Side: Hub-Spoke Topology -->
-  <g transform="translate(300, 0)">
-    <text x="150" y="30" text-anchor="middle" font-weight="bold" font-size="15" fill="#1f2937">星型拓扑 (Hub-Spoke): C = n - 1</text>
-    <text x="150" y="50" text-anchor="middle" font-size="12" fill="#10b981">n = 6 点 ➔ 5 条通道 (O(n))</text>
-
-    <!-- Lines to Central Hub -->
-    <line x1="150" y1="155" x2="150" y2="80" stroke="#6ee7b7" stroke-width="2.5"/>
-    <line x1="150" y1="155" x2="225" y2="155" stroke="#6ee7b7" stroke-width="2.5"/>
-    <line x1="150" y1="155" x2="195" y2="220" stroke="#6ee7b7" stroke-width="2.5"/>
-    <line x1="150" y1="155" x2="105" y2="220" stroke="#6ee7b7" stroke-width="2.5"/>
-    <line x1="150" y1="155" x2="75" y2="155" stroke="#6ee7b7" stroke-width="2.5"/>
-
-    <!-- Hub Node -->
-    <circle cx="150" cy="155" r="22" fill="#10b981" stroke="#047857" stroke-width="2"/>
-    <text x="150" y="160" text-anchor="middle" font-size="10" fill="#ffffff" font-weight="bold">Router</text>
-
-    <!-- Outer Worker Nodes -->
-    <circle cx="150" cy="80" r="14" fill="#3b82f6" />
-    <circle cx="225" cy="155" r="14" fill="#3b82f6" />
-    <circle cx="195" cy="220" r="14" fill="#3b82f6" />
-    <circle cx="105" cy="220" r="14" fill="#3b82f6" />
-    <circle cx="75" cy="155" r="14" fill="#3b82f6" />
-
-    <text x="150" y="84" text-anchor="middle" font-size="10" fill="#ffffff">W1</text>
-    <text x="225" y="159" text-anchor="middle" font-size="10" fill="#ffffff">W2</text>
-    <text x="195" y="224" text-anchor="middle" font-size="10" fill="#ffffff">W3</text>
-    <text x="105" y="224" text-anchor="middle" font-size="10" fill="#ffffff">W4</text>
-    <text x="75" y="159" text-anchor="middle" font-size="10" fill="#ffffff">W5</text>
-  </g>
-</svg>
+![pic](communication_channels_01.svg)  
 
 ---
 
