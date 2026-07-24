@@ -1,0 +1,28 @@
+<svg viewBox="0 0 600 300" xmlns="http://www.w3.org/2000/svg" style="background:#f8f9fa; border-radius:8px; width:100%;">
+  <!-- Axes -->
+  <line x1="50" y1="250" x2="550" y2="250" stroke="#333" stroke-width="2"/>
+  <line x1="50" y1="250" x2="50" y2="30" stroke="#333" stroke-width="2"/>
+  <text x="550" y="280" font-size="14" fill="#333">时间 t</text>
+  <text x="15" y="30" font-size="14" fill="#333">任务数</text>
+  
+  <!-- Curves -->
+  <!-- A(t) Arrival Curve -->
+  <path d="M 50 250 L 150 180 L 280 120 L 450 60 L 520 40" fill="none" stroke="#2b6cb0" stroke-width="3"/>
+  <text x="380" y="50" font-size="14" fill="#2b6cb0" font-weight="bold">到达曲线 A(t)</text>
+  
+  <!-- D(t) Departure Curve -->
+  <path d="M 50 250 L 200 230 L 330 160 L 480 100 L 520 80" fill="none" stroke="#c53030" stroke-width="3"/>
+  <text x="440" y="120" font-size="14" fill="#c53030" font-weight="bold">离开曲线 D(t)</text>
+
+  <!-- Shaded Area Indicator -->
+  <path d="M 150 180 L 280 120 L 450 60 L 520 40 L 520 80 L 480 100 L 330 160 L 200 230 Z" fill="#4299e1" fill-opacity="0.25"/>
+  <text x="260" y="160" font-size="14" fill="#2c5282" font-weight="bold">总停留时间积分 ∫L(t)dt</text>
+
+  <!-- Vertical distance L(t) -->
+  <line x1="280" y1="120" x2="280" y2="183" stroke="#d69e2e" stroke-width="2" stroke-dasharray="4"/>
+  <text x="290" y="150" font-size="12" fill="#d69e2e" font-weight="bold">L(t) [在制品数]</text>
+
+  <!-- Horizontal distance W -->
+  <line x1="150" y1="180" x2="360" y2="180" stroke="#38a169" stroke-width="2" stroke-dasharray="4"/>
+  <text x="210" y="195" font-size="12" fill="#38a169" font-weight="bold">W_i [单个停留时间]</text>
+</svg>
