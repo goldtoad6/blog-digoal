@@ -6,7 +6,7 @@
 ## 🔍 求真讲法：这个定理从哪里来？
 
 ### 背景与动机
-1967 年，计算机科学家兼独立顾问**梅尔文·康威（Melvin Conway）**在给《哈佛商业评论》（Harvard Business Review）投稿的一篇论文中提出了一个关于系统设计本质的深刻观察。
+1967 年，计算机科学家兼独立顾问**梅尔文·康威（Melvin Conway）** 在给《哈佛商业评论》（Harvard Business Review）投稿的一篇论文中提出了一个关于系统设计本质的深刻观察。
 
 当时的背景是大型计算机软件系统刚刚兴起，企业在组织大型程序员团队开发编译器和操作系统时遇到了极大的混乱。康威观察到了一件非常有趣且近乎神奇的事情：
 * 当一个由 **4 个小组**组成的团队去研发 COBOL/ALGOL 编译器时，最终产出的编译器无一例外都是 **4 个阶段（4-pass）** 的；
@@ -44,70 +44,8 @@ $$G_{sys} \cong G_{org}$$
 
 以下 SVG 图示展示了组织沟通结构如何同构映射为软件系统代码架构：
 
-<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 600 300" width="100%" height="100%">
-  <!-- 背景 -->
-  <rect width="600" height="300" fill="#f8fafc" rx="12"/>
+![pic](conways_law_01.svg)  
   
-  <!-- 左侧：组织沟通拓扑 -->
-  <g transform="translate(20, 20)">
-    <rect width="250" height="260" fill="#ffffff" stroke="#cbd5e1" stroke-width="2" rx="8"/>
-    <text x="125" y="30" font-family="sans-serif" font-size="15" font-weight="bold" fill="#1e293b" text-anchor="middle">组织/Agent沟通拓扑 (Org Topo)</text>
-    
-    <!-- 团队 A -->
-    <rect x="15" y="55" width="100" height="75" fill="#dbeafe" stroke="#3b82f6" stroke-width="2" rx="6"/>
-    <text x="65" y="85" font-family="sans-serif" font-size="13" font-weight="bold" fill="#1e40af" text-anchor="middle">Team / Node A</text>
-    <text x="65" y="108" font-family="sans-serif" font-size="10" fill="#3b82f6" text-anchor="middle">[高频内部交互]</text>
-
-    <!-- 团队 B -->
-    <rect x="135" y="55" width="100" height="75" fill="#dcfce7" stroke="#22c55e" stroke-width="2" rx="6"/>
-    <text x="185" y="85" font-family="sans-serif" font-size="13" font-weight="bold" fill="#166534" text-anchor="middle">Team / Node B</text>
-    <text x="185" y="108" font-family="sans-serif" font-size="10" fill="#22c55e" text-anchor="middle">[高频内部交互]</text>
-
-    <!-- 团队 C -->
-    <rect x="75" y="165" width="100" height="70" fill="#fef3c7" stroke="#f59e0b" stroke-width="2" rx="6"/>
-    <text x="125" y="195" font-family="sans-serif" font-size="13" font-weight="bold" fill="#92400e" text-anchor="middle">Team / Node C</text>
-    <text x="125" y="218" font-family="sans-serif" font-size="10" fill="#f59e0b" text-anchor="middle">[低频跨界沟通]</text>
-
-    <!-- 组间沟通连线 -->
-    <path d="M 115 92 L 135 92" stroke="#64748b" stroke-width="2" stroke-dasharray="4"/>
-    <path d="M 65 130 L 75 165" stroke="#64748b" stroke-width="2" stroke-dasharray="4"/>
-    <path d="M 185 130 L 175 165" stroke="#64748b" stroke-width="2" stroke-dasharray="4"/>
-  </g>
-
-  <!-- 中间映射箭头 -->
-  <g transform="translate(275, 125)">
-    <path d="M 0 25 L 45 25 M 32 12 L 45 25 L 32 38" stroke="#6366f1" stroke-width="3" fill="none"/>
-    <text x="22" y="0" font-family="sans-serif" font-size="12" font-weight="bold" fill="#4f46e5" text-anchor="middle">必然映射</text>
-    <text x="22" y="48" font-family="sans-serif" font-size="10" fill="#6366f1" text-anchor="middle">Conway Mapping</text>
-  </g>
-
-  <!-- 右侧：系统代码架构 -->
-  <g transform="translate(330, 20)">
-    <rect width="250" height="260" fill="#ffffff" stroke="#cbd5e1" stroke-width="2" rx="8"/>
-    <text x="125" y="30" font-family="sans-serif" font-size="15" font-weight="bold" fill="#1e293b" text-anchor="middle">生成系统软件架构 (System Arch)</text>
-    
-    <!-- 模块 A -->
-    <rect x="15" y="55" width="100" height="75" fill="#eff6ff" stroke="#3b82f6" stroke-width="2" rx="6"/>
-    <text x="65" y="85" font-family="sans-serif" font-size="13" font-weight="bold" fill="#1e40af" text-anchor="middle">Module A</text>
-    <text x="65" y="108" font-family="sans-serif" font-size="10" fill="#3b82f6" text-anchor="middle">{高聚类代码}</text>
-
-    <!-- 模块 B -->
-    <rect x="135" y="55" width="100" height="75" fill="#f0fdf4" stroke="#22c55e" stroke-width="2" rx="6"/>
-    <text x="185" y="85" font-family="sans-serif" font-size="13" font-weight="bold" fill="#166534" text-anchor="middle">Module B</text>
-    <text x="185" y="108" font-family="sans-serif" font-size="10" fill="#22c55e" text-anchor="middle">{高聚类代码}</text>
-
-    <!-- 模块 C -->
-    <rect x="75" y="165" width="100" height="70" fill="#fffbeb" stroke="#f59e0b" stroke-width="2" rx="6"/>
-    <text x="125" y="195" font-family="sans-serif" font-size="13" font-weight="bold" fill="#92400e" text-anchor="middle">Module C</text>
-    <text x="125" y="218" font-family="sans-serif" font-size="10" fill="#f59e0b" text-anchor="middle">{松耦合 API 接口}</text>
-
-    <!-- API 接口连线 -->
-    <path d="M 115 92 L 135 92" stroke="#475569" stroke-width="2"/>
-    <path d="M 65 130 L 75 165" stroke="#475569" stroke-width="2"/>
-    <path d="M 185 130 L 175 165" stroke="#475569" stroke-width="2"/>
-  </g>
-</svg>
-
 #### 四大推论与延伸
 
 基于康威定律，业界衍生出了四大经典推论：
@@ -148,7 +86,7 @@ flowchart TD
 ## 🛠️ 求存讲法：这个定理能做什么？
 
 ### 核心用途
-在传统软件工程中，康威定律是**微服务拆分**和**组织架构重构（Org Design）**的核心理论基础：
+在传统软件工程中，康威定律是**微服务拆分**和**组织架构重构（Org Design）** 的核心理论基础：
 * 解释了为什么单体巨石应用（Monolith）是由一个“所有人在同一个大群里大杂烩”的团队写出来的；
 * 指导企业如何通过“Two-Pizza Teams”（亚马逊的两个披萨小团队原则）来孵化高内聚、低耦合的微服务架构。
 
