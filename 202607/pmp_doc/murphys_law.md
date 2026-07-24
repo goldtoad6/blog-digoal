@@ -63,76 +63,7 @@ $$\lim_{N \to \infty} P_{fail\_system} = \lim_{N \to \infty} \left[ 1 - (1 - p)^
 
 以下 SVG 展示了在一个由 $N$ 个串行节点组成的系统（单节点成功率 $p_{succ} = 95\%$）中，系统整体成功率随着节点数 $N$ 的增加而急剧崩溃的过程：
 
-<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 600 300" width="100%" height="300">
-  <!-- Dynamic Styles -->
-  <style>
-    .bg { fill: #0f172a; }
-    .grid { stroke: #334155; stroke-dasharray: 4 4; stroke-width: 1; }
-    .axis { stroke: #94a3b8; stroke-width: 2; }
-    .text-title { fill: #f8fafc; font-size: 16px; font-weight: bold; font-family: sans-serif; }
-    .text-label { fill: #cbd5e1; font-size: 12px; font-family: sans-serif; }
-    .line-succ { fill: none; stroke: #f43f5e; stroke-width: 3; }
-    .dot { fill: #38bdf8; }
-    .box { fill: #1e293b; stroke: #475569; stroke-width: 1.5; rx: 6; }
-    .highlight { fill: #ef4444; font-weight: bold; }
-  </style>
-
-  <!-- Background -->
-  <rect width="600" height="300" class="bg" rx="12" />
-
-  <!-- Title -->
-  <text x="30" y="35" class="text-title">墨菲定律推导：多节点串行系统的概率崩溃曲线 (p_single = 95%)</text>
-
-  <!-- Grid Lines -->
-  <line x1="70" y1="70" x2="550" y2="70" class="grid" />
-  <text x="35" y="74" class="text-label">100%</text>
-
-  <line x1="70" y1="120" x2="550" y2="120" class="grid" />
-  <text x="42" y="124" class="text-label">75%</text>
-
-  <line x1="70" y1="170" x2="550" y2="170" class="grid" />
-  <text x="42" y="174" class="text-label">50%</text>
-
-  <line x1="70" y1="220" x2="550" y2="220" class="grid" />
-  <text x="42" y="224" class="text-label">25%</text>
-
-  <!-- Axes -->
-  <line x1="70" y1="250" x2="550" y2="250" class="axis" />
-  <line x1="70" y1="50" x2="70" y2="250" class="axis" />
-
-  <!-- X Axis Labels -->
-  <text x="70" y="270" class="text-label" text-anchor="middle">N=1</text>
-  <text x="166" y="270" class="text-label" text-anchor="middle">N=5</text>
-  <text x="262" y="270" class="text-label" text-anchor="middle">N=10</text>
-  <text x="358" y="270" class="text-label" text-anchor="middle">N=20</text>
-  <text x="454" y="270" class="text-label" text-anchor="middle">N=30</text>
-  <text x="540" y="270" class="text-label" text-anchor="middle">N=50</text>
-
-  <!-- Curve Path (Calculated Points for (1-0.05)^N) -->
-  <!-- N=1: 95% -> y = 250 - 180*0.95 = 79 -->
-  <!-- N=5: 77.4% -> y = 250 - 180*0.774 = 110.68 -->
-  <!-- N=10: 59.87% -> y = 250 - 180*0.5987 = 142.2 -->
-  <!-- N=20: 35.85% -> y = 250 - 180*0.3585 = 185.4 -->
-  <!-- N=30: 21.46% -> y = 250 - 180*0.2146 = 211.37 -->
-  <!-- N=50: 7.69% -> y = 250 - 180*0.0769 = 236.15 -->
-  <path d="M 70 79 Q 166 110, 262 142 T 358 185 T 454 211 T 540 236" class="line-succ" />
-
-  <!-- Dots & Value Labels -->
-  <circle cx="70" cy="79" r="4" class="dot" />
-  <text x="70" y="65" class="text-label" text-anchor="middle">95.0%</text>
-
-  <circle cx="166" cy="111" r="4" class="dot" />
-  <text x="166" y="97" class="text-label" text-anchor="middle">77.4%</text>
-
-  <circle cx="262" cy="142" r="5" fill="#f43f5e" />
-  <text x="262" y="130" class="text-label highlight" text-anchor="middle">59.9%</text>
-
-  <circle cx="358" cy="185" r="4" class="dot" />
-  <text x="358" y="173" class="text-label" text-anchor="middle">35.9%</text>
-
-  <circle cx="540" cy="236" r="5" fill="#ef4444" />
-  <text x="530" y="222" class="text-label highlight" text-anchor="middle">7.7%</text>
-</svg>
+![pic](murphys_law_01.svg)  
 
 ---
 
@@ -151,7 +82,7 @@ flowchart TD
     C -->|正常输出 Code| D[Agent 4: 自动化测试<br/>成功率: 95%]
     C --"5% 概率: 逻辑死循环"--> Fail3[💥 执行超时 API Timeout]
 
-    D -->|全部成功 (仅 81.4%)| Success[🎉 最终任务完成]
+    D -->|"全部成功 仅 81.4%"| Success[🎉 最终任务完成]
     D --"5% 概率: 断言误判"--> Fail4[💥 错误代码被直接提交]
 
     style Fail1 fill:#ffe1e1,stroke:#ff4d4d,color:#990000
