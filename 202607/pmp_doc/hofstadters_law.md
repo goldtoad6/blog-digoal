@@ -40,7 +40,7 @@ Hofstadter 用一句精妙的递归句式，把这个观察浓缩成了一条定
 
 **第二层：考虑低估**
 
-你知道自己会低估，所以加了缓冲：$T_1 = T_0 \times k$（$k > 1$，比如 1.5）
+你知道自己会低估，所以加了缓冲：$T_1 = T_0 \times k$ （ $k > 1$ ，比如 1.5）
 
 **第三层：Hofstadter 递归**
 
@@ -260,51 +260,7 @@ flowchart TD
     style D1 fill:#e8f5e9,stroke:#2e7d32
 ```
 
-<svg viewBox="0 0 600 300" xmlns="http://www.w3.org/2000/svg">
-  <!-- 背景 -->
-  <rect width="600" height="300" fill="#fafafa" rx="10"/>
-  
-  <!-- 标题 -->
-  <text x="300" y="30" text-anchor="middle" font-size="16" font-weight="bold" fill="#333">Hofstadter 效应：预估 vs 实际执行时间</text>
-  
-  <!-- 坐标轴 -->
-  <line x1="80" y1="260" x2="560" y2="260" stroke="#666" stroke-width="2"/>
-  <line x1="80" y1="260" x2="80" y2="50" stroke="#666" stroke-width="2"/>
-  
-  <!-- Y轴标签 -->
-  <text x="40" y="155" text-anchor="middle" font-size="12" fill="#666" transform="rotate(-90, 40, 155)">执行时间</text>
-  
-  <!-- X轴标签 -->
-  <text x="160" y="285" text-anchor="middle" font-size="11" fill="#666">任务 A</text>
-  <text x="300" y="285" text-anchor="middle" font-size="11" fill="#666">任务 B</text>
-  <text x="440" y="285" text-anchor="middle" font-size="11" fill="#666">任务 C</text>
-  
-  <!-- 预估时间（蓝色柱） -->
-  <rect x="130" y="190" width="30" height="70" fill="#42a5f5" rx="3"/>
-  <rect x="270" y="160" width="30" height="100" fill="#42a5f5" rx="3"/>
-  <rect x="410" y="140" width="30" height="120" fill="#42a5f5" rx="3"/>
-  
-  <!-- 实际时间（红色柱） -->
-  <rect x="165" y="110" width="30" height="150" fill="#ef5350" rx="3"/>
-  <rect x="305" y="80" width="30" height="180" fill="#ef5350" rx="3"/>
-  <rect x="445" y="70" width="30" height="190" fill="#ef5350" rx="3"/>
-  
-  <!-- 差距标注 -->
-  <line x1="195" y1="115" x2="220" y2="90" stroke="#e65100" stroke-width="1" stroke-dasharray="4"/>
-  <text x="225" y="88" font-size="10" fill="#e65100">+114%</text>
-  
-  <line x1="335" y1="85" x2="360" y2="70" stroke="#e65100" stroke-width="1" stroke-dasharray="4"/>
-  <text x="365" y="68" font-size="10" fill="#e65100">+80%</text>
-  
-  <line x1="475" y1="75" x2="500" y2="60" stroke="#e65100" stroke-width="1" stroke-dasharray="4"/>
-  <text x="505" y="58" font-size="10" fill="#e65100">+58%</text>
-  
-  <!-- 图例 -->
-  <rect x="380" y="30" width="12" height="12" fill="#42a5f5" rx="2"/>
-  <text x="397" y="41" font-size="11" fill="#666">预估时间</text>
-  <rect x="470" y="30" width="12" height="12" fill="#ef5350" rx="2"/>
-  <text x="487" y="41" font-size="11" fill="#666">实际时间</text>
-</svg>
+![pic](hofstadters_law_01.svg)  
 
 ---
 
