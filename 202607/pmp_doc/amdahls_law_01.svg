@@ -1,39 +1,42 @@
 <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 600 300" width="100%" height="100%">
   <rect width="600" height="300" rx="12" fill="#0f172a"/>
   
-  <!-- Title -->
+  <!-- 标题 -->
   <text x="300" y="35" text-anchor="middle" fill="#38bdf8" font-size="18" font-weight="bold" font-family="system-ui, sans-serif">阿姆达尔定律：并行加速与串行瓶颈示意图</text>
   
-  <!-- Row 1: N = 1 -->
-  <text x="30" y="85" fill="#94a3b8" font-size="14" font-family="system-ui, sans-serif" font-weight="bold">单 Agent (N=1)</text>
-  <!-- Serial part: 50% -->
-  <rect x="150" y="65" width="200" height="30" rx="6" fill="#ef4444" opacity="0.85"/>
-  <text x="250" y="85" text-anchor="middle" fill="#ffffff" font-size="12" font-family="system-ui, sans-serif">串行依赖 1-P (50%)</text>
-  <!-- Parallel part: 50% -->
-  <rect x="355" y="65" width="200" height="30" rx="6" fill="#3b82f6" opacity="0.85"/>
-  <text x="455" y="85" text-anchor="middle" fill="#ffffff" font-size="12" font-family="system-ui, sans-serif">可并行任务 P (50%)</text>
-  <text x="565" y="85" fill="#e2e8f0" font-size="13" font-family="system-ui, sans-serif">T = 1.0</text>
+  <!-- 第一行：N = 1 -->
+  <text x="20" y="85" fill="#94a3b8" font-size="12" font-family="system-ui, sans-serif" font-weight="bold">单 Agent (N=1)</text>
+  <!-- 串行部分：50% -->
+  <rect x="130" y="65" width="200" height="30" rx="6" fill="#ef4444" opacity="0.85"/>
+  <text x="230" y="85" text-anchor="middle" fill="#ffffff" font-size="12" font-family="system-ui, sans-serif">串行依赖 1-P (50%)</text>
+  <!-- 并行部分：50% -->
+  <rect x="335" y="65" width="200" height="30" rx="6" fill="#3b82f6" opacity="0.85"/>
+  <text x="435" y="85" text-anchor="middle" fill="#ffffff" font-size="12" font-family="system-ui, sans-serif">可并行任务 P (50%)</text>
+  <!-- 时间说明 -->
+  <text x="572" y="85" fill="#e2e8f0" font-size="11" font-family="system-ui, sans-serif" text-anchor="end">T = 1.0</text>
 
-  <!-- Row 2: N = 5 -->
-  <text x="30" y="155" fill="#94a3b8" font-size="14" font-family="system-ui, sans-serif" font-weight="bold">5个 Agent (N=5)</text>
-  <!-- Serial part: 50% -->
-  <rect x="150" y="135" width="200" height="30" rx="6" fill="#ef4444" opacity="0.85"/>
-  <text x="250" y="155" text-anchor="middle" fill="#ffffff" font-size="12" font-family="system-ui, sans-serif">串行依赖 1-P (50%)</text>
-  <!-- Parallel part: P/5 = 10% -->
-  <rect x="355" y="135" width="40" height="30" rx="6" fill="#3b82f6" opacity="0.85"/>
-  <text x="375" y="155" text-anchor="middle" fill="#ffffff" font-size="10" font-family="system-ui, sans-serif">P/5</text>
-  <text x="565" y="155" fill="#e2e8f0" font-size="13" font-family="system-ui, sans-serif">T = 0.6 (S=1.67x)</text>
+  <!-- 第二行：N = 5 -->
+  <text x="20" y="155" fill="#94a3b8" font-size="12" font-family="system-ui, sans-serif" font-weight="bold">5个 Agent (N=5)</text>
+  <!-- 串行部分：50% -->
+  <rect x="130" y="135" width="200" height="30" rx="6" fill="#ef4444" opacity="0.85"/>
+  <text x="230" y="155" text-anchor="middle" fill="#ffffff" font-size="12" font-family="system-ui, sans-serif">串行依赖 1-P (50%)</text>
+  <!-- 并行部分：P/5 = 10% -->
+  <rect x="335" y="135" width="40" height="30" rx="6" fill="#3b82f6" opacity="0.85"/>
+  <text x="355" y="155" text-anchor="middle" fill="#ffffff" font-size="10" font-family="system-ui, sans-serif">P/5</text>
+  <!-- 时间说明 -->
+  <text x="572" y="155" fill="#e2e8f0" font-size="11" font-family="system-ui, sans-serif" text-anchor="end">T = 0.6 (S=1.67x)</text>
 
-  <!-- Row 3: N = ∞ -->
-  <text x="30" y="225" fill="#94a3b8" font-size="14" font-family="system-ui, sans-serif" font-weight="bold">极限 (N → ∞)</text>
-  <!-- Serial part: 50% -->
-  <rect x="150" y="205" width="200" height="30" rx="6" fill="#ef4444" opacity="0.85"/>
-  <text x="250" y="205" text-anchor="middle" fill="#ffffff" font-size="12" font-family="system-ui, sans-serif">不可消除的串行墙 1-P (50%)</text>
-  <!-- Parallel part: ~0 -->
-  <line x1="355" y1="205" x2="355" y2="235" stroke="#10b981" stroke-width="4"/>
-  <text x="565" y="225" fill="#e2e8f0" font-size="13" font-family="system-ui, sans-serif">T = 0.5 (S=2.0x)</text>
+  <!-- 第三行：N = ∞ -->
+  <text x="20" y="225" fill="#94a3b8" font-size="12" font-family="system-ui, sans-serif" font-weight="bold">极限 (N → ∞)</text>
+  <!-- 串行部分：50% -->
+  <rect x="130" y="205" width="200" height="30" rx="6" fill="#ef4444" opacity="0.85"/>
+  <text x="230" y="225" text-anchor="middle" fill="#ffffff" font-size="12" font-family="system-ui, sans-serif">不可消除的串行墙 1-P (50%)</text>
+  <!-- 并行部分：几乎为 0 -->
+  <line x1="335" y1="205" x2="335" y2="235" stroke="#10b981" stroke-width="4"/>
+  <!-- 时间说明 -->
+  <text x="572" y="225" fill="#e2e8f0" font-size="11" font-family="system-ui, sans-serif" text-anchor="end">T = 0.5 (S=2.0x)</text>
 
-  <!-- Key insight -->
-  <line x1="30" y1="260" x2="570" y2="260" stroke="#334155" stroke-width="1"/>
+  <!-- 核心结论 -->
+  <line x1="20" y1="260" x2="580" y2="260" stroke="#334155" stroke-width="1"/>
   <text x="300" y="282" text-anchor="middle" fill="#f59e0b" font-size="13" font-weight="bold" font-family="system-ui, sans-serif">💡 结论：串行比例 50% 时，无论投入多少 Agent，最大加速比绝对无法突破 2 倍！</text>
 </svg>
