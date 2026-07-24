@@ -8,11 +8,11 @@
 
 ### 背景与动机
 
-1896 年的意大利，一位名叫**维尔弗雷多·帕累托（Vilfredo Pareto）**的经济学家正在研究一个看似简单的问题：意大利的土地到底是怎么分配的？
+1896 年的意大利，一位名叫**维尔弗雷多·帕累托（Vilfredo Pareto）** 的经济学家正在研究一个看似简单的问题：意大利的土地到底是怎么分配的？
 
 他翻阅大量税务数据后，发现了一个令人震惊的事实——**意大利 80% 的土地集中在 20% 的人手中**。帕累托起初以为这是意大利的特殊现象，但当他把目光转向英国、法国、普鲁士等国时，发现了几乎相同的分布模式。
 
-这个发现在当时并没有引起太大波澜。直到半个世纪后的 1940 年代，美国质量管理大师**约瑟夫·朱兰（Joseph Juran）**在工厂质量控制中重新发现了这个规律：**大多数质量缺陷来自少数几个根本原因**。朱兰将这个现象正式命名为"帕累托法则"（Pareto Principle），并将其推广到管理学领域。
+这个发现在当时并没有引起太大波澜。直到半个世纪后的 1940 年代，美国质量管理大师**约瑟夫·朱兰（Joseph Juran）** 在工厂质量控制中重新发现了这个规律：**大多数质量缺陷来自少数几个根本原因**。朱兰将这个现象正式命名为"帕累托法则"（Pareto Principle），并将其推广到管理学领域。
 
 > 💡 帕累托本人研究的是财富分配的不平等现象，而朱兰赋予了它更广泛的管理学意义——"**关键的少数与琐碎的多数**"（the vital few and the trivial many）。
 
@@ -52,69 +52,7 @@ flowchart TD
 
 **帕累托图（Pareto Chart）示意：**
 
-<svg viewBox="0 0 600 300" xmlns="http://www.w3.org/2000/svg">
-  <!-- 背景 -->
-  <rect width="600" height="300" fill="#fafafa" rx="8"/>
-  
-  <!-- 坐标轴 -->
-  <line x1="80" y1="250" x2="550" y2="250" stroke="#333" stroke-width="2"/>
-  <line x1="80" y1="30" x2="80" y2="250" stroke="#333" stroke-width="2"/>
-  
-  <!-- Y轴标签 -->
-  <text x="25" y="145" font-size="12" fill="#333" transform="rotate(-90,25,145)">贡献占比 (%)</text>
-  <text x="70" y="255" font-size="10" fill="#666" text-anchor="end">0</text>
-  <text x="70" y="195" font-size="10" fill="#666" text-anchor="end">25</text>
-  <text x="70" y="140" font-size="10" fill="#666" text-anchor="end">50</text>
-  <text x="70" y="85" font-size="10" fill="#666" text-anchor="end">75</text>
-  <text x="70" y="40" font-size="10" fill="#666" text-anchor="end">100</text>
-
-  <!-- 网格线 -->
-  <line x1="80" y1="190" x2="550" y2="190" stroke="#eee" stroke-width="1"/>
-  <line x1="80" y1="135" x2="550" y2="135" stroke="#eee" stroke-width="1"/>
-  <line x1="80" y1="80" x2="550" y2="80" stroke="#eee" stroke-width="1"/>
-  
-  <!-- 柱状图 - 按贡献从大到小 -->
-  <rect x="100" y="70" width="60" height="180" fill="#e74c3c" rx="3" opacity="0.9"/>
-  <rect x="175" y="130" width="60" height="120" fill="#e74c3c" rx="3" opacity="0.7"/>
-  <rect x="250" y="190" width="60" height="60" fill="#3498db" rx="3" opacity="0.6"/>
-  <rect x="325" y="215" width="60" height="35" fill="#3498db" rx="3" opacity="0.5"/>
-  <rect x="400" y="230" width="60" height="20" fill="#3498db" rx="3" opacity="0.4"/>
-  <rect x="475" y="240" width="60" height="10" fill="#3498db" rx="3" opacity="0.3"/>
-
-  <!-- 柱状图标签 -->
-  <text x="130" y="268" font-size="10" fill="#333" text-anchor="middle">原因A</text>
-  <text x="205" y="268" font-size="10" fill="#333" text-anchor="middle">原因B</text>
-  <text x="280" y="268" font-size="10" fill="#333" text-anchor="middle">原因C</text>
-  <text x="355" y="268" font-size="10" fill="#333" text-anchor="middle">原因D</text>
-  <text x="430" y="268" font-size="10" fill="#333" text-anchor="middle">原因E</text>
-  <text x="505" y="268" font-size="10" fill="#333" text-anchor="middle">原因F</text>
-
-  <!-- 累积曲线 -->
-  <polyline points="130,70 205,107 280,143 355,163 430,178 505,185"
-            fill="none" stroke="#f39c12" stroke-width="3" stroke-linecap="round"/>
-  <circle cx="130" cy="70" r="4" fill="#f39c12"/>
-  <circle cx="205" cy="107" r="4" fill="#f39c12"/>
-  <circle cx="280" cy="143" r="4" fill="#f39c12"/>
-  <circle cx="355" cy="163" r="4" fill="#f39c12"/>
-  <circle cx="430" cy="178" r="4" fill="#f39c12"/>
-  <circle cx="505" cy="185" r="4" fill="#f39c12"/>
-
-  <!-- 20% 分界线 -->
-  <line x1="240" y1="30" x2="240" y2="250" stroke="#e74c3c" stroke-width="2" stroke-dasharray="6,4"/>
-  <text x="245" y="25" font-size="11" fill="#e74c3c" font-weight="bold">← 20% 的原因</text>
-
-  <!-- 80% 标注 -->
-  <line x1="82" y1="80" x2="240" y2="80" stroke="#e74c3c" stroke-width="1" stroke-dasharray="4,3"/>
-  <text x="155" y="55" font-size="12" fill="#e74c3c" font-weight="bold">贡献了 ~80%</text>
-  
-  <!-- 图例 -->
-  <rect x="400" y="30" width="12" height="12" fill="#e74c3c" rx="2"/>
-  <text x="417" y="41" font-size="10" fill="#333">关键少数 (20%)</text>
-  <rect x="400" y="48" width="12" height="12" fill="#3498db" rx="2"/>
-  <text x="417" y="59" font-size="10" fill="#333">次要多数 (80%)</text>
-  <rect x="400" y="66" width="12" height="3" fill="#f39c12"/>
-  <text x="417" y="73" font-size="10" fill="#333">累积曲线</text>
-</svg>
+![pic](pareto_principle_01.svg)  
 
 ### 直觉理解
 
