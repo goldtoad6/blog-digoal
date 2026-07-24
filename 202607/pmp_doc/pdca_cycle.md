@@ -7,9 +7,9 @@
 
 ### 背景与动机
 
-20 世纪 20 年代，工业革命后的美国正面临大规模流水线生产的质量控制难题。贝尔实验室的物理学家兼统计学家**沃特·阿曼德·休哈特（Walter A. Shewhart）**首次将统计学引入质量管理，提出了“规格 - 生产 - 检查”（Specification-Production-Inspection）的三步控制概念，这是 PDCA 循环的萌芽。
+20 世纪 20 年代，工业革命后的美国正面临大规模流水线生产的质量控制难题。贝尔实验室的物理学家兼统计学家**沃特·阿曼德·休哈特（Walter A. Shewhart）** 首次将统计学引入质量管理，提出了“规格 - 生产 - 检查”（Specification-Production-Inspection）的三步控制概念，这是 PDCA 循环的萌芽。
 
-第二次世界大战后，日本的工业体系几乎化为废墟，“日本制造”在当时一度是低质廉价的代名词。1950 年，美国统计质量控制专家**威廉·爱德华兹·戴明（W. Edwards Deming）**受邀前往日本，向日本的科学家、工程师和企业高管系统性地讲解了休哈特的思想，并将其扩充重构为 **Plan（计划）- Do（执行）- Check（检查）- Act（处理）** 四阶段闭环。
+第二次世界大战后，日本的工业体系几乎化为废墟，“日本制造”在当时一度是低质廉价的代名词。1950 年，美国统计质量控制专家**威廉·爱德华兹·戴明（W. Edwards Deming）** 受邀前往日本，向日本的科学家、工程师和企业高管系统性地讲解了休哈特的思想，并将其扩充重构为 **Plan（计划）- Do（执行）- Check（检查）- Act（处理）** 四阶段闭环。
 
 日本企业（如丰田汽车）将这一哲学融入企业骨髓，演变为享誉世界的**精益生产与持续改善（Kaizen）**文化。正是在 PDCA 循环的驱动下，日本制造在短短数十年间实现了质量飞跃，响彻全球。为了纪念戴明的贡献，这一闭环模型被全球管理学界正式命名为**“戴明环（Deming Cycle）”**。
 
@@ -47,52 +47,7 @@ PDCA 循环之所以能在各种复杂系统中生效，建立在以下 4 个核
 
 下图展示了 PDCA 如何借由“标准化 SOP”抵住滑块，推动系统沿着质量改善斜坡持续攀升：
 
-<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 600 300" width="100%" height="100%">
-  <!-- Background -->
-  <rect width="600" height="300" fill="#f8fafc" rx="8"/>
-  
-  <!-- Slope -->
-  <path d="M 50 250 L 520 80" stroke="#94a3b8" stroke-width="4" stroke-dasharray="6,6"/>
-  <polygon points="50,250 520,80 520,250" fill="#e2e8f0" opacity="0.4"/>
-  <text x="420" y="230" fill="#64748b" font-size="14" font-weight="bold">品质与效能提升斜坡 (Kaizen)</text>
-
-  <!-- Deming Wheel (Circle) -->
-  <g transform="translate(320, 145)">
-    <circle cx="0" cy="0" r="65" fill="#ffffff" stroke="#2563eb" stroke-width="4"/>
-    <!-- Quarter lines -->
-    <line x1="-65" y1="0" x2="65" y2="0" stroke="#cbd5e1" stroke-width="2"/>
-    <line x1="0" y1="-65" x2="0" y2="65" stroke="#cbd5e1" stroke-width="2"/>
-    
-    <!-- Quadrant Texts -->
-    <text x="-32" y="-25" fill="#1e40af" font-size="15" font-weight="bold">Plan</text>
-    <text x="12" y="-25" fill="#1e40af" font-size="15" font-weight="bold">Do</text>
-    <text x="8" y="35" fill="#1e40af" font-size="15" font-weight="bold">Check</text>
-    <text x="-38" y="35" fill="#1e40af" font-size="15" font-weight="bold">Act</text>
-    
-    <!-- Rotating Arrow Concept -->
-    <path d="M 45 -20 A 50 50 0 0 1 20 45" fill="none" stroke="#3b82f6" stroke-width="3" marker-end="url(#arrow)"/>
-  </g>
-
-  <!-- SOP Wedge (止逆块) -->
-  <polygon points="210,195 255,180 255,200" fill="#ef4444"/>
-  <rect x="140" y="200" width="115" height="35" rx="4" fill="#fee2e2" stroke="#ef4444" stroke-width="1.5"/>
-  <text x="150" y="222" fill="#991b1b" font-size="13" font-weight="bold">SOP 标准化止逆块</text>
-  <text x="110" y="185" fill="#dc2626" font-size="12">防止质量向下滑落</text>
-
-  <!-- Rolling Direction Arrow -->
-  <line x1="320" y1="70" x2="390" y2="47" stroke="#16a34a" stroke-width="3" marker-end="url(#green-arrow)"/>
-  <text x="310" y="40" fill="#15803d" font-size="14" font-weight="bold">螺旋上升演进 (Next PDCA)</text>
-
-  <!-- Definitions -->
-  <defs>
-    <marker id="arrow" viewBox="0 0 10 10" refX="5" refY="5" markerWidth="6" markerHeight="6" orient="auto-start-reverse">
-      <path d="M 0 0 L 10 5 L 0 10 z" fill="#3b82f6"/>
-    </marker>
-    <marker id="green-arrow" viewBox="0 0 10 10" refX="5" refY="5" markerWidth="6" markerHeight="6" orient="auto-start-reverse">
-      <path d="M 0 0 L 10 5 L 0 10 z" fill="#16a34a"/>
-    </marker>
-  </defs>
-</svg>
+![pic](pdca_cycle_01.svg)  
 
 #### 2. 量化状态演化方程
 
@@ -104,10 +59,10 @@ $$Q_{t+1} = Q_t + \Delta Q_{\text{Act}}\Big( E_{\text{Check}}\big( Y_{\text{Do}}
 *   $X_{\text{Plan}}$ 表示在 Plan 阶段设定的目标与决策空间（如 SMART 目标与 Prompt 架构）。
 *   $Y_{\text{Do}}$ 表示系统在真实环境下的运行输出与日志轨迹（Execution Traces）。
 *   $E_{\text{Check}}$ 表示评估函数，对比实际产出与目标的偏差 $\Delta = Y_{\text{Do}} - X_{\text{Plan}}$。
-*   $\Delta Q_{\text{Act}}$ 表示处理阶段带来的增量收益。当且仅当成功经验被标准化（SOP 锁死）时，$\Delta Q_{\text{Act}} > 0$。
+*   $\Delta Q_{\text{Act}}$ 表示处理阶段带来的增量收益。当且仅当成功经验被标准化（SOP 锁死）时， $\Delta Q_{\text{Act}} > 0$ 。
 *   $\delta \cdot \mathcal{S}$ 表示系统自然的**熵增衰减**（环境变化、知识遗忘、依赖漂移等）。
 
-> **结论**：若缺乏 **Act（标准化）** 环节，$\Delta Q_{\text{Act}} \to 0$，系统将在熵增作用下陷入 $Q_{t+1} < Q_t$ 的质量退化困境。
+> **结论**：若缺乏 **Act（标准化）** 环节， $\Delta Q_{\text{Act}} \to 0$ ，系统将在熵增作用下陷入 $Q_{t+1} < Q_t$ 的质量退化困境。
 
 ### 直觉理解
 
