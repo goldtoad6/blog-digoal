@@ -214,7 +214,7 @@ flowchart LR
 
 ## 📚 延伸阅读
 
-1. **Little, J. D. C. (1961). *A Proof for the Queueing Formula: $L = \lambda W$*. Operations Research, 9(3), 383-389.**
+1. **Little, J. D. C. (1961).  A Proof for the Queueing Formula: $L = \lambda W$ . Operations Research, 9(3), 383-389.**
    *推荐理由*：John Little 教授的原始论文，仅有短短几页，证明优雅精妙，是计算机科学与运筹学历史上最值得一读的经典文献之一。
 2. **Kingman's Formula (金曼公式 / VUT 公式)**
    *推荐理由*：利特尔定律告诉你 $L, \lambda, W$ 的等式关系，而金曼公式进一步揭示了当系统资源利用率（Utilization）接近 100% 时，队列等待时间 $W$ 是如何由于随机波动而呈指数级暴涨的。
